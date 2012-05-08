@@ -4,7 +4,7 @@
 @protocol MTProp <NSObject>
 
 @property (readonly) NSString* name;
-@property (readonly) BOOL nullable;
-@property id value;
+
+- (id)fromXml:(GDataXMLElement*)xml;
 
 @end

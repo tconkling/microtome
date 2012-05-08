@@ -1,0 +1,404 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		225041CC1558ACB50014FA5D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041CB1558ACB50014FA5D /* Foundation.framework */; };
+		225041DA1558ACB50014FA5D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041D91558ACB50014FA5D /* SenTestingKit.framework */; };
+		225041DC1558ACB50014FA5D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041DB1558ACB50014FA5D /* UIKit.framework */; };
+		225041DD1558ACB50014FA5D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041CB1558ACB50014FA5D /* Foundation.framework */; };
+		225041E01558ACB50014FA5D /* libmicrotome.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041C81558ACB50014FA5D /* libmicrotome.a */; };
+		225041E61558ACB50014FA5D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 225041E41558ACB50014FA5D /* InfoPlist.strings */; };
+		225041E91558ACB50014FA5D /* microtomeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 225041E81558ACB50014FA5D /* microtomeTests.m */; };
+		225041F81558AD200014FA5D /* microtome.h in Headers */ = {isa = PBXBuildFile; fileRef = 225041F71558AD200014FA5D /* microtome.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		225041DE1558ACB50014FA5D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 225041BF1558ACB50014FA5D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 225041C71558ACB50014FA5D;
+			remoteInfo = microtome;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		225041C81558ACB50014FA5D /* libmicrotome.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmicrotome.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		225041CB1558ACB50014FA5D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		225041D81558ACB50014FA5D /* microtomeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = microtomeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		225041D91558ACB50014FA5D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		225041DB1558ACB50014FA5D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		225041E31558ACB50014FA5D /* microtomeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "microtomeTests-Info.plist"; sourceTree = "<group>"; };
+		225041E51558ACB50014FA5D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		225041E71558ACB50014FA5D /* microtomeTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = microtomeTests.h; sourceTree = "<group>"; };
+		225041E81558ACB50014FA5D /* microtomeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = microtomeTests.m; sourceTree = "<group>"; };
+		225041F71558AD200014FA5D /* microtome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = microtome.h; sourceTree = "<group>"; };
+		225041FA1558AD740014FA5D /* microtome_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = microtome_Prefix.pch; sourceTree = "<group>"; };
+		225041FB1558ADBC0014FA5D /* cooocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cooocoa.xcodeproj; path = ../cooocoa.xcodeproj; sourceTree = COOOCOA_SRC; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		225041C51558ACB50014FA5D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				225041CC1558ACB50014FA5D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		225041D41558ACB50014FA5D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				225041DA1558ACB50014FA5D /* SenTestingKit.framework in Frameworks */,
+				225041DC1558ACB50014FA5D /* UIKit.framework in Frameworks */,
+				225041DD1558ACB50014FA5D /* Foundation.framework in Frameworks */,
+				225041E01558ACB50014FA5D /* libmicrotome.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		225041BD1558ACB50014FA5D = {
+			isa = PBXGroup;
+			children = (
+				225041FB1558ADBC0014FA5D /* cooocoa.xcodeproj */,
+				225041F61558ACFE0014FA5D /* Classes */,
+				225041E11558ACB50014FA5D /* Tests */,
+				225041F91558AD520014FA5D /* Supporting Files */,
+				225041CA1558ACB50014FA5D /* Frameworks */,
+				225041C91558ACB50014FA5D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		225041C91558ACB50014FA5D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				225041C81558ACB50014FA5D /* libmicrotome.a */,
+				225041D81558ACB50014FA5D /* microtomeTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		225041CA1558ACB50014FA5D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				225041CB1558ACB50014FA5D /* Foundation.framework */,
+				225041D91558ACB50014FA5D /* SenTestingKit.framework */,
+				225041DB1558ACB50014FA5D /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		225041E11558ACB50014FA5D /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				225041E71558ACB50014FA5D /* microtomeTests.h */,
+				225041E81558ACB50014FA5D /* microtomeTests.m */,
+				225041E21558ACB50014FA5D /* Supporting Files */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		225041E21558ACB50014FA5D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				225041E31558ACB50014FA5D /* microtomeTests-Info.plist */,
+				225041E41558ACB50014FA5D /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		225041F61558ACFE0014FA5D /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				225041F71558AD200014FA5D /* microtome.h */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		225041F91558AD520014FA5D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				225041FA1558AD740014FA5D /* microtome_Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		225041C61558ACB50014FA5D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				225041F81558AD200014FA5D /* microtome.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		225041C71558ACB50014FA5D /* microtome */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 225041EC1558ACB50014FA5D /* Build configuration list for PBXNativeTarget "microtome" */;
+			buildPhases = (
+				225041C41558ACB50014FA5D /* Sources */,
+				225041C51558ACB50014FA5D /* Frameworks */,
+				225041C61558ACB50014FA5D /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = microtome;
+			productName = microtome;
+			productReference = 225041C81558ACB50014FA5D /* libmicrotome.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		225041D71558ACB50014FA5D /* microtomeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 225041EF1558ACB50014FA5D /* Build configuration list for PBXNativeTarget "microtomeTests" */;
+			buildPhases = (
+				225041D31558ACB50014FA5D /* Sources */,
+				225041D41558ACB50014FA5D /* Frameworks */,
+				225041D51558ACB50014FA5D /* Resources */,
+				225041D61558ACB50014FA5D /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				225041DF1558ACB50014FA5D /* PBXTargetDependency */,
+			);
+			name = microtomeTests;
+			productName = microtomeTests;
+			productReference = 225041D81558ACB50014FA5D /* microtomeTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		225041BF1558ACB50014FA5D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 225041C21558ACB50014FA5D /* Build configuration list for PBXProject "microtome" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 225041BD1558ACB50014FA5D;
+			productRefGroup = 225041C91558ACB50014FA5D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				225041C71558ACB50014FA5D /* microtome */,
+				225041D71558ACB50014FA5D /* microtomeTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		225041D51558ACB50014FA5D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				225041E61558ACB50014FA5D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		225041D61558ACB50014FA5D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		225041C41558ACB50014FA5D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		225041D31558ACB50014FA5D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				225041E91558ACB50014FA5D /* microtomeTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		225041DF1558ACB50014FA5D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 225041C71558ACB50014FA5D /* microtome */;
+			targetProxy = 225041DE1558ACB50014FA5D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		225041E41558ACB50014FA5D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				225041E51558ACB50014FA5D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		225041EA1558ACB50014FA5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		225041EB1558ACB50014FA5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		225041ED1558ACB50014FA5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/microtome.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = microtome_Prefix.pch;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		225041EE1558ACB50014FA5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/microtome.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = microtome_Prefix.pch;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		225041F01558ACB50014FA5D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = microtome_Prefix.pch;
+				INFOPLIST_FILE = "microtomeTests/microtomeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		225041F11558ACB50014FA5D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = microtome_Prefix.pch;
+				INFOPLIST_FILE = "microtomeTests/microtomeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		225041C21558ACB50014FA5D /* Build configuration list for PBXProject "microtome" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				225041EA1558ACB50014FA5D /* Debug */,
+				225041EB1558ACB50014FA5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		225041EC1558ACB50014FA5D /* Build configuration list for PBXNativeTarget "microtome" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				225041ED1558ACB50014FA5D /* Debug */,
+				225041EE1558ACB50014FA5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		225041EF1558ACB50014FA5D /* Build configuration list for PBXNativeTarget "microtomeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				225041F01558ACB50014FA5D /* Debug */,
+				225041F11558ACB50014FA5D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 225041BF1558ACB50014FA5D /* Project object */;
+}

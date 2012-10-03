@@ -5,7 +5,6 @@
 
 @protocol MTPage <NSObject>
 @property (nonatomic,readonly) NSArray* props;
-- (id<MTProp>)propNamed:(NSString*)name;
 @end
 
 @protocol MTNamedPage <MTPage>

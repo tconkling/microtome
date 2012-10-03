@@ -6,11 +6,10 @@
 @interface MTPropBase : NSObject <MTMutableProp> {
 @protected
     NSString* _name;
-    BOOL _hasDefault;
     NSMutableDictionary* _annotations;
 }
 
+- (id)initWithName:(NSString*)name;
 - (id)getAnnotation:(Class)annotationClass;
-- (void)addAnnotation:(id)annotation;
 
 @end

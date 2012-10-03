@@ -7,6 +7,13 @@
 
 @synthesize name = _name;
 
+- (id)initWithName:(NSString*)name {
+    if ((self = [super init])) {
+        _name = name;
+    }
+    return self;
+}
+
 - (void)addAnnotation:(id)annotation {
     Class annotationClass = [annotation class];
     NSAssert([self getAnnotation:annotationClass] == nil,

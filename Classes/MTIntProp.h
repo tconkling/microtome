@@ -3,17 +3,13 @@
 
 #import "MTPropBase.h"
 
-@interface MTIntProp : MTPropBase {
+@protocol MTIntProp <MTProp>
+@property (nonatomic,readonly) int value;
+@end
+
+@interface MTMutableIntProp : MTPropBase {
 @protected
-    int _min;
-    int _max;
-    int _default;
+    int _value;
 }
-
-- (id)initWithName:(NSString*)name
-        hasDefault:(BOOL)hasDefault
-        defaultVal:(int)defaultVal
-               min:(int)min
-               max:(int)max;
-
+@property (nonatomic,assign) int value;
 @end

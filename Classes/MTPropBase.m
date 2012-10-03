@@ -7,17 +7,19 @@
 
 @synthesize name = _name;
 
-- (id)initWithName:(NSString*)name hasDefault:(BOOL)hasDefault {
-    if ((self = [super init])) {
-        _name = name;
-        _hasDefault = hasDefault;
+- (void)addAnnotation:(id)annotation {
+    Class annotationClass = [annotation class];
+    NSAssert([self getAnnotation:annotationClass] == nil,
+             @"Annotation already exists [class=%@]", annotationClass);
+
+    if (_annotations == nil) {
+        _annotations = [[NSMutableDictionary alloc] init];
     }
-    return self;
+    _annotations[(id<NSCopying>)annotationClass] = annotation;
 }
 
-- (id)fromXml:(GDataXMLElement*)xml {
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
+- (id)getAnnotation:(Class)annotationClass {
+    return _annotations[annotationClass];
 }
 
 @end

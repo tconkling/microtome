@@ -1,8 +1,7 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-@protocol MTDesc
+#import "MTAnnotation.h"
 
-- (void)fromXml:(GDataXMLElement*)xml;
-
+@implementation MTAnnotation
 @end

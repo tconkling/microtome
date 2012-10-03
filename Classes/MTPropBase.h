@@ -3,12 +3,14 @@
 
 #import "MTProp.h"
 
-@interface MTPropBase : NSObject <MTProp> {
+@interface MTPropBase : NSObject <MTMutableProp> {
 @protected
     NSString* _name;
     BOOL _hasDefault;
+    NSMutableDictionary* _annotations;
 }
 
-- (id)initWithName:(NSString*)name hasDefault:(BOOL)hasDefault;
+- (id)getAnnotation:(Class)annotationClass;
+- (void)addAnnotation:(id)annotation;
 
 @end

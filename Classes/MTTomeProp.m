@@ -8,7 +8,6 @@
 @implementation MTMutableTomeProp
 
 @synthesize pageType = _pageType;
-@synthesize value = _tome;
 
 - (id)initWithName:(NSString*)name nullable:(BOOL)nullable pageType:(Class)pageType {
     if ((self = [super initWithName:name nullable:nullable])) {
@@ -17,13 +16,16 @@
     return self;
 }
 
-- (void)setValue:(MTMutableTome*)value {
-    if (value != nil && value.pageType != _pageType) {
+- (void)setValue:(id)value {
+    [self validateValue:value isType:[MTMutableTome class]];
+    MTMutableTome* tome = (MTMutableTome*)value;
+    if (tome != nil && ![tome.pageType isSubclassOfClass:_pageType]) {
         [NSException raise:NSGenericException
-            format:@"MutableTome has the wrong page type [required=%@, got=%@]",
-            _pageType, value.pageType];
+                    format:@"Incompatible tome (pageType '%@' is not a subclass of '%@')",
+         tome.pageType, _pageType];
     }
-    _tome = value;
+
+    _value = value;
 }
 
 @end

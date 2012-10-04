@@ -8,15 +8,15 @@
 
 @protocol MTObjectProp <MTProp>
 @property (nonatomic,readonly) BOOL nullable;
+@property (nonatomic,readonly) id value;
 @end
 
 @protocol MTMutableProp <MTProp>
-@property (nonatomic,strong) NSString* name;
 - (void)addAnnotation:(id)annotation;
 @end
 
 @protocol MTMutableObjectProp <MTObjectProp,MTMutableProp>
-@property (nonatomic,assign) BOOL nullable;
+@property (nonatomic,strong) id value;
 @end
 
 @protocol MTContainerProp <MTObjectProp>

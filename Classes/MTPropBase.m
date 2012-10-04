@@ -33,6 +33,7 @@
 
 @implementation MTObjectPropBase
 
+@synthesize value = _value;
 @synthesize nullable = _nullable;
 
 - (id)initWithName:(NSString*)name nullable:(BOOL)nullable {
@@ -40,6 +41,13 @@
         _nullable = nullable;
     }
     return self;
+}
+
+- (void)validateValue:(id)val isType:(Class)type {
+    if (val != nil && ![val isMemberOfClass:type]) {
+        [NSException raise:NSGenericException
+                    format:@"Incompatible value type [required=%@, got=%@]", type, [val class]];
+    }
 }
 
 @end

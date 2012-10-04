@@ -6,7 +6,6 @@
 #import "MTTome.h"
 
 @protocol MTTomeProp <MTObjectProp>
-@property (nonatomic,readonly) id<MTTome> value;
 @property (nonatomic,readonly) Class pageType;
 @end
 
@@ -16,8 +15,6 @@
     Class _pageType;
     MTMutableTome* _tome;
 }
-
-@property (nonatomic,strong) MTMutableTome* value;
 
 - (id)initWithName:(NSString*)name nullable:(BOOL)nullable pageType:(Class)pageType;
 

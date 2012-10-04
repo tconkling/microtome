@@ -12,10 +12,7 @@
 @interface MTMutablePageRefProp : MTObjectPropBase <MTPageRefProp> {
 @protected
     Class _pageType;
-    MTMutablePageRef* _ref;
 }
-
-@property (nonatomic,strong) MTMutablePageRef* value;
 
 - (id)initWithName:(NSString*)name nullable:(BOOL)nullable pageType:(Class)pageType;
 

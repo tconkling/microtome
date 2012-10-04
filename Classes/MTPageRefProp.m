@@ -6,7 +6,6 @@
 @implementation MTMutablePageRefProp
 
 @synthesize pageType = _pageType;
-@synthesize value = _ref;
 
 - (id)initWithName:(NSString*)name nullable:(BOOL)nullable pageType:(Class)pageType {
     if ((self = [super initWithName:name nullable:nullable])) {
@@ -15,13 +14,16 @@
     return self;
 }
 
-- (void)setValue:(MTMutablePageRef*)value {
-    if (value != nil && ![value.pageType isSubclassOfClass:_pageType]) {
+- (void)setValue:(id)value {
+    [self validateValue:value isType:[MTMutablePageRef class]];
+    MTMutablePageRef* ref = (MTMutablePageRef*)value;
+    if (ref != nil && ![ref.pageType isSubclassOfClass:_pageType]) {
         [NSException raise:NSGenericException
                     format:@"Incompatible pageRef (pageType '%@' is not a subclass of '%@')",
-                    value.pageType, _pageType];
+                    ref.pageType, _pageType];
     }
-    _ref = value;
+
+    _value = value;
 }
 
 @end

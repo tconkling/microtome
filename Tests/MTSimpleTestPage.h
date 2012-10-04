@@ -5,6 +5,8 @@
 
 @interface MTSimpleTestPage : NSObject <MTPage>
 
-@property (nonatomic,readonly) int foo;
+@property (nonatomic,readonly) BOOL foo;
+@property (nonatomic,readonly) int bar;
+@property (nonatomic,readonly) float baz;
 
 @end

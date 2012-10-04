@@ -15,7 +15,7 @@ static NSString * const NAME = @"MTXmlLoadException";
     NSString* reason = OOO_FORMAT_TO_NSSTRING(format);
 
     if (badElement != nil) {
-        reason = [NSString stringWithFormat:@"%@\b%@", reason, [badElement description]];
+        reason = [NSString stringWithFormat:@"%@\nXML: %@", reason, [badElement description]];
     }
 
     return [[MTXmlLoadException alloc] initWithReason:reason];

@@ -5,20 +5,26 @@
 
 @implementation MTSimpleTestPage {
 @protected
-    MTMutableIntProp* _foo;
+    MTMutableBoolProp* _foo;
+    MTMutableIntProp* _bar;
+    MTMutableFloatProp* _baz;
     NSArray* _props;
 }
 
 @synthesize props = _props;
 
+- (BOOL)foo { return _foo.value; }
+- (int)bar { return _bar.value; }
+- (float)baz { return _baz.value; }
+
 - (id)init {
     if ((self = [super init])) {
-        _foo = [[MTMutableIntProp alloc] initWithName:@"foo"];
-        _props = @[ _foo ];
+        _foo = [[MTMutableBoolProp alloc] initWithName:@"foo"];
+        _bar = [[MTMutableIntProp alloc] initWithName:@"bar"];
+        _baz = [[MTMutableFloatProp alloc] initWithName:@"baz"];
+        _props = @[ _foo, _bar, _baz ];
     }
     return self;
 }
-
-- (int)foo { return _foo.value; }
 
 @end

@@ -8,7 +8,7 @@
 #import "MTProp.h"
 #import "MTXmlLoadException.h"
 
-#import "MTIntProp.h"
+#import "MTPrimitiveProps.h"
 
 @implementation MTXmlContext
 
@@ -28,33 +28,41 @@
     return root;
 }
 
-- (id<MTPage>)loadPage:(GDataXMLElement*)xml withRequiredClass:(__unsafe_unretained Class)requiredClass {
+- (id<MTPage>)loadPage:(GDataXMLElement*)pageXml withRequiredClass:(__unsafe_unretained Class)requiredClass {
     Class pageClass = (requiredClass != nil ?
-                       [self requireClassWithName:xml.name superClass:requiredClass] :
-                       [self requireClassWithName:xml.name]);
+                       [self requireClassWithName:pageXml.name superClass:requiredClass] :
+                       [self requireClassWithName:pageXml.name]);
 
     id<MTPage> page = [[pageClass alloc] init];
     for (id<MTProp> prop in page.props) {
-        GDataXMLElement* propXml = [xml getChild:prop.name];
+        GDataXMLElement* propXml = [pageXml getChild:prop.name];
         if (propXml == nil) {
-            @throw [MTXmlLoadException withElement:xml
+            @throw [MTXmlLoadException withElement:pageXml
                                             reason:@"Missing required child [name=%@]", prop.name];
         }
 
         @try {
+            // Handle primitives
             if ([prop isKindOfClass:[MTMutableIntProp class]]) {
-                [self loadIntProp:(MTMutableIntProp*)prop xml:propXml];
+                ((MTMutableIntProp*)prop).value = [[self requireTextContent:propXml] requireIntValue];
+            } else if ([prop isKindOfClass:[MTMutableBoolProp class]]) {
+                ((MTMutableBoolProp*)prop).value = [[self requireTextContent:propXml] requireBoolValue];
+            } else if ([prop isKindOfClass:[MTMutableFloatProp class]]) {
+                ((MTMutableFloatProp*)prop).value = [[self requireTextContent:propXml] requireFloatValue];
+                
             } else {
+                // Handle object props
                 id<MTXmlPropMarshaller> marshaller = _marshallers[[prop class]];
                 if (marshaller == nil) {
-                    @throw [MTXmlLoadException withElement:xml reason:@"No marshaller for child [name=%@, class=%@]", prop.name, [prop class]];
+                    @throw [MTXmlLoadException withElement:propXml reason:@"No marshaller for child [name=%@, class=%@]", prop.name, [prop class]];
                 }
                 [marshaller withCtx:self loadProp:prop fromXml:propXml];
             }
         } @catch (MTXmlLoadException* e) {
             @throw e;
         } @catch (NSException* e) {
-            @throw [MTXmlLoadException withElement:propXml reason:@"Error loading prop [name=%@, reason=%@]", prop, e.reason];
+            @throw [MTXmlLoadException withElement:propXml reason:@"Error loading prop '%@': %@",
+                    prop.name, e.reason];
         }
     }
     return page;
@@ -70,10 +78,6 @@
         @throw [MTXmlLoadException withElement:xml reason:@"Element is empty"];
     }
     return str;
-}
-
-- (void)loadIntProp:(MTMutableIntProp*)prop xml:(GDataXMLElement*)xml {
-    prop.value = [[self requireTextContent:xml] requireIntValue];
 }
 
 @end

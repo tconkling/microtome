@@ -2,7 +2,7 @@
 // microtome - Copyright 2012 Three Rings Design
 
 // Prop
-#import "MTIntProp.h"
+#import "MTPrimitiveProps.h"
 #import "MTProp.h"
 #import "MTPropBase.h"
 

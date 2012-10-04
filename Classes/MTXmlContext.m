@@ -9,7 +9,11 @@
 #import "MTXmlLoadException.h"
 
 #import "MTPrimitiveProps.h"
+#import "MTStringProp.h"
 #import "MTTomeProp.h"
+
+@interface MTStringPropMarshaller : NSObject <MTXmlPropMarshaller>
+@end
 
 @interface MTTomePropMarshaller : NSObject <MTXmlPropMarshaller>
 @end
@@ -19,13 +23,14 @@
 - (id)init {
     if ((self = [super init])) {
         _marshallers = [[NSMutableDictionary alloc] init];
+        [self registerPropMarshaller:[[MTStringPropMarshaller alloc] init]];
         [self registerPropMarshaller:[[MTTomePropMarshaller alloc] init]];
     }
     return self;
 }
 
 - (void)registerPropMarshaller:(id<MTXmlPropMarshaller>)marshaller {
-    _marshallers[(id<NSCopying>)marshaller.propClass] = marshaller;
+    _marshallers[(id<NSCopying>)marshaller.propType] = marshaller;
 }
 
 - (id<MTPage>)load:(GDataXMLDocument*)xmlDoc {
@@ -111,10 +116,28 @@
 @end
 
 
+@implementation MTStringPropMarshaller
+
+- (Class)propType {
+    return [MTMutableStringProp class];
+}
+
+- (void)withCtx:(MTXmlContext*)ctx loadProp:(id<MTMutableObjectProp>)prop fromXml:(GDataXMLElement*)xml {
+    MTMutableStringProp* stringProp = (MTMutableStringProp*)prop;
+    stringProp.value = xml.stringValue;
+
+    // handle the empty string (<myStringProp></myStringProp>)
+    if (stringProp.value == nil) {
+        stringProp.value = @"";
+    }
+}
+
+@end
+
 
 @implementation MTTomePropMarshaller
 
-- (Class)propClass {
+- (Class)propType {
     return [MTMutableTomeProp class];
 }
 

@@ -20,7 +20,7 @@
 		221B2FC0161CFBDE001B98AA /* MTXmlContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FBE161CFBDE001B98AA /* MTXmlContext.m */; };
 		221B2FC5161D00A4001B98AA /* MTXmlLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */; };
 		221B2FC6161D00A4001B98AA /* MTXmlLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FC4161D00A4001B98AA /* MTXmlLoadException.m */; };
-		221B2FD1161D0AE8001B98AA /* MTSimpleTestPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FD0161D0AE8001B98AA /* MTSimpleTestPage.m */; };
+		221B2FD1161D0AE8001B98AA /* PrimitivePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FD0161D0AE8001B98AA /* PrimitivePage.m */; };
 		221B2FF1161DFE57001B98AA /* MTPageRefProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FEF161DFE57001B98AA /* MTPageRefProp.h */; };
 		221B2FF2161DFE57001B98AA /* MTPageRefProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FF0161DFE57001B98AA /* MTPageRefProp.m */; };
 		221B2FF5161E0262001B98AA /* MTTomeProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FF3161E0262001B98AA /* MTTomeProp.h */; };
@@ -86,8 +86,8 @@
 		221B2FC2161CFE32001B98AA /* MTXmlPropMarshaller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTXmlPropMarshaller.h; sourceTree = "<group>"; };
 		221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTXmlLoadException.h; sourceTree = "<group>"; };
 		221B2FC4161D00A4001B98AA /* MTXmlLoadException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTXmlLoadException.m; sourceTree = "<group>"; };
-		221B2FCF161D0AE8001B98AA /* MTSimpleTestPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTSimpleTestPage.h; sourceTree = "<group>"; };
-		221B2FD0161D0AE8001B98AA /* MTSimpleTestPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTSimpleTestPage.m; sourceTree = "<group>"; };
+		221B2FCF161D0AE8001B98AA /* PrimitivePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrimitivePage.h; sourceTree = "<group>"; };
+		221B2FD0161D0AE8001B98AA /* PrimitivePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrimitivePage.m; sourceTree = "<group>"; };
 		221B2FEF161DFE57001B98AA /* MTPageRefProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPageRefProp.h; sourceTree = "<group>"; };
 		221B2FF0161DFE57001B98AA /* MTPageRefProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPageRefProp.m; sourceTree = "<group>"; };
 		221B2FF3161E0262001B98AA /* MTTomeProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTomeProp.h; sourceTree = "<group>"; };
@@ -206,8 +206,8 @@
 			children = (
 				225041E71558ACB50014FA5D /* microtomeTests.h */,
 				225041E81558ACB50014FA5D /* microtomeTests.m */,
-				221B2FCF161D0AE8001B98AA /* MTSimpleTestPage.h */,
-				221B2FD0161D0AE8001B98AA /* MTSimpleTestPage.m */,
+				221B2FCF161D0AE8001B98AA /* PrimitivePage.h */,
+				221B2FD0161D0AE8001B98AA /* PrimitivePage.m */,
 				225041E21558ACB50014FA5D /* Supporting Files */,
 			);
 			path = Tests;
@@ -434,7 +434,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				225041E91558ACB50014FA5D /* microtomeTests.m in Sources */,
-				221B2FD1161D0AE8001B98AA /* MTSimpleTestPage.m in Sources */,
+				221B2FD1161D0AE8001B98AA /* PrimitivePage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

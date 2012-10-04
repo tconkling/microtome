@@ -1,16 +1,16 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTSimpleTestPage.h"
+#import "PrimitivePage.h"
 
 static NSString* const XML_STRING =
-    @"<MTSimpleTestPage>"
+    @"<PrimitivePage>"
     @"  <foo>true</foo>"
     @"  <bar>2</bar>"
     @"  <baz>3.1415</baz>"
-    @"</MTSimpleTestPage>";
+    @"</PrimitivePage>";
 
-@implementation MTSimpleTestPage {
+@implementation PrimitivePage {
 @protected
     MTMutableBoolProp* _foo;
     MTMutableIntProp* _bar;

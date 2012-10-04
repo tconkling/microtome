@@ -3,7 +3,7 @@
 
 #import "microtomeTests.h"
 
-#import "MTSimpleTestPage.h"
+#import "PrimitivePage.h"
 
 static const float EPSILON = 0.0001f;
 
@@ -12,18 +12,19 @@ static const float EPSILON = 0.0001f;
 - (void)setUp {
     [super setUp];
     _xmlCtx = [[MTXmlContext alloc] init];
-    [_xmlCtx registerPageClass:[MTSimpleTestPage class]];
+    [_xmlCtx registerPageClass:[PrimitivePage class]];
 }
 
 - (void)tearDown {
     [super tearDown];
 }
 
-- (void)testSimplePage {
+- (void)testPrimitives {
     NSError* err = nil;
-    GDataXMLDocument* doc = [[GDataXMLDocument alloc] initWithXMLString:MTSimpleTestPage.XML options:0 error:&err];
+    GDataXMLDocument* doc =
+        [[GDataXMLDocument alloc] initWithXMLString:PrimitivePage.XML options:0 error:&err];
 
-    MTSimpleTestPage* page = [_xmlCtx load:doc];
+    PrimitivePage* page = [_xmlCtx load:doc];
     STAssertEquals(page.foo, YES, @"");
     STAssertEquals(page.bar, 2, @"");
     STAssertEqualsWithAccuracy(page.baz, 3.1415f, EPSILON, @"");

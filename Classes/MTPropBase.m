@@ -6,10 +6,12 @@
 @implementation MTPropBase
 
 @synthesize name = _name;
+@synthesize parent = _parent;
 
-- (id)initWithName:(NSString*)name {
+- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent {
     if ((self = [super init])) {
         _name = name;
+        _parent = parent;
     }
     return self;
 }
@@ -36,8 +38,8 @@
 @synthesize value = _value;
 @synthesize nullable = _nullable;
 
-- (id)initWithName:(NSString*)name type:(__unsafe_unretained Class)type nullable:(BOOL)nullable {
-    if ((self = [super initWithName:name])) {
+- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent type:(__unsafe_unretained Class)type nullable:(BOOL)nullable {
+    if ((self = [super initWithName:name parent:parent])) {
         _type = type;
         _nullable = nullable;
     }

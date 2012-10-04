@@ -8,8 +8,8 @@
 
 @synthesize pageType = _pageType;
 
-- (id)initWithName:(NSString*)name nullable:(BOOL)nullable pageType:(Class)pageType {
-    if ((self = [super initWithName:name type:[MTMutablePageRef class] nullable:nullable])) {
+- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent nullable:(BOOL)nullable pageType:(Class)pageType {
+    if ((self = [super initWithName:name parent:parent type:[MTMutablePageRef class] nullable:nullable])) {
         _pageType = pageType;
     }
     return self;

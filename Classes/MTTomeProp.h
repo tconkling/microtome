@@ -15,6 +15,6 @@
     Class _pageType;
 }
 
-- (id)initWithName:(NSString*)name nullable:(BOOL)nullable pageType:(Class)pageType;
+- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent nullable:(BOOL)nullable pageType:(Class)pageType;
 
 @end

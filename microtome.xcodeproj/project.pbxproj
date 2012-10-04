@@ -32,6 +32,8 @@
 		221B301A161E2C56001B98AA /* NamedPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B3019161E2C56001B98AA /* NamedPage.m */; };
 		221B301D161E35C8001B98AA /* MTStringProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B301B161E35C8001B98AA /* MTStringProp.h */; };
 		221B301E161E35C8001B98AA /* MTStringProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B301C161E35C8001B98AA /* MTStringProp.m */; };
+		221B303C161E5860001B98AA /* MTUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B303A161E585E001B98AA /* MTUtils.h */; };
+		221B303D161E5860001B98AA /* MTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B303B161E585F001B98AA /* MTUtils.m */; };
 		225041CC1558ACB50014FA5D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041CB1558ACB50014FA5D /* Foundation.framework */; };
 		225041DA1558ACB50014FA5D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041D91558ACB50014FA5D /* SenTestingKit.framework */; };
 		225041DC1558ACB50014FA5D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041DB1558ACB50014FA5D /* UIKit.framework */; };
@@ -106,6 +108,9 @@
 		221B3019161E2C56001B98AA /* NamedPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamedPage.m; sourceTree = "<group>"; };
 		221B301B161E35C8001B98AA /* MTStringProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStringProp.h; sourceTree = "<group>"; };
 		221B301C161E35C8001B98AA /* MTStringProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStringProp.m; sourceTree = "<group>"; };
+		221B3039161E5422001B98AA /* MTNamed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTNamed.h; sourceTree = "<group>"; };
+		221B303A161E585E001B98AA /* MTUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTUtils.h; sourceTree = "<group>"; };
+		221B303B161E585F001B98AA /* MTUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTUtils.m; sourceTree = "<group>"; };
 		225041C81558ACB50014FA5D /* libmicrotome.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmicrotome.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		225041CB1558ACB50014FA5D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		225041D81558ACB50014FA5D /* microtomeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = microtomeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -245,12 +250,15 @@
 				225042441558B17D0014FA5D /* Prop */,
 				221B2F52161CDD66001B98AA /* Loader */,
 				225041F71558AD200014FA5D /* microtome.h */,
+				221B3039161E5422001B98AA /* MTNamed.h */,
 				221B2F42161CD0D1001B98AA /* MTPage.h */,
 				221B3016161E28FB001B98AA /* MTPage.m */,
 				221B2FF7161E0CE5001B98AA /* MTPageRef.h */,
 				221B2FF8161E0CE5001B98AA /* MTPageRef.m */,
 				221B2F4A161CD668001B98AA /* MTTome.h */,
 				221B2F4F161CD918001B98AA /* MTTome.m */,
+				221B303A161E585E001B98AA /* MTUtils.h */,
+				221B303B161E585F001B98AA /* MTUtils.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -309,6 +317,7 @@
 				221B2FF5161E0262001B98AA /* MTTomeProp.h in Headers */,
 				221B2FF9161E0CE6001B98AA /* MTPageRef.h in Headers */,
 				221B301D161E35C8001B98AA /* MTStringProp.h in Headers */,
+				221B303C161E5860001B98AA /* MTUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,6 +457,7 @@
 				221B2FFA161E0CE6001B98AA /* MTPageRef.m in Sources */,
 				221B3017161E28FB001B98AA /* MTPage.m in Sources */,
 				221B301E161E35C8001B98AA /* MTStringProp.m in Sources */,
+				221B303D161E5860001B98AA /* MTUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

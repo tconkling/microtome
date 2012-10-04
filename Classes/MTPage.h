@@ -1,14 +1,15 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
+#import "MTNamed.h"
+
 @class MTMutableStringProp;
 
 @protocol MTPage <NSObject>
 @property (nonatomic,readonly) NSArray* props;
 @end
 
-@protocol MTNamedPage <MTPage>
-@property (nonatomic,readonly) NSString* name;
+@protocol MTNamedPage <MTPage,MTNamed>
 @end
 
 @interface MTMutablePage : NSObject <MTPage>

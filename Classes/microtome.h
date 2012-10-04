@@ -16,6 +16,7 @@
 #import "MTContext.h"
 #import "MTLoadException.h"
 
+#import "MTNamed.h"
 #import "MTPage.h"
 #import "MTPageRef.h"
 #import "MTTome.h"

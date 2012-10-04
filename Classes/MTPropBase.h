@@ -5,11 +5,12 @@
 
 @interface MTPropBase : NSObject <MTMutableProp> {
 @protected
+    __weak id<MTPage> _parent;
     NSString* _name;
     NSMutableDictionary* _annotations;
 }
 
-- (id)initWithName:(NSString*)name;
+- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent;
 - (id)getAnnotation:(Class)annotationClass;
 
 @end
@@ -20,7 +21,7 @@
     BOOL _nullable;
     id _value;
 }
-- (id)initWithName:(NSString*)name type:(Class)type nullable:(BOOL)nullable;
+- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent type:(Class)type nullable:(BOOL)nullable;
 
 // protected
 - (void)validateValue:(id)val;

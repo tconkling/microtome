@@ -4,6 +4,7 @@
 #import "MTContext.h"
 
 #import "MTPage.h"
+#import "MTProp.h"
 #import "MTLoadException.h"
 
 @implementation MTContext
@@ -43,6 +44,10 @@
                 NSStringFromClass(superClass), NSStringFromClass(clazz)];
     }
     return clazz;
+}
+
+- (id<MTNamedPage>)getNamedPage:(NSString*)name fromLibrary:(id<MTPage>)library {
+
 }
 
 @end

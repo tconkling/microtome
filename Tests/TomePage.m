@@ -27,7 +27,7 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _tome = [[MTMutableTomeProp alloc] initWithName:@"tome" nullable:NO pageType:[NamedPage class]];
+        _tome = [[MTMutableTomeProp alloc] initWithName:@"tome" parent:self nullable:NO pageType:[NamedPage class]];
     }
     return self;
 }

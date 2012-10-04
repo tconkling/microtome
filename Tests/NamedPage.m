@@ -12,7 +12,7 @@
 
 - (id)init {
     if ((self = [super init])) {
-        _foo = [[MTMutableIntProp alloc] initWithName:@"foo"];
+        _foo = [[MTMutableIntProp alloc] initWithName:@"foo" parent:self];
     }
     return self;
 }

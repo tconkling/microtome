@@ -13,3 +13,10 @@
 - (id)getAnnotation:(Class)annotationClass;
 
 @end
+
+@interface MTObjectPropBase : MTPropBase <MTMutableObjectProp> {
+@protected
+    BOOL _nullable;
+}
+- (id)initWithName:(NSString*)name nullable:(BOOL)nullable;
+@end

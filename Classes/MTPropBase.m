@@ -30,3 +30,16 @@
 }
 
 @end
+
+@implementation MTObjectPropBase
+
+@synthesize nullable = _nullable;
+
+- (id)initWithName:(NSString*)name nullable:(BOOL)nullable {
+    if ((self = [super initWithName:name])) {
+        _nullable = nullable;
+    }
+    return self;
+}
+
+@end

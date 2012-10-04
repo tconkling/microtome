@@ -1,16 +1,17 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTMutableTome.h"
+#import "MTTome.h"
+
 #import "MTPage.h"
 
 @implementation MTMutableTome
 
-@synthesize pageClass = _pageClass;
+@synthesize pageType = _pageType;
 
-- (id)initWithPageClass:(Class)pageClass {
+- (id)initWithPageType:(Class)pageType {
     if ((self = [super init])) {
-        _pageClass = pageClass;
+        _pageType = pageType;
         _pages = [[NSMutableDictionary alloc] init];
     }
     return self;
@@ -35,9 +36,9 @@
 - (void)addPage:(id<MTNamedPage>)page {
     if (page == nil) {
         [NSException raise:NSGenericException format:@"Can't add nil page"];
-    } else if (![page isKindOfClass:_pageClass]) {
+    } else if (![page isKindOfClass:_pageType]) {
         [NSException raise:NSGenericException
-                    format:@"Incorrect page type [required=%@, got=%@]", _pageClass, [page class]];
+                    format:@"Incorrect page type [required=%@, got=%@]", _pageType, [page class]];
     } else if ([self pageNamed:page.name] != nil) {
         [NSException raise:NSGenericException format:@"Duplicate page name [name=%@]", page.name];
     }

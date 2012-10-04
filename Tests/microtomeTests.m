@@ -20,15 +20,8 @@ static const float EPSILON = 0.0001f;
 }
 
 - (void)testSimplePage {
-    static NSString* const XML =
-        @"<MTSimpleTestPage>"
-        @"  <foo>true</foo>"
-        @"  <bar>2</bar>"
-        @"  <baz>3.1415</baz>"
-        @"</MTSimpleTestPage>";
-
     NSError* err = nil;
-    GDataXMLDocument* doc = [[GDataXMLDocument alloc] initWithXMLString:XML options:0 error:&err];
+    GDataXMLDocument* doc = [[GDataXMLDocument alloc] initWithXMLString:MTSimpleTestPage.XML options:0 error:&err];
 
     MTSimpleTestPage* page = [_xmlCtx load:doc];
     STAssertEquals(page.foo, YES, @"");

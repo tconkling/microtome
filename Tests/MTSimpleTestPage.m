@@ -3,6 +3,13 @@
 
 #import "MTSimpleTestPage.h"
 
+static NSString* const XML_STRING =
+    @"<MTSimpleTestPage>"
+    @"  <foo>true</foo>"
+    @"  <bar>2</bar>"
+    @"  <baz>3.1415</baz>"
+    @"</MTSimpleTestPage>";
+
 @implementation MTSimpleTestPage {
 @protected
     MTMutableBoolProp* _foo;
@@ -12,6 +19,8 @@
 }
 
 @synthesize props = _props;
+
++ (NSString*)XML { return XML_STRING; }
 
 - (BOOL)foo { return _foo.value; }
 - (int)bar { return _bar.value; }

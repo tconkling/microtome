@@ -24,11 +24,16 @@ static NSString* const XML_STRING =
 - (float)baz { return _baz.value; }
 
 - (id)init {
-    return [super initWithProps:@[
-            _foo = [[MTMutableBoolProp alloc] initWithName:@"foo"],
-            _bar = [[MTMutableIntProp alloc] initWithName:@"bar"],
-            _baz = [[MTMutableFloatProp alloc] initWithName:@"baz"]
-            ]];
+    if ((self = [super init])) {
+        _foo = [[MTMutableBoolProp alloc] initWithName:@"foo"];
+        _bar = [[MTMutableIntProp alloc] initWithName:@"bar"];
+        _baz = [[MTMutableFloatProp alloc] initWithName:@"baz"];
+    }
+    return self;
+}
+
+- (NSArray*)props {
+    return MT_PROPS(_foo, _bar, _baz);
 }
 
 @end

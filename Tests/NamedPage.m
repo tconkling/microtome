@@ -11,9 +11,14 @@
 - (int)foo { return _foo.value; }
 
 - (id)init {
-    return [super initWithProps:@[
-        _foo = [[MTMutableIntProp alloc] initWithName:@"foo"],
-    ]];
+    if ((self = [super init])) {
+        _foo = [[MTMutableIntProp alloc] initWithName:@"foo"];
+    }
+    return self;
+}
+
+- (NSArray*)props {
+    return MT_PROPS(_foo);
 }
 
 @end

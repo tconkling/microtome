@@ -9,12 +9,17 @@
 #import "MTXmlLoadException.h"
 
 #import "MTPrimitiveProps.h"
+#import "MTTomeProp.h"
+
+@interface MTTomePropMarshaller : NSObject <MTXmlPropMarshaller>
+@end
 
 @implementation MTXmlContext
 
 - (id)init {
     if ((self = [super init])) {
         _marshallers = [[NSMutableDictionary alloc] init];
+        [self registerPropMarshaller:[[MTTomePropMarshaller alloc] init]];
     }
     return self;
 }
@@ -96,3 +101,24 @@
 }
 
 @end
+
+
+
+@implementation MTTomePropMarshaller
+
+- (Class)propClass {
+    return [MTMutableTomeProp class];
+}
+
+- (void)withCtx:(MTXmlContext*)ctx loadProp:(id<MTObjectProp>)prop fromXml:(GDataXMLElement*)tomeXml {
+    MTMutableTomeProp* tomeProp = (MTMutableTomeProp*)prop;
+    MTMutableTome* tome = [[MTMutableTome alloc] initWithPageType:tomeProp.pageType];
+    for (GDataXMLElement* pageXml in tomeXml.elements) {
+        id<MTNamedPage> page = (id<MTNamedPage>)[ctx loadPage:pageXml withRequiredClass:tomeProp.pageType];
+        [tome addPage:page];
+    }
+    tomeProp.value = tome;
+}
+
+@end
+

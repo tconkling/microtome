@@ -4,7 +4,7 @@
 // Prop
 #import "MTPageRefProp.h"
 #import "MTPrimitiveProps.h"
-#import "MTProp.h"
+#import "MTStringProp.h"
 #import "MTTomeProp.h"
 
 // Loader - XML
@@ -17,4 +17,5 @@
 #import "MTLoadException.h"
 
 #import "MTPage.h"
+#import "MTPageRef.h"
 #import "MTTome.h"

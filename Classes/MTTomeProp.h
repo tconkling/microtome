@@ -13,7 +13,6 @@
 @interface MTMutableTomeProp : MTObjectPropBase <MTTomeProp> {
 @protected
     Class _pageType;
-    MTMutableTome* _tome;
 }
 
 - (id)initWithName:(NSString*)name nullable:(BOOL)nullable pageType:(Class)pageType;

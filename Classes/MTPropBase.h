@@ -16,12 +16,13 @@
 
 @interface MTObjectPropBase : MTPropBase <MTMutableObjectProp> {
 @protected
+    Class _type;
     BOOL _nullable;
     id _value;
 }
-- (id)initWithName:(NSString*)name nullable:(BOOL)nullable;
+- (id)initWithName:(NSString*)name type:(Class)type nullable:(BOOL)nullable;
 
 // protected
-- (void)validateValue:(id)val isType:(Class)type;
+- (void)validateValue:(id)val;
 
 @end

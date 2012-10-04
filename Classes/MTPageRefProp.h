@@ -6,7 +6,6 @@
 
 @protocol MTPageRefProp <MTObjectProp>
 @property (nonatomic,readonly) Class pageType;
-@property (nonatomic,readonly) id<MTPageRef> value;
 @end
 
 @interface MTMutablePageRefProp : MTObjectPropBase <MTPageRefProp> {

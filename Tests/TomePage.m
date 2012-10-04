@@ -26,9 +26,14 @@ static NSString* const XML_STRING =
 - (id<MTTome>)tome { return _tome.value; }
 
 - (id)init {
-    return [super initWithProps:@[
-        _tome = [[MTMutableTomeProp alloc] initWithName:@"tome" nullable:NO pageType:[NamedPage class]],
-    ]];
+    if ((self = [super init])) {
+        _tome = [[MTMutableTomeProp alloc] initWithName:@"tome" nullable:NO pageType:[NamedPage class]];
+    }
+    return self;
+}
+
+- (NSArray*)props {
+    return MT_PROPS(_tome);
 }
 
 @end

@@ -39,18 +39,26 @@
                        [self requireClassWithName:pageXml.name]);
 
     id<MTPage> page = [[pageClass alloc] init];
+
+    // if this is a named page, parse its name first
+    if ([page isMemberOfClass:[MTMutableNamedPage class]]) {
+        ((MTMutableNamedPage*)page).name = [pageXml stringAttribute:@"name"];
+    }
+
     for (id<MTProp> prop in page.props) {
-        BOOL isPrimitive = ![prop conformsToProtocol:@protocol(MTObjectProp)];
-        id<MTObjectProp> objectProp = (isPrimitive ? nil : (id<MTObjectProp>)prop);
+        BOOL isPrimitive = ![prop conformsToProtocol:@protocol(MTMutableObjectProp)];
+        id<MTMutableObjectProp> objectProp = (isPrimitive ? nil : (id<MTMutableObjectProp>)prop);
         
         GDataXMLElement* propXml = [pageXml getChild:prop.name];
         if (propXml == nil) {
-            if (isPrimitive) {
+            if (isPrimitive || !objectProp.nullable) {
                 @throw [MTXmlLoadException withElement:pageXml
                             reason:@"Missing required child [name=%@]", prop.name];
             } else {
-                
+                // Object is nullable.
+                objectProp.value = nil;
             }
+            continue;
         }
 
         @try {
@@ -110,7 +118,7 @@
     return [MTMutableTomeProp class];
 }
 
-- (void)withCtx:(MTXmlContext*)ctx loadProp:(id<MTObjectProp>)prop fromXml:(GDataXMLElement*)tomeXml {
+- (void)withCtx:(MTXmlContext*)ctx loadProp:(id<MTMutableObjectProp>)prop fromXml:(GDataXMLElement*)tomeXml {
     MTMutableTomeProp* tomeProp = (MTMutableTomeProp*)prop;
     MTMutableTome* tome = [[MTMutableTome alloc] initWithPageType:tomeProp.pageType];
     for (GDataXMLElement* pageXml in tomeXml.elements) {

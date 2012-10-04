@@ -21,6 +21,7 @@
 		221B2FC0161CFBDE001B98AA /* MTXmlContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FBE161CFBDE001B98AA /* MTXmlContext.m */; };
 		221B2FC5161D00A4001B98AA /* MTXmlLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */; };
 		221B2FC6161D00A4001B98AA /* MTXmlLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FC4161D00A4001B98AA /* MTXmlLoadException.m */; };
+		221B2FD1161D0AE8001B98AA /* MTSimpleTestPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FD0161D0AE8001B98AA /* MTSimpleTestPage.m */; };
 		225041CC1558ACB50014FA5D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041CB1558ACB50014FA5D /* Foundation.framework */; };
 		225041DA1558ACB50014FA5D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041D91558ACB50014FA5D /* SenTestingKit.framework */; };
 		225041DC1558ACB50014FA5D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041DB1558ACB50014FA5D /* UIKit.framework */; };
@@ -81,6 +82,8 @@
 		221B2FC2161CFE32001B98AA /* MTXmlPropMarshaller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTXmlPropMarshaller.h; sourceTree = "<group>"; };
 		221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTXmlLoadException.h; sourceTree = "<group>"; };
 		221B2FC4161D00A4001B98AA /* MTXmlLoadException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTXmlLoadException.m; sourceTree = "<group>"; };
+		221B2FCF161D0AE8001B98AA /* MTSimpleTestPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTSimpleTestPage.h; sourceTree = "<group>"; };
+		221B2FD0161D0AE8001B98AA /* MTSimpleTestPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTSimpleTestPage.m; sourceTree = "<group>"; };
 		225041C81558ACB50014FA5D /* libmicrotome.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmicrotome.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		225041CB1558ACB50014FA5D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		225041D81558ACB50014FA5D /* microtomeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = microtomeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -193,6 +196,8 @@
 			children = (
 				225041E71558ACB50014FA5D /* microtomeTests.h */,
 				225041E81558ACB50014FA5D /* microtomeTests.m */,
+				221B2FCF161D0AE8001B98AA /* MTSimpleTestPage.h */,
+				221B2FD0161D0AE8001B98AA /* MTSimpleTestPage.m */,
 				225041E21558ACB50014FA5D /* Supporting Files */,
 			);
 			path = Tests;
@@ -409,6 +414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				225041E91558ACB50014FA5D /* microtomeTests.m in Sources */,
+				221B2FD1161D0AE8001B98AA /* MTSimpleTestPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

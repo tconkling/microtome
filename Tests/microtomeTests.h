@@ -1,13 +1,13 @@
 //
-//  microtomeTests.h
-//  microtomeTests
-//
-//  Created by Tim Conkling on 5/7/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+// microtome - Copyright 2012 Three Rings Design
 
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface microtomeTests : SenTestCase
+#import "microtome.h"
+
+@interface microtomeTests : SenTestCase {
+@protected
+    MTXmlContext* _xmlCtx;
+}
 
 @end

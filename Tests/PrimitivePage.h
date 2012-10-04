@@ -3,7 +3,7 @@
 
 #import "microtome.h"
 
-@interface PrimitivePage : NSObject <MTPage>
+@interface PrimitivePage : MTMutablePage
 
 + (NSString*) XML;
 

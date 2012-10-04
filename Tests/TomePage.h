@@ -3,10 +3,7 @@
 
 #import "microtome.h"
 
-@interface TomePage : NSObject <MTPage> {
-@protected
-    MTMutableTome* _tome;
-}
+@interface TomePage : MTMutablePage
 
 + (NSString*)XML;
 

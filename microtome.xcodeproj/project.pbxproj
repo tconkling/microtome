@@ -27,6 +27,8 @@
 		221B2FF6161E0262001B98AA /* MTTomeProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FF4161E0262001B98AA /* MTTomeProp.m */; };
 		221B2FF9161E0CE6001B98AA /* MTPageRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FF7161E0CE5001B98AA /* MTPageRef.h */; };
 		221B2FFA161E0CE6001B98AA /* MTPageRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FF8161E0CE5001B98AA /* MTPageRef.m */; };
+		221B3012161E27B4001B98AA /* TomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B3011161E27B4001B98AA /* TomePage.m */; };
+		221B3017161E28FB001B98AA /* MTPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B3016161E28FB001B98AA /* MTPage.m */; };
 		225041CC1558ACB50014FA5D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041CB1558ACB50014FA5D /* Foundation.framework */; };
 		225041DA1558ACB50014FA5D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041D91558ACB50014FA5D /* SenTestingKit.framework */; };
 		225041DC1558ACB50014FA5D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041DB1558ACB50014FA5D /* UIKit.framework */; };
@@ -94,6 +96,9 @@
 		221B2FF4161E0262001B98AA /* MTTomeProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTomeProp.m; sourceTree = "<group>"; };
 		221B2FF7161E0CE5001B98AA /* MTPageRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPageRef.h; sourceTree = "<group>"; };
 		221B2FF8161E0CE5001B98AA /* MTPageRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPageRef.m; sourceTree = "<group>"; };
+		221B3010161E27B4001B98AA /* TomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TomePage.h; sourceTree = "<group>"; };
+		221B3011161E27B4001B98AA /* TomePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TomePage.m; sourceTree = "<group>"; };
+		221B3016161E28FB001B98AA /* MTPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPage.m; sourceTree = "<group>"; };
 		225041C81558ACB50014FA5D /* libmicrotome.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmicrotome.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		225041CB1558ACB50014FA5D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		225041D81558ACB50014FA5D /* microtomeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = microtomeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -208,6 +213,8 @@
 				225041E81558ACB50014FA5D /* microtomeTests.m */,
 				221B2FCF161D0AE8001B98AA /* PrimitivePage.h */,
 				221B2FD0161D0AE8001B98AA /* PrimitivePage.m */,
+				221B3010161E27B4001B98AA /* TomePage.h */,
+				221B3011161E27B4001B98AA /* TomePage.m */,
 				225041E21558ACB50014FA5D /* Supporting Files */,
 			);
 			path = Tests;
@@ -230,6 +237,7 @@
 				221B2F52161CDD66001B98AA /* Loader */,
 				225041F71558AD200014FA5D /* microtome.h */,
 				221B2F42161CD0D1001B98AA /* MTPage.h */,
+				221B3016161E28FB001B98AA /* MTPage.m */,
 				221B2FF7161E0CE5001B98AA /* MTPageRef.h */,
 				221B2FF8161E0CE5001B98AA /* MTPageRef.m */,
 				221B2F4A161CD668001B98AA /* MTTome.h */,
@@ -426,6 +434,7 @@
 				221B2FF2161DFE57001B98AA /* MTPageRefProp.m in Sources */,
 				221B2FF6161E0262001B98AA /* MTTomeProp.m in Sources */,
 				221B2FFA161E0CE6001B98AA /* MTPageRef.m in Sources */,
+				221B3017161E28FB001B98AA /* MTPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +444,7 @@
 			files = (
 				225041E91558ACB50014FA5D /* microtomeTests.m in Sources */,
 				221B2FD1161D0AE8001B98AA /* PrimitivePage.m in Sources */,
+				221B3012161E27B4001B98AA /* TomePage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

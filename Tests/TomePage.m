@@ -5,10 +5,5 @@
 
 @implementation TomePage
 
-- (id)init {
-    if ((self = [super init])) {
-        
-    }
-}
 
 @end

@@ -15,10 +15,7 @@ static NSString* const XML_STRING =
     MTMutableBoolProp* _foo;
     MTMutableIntProp* _bar;
     MTMutableFloatProp* _baz;
-    NSArray* _props;
 }
-
-@synthesize props = _props;
 
 + (NSString*)XML { return XML_STRING; }
 
@@ -27,13 +24,11 @@ static NSString* const XML_STRING =
 - (float)baz { return _baz.value; }
 
 - (id)init {
-    if ((self = [super init])) {
-        _foo = [[MTMutableBoolProp alloc] initWithName:@"foo"];
-        _bar = [[MTMutableIntProp alloc] initWithName:@"bar"];
-        _baz = [[MTMutableFloatProp alloc] initWithName:@"baz"];
-        _props = @[ _foo, _bar, _baz ];
-    }
-    return self;
+    return [super initWithProps:@[
+            _foo = [[MTMutableBoolProp alloc] initWithName:@"foo"],
+            _bar = [[MTMutableIntProp alloc] initWithName:@"bar"],
+            _baz = [[MTMutableFloatProp alloc] initWithName:@"baz"]
+            ]];
 }
 
 @end

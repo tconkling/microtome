@@ -9,10 +9,14 @@
 #import "MTXmlLoadException.h"
 
 #import "MTPrimitiveProps.h"
+#import "MTPageRefProp.h"
 #import "MTStringProp.h"
 #import "MTTomeProp.h"
 
 @interface MTStringPropMarshaller : NSObject <MTXmlPropMarshaller>
+@end
+
+@interface MTPageRefPropMarshaller : NSObject <MTXmlPropMarshaller>
 @end
 
 @interface MTTomePropMarshaller : NSObject <MTXmlPropMarshaller>
@@ -24,6 +28,7 @@
     if ((self = [super init])) {
         _marshallers = [[NSMutableDictionary alloc] init];
         [self registerPropMarshaller:[[MTStringPropMarshaller alloc] init]];
+        [self registerPropMarshaller:[[MTPageRefPropMarshaller alloc] init]];
         [self registerPropMarshaller:[[MTTomePropMarshaller alloc] init]];
     }
     return self;
@@ -130,6 +135,21 @@
     if (stringProp.value == nil) {
         stringProp.value = @"";
     }
+}
+
+@end
+
+
+@implementation MTPageRefPropMarshaller
+
+- (Class)propType {
+    return [MTMutablePageRefProp class];
+}
+
+- (void)withCtx:(MTXmlContext*)ctx loadProp:(id<MTMutableObjectProp>)prop fromXml:(GDataXMLElement*)xml {
+    MTMutablePageRefProp* refProp = (MTMutablePageRefProp*)prop;
+    refProp.value = [[MTMutablePageRef alloc] initWithPageType:refProp.pageType
+                                                      pageName:xml.stringValue];
 }
 
 @end

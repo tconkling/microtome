@@ -41,7 +41,7 @@
     id<MTPage> page = [[pageClass alloc] init];
 
     // if this is a named page, parse its name first
-    if ([page isMemberOfClass:[MTMutableNamedPage class]]) {
+    if ([pageClass isSubclassOfClass:[MTMutableNamedPage class]]) {
         ((MTMutableNamedPage*)page).name = [pageXml stringAttribute:@"name"];
     }
 

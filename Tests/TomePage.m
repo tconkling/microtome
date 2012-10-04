@@ -9,10 +9,10 @@ static NSString* const XML_STRING =
     @"  <tome>"
     @"      <NamedPage name='test1'>"
     @"          <foo>1</foo>"
-    @"      </NamedPage/>"
+    @"      </NamedPage>"
     @"      <NamedPage name='test2'>"
     @"          <foo>2</foo>"
-    @"      </NamedPage/>"
+    @"      </NamedPage>"
     @"  </tome>"
     @"</TomePage>";
 

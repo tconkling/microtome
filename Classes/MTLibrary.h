@@ -18,7 +18,7 @@
 - (id)loadData:(id)data;
 - (void)unloadDataWithName:(NSString*)name;
 
-- (void)registerPageClass:(Class)pageClass;
+- (void)registerPageClasses:(NSArray*)classes;
 
 // protected
 - (Class)classWithName:(NSString*)name;

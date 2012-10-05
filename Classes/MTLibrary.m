@@ -27,13 +27,15 @@
     return _loadedPages[name];
 }
 
-- (void)registerPageClass:(Class)pageClass {
-    if (![pageClass conformsToProtocol:@protocol(MTPage)]) {
-        [NSException raise:NSGenericException format:@"Class must implement %@ [pageClass=%@]",
+- (void)registerPageClasses:(NSArray*)classes {
+    for (Class pageClass in classes) {
+        if (![pageClass conformsToProtocol:@protocol(MTPage)]) {
+            [NSException raise:NSGenericException format:@"Class must implement %@ [pageClass=%@]",
              NSStringFromProtocol(@protocol(MTPage)), NSStringFromClass(pageClass)];
-    }
+        }
 
-    _pageClasses[NSStringFromClass(pageClass)] = pageClass;
+        _pageClasses[NSStringFromClass(pageClass)] = pageClass;
+    }
 }
 
 - (id)loadData:(id)data {

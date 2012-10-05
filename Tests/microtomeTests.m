@@ -20,10 +20,12 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 - (void)setUp {
     [super setUp];
     _library = [[MTLibrary alloc] initWithLoader:[[MTXmlLoader alloc] init]];
-    [_library registerPageClass:[PrimitivePage class]];
-    [_library registerPageClass:[TomePage class]];
-    [_library registerPageClass:[NestedPage class]];
-    [_library registerPageClass:[RefPage class]];
+    [_library registerPageClasses:@[
+        [PrimitivePage class],
+        [TomePage class],
+        [NestedPage class],
+        [RefPage class],
+    ]];
 }
 
 - (void)tearDown {

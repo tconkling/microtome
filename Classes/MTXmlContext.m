@@ -153,7 +153,7 @@
 }
 
 - (void)withCtx:(MTXmlContext*)ctx loadProp:(id<MTMutableObjectProp>)prop fromXml:(GDataXMLElement*)propXml {
-    MTMutablePageProp* pageProp = (MTMutablePageProp*)pageProp;
+    MTMutablePageProp* pageProp = (MTMutablePageProp*)prop;
     GDataXMLElement* pageXml = [propXml requireSingleChild];
     id<MTPage> page = [ctx loadPage:pageXml withRequiredClass:pageProp.pageType];
     pageProp.value = page;

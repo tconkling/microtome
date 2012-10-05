@@ -3,7 +3,7 @@
 
 #import "MTProp.h"
 
-@interface MTPropBase : NSObject <MTMutableProp> {
+@interface MTPropBase : NSObject <MTProp> {
 @protected
     __weak id<MTPage> _parent;
     NSString* _name;

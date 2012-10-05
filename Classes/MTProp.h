@@ -16,9 +16,6 @@
 @property (nonatomic,readonly) id value;
 @end
 
-@protocol MTMutableProp <MTProp>
-@end
-
-@protocol MTMutableObjectProp <MTObjectProp,MTMutableProp>
+@protocol MTMutableObjectProp <MTObjectProp>
 @property (nonatomic,strong) id value;
 @end

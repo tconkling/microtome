@@ -4,7 +4,7 @@
 #import "MTPageRefProp.h"
 
 #import "MTPageRef.h"
-#import "MTContext.h"
+#import "MTLibrary.h"
 
 @implementation MTMutablePageRefProp
 
@@ -27,7 +27,7 @@
     }
 }
 
-- (void)resolveRefs:(MTContext*)ctx {
+- (void)resolveRefs:(MTLibrary*)ctx {
     
 }
 

@@ -7,7 +7,7 @@
 
 @interface microtomeTests : SenTestCase {
 @protected
-    MTXmlContext* _xmlCtx;
+    MTLibrary* _library;
 }
 
 @end

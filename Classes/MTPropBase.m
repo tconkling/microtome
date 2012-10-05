@@ -16,7 +16,7 @@
     return self;
 }
 
-- (void)resolveRefs:(MTContext*)ctx {
+- (void)resolveRefs:(MTLibrary*)ctx {
     // by default, do nothing
 }
 

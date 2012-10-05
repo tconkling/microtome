@@ -9,15 +9,16 @@
 #import "MTTomeProp.h"
 
 // Loader - XML
-#import "MTXmlContext.h"
+#import "MTXmlLoader.h"
 #import "MTXmlLoadException.h"
 #import "MTXmlPropMarshaller.h"
 
 // Loader
-#import "MTContext.h"
+#import "MTLoader.h"
 #import "MTLoadException.h"
 
 #import "MTDefs.h"
+#import "MTLibrary.h"
 #import "MTNamed.h"
 #import "MTPage.h"
 #import "MTPageRef.h"

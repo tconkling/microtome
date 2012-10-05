@@ -1,8 +1,9 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTContext.h"
+#import "MTLibrary.h"
 
+#import "MTLoader.h"
 #import "MTDefs.h"
 #import "MTUtils.h"
 #import "MTPage.h"
@@ -10,10 +11,11 @@
 #import "MTTome.h"
 #import "MTLoadException.h"
 
-@implementation MTContext
+@implementation MTLibrary
 
-- (id)init {
+- (id)initWithLoader:(id<MTLoader>)loader {
     if ((self = [super init])) {
+        _loader = loader;
         _pageClasses = [[NSMutableDictionary alloc] init];
         _loadedPages = [[NSMutableDictionary alloc] init];
     }
@@ -39,8 +41,8 @@
         [NSException raise:NSGenericException
                     format:@"Data with that name is already loaded [name=%@]", name];
     }
-    
-    id<MTPage> page = [self pageFromData:data withName:name];
+
+    MTMutablePage* page = [_loader withLibrary:self loadPage:data name:name];
     _loadedPages[name] = page;
     
     @try {
@@ -58,11 +60,6 @@
 
 - (void)unloadDataWithName:(NSString*)name {
     [_loadedPages removeObjectForKey:name];
-}
-
-- (id<MTPage>)pageFromData:(id)data withName:(NSString*)name {
-    OOO_IS_ABSTRACT();
-    return nil;
 }
 
 - (Class)classWithName:(NSString*)name {

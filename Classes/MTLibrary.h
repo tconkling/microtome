@@ -3,13 +3,17 @@
 
 #import "MTContainer.h"
 
+@protocol MTLoader;
 @protocol MTPage;
 
-@interface MTContext : NSObject <MTContainer> {
+@interface MTLibrary : NSObject <MTContainer> {
 @protected
+    id<MTLoader> _loader;
     NSMutableDictionary* _loadedPages;
     NSMutableDictionary* _pageClasses;
 }
+
+- (id)initWithLoader:(id<MTLoader>)loader;
 
 - (id)loadData:(id)data withName:(NSString*)name;
 - (void)unloadDataWithName:(NSString*)name;
@@ -22,8 +26,5 @@
 - (Class)requireClassWithName:(NSString*)name superClass:(Class)superClass;
 
 - (id<MTPage>)getPage:(NSString*)fullyQualifiedName;
-
-// abstract
-- (id<MTPage>)pageFromData:(id)data withName:(NSString*)name;
 
 @end

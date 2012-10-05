@@ -44,6 +44,7 @@
 		225041E61558ACB50014FA5D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 225041E41558ACB50014FA5D /* InfoPlist.strings */; };
 		225041E91558ACB50014FA5D /* microtomeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 225041E81558ACB50014FA5D /* microtomeTests.m */; };
 		225041F81558AD200014FA5D /* microtome.h in Headers */ = {isa = PBXBuildFile; fileRef = 225041F71558AD200014FA5D /* microtome.h */; };
+		226BAA41161F946900133173 /* RefPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 226BAA40161F946900133173 /* RefPage.m */; };
 		22E43A6C1559B7BC003A43B8 /* MTPrimitiveProps.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E43A6A1559B7BC003A43B8 /* MTPrimitiveProps.m */; };
 		22E43A701559B847003A43B8 /* MTPropBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E43A6E1559B847003A43B8 /* MTPropBase.m */; };
 		22E43A7E1559B987003A43B8 /* libcooocoa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2250421C1558B00B0014FA5D /* libcooocoa.a */; };
@@ -130,6 +131,8 @@
 		225041FA1558AD740014FA5D /* microtome_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = microtome_Prefix.pch; sourceTree = "<group>"; };
 		225041FB1558ADBC0014FA5D /* cooocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cooocoa.xcodeproj; path = ../cooocoa.xcodeproj; sourceTree = COOOCOA_SRC; };
 		225042451558B19F0014FA5D /* MTProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTProp.h; sourceTree = "<group>"; };
+		226BAA3F161F946900133173 /* RefPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefPage.h; sourceTree = "<group>"; };
+		226BAA40161F946900133173 /* RefPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefPage.m; sourceTree = "<group>"; };
 		22E43A691559B7BC003A43B8 /* MTPrimitiveProps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPrimitiveProps.h; sourceTree = "<group>"; };
 		22E43A6A1559B7BC003A43B8 /* MTPrimitiveProps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPrimitiveProps.m; sourceTree = "<group>"; };
 		22E43A6D1559B847003A43B8 /* MTPropBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPropBase.h; sourceTree = "<group>"; };
@@ -232,6 +235,8 @@
 				221B3044161E61F3001B98AA /* NestedPage.m */,
 				221B2FCF161D0AE8001B98AA /* PrimitivePage.h */,
 				221B2FD0161D0AE8001B98AA /* PrimitivePage.m */,
+				226BAA3F161F946900133173 /* RefPage.h */,
+				226BAA40161F946900133173 /* RefPage.m */,
 				221B3010161E27B4001B98AA /* TomePage.h */,
 				221B3011161E27B4001B98AA /* TomePage.m */,
 				225041E21558ACB50014FA5D /* Supporting Files */,
@@ -481,6 +486,7 @@
 				221B2FD1161D0AE8001B98AA /* PrimitivePage.m in Sources */,
 				221B3012161E27B4001B98AA /* TomePage.m in Sources */,
 				221B3045161E61F3001B98AA /* NestedPage.m in Sources */,
+				226BAA41161F946900133173 /* RefPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

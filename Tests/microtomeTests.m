@@ -45,7 +45,7 @@ static const float EPSILON = 0.0001f;
         [[GDataXMLDocument alloc] initWithXMLString:TomePage.XML options:0 error:&err];
 
     TomePage* page = [_library loadData:doc withName:NAME];
-    STAssertEquals(page.tome.count, 2, @"");
+    STAssertEquals(page.tome.pageCount, 2, @"");
     [_library unloadDataWithName:NAME];
 }
 

@@ -52,7 +52,7 @@
 }
 
 - (void)validateValue:(id)val {
-    if (val != nil && ![val isMemberOfClass:_type]) {
+    if (val != nil && ![val isKindOfClass:_type]) {
         [NSException raise:NSGenericException
                     format:@"Incompatible value type [required=%@, got=%@]", _type, [val class]];
     }

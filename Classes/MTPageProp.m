@@ -2,7 +2,9 @@
 // microtome - Copyright 2012 Three Rings Design
 
 #import "MTPageProp.h"
+
 #import "MTPage.h"
+#import "MTUtils.h"
 
 @implementation MTMutablePageProp
 
@@ -21,6 +23,13 @@
         [NSException raise:NSGenericException
                     format:@"Incompatible page (pageType '%@' is not a subclass of '%@')",
          [val class], _pageType];
+    }
+}
+
+- (void)resolveRefs:(MTLibrary*)library {
+    MTMutablePage* page = (MTMutablePage*)_value;
+    if (page != nil) {
+        MTResolvePageRefs(page, library);
     }
 }
 

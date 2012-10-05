@@ -4,6 +4,7 @@
 #import "MTTomeProp.h"
 
 #import "MTTome.h"
+#import "MTUtils.h"
 
 @implementation MTMutableTomeProp
 
@@ -23,6 +24,13 @@
         [NSException raise:NSGenericException
                     format:@"Incompatible tome (pageType '%@' is not a subclass of '%@')",
          tome.pageType, _pageType];
+    }
+}
+
+- (void)resolveRefs:(MTLibrary*)library {
+    MTMutableTome* tome = (MTMutableTome*)_value;
+    if (tome != nil) {
+        MTResolveTomeRefs(tome, library);
     }
 }
 

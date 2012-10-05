@@ -17,8 +17,12 @@
     return self;
 }
 
-- (int)count {
+- (int)pageCount {
     return _pages.count;
+}
+
+- (id<NSFastEnumeration>)pages {
+    return [_pages objectEnumerator];
 }
 
 // MTContainer

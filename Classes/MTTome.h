@@ -7,7 +7,8 @@
 
 @protocol MTTome <NSObject,MTContainer>
 @property (nonatomic,readonly) Class pageType;
-@property (nonatomic,readonly) int count;
+@property (nonatomic,readonly) int pageCount;
+@property (nonatomic,readonly) id<NSFastEnumeration> pages;
 
 - (id<MTPage>)pageNamed:(NSString*)name;
 - (id<MTPage>)requirePageNamed:(NSString*)name;

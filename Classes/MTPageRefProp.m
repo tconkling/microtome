@@ -27,8 +27,15 @@
     }
 }
 
-- (void)resolveRefs:(MTLibrary*)ctx {
-    
+- (void)resolveRefs:(MTLibrary*)library {
+    if (_value != nil) {
+        MTMutablePageRef* ref = (MTMutablePageRef*)_value;
+        ref.page = [library getPage:ref.pageName];
+        if (ref.page == nil) {
+            [NSException raise:NSGenericException
+                format:@"Could not resolve PageRef [name=%@, pageName=%@]", self.name, ref.pageName];
+        }
+    }
 }
 
 @end

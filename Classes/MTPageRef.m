@@ -6,6 +6,7 @@
 @implementation MTMutablePageRef
 
 @synthesize pageType = _pageType;
+@synthesize pageName = _pageName;
 @synthesize page = _page;
 
 - (id)initWithPageType:(Class)pageType pageName:(NSString*)pageName {

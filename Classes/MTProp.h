@@ -8,7 +8,7 @@
 @protocol MTProp <NSObject>
 @property (nonatomic,readonly) NSString* name;
 @property (nonatomic,readonly) id<MTPage> parent;
-- (void)resolveRefs:(MTLibrary*)ctx;
+- (void)resolveRefs:(MTLibrary*)library;
 @end
 
 @protocol MTObjectProp <MTProp>

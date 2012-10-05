@@ -7,11 +7,9 @@
 @protected
     __weak id<MTPage> _parent;
     NSString* _name;
-    NSMutableDictionary* _annotations;
 }
 
 - (id)initWithName:(NSString*)name parent:(id<MTPage>)parent;
-- (id)getAnnotation:(Class)annotationClass;
 
 @end
 

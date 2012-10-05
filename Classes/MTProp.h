@@ -7,7 +7,6 @@
 
 @protocol MTProp <NSObject,MTNamed>
 @property (nonatomic,readonly) id<MTPage> parent;
-- (id)getAnnotation:(Class)annotationClass;
 @end
 
 @protocol MTObjectProp <MTProp>
@@ -16,17 +15,8 @@
 @end
 
 @protocol MTMutableProp <MTProp>
-- (void)addAnnotation:(id)annotation;
 @end
 
 @protocol MTMutableObjectProp <MTObjectProp,MTMutableProp>
 @property (nonatomic,strong) id value;
 @end
-
-@protocol MTContainerProp <MTObjectProp>
-@property (nonatomic,readonly) NSArray* children;
-@end
-
-@protocol MTMutableContainerProp <MTContainerProp,MTMutableProp>
-@end
-

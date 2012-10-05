@@ -52,8 +52,11 @@
     NSArray* components = [name componentsSeparatedByString:MT_NAME_SEPARATOR];
 
     id<MTPage> page = library;
-    for (int ii = 0; ii < components.count - 1; ++ii) {
+    for (int ii = 0; ii < components.count - 2; ++ii) {
         id<MTProp> prop = MTGetProp(page, components[ii]);
+        if (prop == nil) {
+            return nil;
+        }
     }
     return nil;
 }

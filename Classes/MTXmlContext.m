@@ -45,9 +45,8 @@
     _marshallers[(id<NSCopying>)marshaller.propType] = marshaller;
 }
 
-- (id<MTPage>)load:(GDataXMLDocument*)xmlDoc {
-    id<MTPage> root = [self loadPage:[xmlDoc rootElement] name:@""];
-    return root;
+- (id<MTPage>)pageFromData:(id)data withName:(NSString*)name {
+    return [self loadPage:((GDataXMLDocument*)data).rootElement name:name];
 }
 
 - (id<MTPage>)loadPage:(GDataXMLElement*)pageXml name:(NSString*)name requiredClass:(__unsafe_unretained Class)requiredClass {

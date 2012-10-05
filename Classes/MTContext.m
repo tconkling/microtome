@@ -7,6 +7,7 @@
 #import "MTUtils.h"
 #import "MTPage.h"
 #import "MTProp.h"
+#import "MTTome.h"
 #import "MTLoadException.h"
 
 @implementation MTContext
@@ -14,8 +15,14 @@
 - (id)init {
     if ((self = [super init])) {
         _pageClasses = [[NSMutableDictionary alloc] init];
+        _loadedPages = [[NSMutableDictionary alloc] init];
     }
     return self;
+}
+
+// MTContainer
+- (id)childNamed:(NSString*)name {
+    return _loadedPages[name];
 }
 
 - (void)registerPageClass:(Class)pageClass {
@@ -25,6 +32,37 @@
     }
 
     _pageClasses[NSStringFromClass(pageClass)] = pageClass;
+}
+
+- (id)loadData:(id)data withName:(NSString*)name {
+    if (_loadedPages[name] != nil) {
+        [NSException raise:NSGenericException
+                    format:@"Data with that name is already loaded [name=%@]", name];
+    }
+    
+    id<MTPage> page = [self pageFromData:data withName:name];
+    _loadedPages[name] = page;
+    
+    @try {
+        for (id<MTProp> prop in page.props) {
+            [prop resolveRefs:self];
+        }
+    }
+    @catch (NSException* exception) {
+        [self unloadDataWithName:name];
+        @throw exception;
+    }
+
+    return page;
+}
+
+- (void)unloadDataWithName:(NSString*)name {
+    [_loadedPages removeObjectForKey:name];
+}
+
+- (id<MTPage>)pageFromData:(id)data withName:(NSString*)name {
+    OOO_IS_ABSTRACT();
+    return nil;
 }
 
 - (Class)classWithName:(NSString*)name {
@@ -48,12 +86,12 @@
     return clazz;
 }
 
-- (id<MTPage>)getPage:(NSString*)fullyQualifiedName fromLibrary:(id<MTPage>)library {
+- (id<MTPage>)getPage:(NSString*)fullyQualifiedName {
     // A page's fullyQualifiedName is a series of page and tome names, separated by dots
     // E.g. level1.baddies.big_boss
     
     NSArray* components = [fullyQualifiedName componentsSeparatedByString:MT_NAME_SEPARATOR];
-    id<MTContainer> container = library;
+    id<MTContainer> container = self;
     for (NSString* name in components) {
         id child = [container childNamed:name];
         if (![child conformsToProtocol:@protocol(MTContainer)]) {

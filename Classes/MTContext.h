@@ -17,6 +17,6 @@
 - (Class)requireClassWithName:(NSString*)name;
 - (Class)requireClassWithName:(NSString*)name superClass:(Class)superClass;
 
-- (id<MTNamedPage>)getNamedPage:(NSString*)name fromLibrary:(id<MTPage>)library;
+- (id<MTPage>)getPage:(NSString*)name fromLibrary:(id<MTPage>)library;
 
 @end

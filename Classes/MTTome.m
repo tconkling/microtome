@@ -21,6 +21,11 @@
     return _pages.count;
 }
 
+// MTContainer
+- (id)childNamed:(NSString*)name {
+    return [self pageNamed:name];
+}
+
 - (id<MTNamedPage>)pageNamed:(NSString*)name {
     return _pages[name];
 }

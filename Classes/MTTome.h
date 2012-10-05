@@ -1,9 +1,11 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
+#import "MTContainer.h"
+
 @protocol MTNamedPage;
 
-@protocol MTTome <NSObject>
+@protocol MTTome <NSObject,MTContainer>
 @property (nonatomic,readonly) Class pageType;
 @property (nonatomic,readonly) int count;
 

@@ -2,10 +2,11 @@
 // microtome - Copyright 2012 Three Rings Design
 
 #import "MTNamed.h"
+#import "MTContainer.h"
 
 @class MTMutableStringProp;
 
-@protocol MTPage <NSObject>
+@protocol MTPage <NSObject,MTContainer>
 @property (nonatomic,readonly) NSArray* props;
 @end
 

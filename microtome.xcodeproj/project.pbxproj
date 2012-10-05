@@ -119,6 +119,7 @@
 		221B3040161E5E12001B98AA /* MTPageProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPageProp.m; sourceTree = "<group>"; };
 		221B3043161E61F3001B98AA /* NestedPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NestedPage.h; sourceTree = "<group>"; };
 		221B3044161E61F3001B98AA /* NestedPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NestedPage.m; sourceTree = "<group>"; };
+		221B3046161F5F0C001B98AA /* MTContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTContainer.h; sourceTree = "<group>"; };
 		225041C81558ACB50014FA5D /* libmicrotome.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmicrotome.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		225041CB1558ACB50014FA5D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		225041D81558ACB50014FA5D /* microtomeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = microtomeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,6 +261,7 @@
 				225042441558B17D0014FA5D /* Prop */,
 				221B2F52161CDD66001B98AA /* Loader */,
 				225041F71558AD200014FA5D /* microtome.h */,
+				221B3046161F5F0C001B98AA /* MTContainer.h */,
 				221B303E161E5B06001B98AA /* MTDefs.h */,
 				221B3039161E5422001B98AA /* MTNamed.h */,
 				221B2F42161CD0D1001B98AA /* MTPage.h */,

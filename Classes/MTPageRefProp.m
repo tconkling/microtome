@@ -2,7 +2,9 @@
 // microtome - Copyright 2012 Three Rings Design
 
 #import "MTPageRefProp.h"
+
 #import "MTPageRef.h"
+#import "MTContext.h"
 
 @implementation MTMutablePageRefProp
 
@@ -23,6 +25,10 @@
                     format:@"Incompatible pageRef (pageType '%@' is not a subclass of '%@')",
          ref.pageType, _pageType];
     }
+}
+
+- (void)resolveRefs:(MTContext*)ctx {
+    
 }
 
 @end

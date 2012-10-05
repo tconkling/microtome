@@ -4,9 +4,11 @@
 #import "MTNamed.h"
 
 @protocol MTPage;
+@class MTContext;
 
 @protocol MTProp <NSObject,MTNamed>
 @property (nonatomic,readonly) id<MTPage> parent;
+- (void)resolveRefs:(MTContext*)ctx;
 @end
 
 @protocol MTObjectProp <MTProp>

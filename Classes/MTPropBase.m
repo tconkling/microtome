@@ -16,6 +16,10 @@
     return self;
 }
 
+- (void)resolveRefs:(MTContext*)ctx {
+    // by default, do nothing
+}
+
 @end
 
 @implementation MTObjectPropBase

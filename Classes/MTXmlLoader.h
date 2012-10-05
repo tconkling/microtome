@@ -14,7 +14,7 @@
 
 - (void)registerPropMarshaller:(id<MTXmlPropMarshaller>)marshaller;
 
-- (MTMutablePage*)loadPage:(GDataXMLElement*)xml name:(NSString*)name;
-- (MTMutablePage*)loadPage:(GDataXMLElement*)xml name:(NSString*)name requiredClass:(Class)requiredClass;
+- (MTMutablePage*)loadPage:(GDataXMLElement*)xml;
+- (MTMutablePage*)loadPage:(GDataXMLElement*)xml requiredClass:(Class)requiredClass;
 
 @end

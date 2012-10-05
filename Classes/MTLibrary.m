@@ -36,14 +36,14 @@
     _pageClasses[NSStringFromClass(pageClass)] = pageClass;
 }
 
-- (id)loadData:(id)data withName:(NSString*)name {
-    if (_loadedPages[name] != nil) {
+- (id)loadData:(id)data {
+    MTMutablePage* page = [_loader withLibrary:self loadPage:data];
+    if (_loadedPages[page.name] != nil) {
         [NSException raise:NSGenericException
-                    format:@"Data with that name is already loaded [name=%@]", name];
+                    format:@"Data with that name is already loaded [name=%@]", page.name];
     }
-
-    MTMutablePage* page = [_loader withLibrary:self loadPage:data name:name];
-    _loadedPages[name] = page;
+    
+    _loadedPages[page.name] = page;
     
     @try {
         for (id<MTProp> prop in page.props) {
@@ -51,7 +51,7 @@
         }
     }
     @catch (NSException* exception) {
-        [self unloadDataWithName:name];
+        [self unloadDataWithName:page.name];
         @throw exception;
     }
 

@@ -46,27 +46,29 @@
     _marshallers[(id<NSCopying>)marshaller.propType] = marshaller;
 }
 
-- (MTMutablePage*)withLibrary:(MTLibrary*)library loadPage:(id)data name:(NSString*)name {
+- (MTMutablePage*)withLibrary:(MTLibrary*)library loadPage:(id)data {
     NSAssert(_library == nil, @"Already loading");
     NSAssert(library != nil, @"Library cannot be nil");
     NSAssert([data isKindOfClass:[GDataXMLDocument class]], @"data must be a GDataXmlDocument");
     
     @try {
         _library = library;
-        return [self loadPage:((GDataXMLDocument*)data).rootElement name:name];
+        return [self loadPage:((GDataXMLDocument*)data).rootElement];
     } @finally {
         _library = nil;
     }
 }
 
-- (MTMutablePage*)loadPage:(GDataXMLElement*)pageXml name:(NSString*)name requiredClass:(__unsafe_unretained Class)requiredClass {
+- (MTMutablePage*)loadPage:(GDataXMLElement*)pageXml requiredClass:(__unsafe_unretained Class)requiredClass {
+    NSString* name = pageXml.name;
     if (!MTValidPageName(name)) {
         @throw [MTXmlLoadException withElement:pageXml reason:@"page name '%@' is invalid", name];
     }
 
+    NSString* typeName = [pageXml stringAttribute:@"type"];
     Class pageClass = (requiredClass != nil ?
-                       [_library requireClassWithName:pageXml.name superClass:requiredClass] :
-                       [_library requireClassWithName:pageXml.name]);
+                       [_library requireClassWithName:typeName superClass:requiredClass] :
+                       [_library requireClassWithName:typeName]);
 
     MTMutablePage* page = [[pageClass alloc] init];
     page.name = name;
@@ -122,8 +124,8 @@
     return page;
 }
 
-- (id<MTPage>)loadPage:(GDataXMLElement*)xml name:(NSString*)name {
-    return [self loadPage:xml name:name requiredClass:nil];
+- (id<MTPage>)loadPage:(GDataXMLElement*)xml {
+    return [self loadPage:xml requiredClass:nil];
 }
 
 - (NSString*)requireTextContent:(GDataXMLElement*)xml {
@@ -162,10 +164,9 @@
     return [MTMutablePageProp class];
 }
 
-- (void)withCtx:(MTXmlLoader*)ctx loadProp:(id<MTMutableObjectProp>)prop fromXml:(GDataXMLElement*)propXml {
+- (void)withCtx:(MTXmlLoader*)ctx loadProp:(id<MTMutableObjectProp>)prop fromXml:(GDataXMLElement*)xml {
     MTMutablePageProp* pageProp = (MTMutablePageProp*)prop;
-    GDataXMLElement* pageXml = [propXml requireSingleChild];
-    id<MTPage> page = [ctx loadPage:pageXml name:pageProp.name requiredClass:pageProp.pageType];
+    id<MTPage> page = [ctx loadPage:xml requiredClass:pageProp.pageType];
     pageProp.value = page;
 }
 
@@ -197,7 +198,7 @@
     MTMutableTomeProp* tomeProp = (MTMutableTomeProp*)prop;
     MTMutableTome* tome = [[MTMutableTome alloc] initWithPageType:tomeProp.pageType];
     for (GDataXMLElement* pageXml in tomeXml.elements) {
-        id<MTPage> page = [ctx loadPage:pageXml name:[pageXml stringAttribute:@"name"] requiredClass:tomeProp.pageType];
+        id<MTPage> page = [ctx loadPage:pageXml requiredClass:tomeProp.pageType];
         [tome addPage:page];
     }
     tomeProp.value = tome;

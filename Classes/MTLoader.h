@@ -5,5 +5,5 @@
 @class MTMutablePage;
 
 @protocol MTLoader
-- (MTMutablePage*)withLibrary:(MTLibrary*)library loadPage:(id)data name:(NSString*)name;
+- (MTMutablePage*)withLibrary:(MTLibrary*)library loadPage:(id)data;
 @end

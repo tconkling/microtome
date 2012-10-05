@@ -5,20 +5,20 @@
 #import "PrimitivePage.h"
 
 static NSString* const XML_STRING =
-    @"<TomePage>"
+    @"<test type='TomePage'>"
     @"  <tome>"
-    @"      <PrimitivePage name='test1'>"
+    @"      <test1 type='PrimitivePage'>"
     @"          <foo>true</foo>"
     @"          <bar>2</bar>"
     @"          <baz>3.1415</baz>"
-    @"      </PrimitivePage>"
-    @"      <PrimitivePage name='test2'>"
+    @"      </test1>"
+    @"      <test2 type='PrimitivePage'>"
     @"          <foo>false</foo>"
     @"          <bar>666</bar>"
     @"          <baz>1.5</baz>"
-    @"      </PrimitivePage>"
+    @"      </test2>"
     @"  </tome>"
-    @"</TomePage>";
+    @"</test>";
 
 @implementation TomePage {
 @protected

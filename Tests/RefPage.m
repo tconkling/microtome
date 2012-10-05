@@ -5,9 +5,9 @@
 #import "PrimitivePage.h"
 
 static NSString* const XML_STRING =
-    @"<RefPage>"
+    @"<test type='RefPage'>"
     @"  <nested>tome.test1</nested>"
-    @"</RefPage>";
+    @"</test>";
 
 @implementation RefPage {
 @protected

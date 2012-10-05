@@ -15,7 +15,7 @@
 
 - (id)initWithLoader:(id<MTLoader>)loader;
 
-- (id)loadData:(id)data withName:(NSString*)name;
+- (id)loadData:(id)data;
 - (void)unloadDataWithName:(NSString*)name;
 
 - (void)registerPageClass:(Class)pageClass;

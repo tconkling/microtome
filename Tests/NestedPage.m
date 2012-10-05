@@ -5,13 +5,13 @@
 #import "PrimitivePage.h"
 
 static NSString* const XML_STRING =
-    @"<NestedPage><nested>"
-    @"  <PrimitivePage>"
+    @"<test type='NestedPage'>"
+    @"  <nested type='PrimitivePage'>"
     @"      <foo>true</foo>"
     @"      <bar>2</bar>"
     @"      <baz>3.1415</baz>"
-    @"  </PrimitivePage>"
-    @"</nested></NestedPage>";
+    @"  </nested>"
+    @"</test>";
 
 @implementation NestedPage {
 @protected

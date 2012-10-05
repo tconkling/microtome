@@ -108,7 +108,6 @@
 		221B3016161E28FB001B98AA /* MTPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPage.m; sourceTree = "<group>"; };
 		221B301B161E35C8001B98AA /* MTStringProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStringProp.h; sourceTree = "<group>"; };
 		221B301C161E35C8001B98AA /* MTStringProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStringProp.m; sourceTree = "<group>"; };
-		221B3039161E5422001B98AA /* MTNamed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTNamed.h; sourceTree = "<group>"; };
 		221B303A161E585E001B98AA /* MTUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTUtils.h; sourceTree = "<group>"; };
 		221B303B161E585F001B98AA /* MTUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTUtils.m; sourceTree = "<group>"; };
 		221B303E161E5B06001B98AA /* MTDefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTDefs.h; sourceTree = "<group>"; };
@@ -260,7 +259,6 @@
 				221B303E161E5B06001B98AA /* MTDefs.h */,
 				221B2F57161CDE60001B98AA /* MTLibrary.h */,
 				221B2F58161CDE60001B98AA /* MTLibrary.m */,
-				221B3039161E5422001B98AA /* MTNamed.h */,
 				221B2F42161CD0D1001B98AA /* MTPage.h */,
 				221B3016161E28FB001B98AA /* MTPage.m */,
 				221B2FF7161E0CE5001B98AA /* MTPageRef.h */,

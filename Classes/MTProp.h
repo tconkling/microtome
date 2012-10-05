@@ -1,12 +1,12 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTNamed.h"
 
 @protocol MTPage;
 @class MTLibrary;
 
-@protocol MTProp <NSObject,MTNamed>
+@protocol MTProp <NSObject>
+@property (nonatomic,readonly) NSString* name;
 @property (nonatomic,readonly) id<MTPage> parent;
 - (void)resolveRefs:(MTLibrary*)ctx;
 @end

@@ -2,7 +2,6 @@
 // microtome - Copyright 2012 Three Rings Design
 
 @protocol MTPage;
-@protocol MTNamedPage;
 
 @interface MTContext : NSObject {
 @protected
@@ -17,6 +16,6 @@
 - (Class)requireClassWithName:(NSString*)name;
 - (Class)requireClassWithName:(NSString*)name superClass:(Class)superClass;
 
-- (id<MTPage>)getPage:(NSString*)name fromLibrary:(id<MTPage>)library;
+- (id<MTPage>)getPage:(NSString*)fullyQualifiedName fromLibrary:(id<MTPage>)library;
 
 @end

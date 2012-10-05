@@ -48,21 +48,21 @@
     return clazz;
 }
 
-- (id<MTNamedPage>)getNamedPage:(NSString*)name fromLibrary:(id<MTPage>)library {
-    // A page's address must be a series of pages or tomes.
-
-    NSArray* components = [name componentsSeparatedByString:MT_NAME_SEPARATOR];
-
+- (id<MTPage>)getPage:(NSString*)fullyQualifiedName fromLibrary:(id<MTPage>)library {
+    // A page's fullyQualifiedName is a series of page and tome names, separated by dots
+    // E.g. level1.baddies.big_boss
+    
+    NSArray* components = [fullyQualifiedName componentsSeparatedByString:MT_NAME_SEPARATOR];
     id<MTContainer> container = library;
-    for (int ii = 0; ii < components.count - 1; ++ii) {
-        id child = [container childNamed:components[ii]];
+    for (NSString* name in components) {
+        id child = [container childNamed:name];
         if (![child conformsToProtocol:@protocol(MTContainer)]) {
             return nil;
         }
         container = (id<MTContainer>)child;
     }
 
-    return nil;
+    return ([container conformsToProtocol:@protocol(MTPage)] ? (id<MTPage>)container : nil);
 }
 
 @end

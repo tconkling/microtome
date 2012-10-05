@@ -5,9 +5,9 @@
 #import "PrimitivePage.h"
 
 static NSString* const XML_STRING =
-    @"<test type='RefPage'>"
-    @"  <nested>tome.test1</nested>"
-    @"</test>";
+    @"<refTest type='RefPage'>"
+    @"  <nested>tomeTest.tome.test1</nested>"
+    @"</refTest>";
 
 @implementation RefPage {
 @protected
@@ -21,6 +21,7 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
+        _nested = [[MTMutablePageRefProp alloc] initWithName:@"nested" parent:self nullable:NO pageType:[PrimitivePage class]];
     }
     return self;
 }

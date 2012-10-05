@@ -6,8 +6,14 @@
 #import "PrimitivePage.h"
 #import "TomePage.h"
 #import "NestedPage.h"
+#import "RefPage.h"
 
 static const float EPSILON = 0.0001f;
+
+static GDataXMLDocument* GetXML (NSString* xmlString) {
+    NSError* err = nil;
+    return [[GDataXMLDocument alloc] initWithXMLString:xmlString options:0 error:&err];
+}
 
 @implementation microtomeTests
 
@@ -17,6 +23,7 @@ static const float EPSILON = 0.0001f;
     [_library registerPageClass:[PrimitivePage class]];
     [_library registerPageClass:[TomePage class]];
     [_library registerPageClass:[NestedPage class]];
+    [_library registerPageClass:[RefPage class]];
 }
 
 - (void)tearDown {
@@ -24,11 +31,7 @@ static const float EPSILON = 0.0001f;
 }
 
 - (void)testPrimitives {
-    NSError* err = nil;
-    GDataXMLDocument* doc =
-        [[GDataXMLDocument alloc] initWithXMLString:PrimitivePage.XML options:0 error:&err];
-
-    PrimitivePage* page = [_library loadData:doc];
+    PrimitivePage* page = [_library loadData:GetXML(PrimitivePage.XML)];
     STAssertEquals(page.foo, YES, @"");
     STAssertEquals(page.bar, 2, @"");
     STAssertEqualsWithAccuracy(page.baz, 3.1415f, EPSILON, @"");
@@ -36,25 +39,34 @@ static const float EPSILON = 0.0001f;
 }
 
 - (void)testTome {
-    NSError* err = nil;
-    GDataXMLDocument* doc =
-        [[GDataXMLDocument alloc] initWithXMLString:TomePage.XML options:0 error:&err];
-
-    TomePage* page = [_library loadData:doc];
+    TomePage* page = [_library loadData:GetXML(TomePage.XML)];
     STAssertEquals(page.tome.pageCount, 2, @"");
     [_library unloadDataWithName:page.name];
 }
 
 - (void)testNested {
-    NSError* err = nil;
-    GDataXMLDocument* doc =
-        [[GDataXMLDocument alloc] initWithXMLString:NestedPage.XML options:0 error:&err];
-
-    NestedPage* page = [_library loadData:doc];
+    NestedPage* page = [_library loadData:GetXML(NestedPage.XML)];
     STAssertEquals(page.nested.foo, YES, @"");
     STAssertEquals(page.nested.bar, 2, @"");
     STAssertEqualsWithAccuracy(page.nested.baz, 3.1415f, EPSILON, @"");
     [_library unloadDataWithName:page.name];
+}
+
+- (void)testRefs {
+    RefPage* refPage = nil;
+    @autoreleasepool {
+        TomePage* tomePage = [_library loadData:GetXML(TomePage.XML)];
+        refPage = [_library loadData:GetXML(RefPage.XML)];
+        STAssertNotNil(refPage.nested, @"");
+        STAssertEquals(refPage.nested.foo, YES, @"");
+        STAssertEquals(refPage.nested.bar, 2, @"");
+        STAssertEqualsWithAccuracy(refPage.nested.baz, 3.1415f, EPSILON, @"");
+        [_library unloadDataWithName:tomePage.name];
+        tomePage = nil;
+    }
+    
+    STAssertNil(refPage.nested, @"");
+    [_library unloadDataWithName:refPage.name];
 }
 
 @end

@@ -4,11 +4,11 @@
 #import "PrimitivePage.h"
 
 static NSString* const XML_STRING =
-    @"<test type='PrimitivePage'>"
+    @"<primitiveTest type='PrimitivePage'>"
     @"  <foo>true</foo>"
     @"  <bar>2</bar>"
     @"  <baz>3.1415</baz>"
-    @"</test>";
+    @"</primitiveTest>";
 
 @implementation PrimitivePage {
 @protected

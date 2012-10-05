@@ -2,17 +2,21 @@
 // microtome - Copyright 2012 Three Rings Design
 
 #import "TomePage.h"
-#import "NamedPage.h"
+#import "PrimitivePage.h"
 
 static NSString* const XML_STRING =
     @"<TomePage>"
     @"  <tome>"
-    @"      <NamedPage name='test1'>"
-    @"          <foo>1</foo>"
-    @"      </NamedPage>"
-    @"      <NamedPage name='test2'>"
-    @"          <foo>2</foo>"
-    @"      </NamedPage>"
+    @"      <PrimitivePage name='test1'>"
+    @"          <foo>true</foo>"
+    @"          <bar>2</bar>"
+    @"          <baz>3.1415</baz>"
+    @"      </PrimitivePage>"
+    @"      <PrimitivePage name='test2'>"
+    @"          <foo>false</foo>"
+    @"          <bar>666</bar>"
+    @"          <baz>1.5</baz>"
+    @"      </PrimitivePage>"
     @"  </tome>"
     @"</TomePage>";
 
@@ -27,7 +31,7 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _tome = [[MTMutableTomeProp alloc] initWithName:@"tome" parent:self nullable:NO pageType:[NamedPage class]];
+        _tome = [[MTMutableTomeProp alloc] initWithName:@"tome" parent:self nullable:NO pageType:[PrimitivePage class]];
     }
     return self;
 }

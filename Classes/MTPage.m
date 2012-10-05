@@ -19,6 +19,3 @@
 }
 
 @end
-
-@implementation MTMutableNamedPage
-@end

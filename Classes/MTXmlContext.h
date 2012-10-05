@@ -15,7 +15,7 @@
 
 - (id<MTPage>)load:(GDataXMLDocument*)xmlDoc;
 
-- (id<MTPage>)loadPage:(GDataXMLElement*)xml;
-- (id<MTPage>)loadPage:(GDataXMLElement*)xml withRequiredClass:(Class)requiredClass;
+- (id<MTPage>)loadPage:(GDataXMLElement*)xml name:(NSString*)name;
+- (id<MTPage>)loadPage:(GDataXMLElement*)xml name:(NSString*)name requiredClass:(Class)requiredClass;
 
 @end

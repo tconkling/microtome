@@ -29,7 +29,6 @@
 		221B2FFA161E0CE6001B98AA /* MTPageRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FF8161E0CE5001B98AA /* MTPageRef.m */; };
 		221B3012161E27B4001B98AA /* TomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B3011161E27B4001B98AA /* TomePage.m */; };
 		221B3017161E28FB001B98AA /* MTPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B3016161E28FB001B98AA /* MTPage.m */; };
-		221B301A161E2C56001B98AA /* NamedPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B3019161E2C56001B98AA /* NamedPage.m */; };
 		221B301D161E35C8001B98AA /* MTStringProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B301B161E35C8001B98AA /* MTStringProp.h */; };
 		221B301E161E35C8001B98AA /* MTStringProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B301C161E35C8001B98AA /* MTStringProp.m */; };
 		221B303C161E5860001B98AA /* MTUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B303A161E585E001B98AA /* MTUtils.h */; };
@@ -107,8 +106,6 @@
 		221B3010161E27B4001B98AA /* TomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TomePage.h; sourceTree = "<group>"; };
 		221B3011161E27B4001B98AA /* TomePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TomePage.m; sourceTree = "<group>"; };
 		221B3016161E28FB001B98AA /* MTPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPage.m; sourceTree = "<group>"; };
-		221B3018161E2C56001B98AA /* NamedPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NamedPage.h; sourceTree = "<group>"; };
-		221B3019161E2C56001B98AA /* NamedPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NamedPage.m; sourceTree = "<group>"; };
 		221B301B161E35C8001B98AA /* MTStringProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStringProp.h; sourceTree = "<group>"; };
 		221B301C161E35C8001B98AA /* MTStringProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStringProp.m; sourceTree = "<group>"; };
 		221B3039161E5422001B98AA /* MTNamed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTNamed.h; sourceTree = "<group>"; };
@@ -232,8 +229,6 @@
 			children = (
 				225041E71558ACB50014FA5D /* microtomeTests.h */,
 				225041E81558ACB50014FA5D /* microtomeTests.m */,
-				221B3018161E2C56001B98AA /* NamedPage.h */,
-				221B3019161E2C56001B98AA /* NamedPage.m */,
 				221B3043161E61F3001B98AA /* NestedPage.h */,
 				221B3044161E61F3001B98AA /* NestedPage.m */,
 				221B2FCF161D0AE8001B98AA /* PrimitivePage.h */,
@@ -485,7 +480,6 @@
 				225041E91558ACB50014FA5D /* microtomeTests.m in Sources */,
 				221B2FD1161D0AE8001B98AA /* PrimitivePage.m in Sources */,
 				221B3012161E27B4001B98AA /* TomePage.m in Sources */,
-				221B301A161E2C56001B98AA /* NamedPage.m in Sources */,
 				221B3045161E61F3001B98AA /* NestedPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

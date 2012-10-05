@@ -3,14 +3,14 @@
 
 #import "MTContainer.h"
 
-@protocol MTNamedPage;
+@protocol MTPage;
 
 @protocol MTTome <NSObject,MTContainer>
 @property (nonatomic,readonly) Class pageType;
 @property (nonatomic,readonly) int count;
 
-- (id<MTNamedPage>)pageNamed:(NSString*)name;
-- (id<MTNamedPage>)requirePageNamed:(NSString*)name;
+- (id<MTPage>)pageNamed:(NSString*)name;
+- (id<MTPage>)requirePageNamed:(NSString*)name;
 @end
 
 @interface MTMutableTome : NSObject <MTTome> {
@@ -21,7 +21,7 @@
 
 - (id)initWithPageType:(Class)pageType;
 
-- (void)addPage:(id<MTNamedPage>)page;
+- (void)addPage:(id<MTPage>)page;
 
 @end
 

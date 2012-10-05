@@ -5,15 +5,20 @@
 
 #import "MTXmlPropMarshaller.h"
 #import "MTPage.h"
+#import "MTPageRef.h"
 #import "MTProp.h"
 #import "MTXmlLoadException.h"
 
 #import "MTPrimitiveProps.h"
+#import "MTPageProp.h"
 #import "MTPageRefProp.h"
 #import "MTStringProp.h"
 #import "MTTomeProp.h"
 
 @interface MTStringPropMarshaller : NSObject <MTXmlPropMarshaller>
+@end
+
+@interface MTPagePropMarshaller : NSObject <MTXmlPropMarshaller>
 @end
 
 @interface MTPageRefPropMarshaller : NSObject <MTXmlPropMarshaller>
@@ -28,6 +33,7 @@
     if ((self = [super init])) {
         _marshallers = [[NSMutableDictionary alloc] init];
         [self registerPropMarshaller:[[MTStringPropMarshaller alloc] init]];
+        [self registerPropMarshaller:[[MTPagePropMarshaller alloc] init]];
         [self registerPropMarshaller:[[MTPageRefPropMarshaller alloc] init]];
         [self registerPropMarshaller:[[MTTomePropMarshaller alloc] init]];
     }
@@ -135,6 +141,22 @@
     if (stringProp.value == nil) {
         stringProp.value = @"";
     }
+}
+
+@end
+
+
+@implementation MTPagePropMarshaller
+
+- (Class)propType {
+    return [MTMutablePageProp class];
+}
+
+- (void)withCtx:(MTXmlContext*)ctx loadProp:(id<MTMutableObjectProp>)prop fromXml:(GDataXMLElement*)propXml {
+    MTMutablePageProp* pageProp = (MTMutablePageProp*)pageProp;
+    GDataXMLElement* pageXml = [propXml requireSingleChild];
+    id<MTPage> page = [ctx loadPage:pageXml withRequiredClass:pageProp.pageType];
+    pageProp.value = page;
 }
 
 @end

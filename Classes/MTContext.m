@@ -3,6 +3,8 @@
 
 #import "MTContext.h"
 
+#import "MTDefs.h"
+#import "MTUtils.h"
 #import "MTPage.h"
 #import "MTProp.h"
 #import "MTLoadException.h"
@@ -47,7 +49,13 @@
 }
 
 - (id<MTNamedPage>)getNamedPage:(NSString*)name fromLibrary:(id<MTPage>)library {
+    NSArray* components = [name componentsSeparatedByString:MT_NAME_SEPARATOR];
 
+    id<MTPage> page = library;
+    for (int ii = 0; ii < components.count - 1; ++ii) {
+        id<MTProp> prop = MTGetProp(page, components[ii]);
+    }
+    return nil;
 }
 
 @end

@@ -6,6 +6,7 @@
 #import "PrimitivePage.h"
 #import "NamedPage.h"
 #import "TomePage.h"
+#import "NestedPage.h"
 
 static const float EPSILON = 0.0001f;
 
@@ -17,6 +18,7 @@ static const float EPSILON = 0.0001f;
     [_xmlCtx registerPageClass:[PrimitivePage class]];
     [_xmlCtx registerPageClass:[NamedPage class]];
     [_xmlCtx registerPageClass:[TomePage class]];
+    [_xmlCtx registerPageClass:[NestedPage class]];
 }
 
 - (void)tearDown {
@@ -40,6 +42,17 @@ static const float EPSILON = 0.0001f;
         [[GDataXMLDocument alloc] initWithXMLString:TomePage.XML options:0 error:&err];
 
     TomePage* page = [_xmlCtx load:doc];
+}
+
+- (void)testNested {
+    NSError* err = nil;
+    GDataXMLDocument* doc =
+    [[GDataXMLDocument alloc] initWithXMLString:NestedPage.XML options:0 error:&err];
+
+    NestedPage* page = [_xmlCtx load:doc];
+    STAssertEquals(page.nested.foo, YES, @"");
+    STAssertEquals(page.nested.bar, 2, @"");
+    STAssertEqualsWithAccuracy(page.nested.baz, 3.1415f, EPSILON, @"");
 }
 
 @end

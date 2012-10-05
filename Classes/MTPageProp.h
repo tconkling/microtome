@@ -3,11 +3,11 @@
 
 #import "MTPropBase.h"
 
-@protocol MTPageRefProp <MTObjectProp>
+@protocol MTPageProp <MTObjectProp>
 @property (nonatomic,readonly) Class pageType;
 @end
 
-@interface MTMutablePageRefProp : MTObjectPropBase <MTPageRefProp> {
+@interface MTMutablePageProp : MTObjectPropBase <MTPageProp> {
 @protected
     Class _pageType;
 }

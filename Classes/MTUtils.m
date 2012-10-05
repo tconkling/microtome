@@ -3,11 +3,12 @@
 
 #import "MTUtils.h"
 
+#import "MTDefs.h"
 #import "MTPage.h"
 #import "MTProp.h"
 
 BOOL MTValidPageName (NSString* name) {
-    return [name rangeOfString:@"."].location == NSNotFound;
+    return [name rangeOfString:MT_NAME_SEPARATOR].location == NSNotFound;
 }
 
 id<MTProp> MTGetProp (id<MTPage> page, NSString* name) {

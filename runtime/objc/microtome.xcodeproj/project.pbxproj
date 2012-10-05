@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		221B2F40161CC36A001B98AA /* MTAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F3E161CC36A001B98AA /* MTAnnotation.h */; };
-		221B2F41161CC36A001B98AA /* MTAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F3F161CC36A001B98AA /* MTAnnotation.m */; };
 		221B2F44161CD0D1001B98AA /* MTPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F42161CD0D1001B98AA /* MTPage.h */; };
 		221B2F4C161CD668001B98AA /* MTTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F4A161CD668001B98AA /* MTTome.h */; };
 		221B2F51161CD918001B98AA /* MTTome.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F4F161CD918001B98AA /* MTTome.m */; };
@@ -82,8 +80,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		221B2F3E161CC36A001B98AA /* MTAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTAnnotation.h; sourceTree = "<group>"; };
-		221B2F3F161CC36A001B98AA /* MTAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTAnnotation.m; sourceTree = "<group>"; };
 		221B2F42161CD0D1001B98AA /* MTPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPage.h; sourceTree = "<group>"; };
 		221B2F4A161CD668001B98AA /* MTTome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTome.h; sourceTree = "<group>"; };
 		221B2F4F161CD918001B98AA /* MTTome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTome.m; sourceTree = "<group>"; };
@@ -163,15 +159,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		221B2F3D161CC30D001B98AA /* Annotation */ = {
-			isa = PBXGroup;
-			children = (
-				221B2F3E161CC36A001B98AA /* MTAnnotation.h */,
-				221B2F3F161CC36A001B98AA /* MTAnnotation.m */,
-			);
-			name = Annotation;
-			sourceTree = "<group>";
-		};
 		221B2F52161CDD66001B98AA /* Loader */ = {
 			isa = PBXGroup;
 			children = (
@@ -256,7 +243,6 @@
 		225041F61558ACFE0014FA5D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				221B2F3D161CC30D001B98AA /* Annotation */,
 				225042441558B17D0014FA5D /* Prop */,
 				221B2F52161CDD66001B98AA /* Loader */,
 				225041F71558AD200014FA5D /* microtome.h */,
@@ -321,7 +307,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				225041F81558AD200014FA5D /* microtome.h in Headers */,
-				221B2F40161CC36A001B98AA /* MTAnnotation.h in Headers */,
 				221B2F44161CD0D1001B98AA /* MTPage.h in Headers */,
 				221B2F4C161CD668001B98AA /* MTTome.h in Headers */,
 				221B2F59161CDE60001B98AA /* MTLibrary.h in Headers */,
@@ -462,7 +447,6 @@
 			files = (
 				22E43A6C1559B7BC003A43B8 /* MTPrimitiveProps.m in Sources */,
 				22E43A701559B847003A43B8 /* MTPropBase.m in Sources */,
-				221B2F41161CC36A001B98AA /* MTAnnotation.m in Sources */,
 				221B2F51161CD918001B98AA /* MTTome.m in Sources */,
 				221B2F5A161CDE60001B98AA /* MTLibrary.m in Sources */,
 				221B2F7C161CE728001B98AA /* MTLoadException.m in Sources */,

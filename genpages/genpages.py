@@ -29,8 +29,6 @@ EQUALS = re.compile(r'=')
 
 WHITESPACE = re.compile(r'\s+')
 
-Token = namedtuple("Token", ["type", "value"])
-
 Page = namedtuple("Page", ["name", "superclass", "props"])
 Prop = namedtuple("Prop", ["type", "name", "attrs"])
 Attr = namedtuple("Attr", ["name", "value"])
@@ -51,17 +49,47 @@ class Parser:
     def parse_page (self):
         # name
         self.eat_whitespace()
-        page_name = self.require_token(WORD, "Expected page name").value
+        page_name = self.require_text(WORD, "Expected page name")
         print("found page_name: " + page_name)
 
         # superclass
         self.eat_whitespace()
         page_superclass = None
         if self.get_text("extends") is not None:
-            print("found 'extends'")
             self.eat_whitespace()
-            page_superclass = self.require_token(WORD, "Expected superclass name").value
-            print("found superClass: " + page_superclass)
+            page_superclass = self.require_text(WORD, "Expected superclass name")
+            print("found superclass: " + page_superclass)
+
+        # open-curly
+        self.eat_whitespace()
+        self.require_text(CURLY_OPEN)
+
+        page_props = self.parse_props()
+
+        # close-curly
+        self.eat_whitespace()
+        self.require_text(CURLY_CLOSE)
+
+    def parse_props (self):
+        props = []
+        while True:
+            prop = self.parse_prop()
+            if not prop:
+                break;
+            props.append(prop)
+        return props
+
+    def parse_prop (self):
+        self.eat_whitespace()
+        prop_type = self.get_text(WORD)
+        if not prop_type:
+            return None
+        print("found prop_type: " + prop_type)
+        self.eat_whitespace()
+        prop_name = self.require_text(WORD, "Expected prop name")
+        print("found prop_name: " + prop_name)
+        self.require_text(SEMICOLON, "expected semicolon");
+        return Prop(prop_type, prop_name, None)
 
 
     def get_text (self, pattern):
@@ -69,29 +97,13 @@ class Parser:
         in the stream, or None if it does not.'''
         return self._scanner.scan(pattern)
 
-    def require_text (self, pattern, msg):
+    def require_text (self, pattern, msg = None):
         '''Returns the text that matches the given pattern if it exists at the current point
         in the stream, or None if it does not.'''
-        value = get_text(pattern)
+        value = self.get_text(pattern)
         if value is None:
-            raise ParseError(msg, self._scanner)
+            raise ParseError(msg or "Expected " + str(pattern.pattern), self._scanner)
         return value
-
-    def get_token (self, type):
-        '''Returns the token of the given type if it exists at the current point in the stream,
-        or None if it does not.'''
-        value = self._scanner.scan(type)
-        if value is None:
-            return None
-        return Token(type, value)
-
-    def require_token (self, type, msg = None):
-        '''Returns a token of the given type if it exists at the current point in the stream,
-        or throws an exception if it does not.'''
-        token = self.get_token(type)
-        if token is None:
-            raise ParseError(msg, self._scanner)
-        return token
 
     def eat_whitespace (self):
         '''advances the stream to the first non-whitespace character'''
@@ -99,5 +111,10 @@ class Parser:
 
 if __name__ == "__main__":
     parser = Parser()
-    parser.parse("   qwert")
+    parser.parse('''
+        MyPage extends AnotherPage {
+            bool myBool;
+
+        }
+        ''')
 

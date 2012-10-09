@@ -38,22 +38,46 @@ Attr = namedtuple("Attr", ["name", "value"])
 class ParseError(Exception):
     '''Problem that occurred during parsing'''
     def __init__ (self, msg, scanner):
-        self.lineNumber = scanner.lineNumber()
+        self.line_number = scanner.line_number()
         self.msg = msg
-        self.args = (self.msg, self.lineNumber)
+        self.args = (self.msg, self.line_number)
 
 
 class Parser:
     def parse (self, string):
         self._scanner = StringScanner(string)
-        self.parsePage()
+        self.parse_page()
 
-    def parsePage (self):
-        self.eatWhitespace()
-        pageName = self.requireToken(WORD, "Expected page name")
-        print("found pageName: " + str(pageName.value))
+    def parse_page (self):
+        # name
+        self.eat_whitespace()
+        page_name = self.require_token(WORD, "Expected page name").value
+        print("found page_name: " + page_name)
 
-    def getToken (self, type):
+        # superclass
+        self.eat_whitespace()
+        page_superclass = None
+        if self.get_text("extends") is not None:
+            print("found 'extends'")
+            self.eat_whitespace()
+            page_superclass = self.require_token(WORD, "Expected superclass name").value
+            print("found superClass: " + page_superclass)
+
+
+    def get_text (self, pattern):
+        '''Returns the text that matches the given pattern if it exists at the current point
+        in the stream, or None if it does not.'''
+        return self._scanner.scan(pattern)
+
+    def require_text (self, pattern, msg):
+        '''Returns the text that matches the given pattern if it exists at the current point
+        in the stream, or None if it does not.'''
+        value = get_text(pattern)
+        if value is None:
+            raise ParseError(msg, self._scanner)
+        return value
+
+    def get_token (self, type):
         '''Returns the token of the given type if it exists at the current point in the stream,
         or None if it does not.'''
         value = self._scanner.scan(type)
@@ -61,15 +85,15 @@ class Parser:
             return None
         return Token(type, value)
 
-    def requireToken (self, type, errMsg = None):
+    def require_token (self, type, msg = None):
         '''Returns a token of the given type if it exists at the current point in the stream,
         or throws an exception if it does not.'''
-        token = self.getToken(type)
+        token = self.get_token(type)
         if token is None:
-            raise ParseError(errMsg, self._scanner)
+            raise ParseError(msg, self._scanner)
         return token
 
-    def eatWhitespace (self):
+    def eat_whitespace (self):
         '''advances the stream to the first non-whitespace character'''
         self._scanner.scan(WHITESPACE)
 

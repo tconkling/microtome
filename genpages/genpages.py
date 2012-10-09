@@ -17,43 +17,63 @@ MyPage extends Page {
     }
 '''
 
-WORD = r'\w+'
-CURLY_OPEN = r'\{'
-CURLY_CLOSE = r'\}'
-PAREN_OPEN = r'\('
-PAREN_CLOSE = r'\)'
-ANGLE_OPEN = r'<'
-ANGLE_CLOSE = r'>'
-SEMICOLON = r';'
-EQUALS=r'='
+WORD = re.compile(r'[a-zA-Z_]\w*')
+CURLY_OPEN = re.compile(r'\{')
+CURLY_CLOSE = re.compile(r'\}')
+PAREN_OPEN = re.compile(r'\(')
+PAREN_CLOSE = re.compile(r'\)')
+ANGLE_OPEN = re.compile(r'<')
+ANGLE_CLOSE = re.compile(r'>')
+SEMICOLON = re.compile(r';')
+EQUALS = re.compile(r'=')
 
-WHITESPACE = r'\s+'
+WHITESPACE = re.compile(r'\s+')
 
-Token = namedtuple("Token", ["value", "type"])
+Token = namedtuple("Token", ["type", "value"])
+
+Page = namedtuple("Page", ["name", "superclass", "props"])
+Prop = namedtuple("Prop", ["type", "name", "attrs"])
+Attr = namedtuple("Attr", ["name", "value"])
+
+class ParseError(Exception):
+    '''Problem that occurred during parsing'''
+    def __init__ (self, msg, scanner):
+        self.lineNumber = scanner.lineNumber()
+        self.msg = msg
+        self.args = (self.msg, self.lineNumber)
 
 
 class Parser:
     def parse (self, string):
-        self._scanner = Scanner(string)
+        self._scanner = StringScanner(string)
+        self.parsePage()
 
     def parsePage (self):
         self.eatWhitespace()
+        pageName = self.requireToken(WORD, "Expected page name")
+        print("found pageName: " + str(pageName.value))
 
+    def getToken (self, type):
+        '''Returns the token of the given type if it exists at the current point in the stream,
+        or None if it does not.'''
+        value = self._scanner.scan(type)
+        if value is None:
+            return None
+        return Token(type, value)
+
+    def requireToken (self, type, errMsg = None):
+        '''Returns a token of the given type if it exists at the current point in the stream,
+        or throws an exception if it does not.'''
+        token = self.getToken(type)
+        if token is None:
+            raise ParseError(errMsg, self._scanner)
+        return token
 
     def eatWhitespace (self):
         '''advances the stream to the first non-whitespace character'''
-        whitespace = self._scanner.scan()
-
-    def peekToken (self):
-        '''Returns the next token in the stream'''
-
-    def eatToken (self):
-        '''Returns the next token in the stream and advances the stream pointer'''
-
-    def requireToken (self, tokenType):
-        ''' Returns the next token in the stream and advances the stream pointer.
-        Throws an exception if the required token is not the next'''
+        self._scanner.scan(WHITESPACE)
 
 if __name__ == "__main__":
-    scanner = StringScanner("1\n2\n3")
-    print(scanner.lineNumber())
+    parser = Parser()
+    parser.parse("   qwert")
+

@@ -27,7 +27,7 @@ class StringScanner:
 
     def eos (self):
         '''return True if the scanner is at the end of the string'''
-        return _pos >= len(_string)
+        return self._pos >= len(self._string)
 
     def lineNumber (self):
         '''returns the scanner's current line number'''
@@ -44,5 +44,6 @@ class StringScanner:
         return newlines
 
 if __name__ == "__main__":
-    scanner = StringScanner("1\n2\n3")
-    print(scanner.lineNumber())
+    scanner = StringScanner("   1\n2\n3")
+    print(scanner.scan(r'\s+'))
+    print(scanner._pos)

@@ -1,0 +1,22 @@
+module Genpages
+    SEMICOLON = ";"
+    OPEN_BRACE = "{"
+    CLOSE_BRACE = "}"
+    OPEN_ANGLE = "<"
+    CLOSE_ANGLE = ">"
+    OPEN_PAREN = "("
+    CLOSE_PAREN = ")"
+    EQUALS = "="
+    DOUBLE_SLASH = "//"
+
+    EXTENDS = "extends"
+    BOOL = "bool"
+    INT = "int"
+    FLOAT = "float"
+    STRING = "string"
+    TOME = "Tome"
+    PAGE_REF = "PageRef"
+    NULLABLE = "nullable"
+    TRUE = "true"
+    FALSE = "false"
+end

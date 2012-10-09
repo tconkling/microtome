@@ -1,6 +1,11 @@
 import re
 
 class StringScanner:
+    @property
+    def string (self): return self._string
+    @property
+    def pos (self): return self._pos
+
     def __init__ (self, string):
         self._string = string
         self._pos = 0
@@ -21,6 +26,7 @@ class StringScanner:
         if match is not None: return match.group(0)
         return None
 
+    @property
     def rest (self):
         '''returns the rest of the string (everything after the scan pointer)'''
         return self._string[self._pos:]
@@ -29,12 +35,14 @@ class StringScanner:
         '''reset the scan pointer to 0'''
         self._pos = 0
 
+    @property
     def eos (self):
         '''return True if the scanner is at the end of the string'''
         return self._pos >= len(self._string)
 
+    @property
     def line_number (self):
-        '''returns the scanner's current line number'''
+        '''returns the scanner's current line number (0-indexed)'''
         # count the number of newlines up to _pos
         pattern = re.compile(r'\n')
         newlines = 0
@@ -47,6 +55,11 @@ class StringScanner:
             pos = match.end()
         return newlines
 
+    @property
+    def line (self):
+        '''returns the scanner's current line'''
+        return self._string.splitlines()[self.line_number]
+
     def _get_match (self, pattern, flags):
         if isinstance(pattern,basestring):
             pattern = re.compile(pattern, flags)
@@ -56,4 +69,4 @@ if __name__ == "__main__":
     scanner = StringScanner("   1\n2\n3")
     print(scanner.scan(r'\s+'))
     print(scanner.check(r'\s'))
-    print(scanner._pos)
+    print(scanner.pos)

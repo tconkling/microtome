@@ -1,11 +1,6 @@
 import re
 
 class StringScanner:
-    @property
-    def string (self): return self._string
-    @property
-    def pos (self): return self._pos
-
     def __init__ (self, string):
         self._string = string
         self._pos = 0
@@ -26,14 +21,20 @@ class StringScanner:
         if match is not None: return match.group(0)
         return None
 
+    def reset (self):
+        '''reset the scan pointer to 0'''
+        self._pos = 0
+
+    @property
+    def string (self): return self._string
+
+    @property
+    def pos (self): return self._pos
+
     @property
     def rest (self):
         '''returns the rest of the string (everything after the scan pointer)'''
         return self._string[self._pos:]
-
-    def reset (self):
-        '''reset the scan pointer to 0'''
-        self._pos = 0
 
     @property
     def eos (self):
@@ -65,8 +66,3 @@ class StringScanner:
             pattern = re.compile(pattern, flags)
         return pattern.match(self._string, self._pos)
 
-if __name__ == "__main__":
-    scanner = StringScanner("   1\n2\n3")
-    print(scanner.scan(r'\s+'))
-    print(scanner.check(r'\s'))
-    print(scanner.pos)

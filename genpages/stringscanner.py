@@ -1,4 +1,8 @@
+#
+# stringscanner.py
+
 import re
+import util
 
 class StringScanner:
     def __init__ (self, string):
@@ -44,17 +48,7 @@ class StringScanner:
     @property
     def line_number (self):
         '''returns the scanner's current line number (0-indexed)'''
-        # count the number of newlines up to _pos
-        pattern = re.compile(r'\n')
-        newlines = 0
-        pos = 0
-        while True:
-            match = pattern.search(self._string, pos)
-            if match is None or match.end() > self._pos:
-                break
-            newlines += 1
-            pos = match.end()
-        return newlines
+        return util.line_data_at_index(self._string, self._pos).line_num
 
     @property
     def line (self):

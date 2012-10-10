@@ -4,6 +4,7 @@ from stringscanner import StringScanner
 from spec import *
 
 import re
+import util
 
 WORD = re.compile(r'[a-zA-Z_]\w*')
 ATTR_VALUE = re.compile(r'[\w\"]+')
@@ -25,22 +26,44 @@ def debug_print (str):
 
 class ParseError(Exception):
     '''Problem that occurred during parsing'''
-    def __init__ (self, msg, scanner):
-        self.line = scanner.line
-        self.line_number = scanner.line_number
-        self.message = msg
-        self.args = (self.message, self.line_number, self.line)
+    def __init__ (self, string, pos, msg):
+        line_data = util.line_data_at_index(string, pos)
 
+        self.line_number = [line_data.line_num]
+        self.line = (string.splitlines()[line_data.line_num])[line_data.col:]
+        self.message = msg
+
+        self.args = (self.message, self.line_number, self.line)
 
 class Parser:
     def parse (self, string):
         '''parses a page from a string'''
         self._scanner = StringScanner(string)
-        return self.parse_page()
+        # parse
+        page = self.parse_page()
+        # check semantics
+        self.validate_page(page)
+        return page
+
+    @property
+    def string (self): return self._scanner.string
+
+    @property
+    def pos (self): return  self._scanner.pos
+
+    def validate_page (self, page):
+        # check for duplicate property names
+        prop_names = set()
+        for prop in page.props:
+            if prop.name in prop_names:
+                raise ParseError(self.string, prop.pos, "Duplicate property name: '" + prop.name + "'")
+            prop_names.add(prop.name)
+
 
     def parse_page (self):
         # name
         self.eat_whitespace()
+        page_pos = self._scanner.pos;
         page_name = self.require_text(WORD, "Expected page name")
         debug_print("found page_name: " + page_name)
 
@@ -62,7 +85,7 @@ class Parser:
         self.eat_whitespace()
         self.require_text(CURLY_CLOSE)
 
-        return Page(page_name, page_superclass, page_props)
+        return Page(name = page_name, superclass = page_superclass, props = page_props, pos = page_pos)
 
     def parse_props (self):
         props = []
@@ -76,6 +99,7 @@ class Parser:
     def parse_prop (self):
         # type
         self.eat_whitespace()
+        prop_pos = self._scanner.pos
         prop_type = self.get_text(WORD)
         if not prop_type:
             return None
@@ -106,7 +130,7 @@ class Parser:
 
         self.require_text(SEMICOLON, "expected semicolon");
 
-        return Prop(prop_type, subtype, prop_name, None)
+        return Prop(type = prop_type, subtype = subtype, name = prop_name, attrs = attrs, pos = prop_pos)
 
     def parse_attrs (self):
         attrs = []
@@ -120,6 +144,7 @@ class Parser:
     def parse_attr (self):
         # name
         self.eat_whitespace()
+        attr_pos = self._scanner.pos
         attr_name = self.require_text(WORD, "Expected attribute name")
         debug_print("found attr_name: " + attr_name)
 
@@ -131,7 +156,7 @@ class Parser:
             attr_value = self.require_text(ATTR_VALUE)
             debug_print("found attr_value: " + attr_value)
 
-        return Attr(attr_name, attr_value)
+        return Attr(name = attr_name, value = attr_value, pos = attr_pos)
 
     def get_text (self, pattern):
         '''Returns the text that matches the given pattern if it exists at the current point
@@ -143,7 +168,7 @@ class Parser:
         in the stream, or None if it does not.'''
         value = self.get_text(pattern)
         if value is None:
-            raise ParseError(msg or "Expected " + str(pattern.pattern), self._scanner)
+            raise ParseError(self.string, self.pos, msg or "Expected " + str(pattern.pattern))
         return value
 
     def eat_whitespace (self):
@@ -156,6 +181,7 @@ if __name__ == "__main__":
         MyPage extends AnotherPage {
             bool foo;
             int bar;
+            bool bar;
             float baz (min = 3);
             string str (nullable, text="asdf");
 

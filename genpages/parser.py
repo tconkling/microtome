@@ -38,11 +38,11 @@ class ParseError(Exception):
         self.args = (self.message, self.line_number, self.line)
 
 class Parser:
+    '''parses a page from a string'''
     def __init__ (self, string):
         self._scanner = StringScanner(string)
 
     def parse (self):
-        '''parses a page from a string'''
         # parse
         page = self.parse_page()
         # check semantics

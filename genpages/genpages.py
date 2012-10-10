@@ -23,6 +23,10 @@ Page = namedtuple("Page", ["name", "superclass", "props"])
 Prop = namedtuple("Prop", ["type", "subtype", "name", "attrs"])
 Attr = namedtuple("Attr", ["name", "value"])
 
+def debug_print (str):
+    pass #print(str)
+
+
 class ParseError(Exception):
     '''Problem that occurred during parsing'''
     def __init__ (self, msg, scanner):
@@ -42,7 +46,7 @@ class Parser:
         # name
         self.eat_whitespace()
         page_name = self.require_text(WORD, "Expected page name")
-        print("found page_name: " + page_name)
+        debug_print("found page_name: " + page_name)
 
         # superclass
         self.eat_whitespace()
@@ -50,7 +54,7 @@ class Parser:
         if self.get_text("extends") is not None:
             self.eat_whitespace()
             page_superclass = self.require_text(WORD, "Expected superclass name")
-            print("found superclass: " + page_superclass)
+            debug_print("found superclass: " + page_superclass)
 
         # open-curly
         self.eat_whitespace()
@@ -79,7 +83,7 @@ class Parser:
         prop_type = self.get_text(WORD)
         if not prop_type:
             return None
-        print("found prop_type: " + prop_type)
+        debug_print("found prop_type: " + prop_type)
 
         # subtype
         subtype = None
@@ -89,12 +93,12 @@ class Parser:
             subtype = self.require_text(WORD, "Expected subtype")
             self.eat_whitespace()
             self.require_text(ANGLE_CLOSE, "Expected '>'")
-            print("found subtype: " + subtype)
+            debug_print("found subtype: " + subtype)
 
         # name
         self.eat_whitespace()
         prop_name = self.require_text(WORD, "Expected prop name")
-        print("found prop_name: " + prop_name)
+        debug_print("found prop_name: " + prop_name)
 
         # attrs
         attrs = None
@@ -121,7 +125,7 @@ class Parser:
         # name
         self.eat_whitespace()
         attr_name = self.require_text(WORD, "Expected attribute name")
-        print("found attr_name: " + attr_name)
+        debug_print("found attr_name: " + attr_name)
 
         # optional value
         attr_value = None
@@ -129,7 +133,7 @@ class Parser:
         if self.get_text(EQUALS):
             self.eat_whitespace()
             attr_value = self.require_text(ATTR_VALUE)
-            print("found attr_value: " + attr_value)
+            debug_print("found attr_value: " + attr_value)
 
         return Attr(attr_name, attr_value)
 
@@ -152,7 +156,7 @@ class Parser:
 
 if __name__ == "__main__":
     parser = Parser()
-    parser.parse('''
+    page = parser.parse('''
         MyPage extends AnotherPage {
             bool foo;
             int bar;
@@ -163,4 +167,6 @@ if __name__ == "__main__":
             PageRef<ThirdPage> theRef;
         }
         ''')
+
+    print page
 

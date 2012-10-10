@@ -1,5 +1,5 @@
 #
-# stringscanner.py
+# microtome - Tim Conkling, 2012
 
 import re
 import util

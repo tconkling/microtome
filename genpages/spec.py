@@ -1,5 +1,5 @@
 #
-# spec.py
+# microtome - Tim Conkling, 2012
 
 from collections import namedtuple
 

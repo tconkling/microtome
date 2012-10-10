@@ -1,5 +1,5 @@
 #
-# util.py
+# microtome - Tim Conkling, 2012
 
 import re
 from collections import namedtuple

@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#
+# microtome - Tim Conkling, 2012
 
 from stringscanner import StringScanner
 from spec import *
@@ -6,8 +7,9 @@ from spec import *
 import re
 import util
 
-WORD = re.compile(r'[a-zA-Z_]\w*')
-ATTR_VALUE = re.compile(r'[\w\"]+')
+# token types
+IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')    # must start with a letter or _
+ATTR_VALUE = re.compile(r'[\w\"]+')         # can contain " and '
 CURLY_OPEN = re.compile(r'\{')
 CURLY_CLOSE = re.compile(r'\}')
 PAREN_OPEN = re.compile(r'\(')
@@ -36,9 +38,11 @@ class ParseError(Exception):
         self.args = (self.message, self.line_number, self.line)
 
 class Parser:
-    def parse (self, string):
-        '''parses a page from a string'''
+    def __init__ (self, string):
         self._scanner = StringScanner(string)
+
+    def parse (self):
+        '''parses a page from a string'''
         # parse
         page = self.parse_page()
         # check semantics
@@ -64,7 +68,7 @@ class Parser:
         # name
         self.eat_whitespace()
         page_pos = self._scanner.pos;
-        page_name = self.require_text(WORD, "Expected page name")
+        page_name = self.require_text(IDENTIFIER, "Expected page name")
         debug_print("found page_name: " + page_name)
 
         # superclass
@@ -72,7 +76,7 @@ class Parser:
         page_superclass = None
         if self.get_text("extends") is not None:
             self.eat_whitespace()
-            page_superclass = self.require_text(WORD, "Expected superclass name")
+            page_superclass = self.require_text(IDENTIFIER, "Expected superclass name")
             debug_print("found superclass: " + page_superclass)
 
         # open-curly
@@ -100,7 +104,7 @@ class Parser:
         # type
         self.eat_whitespace()
         prop_pos = self._scanner.pos
-        prop_type = self.get_text(WORD)
+        prop_type = self.get_text(IDENTIFIER)
         if not prop_type:
             return None
         debug_print("found prop_type: " + prop_type)
@@ -110,14 +114,14 @@ class Parser:
         self.eat_whitespace()
         if self.get_text(ANGLE_OPEN):
             self.eat_whitespace()
-            subtype = self.require_text(WORD, "Expected subtype")
+            subtype = self.require_text(IDENTIFIER, "Expected subtype")
             self.eat_whitespace()
             self.require_text(ANGLE_CLOSE, "Expected '>'")
             debug_print("found subtype: " + subtype)
 
         # name
         self.eat_whitespace()
-        prop_name = self.require_text(WORD, "Expected prop name")
+        prop_name = self.require_text(IDENTIFIER, "Expected prop name")
         debug_print("found prop_name: " + prop_name)
 
         # attrs
@@ -145,7 +149,7 @@ class Parser:
         # name
         self.eat_whitespace()
         attr_pos = self._scanner.pos
-        attr_name = self.require_text(WORD, "Expected attribute name")
+        attr_name = self.require_text(IDENTIFIER, "Expected attribute name")
         debug_print("found attr_name: " + attr_name)
 
         # optional value
@@ -165,7 +169,7 @@ class Parser:
 
     def require_text (self, pattern, msg = None):
         '''Returns the text that matches the given pattern if it exists at the current point
-        in the stream, or None if it does not.'''
+        in the stream, or raises a ParseError if it does not.'''
         value = self.get_text(pattern)
         if value is None:
             raise ParseError(self.string, self.pos, msg or "Expected " + str(pattern.pattern))
@@ -176,19 +180,19 @@ class Parser:
         self._scanner.scan(WHITESPACE)
 
 if __name__ == "__main__":
-    parser = Parser()
-    page = parser.parse('''
+    test_str = '''
         MyPage extends AnotherPage {
             bool foo;
             int bar;
-            bool bar;
             float baz (min = 3);
             string str (nullable, text="asdf");
 
             Tome<AnotherPage> theTome;
             PageRef<ThirdPage> theRef;
         }
-        ''')
+        '''
+    parser = Parser(test_str)
+    page = parser.parse()
 
     print page
 

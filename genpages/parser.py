@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 from stringscanner import StringScanner
+from spec import *
 
-from collections import namedtuple
 import re
 
 WORD = re.compile(r'[a-zA-Z_]\w*')
@@ -18,10 +18,6 @@ EQUALS = re.compile(r'=')
 COMMA = re.compile(r',')
 
 WHITESPACE = re.compile(r'\s+')
-
-Page = namedtuple("Page", ["name", "superclass", "props"])
-Prop = namedtuple("Prop", ["type", "subtype", "name", "attrs"])
-Attr = namedtuple("Attr", ["name", "value"])
 
 def debug_print (str):
     pass #print(str)

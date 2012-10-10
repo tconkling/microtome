@@ -37,7 +37,7 @@ class ParseError(Exception):
 
         self.args = (self.message, self.line_number, self.line)
 
-class Parser:
+class Parser(object):
     '''parses a page from a string'''
     def __init__ (self, string):
         self._scanner = StringScanner(string)

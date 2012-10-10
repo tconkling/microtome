@@ -4,7 +4,7 @@
 import re
 import util
 
-class StringScanner:
+class StringScanner(object):
     def __init__ (self, string):
         self._string = string
         self._pos = 0

@@ -131,11 +131,6 @@ class Parser(object):
         self.eat_whitespace()
         typename = self.require_text(IDENTIFIER, "Expected type identifier")
 
-        if not typename in BASE_TYPES:
-            raise ParseError(self.string, self.pos, "Unrecognized typename: " + typename)
-
-        theType = BASE_TYPES[typename]
-
         # subtype
         subtype = None
         self.eat_whitespace()
@@ -144,7 +139,13 @@ class Parser(object):
             subtype = self.parse_type()
             self.eat_whitespace()
             self.require_text(ANGLE_CLOSE, "Expected '>'")
-            debug_print("found subtype: " + subtype.name)
+            debug_print("found subtype: " + subtype.type.name)
+
+        # if this is not one of our base types, create a new one
+        if typename in BASE_TYPES:
+            theType = BASE_TYPES[typename]
+        else:
+            theType = Type(name = typename, is_primitive = False, has_subtype = (subtype != None))
 
         return TypeSpec(type = theType, subtype = subtype)
 

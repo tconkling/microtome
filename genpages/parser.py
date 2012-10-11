@@ -89,7 +89,7 @@ class Parser(object):
         self.eat_whitespace()
         self.require_text(CURLY_CLOSE)
 
-        return Page(name = page_name, superclass = page_superclass, props = page_props, pos = page_pos)
+        return PageSpec(name = page_name, superclass = page_superclass, props = page_props, pos = page_pos)
 
     def parse_props (self):
         props = []
@@ -101,23 +101,14 @@ class Parser(object):
         return props
 
     def parse_prop (self):
-        # type
         self.eat_whitespace()
         prop_pos = self._scanner.pos
-        prop_type = self.get_text(IDENTIFIER)
-        if not prop_type:
+        if not self.peek_text(IDENTIFIER):
             return None
-        debug_print("found prop_type: " + prop_type)
 
-        # subtype
-        subtype = None
-        self.eat_whitespace()
-        if self.get_text(ANGLE_OPEN):
-            self.eat_whitespace()
-            subtype = self.require_text(IDENTIFIER, "Expected subtype")
-            self.eat_whitespace()
-            self.require_text(ANGLE_CLOSE, "Expected '>'")
-            debug_print("found subtype: " + subtype)
+        # type
+        prop_type = self.parse_type()
+        debug_print("found prop type: " + prop_type.type.name)
 
         # name
         self.eat_whitespace()
@@ -134,7 +125,28 @@ class Parser(object):
 
         self.require_text(SEMICOLON, "expected semicolon");
 
-        return Prop(type = prop_type, subtype = subtype, name = prop_name, attrs = attrs, pos = prop_pos)
+        return PropSpec(type = prop_type, name = prop_name, attrs = attrs, pos = prop_pos)
+
+    def parse_type (self):
+        self.eat_whitespace()
+        typename = self.require_text(IDENTIFIER, "Expected type identifier")
+
+        if not typename in BASE_TYPES:
+            raise ParseError(self.string, self.pos, "Unrecognized typename: " + typename)
+
+        theType = BASE_TYPES[typename]
+
+        # subtype
+        subtype = None
+        self.eat_whitespace()
+        if self.get_text(ANGLE_OPEN):
+            self.eat_whitespace()
+            subtype = self.parse_type()
+            self.eat_whitespace()
+            self.require_text(ANGLE_CLOSE, "Expected '>'")
+            debug_print("found subtype: " + subtype.name)
+
+        return TypeSpec(type = theType, subtype = subtype)
 
     def parse_attrs (self):
         attrs = []
@@ -160,7 +172,12 @@ class Parser(object):
             attr_value = self.require_text(ATTR_VALUE)
             debug_print("found attr_value: " + attr_value)
 
-        return Attr(name = attr_name, value = attr_value, pos = attr_pos)
+        return AttrSpec(name = attr_name, value = attr_value, pos = attr_pos)
+
+    def peek_text (self, pattern):
+        '''Returns the text that matches the given pattern if it exists at the current point
+        in the stream, or None if it does not. Does not advance the stream pointer.'''
+        return self._scanner.check(pattern)
 
     def get_text (self, pattern):
         '''Returns the text that matches the given pattern if it exists at the current point

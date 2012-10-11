@@ -20,6 +20,8 @@ class PropView(AttrWrapper):
         type = self.prop.type
         if type == "bool":
             return "BOOL"
+        elif type == "PageRef"
+            return
         else: return type
 
 

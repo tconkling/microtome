@@ -25,6 +25,9 @@ def get_propname (the_type):
     if the_type.name in BASE_TYPES: return "MTMutable" + capitalize(the_type.name) + "Prop"
     else: return "MTMutablePageProp"
 
+def to_bool (val):
+    return "YES" if val else "NO"
+
 class SpecDelegate(object):
     def __init__ (self, delegate):
         self._delegate = delegate
@@ -32,10 +35,18 @@ class SpecDelegate(object):
     def __getattr__ (self, name):
         return getattr(self._delegate, name)
 
+class AttrView(SpecDelegate):
+    def __init__ (self, attr):
+        SpecDelegate.__init__(self, attr)
+        self.attr = attr
+
 class PropView(SpecDelegate):
     def __init__ (self, prop):
         SpecDelegate.__init__(self, prop)
         self.prop = prop
+        self.attr_dict = {}
+        for attr in self.prop.attrs:
+            self.attr_dict[attr.name] = attr.value
 
     def exposed_type (self):
         type_spec = self.prop.type
@@ -47,6 +58,8 @@ class PropView(SpecDelegate):
     def actual_type (self):
         type_spec = self.prop.type
         return get_propname(type_spec.type)
+
+    def nullable (self): return to_bool(self.attr_dict.get("nullable"))
 
 class PageView(SpecDelegate):
     def __init__ (self, page):
@@ -76,8 +89,8 @@ if __name__ == "__main__":
     page = PageSpec(name = "TestPage",
         superclass = None,
         props = [
-            PropSpec(type = TypeSpec(BoolType, None), name = "foo", attrs = None, pos = 0),
-            PropSpec(type = TypeSpec(PageRefType, another_page_type), name = "bar", attrs = None, pos = 0)
+            PropSpec(type = TypeSpec(BoolType, None), name = "foo", attrs = [], pos = 0),
+            PropSpec(type = TypeSpec(PageRefType, another_page_type), name = "bar", attrs = [], pos = 0)
         ],
         pos = 0)
 

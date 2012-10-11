@@ -19,9 +19,10 @@
 - (id)init {
     if ((self = [super init])) {
     {{#props}}
-        _{{name}} = [[{{actual_type}} alloc] initWithName:@"{{name}}" parent:self];
+        _{{name}} = [[{{actual_type}} alloc] initWithName:@"{{name}}" parent:self{{^type.type.is_primitive}} nullable:{{nullable}}{{/type.type.is_primitive}}];
     {{/props}}
     }
     return self;
 }
 @end
+

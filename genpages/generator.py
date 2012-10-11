@@ -4,6 +4,8 @@
 import pystache
 from spec import *
 
+BASE_PAGE_CLASS = "MTMutablePage"
+
 def get_typename (typespec):
     theType = typespec.type
     typename = theType.name
@@ -29,42 +31,57 @@ class PropView(SpecDelegate):
         SpecDelegate.__init__(self, prop)
         self.prop = prop
 
-    def type (self): return get_typename(self.prop.type)
+    def declared_type (self): return get_typename(self.prop.type)
+    def actual_type (self): return self.declared_type()
 
 class PageView(SpecDelegate):
     def __init__ (self, page):
         SpecDelegate.__init__(self, page)
         self.page = page
 
-    def superclass (self): return page.superclass or "MTMutablePage"
+    def superclass (self): return page.superclass or BASE_PAGE_CLASS
     def props (self): return [ PropView(prop) for prop in self.page.props ]
-    def imports (self): return { "name": self.superclass() }
+    def header_imports (self): return { "name": self.superclass() }
 
 class Generator(object):
     def __init__ (self, page):
         self._page = page
 
     def generate (self):
-        return pystache.Renderer().render(OBJC_HEADER_TEMPLATE, PageView(self._page))
+        page_view = PageView(self._page)
+        stache = pystache.Renderer()
+        header_file = stache.render(HEADER_TEMPLATE, page_view)
+        class_file = stache.render(CLASS_TEMPLATE, page_view)
+        return header_file + "\n\n" + class_file
 
-OBJC_HEADER_TEMPLATE = '''
-{{header}}
-
-{{#imports}}
+HEADER_TEMPLATE = '''{{header}}
+{{#header_imports}}
 #import "{{name}}.h"
-{{/imports}}
+{{/header_imports}}
 
-{{#declarations}}
-{{/declarations}}
+{{#header_declarations}}
+{{/header_declarations}}
 
 @interface {{name}} : {{superclass}}
 
 {{#props}}
-@property (nonatomic,readonly) {{type}} {{name}};
+@property (nonatomic,readonly) {{declared_type}} {{name}};
 {{/props}}
 
-@end
-'''
+@end'''
+
+CLASS_TEMPLATE = '''{{header}}
+{{#class_imports}}
+#import "{{name}}.h"
+{{/class_imports}}
+
+@implementation {{name}} {
+@protected
+{{#props}}
+    MTMutable{{actual_type}} _{{name}};
+{{/props}}
+}
+@end'''
 
 if __name__ == "__main__":
 

@@ -31,7 +31,7 @@ class ParseError(Exception):
     def __init__ (self, string, pos, msg):
         line_data = util.line_data_at_index(string, pos)
 
-        self.line_number = [line_data.line_num]
+        self.line_number = line_data.line_num
         self.line = (string.splitlines()[line_data.line_num])[line_data.col:]
         self.message = msg
 
@@ -103,7 +103,7 @@ class Parser(object):
     def parse_prop (self):
         self.eat_whitespace()
         prop_pos = self._scanner.pos
-        if not self.peek_text(IDENTIFIER):
+        if not self.check_text(IDENTIFIER):
             return None
 
         # type
@@ -175,7 +175,7 @@ class Parser(object):
 
         return AttrSpec(name = attr_name, value = attr_value, pos = attr_pos)
 
-    def peek_text (self, pattern):
+    def check_text (self, pattern):
         '''Returns the text that matches the given pattern if it exists at the current point
         in the stream, or None if it does not. Does not advance the stream pointer.'''
         return self._scanner.check(pattern)

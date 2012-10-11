@@ -4,52 +4,58 @@
 import pystache
 from spec import *
 
-class AttrWrapper(object):
+def get_typename (typespec):
+    theType = typespec.type
+    typename = theType.name
+    if theType == BoolType:
+        typename = "BOOL"
+    elif theType == StringType:
+        typename = "NSString"
+
+    if not theType.is_primitive:
+        typename += "*"
+
+    return typename
+
+class SpecDelegate(object):
     def __init__ (self, delegate):
         self._delegate = delegate
 
     def __getattr__ (self, name):
         return getattr(self._delegate, name)
 
-class PropView(AttrWrapper):
+class PropView(SpecDelegate):
     def __init__ (self, prop):
-        AttrWrapper.__init__(self, prop)
+        SpecDelegate.__init__(self, prop)
         self.prop = prop
 
-    def type (self):
-        type = self.prop.type
-        if type == "bool":
-            return "BOOL"
-        elif type == "PageRef"
-            return
-        else: return type
+    def type (self): return get_typename(self.prop.type)
 
-
-class PageView(AttrWrapper):
+class PageView(SpecDelegate):
     def __init__ (self, page):
-        AttrWrapper.__init__(self, page)
+        SpecDelegate.__init__(self, page)
         self.page = page
 
-    def props (self):
-        return [PropView(prop) for prop in self.page.props]
-
     def superclass (self): return page.superclass or "MTMutablePage"
-
+    def props (self): return [ PropView(prop) for prop in self.page.props ]
+    def imports (self): return { "name": self.superclass() }
 
 class Generator(object):
     def __init__ (self, page):
-        self._view = PageView(page)
+        self._page = page
 
     def generate (self):
-        return ""
-
-class ObjCGenerator(Generator):
-    def generate (self):
-        stache = pystache.Renderer()
-        return stache.render(OBJC_HEADER_TEMPLATE, self._view)
+        return pystache.Renderer().render(OBJC_HEADER_TEMPLATE, PageView(self._page))
 
 OBJC_HEADER_TEMPLATE = '''
 {{header}}
+
+{{#imports}}
+#import "{{name}}.h"
+{{/imports}}
+
+{{#declarations}}
+{{/declarations}}
 
 @interface {{name}} : {{superclass}}
 
@@ -62,14 +68,14 @@ OBJC_HEADER_TEMPLATE = '''
 
 if __name__ == "__main__":
 
-    page = Page(name = "TestPage",
+    page = PageSpec(name = "TestPage",
         superclass = None,
         props = [
-            Prop(type = "bool", subtype = None, name = "foo", attrs = None, pos = 0),
-            Prop(type = "PageRef", subtype = "MyPage", name = "bar", attrs = None, pos = 0)
+            PropSpec(type = TypeSpec(BoolType, None), name = "foo", attrs = None, pos = 0),
+            PropSpec(type = TypeSpec(PageRefType, None), name = "bar", attrs = None, pos = 0)
         ],
         pos = 0)
 
-    generator = ObjCGenerator(page)
+    generator = Generator(page)
     out = generator.generate()
     print out

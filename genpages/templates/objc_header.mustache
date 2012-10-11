@@ -1,0 +1,15 @@
+{{header}}
+{{#header_imports}}
+#import "{{name}}.h"
+{{/header_imports}}
+
+{{#header_declarations}}
+{{/header_declarations}}
+
+@interface {{name}} : {{superclass}}
+
+{{#props}}
+@property (nonatomic,readonly) {{exposed_type}} {{name}};
+{{/props}}
+
+@end

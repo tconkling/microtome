@@ -64,54 +64,10 @@ class Generator(object):
 
     def generate (self):
         page_view = PageView(self._page)
-        stache = pystache.Renderer()
-        header_file = stache.render(HEADER_TEMPLATE, page_view)
-        class_file = stache.render(CLASS_TEMPLATE, page_view)
+        stache = pystache.Renderer(search_dirs = "templates")
+        header_file = stache.render(stache.load_template("objc_header"), page_view)
+        class_file = stache.render(stache.load_template("objc_class"), page_view)
         return header_file + "\n\n" + class_file
-
-HEADER_TEMPLATE = '''{{header}}
-{{#header_imports}}
-#import "{{name}}.h"
-{{/header_imports}}
-
-{{#header_declarations}}
-{{/header_declarations}}
-
-@interface {{name}} : {{superclass}}
-
-{{#props}}
-@property (nonatomic,readonly) {{exposed_type}} {{name}};
-{{/props}}
-
-@end'''
-
-CLASS_TEMPLATE = '''{{header}}
-{{#class_imports}}
-#import "{{name}}.h"
-{{/class_imports}}
-
-@implementation {{name}} {
-@protected
-{{#props}}
-    {{actual_type}}* _{{name}};
-{{/props}}
-}
-
-{{#props}}
-- ({{exposed_type}}){{name}} { return _{{name}}.value; }
-{{/props}}
-
-- (NSArray*)props { return MT_PROPS({{#props}}_{{name}}, {{/props}}); }
-
-- (id)init {
-    if ((self = [super init])) {
-    {{#props}}
-        _{{name}} = [[{{actual_type}} alloc] initWithName:@"{{name}}" parent:self];
-    {{/props}}
-    }
-    return self;
-}
-@end'''
 
 if __name__ == "__main__":
 

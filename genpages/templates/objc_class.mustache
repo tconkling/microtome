@@ -1,0 +1,27 @@
+{header}}
+{{#class_imports}}
+#import "{{name}}.h"
+{{/class_imports}}
+
+@implementation {{name}} {
+@protected
+{{#props}}
+    {{actual_type}}* _{{name}};
+{{/props}}
+}
+
+{{#props}}
+- ({{exposed_type}}){{name}} { return _{{name}}.value; }
+{{/props}}
+
+- (NSArray*)props { return MT_PROPS({{#props}}_{{name}}, {{/props}}); }
+
+- (id)init {
+    if ((self = [super init])) {
+    {{#props}}
+        _{{name}} = [[{{actual_type}} alloc] initWithName:@"{{name}}" parent:self];
+    {{/props}}
+    }
+    return self;
+}
+@end

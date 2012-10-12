@@ -2,7 +2,6 @@
 # microtome - Tim Conkling, 2012
 
 '''
-
 '''
 
 from collections import namedtuple
@@ -21,10 +20,5 @@ StringType =    Type(name = "StringType", is_primitive = False, has_subtype = Fa
 PageRefType =   Type(name = "PageRefType", is_primitive = False, has_subtype = True)
 TomeType =      Type(name = "TomeType", is_primitive = False, has_subtype = True)
 
-def type_dict (*types):
-    the_dict = {}
-    for the_type in types:
-        the_dict[the_type.name] = the_type
-    return the_dict
-
-BASE_TYPES = type_dict(BoolType, IntType, FloatType, StringType, PageRefType, TomeType)
+BASE_TYPES = { the_type.name: the_type for the_type in [
+    BoolType, IntType, FloatType, StringType, PageRefType, TomeType] }

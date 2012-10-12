@@ -8,6 +8,20 @@ BASE_PAGE_CLASS = "MTMutablePage"
 BOOL_TYPENAME = "BOOL"
 STRING_TYPENAME = "NSString"
 
+def generate (page_spec):
+    '''Returns a list of (filename, filecontents) tuples representing the generated files to
+    be written to disk'''
+    page_view = PageView(page_spec)
+    stache = pystache.Renderer(search_dirs = "templates")
+
+    header_name = header_filename(page_spec)
+    header_file = stache.render(stache.load_template("objc_header"), page_view)
+
+    class_name = class_filename(page_spec)
+    class_file = stache.render(stache.load_template("objc_class"), page_view)
+
+    return [ (header_name, header_file), (class_name, class_file) ]
+
 def capitalize (string):
     '''capitalizes the first letter of the string, without lower-casing any of the others'''
     return string[0].capitalize() + string[1:]
@@ -24,6 +38,14 @@ def get_typename (the_type, pointer_type = True):
         typename += "*"
 
     return typename
+
+def header_filename (page_spec):
+    '''returns the header's filename'''
+    return page_spec.name + ".h"
+
+def class_filename (page_spec):
+    '''returns the class file's filename'''
+    return page_spec.name + ".m"
 
 def get_propname (the_type):
     if the_type.name in s.BASE_TYPES:
@@ -82,17 +104,6 @@ class PageView(SpecDelegate):
     def class_imports (self):
         return { "name": self.name }
 
-class Generator(object):
-    def __init__ (self, page):
-        self._page = page
-
-    def generate (self):
-        page_view = PageView(self._page)
-        stache = pystache.Renderer(search_dirs = "templates")
-        header_file = stache.render(stache.load_template("objc_header"), page_view)
-        class_file = stache.render(stache.load_template("objc_class"), page_view)
-        return header_file + "\n\n" + class_file
-
 if __name__ == "__main__":
 
     ANOTHER_PAGE_TYPE = s.Type(name="AnotherPage", is_primitive = False, has_subtype = False)
@@ -105,4 +116,4 @@ if __name__ == "__main__":
         ],
         pos = 0)
 
-    print Generator(PAGE).generate()
+    print generate(PAGE)

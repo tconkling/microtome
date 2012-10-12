@@ -27,7 +27,7 @@ SEMICOLON = re.compile(r';')
 EQUALS = re.compile(r'=')
 COMMA = re.compile(r',')
 
-WHITESPACE = re.compile(r'\s+')
+WHITESPACE = re.compile(r'((\s)|(#.*$))+', re.MULTILINE)
 
 LOG = logging.getLogger("parser")
 
@@ -217,8 +217,9 @@ class Parser(object):
 if __name__ == "__main__":
     logging.basicConfig(level = logging.INFO)
     TEST_STR = '''
+        # comment 1
         MyPage extends AnotherPage {
-            bool foo;
+            bool foo;   # comment 2
             int bar;
             float baz (min = 3);
             string str (nullable, text="asdf");

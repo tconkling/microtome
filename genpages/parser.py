@@ -11,8 +11,8 @@ page_spec = p.parse()
 import re
 import logging
 import util
+import spec as s
 from stringscanner import StringScanner
-from spec import *
 
 # token types
 IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')    # must start with a letter or _
@@ -101,7 +101,7 @@ class Parser(object):
         self._eat_whitespace()
         self._require_text(CURLY_CLOSE)
 
-        return PageSpec(name = page_name, superclass = page_superclass, props = page_props, pos = page_pos)
+        return s.PageSpec(name = page_name, superclass = page_superclass, props = page_props, pos = page_pos)
 
     def _parse_props (self):
         '''parse a list of PropSpecs'''
@@ -139,7 +139,7 @@ class Parser(object):
 
         self._require_text(SEMICOLON, "expected semicolon")
 
-        return PropSpec(type = prop_type, name = prop_name, attrs = attrs, pos = prop_pos)
+        return s.PropSpec(type = prop_type, name = prop_name, attrs = attrs, pos = prop_pos)
 
     def _parse_type (self):
         '''parse a TypeSpec'''
@@ -157,12 +157,12 @@ class Parser(object):
             LOG.debug("found subtype: " + subtype.type.name)
 
         # if this is not one of our base types, create a new one
-        if typename in BASE_TYPES:
-            the_type = BASE_TYPES[typename]
+        if typename in s.BASE_TYPES:
+            the_type = s.BASE_TYPES[typename]
         else:
-            the_type = Type(name = typename, is_primitive = False, has_subtype = (subtype != None))
+            the_type = s.Type(name = typename, is_primitive = False, has_subtype = (subtype != None))
 
-        return TypeSpec(type = the_type, subtype = subtype)
+        return s.TypeSpec(type = the_type, subtype = subtype)
 
     def _parse_attrs (self):
         '''parse a list of AttrSpecs'''
@@ -190,7 +190,7 @@ class Parser(object):
             attr_value = self._require_text(ATTR_VALUE)
             LOG.debug("found attr_value: " + attr_value)
 
-        return AttrSpec(name = attr_name, value = attr_value, pos = attr_pos)
+        return s.AttrSpec(name = attr_name, value = attr_value, pos = attr_pos)
 
     def _check_text (self, pattern):
         '''Returns the text that matches the given pattern if it exists at the current point

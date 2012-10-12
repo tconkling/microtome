@@ -2,28 +2,34 @@
 # microtome - Tim Conkling, 2012
 
 import pystache
-from spec import *
+import spec as s
 
 BASE_PAGE_CLASS = "MTMutablePage"
 BOOL_TYPENAME = "BOOL"
 STRING_TYPENAME = "NSString"
 
-def capitalize (str):
+def capitalize (string):
     '''capitalizes the first letter of the string, without lower-casing any of the others'''
-    return str[0].capitalize() + str[1:]
+    return string[0].capitalize() + string[1:]
 
 def get_typename (the_type, pointer_type = True):
-    if the_type == BoolType: typename = BOOL_TYPENAME
-    elif the_type == StringType: typename = STRING_TYPENAME
-    else: typename = the_type.name
+    if the_type == s.BoolType:
+        typename = BOOL_TYPENAME
+    elif the_type == s.StringType:
+        typename = STRING_TYPENAME
+    else:
+        typename = the_type.name
 
-    if not the_type.is_primitive and pointer_type: typename += "*"
+    if not the_type.is_primitive and pointer_type:
+        typename += "*"
 
     return typename
 
 def get_propname (the_type):
-    if the_type.name in BASE_TYPES: return "MTMutable" + capitalize(the_type.name) + "Prop"
-    else: return "MTMutablePageProp"
+    if the_type.name in s.BASE_TYPES:
+        return "MTMutable" + capitalize(the_type.name) + "Prop"
+    else:
+        return "MTMutablePageProp"
 
 def to_bool (val):
     return "YES" if val else "NO"
@@ -50,7 +56,7 @@ class PropView(SpecDelegate):
 
     def exposed_type (self):
         type_spec = self.prop.type
-        if type_spec.type == PageRefType:
+        if type_spec.type == s.PageRefType:
             return get_typename(type_spec.subtype)
         else:
             return get_typename(type_spec.type)
@@ -59,17 +65,22 @@ class PropView(SpecDelegate):
         type_spec = self.prop.type
         return get_propname(type_spec.type)
 
-    def nullable (self): return to_bool(self.attr_dict.get("nullable"))
+    def nullable (self):
+        return to_bool(self.attr_dict.get("nullable"))
 
 class PageView(SpecDelegate):
     def __init__ (self, page):
         SpecDelegate.__init__(self, page)
         self.page = page
 
-    def superclass (self): return page.superclass or BASE_PAGE_CLASS
-    def props (self): return [ PropView(prop) for prop in self.page.props ]
-    def header_imports (self): return { "name": self.superclass() }
-    def class_imports (self): return { "name": self.name }
+    def superclass (self):
+        return self.page.superclass or BASE_PAGE_CLASS
+    def props (self):
+        return [ PropView(prop) for prop in self.page.props ]
+    def header_imports (self):
+        return { "name": self.superclass() }
+    def class_imports (self):
+        return { "name": self.name }
 
 class Generator(object):
     def __init__ (self, page):
@@ -84,16 +95,14 @@ class Generator(object):
 
 if __name__ == "__main__":
 
-    another_page_type = Type(name="AnotherPage", is_primitive = False, has_subtype = False)
+    ANOTHER_PAGE_TYPE = s.Type(name="AnotherPage", is_primitive = False, has_subtype = False)
 
-    page = PageSpec(name = "TestPage",
+    PAGE = s.PageSpec(name = "TestPage",
         superclass = None,
         props = [
-            PropSpec(type = TypeSpec(BoolType, None), name = "foo", attrs = [], pos = 0),
-            PropSpec(type = TypeSpec(PageRefType, another_page_type), name = "bar", attrs = [], pos = 0)
+            s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", attrs = [], pos = 0),
+            s.PropSpec(type = s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name = "bar", attrs = [], pos = 0)
         ],
         pos = 0)
 
-    generator = Generator(page)
-    out = generator.generate()
-    print out
+    print Generator(PAGE).generate()

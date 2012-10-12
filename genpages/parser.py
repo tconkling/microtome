@@ -1,11 +1,18 @@
 #
 # microtome - Tim Conkling, 2012
 
-from stringscanner import StringScanner
-from spec import *
+'''
+Usage:
+import parser
+p = parser.Parser(some_string)
+page_spec = p.parse()
+'''
 
 import re
+import logging
 import util
+from stringscanner import StringScanner
+from spec import *
 
 # token types
 IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')    # must start with a letter or _
@@ -22,13 +29,12 @@ COMMA = re.compile(r',')
 
 WHITESPACE = re.compile(r'\s+')
 
-def debug_print (str):
-    pass #print(str)
-
+LOG = logging.getLogger("parser")
 
 class ParseError(Exception):
     '''Problem that occurred during parsing'''
     def __init__ (self, string, pos, msg):
+        Exception.__init__(self)
         line_data = util.line_data_at_index(string, pos)
 
         self.line_number = line_data.line_num
@@ -43,19 +49,25 @@ class Parser(object):
         self._scanner = StringScanner(string)
 
     def parse (self):
+        '''parse the page and returns a PageSpec token'''
         # parse
-        page = self.parse_page()
+        page = self._parse_page()
         # check semantics
-        self.validate_page(page)
+        self._validate_page(page)
         return page
 
     @property
-    def string (self): return self._scanner.string
+    def string (self):
+        '''return the string passed the parser'''
+        return self._scanner.string
 
     @property
-    def pos (self): return  self._scanner.pos
+    def pos (self):
+        '''return the current scan position in the string'''
+        return  self._scanner.pos
 
-    def validate_page (self, page):
+    def _validate_page (self, page):
+        '''perform semantic validation on a PageSpec'''
         # check for duplicate property names
         prop_names = set()
         for prop in page.props:
@@ -63,142 +75,148 @@ class Parser(object):
                 raise ParseError(self.string, prop.pos, "Duplicate property name: '" + prop.name + "'")
             prop_names.add(prop.name)
 
-
-    def parse_page (self):
+    def _parse_page (self):
+        '''parse a PageSpec'''
         # name
-        self.eat_whitespace()
-        page_pos = self._scanner.pos;
-        page_name = self.require_text(IDENTIFIER, "Expected page name")
-        debug_print("found page_name: " + page_name)
+        self._eat_whitespace()
+        page_pos = self._scanner.pos
+        page_name = self._require_text(IDENTIFIER, "Expected page name")
+        LOG.debug("found page_name: " + page_name)
 
         # superclass
-        self.eat_whitespace()
+        self._eat_whitespace()
         page_superclass = None
-        if self.get_text("extends") is not None:
-            self.eat_whitespace()
-            page_superclass = self.require_text(IDENTIFIER, "Expected superclass name")
-            debug_print("found superclass: " + page_superclass)
+        if self._get_text("extends") is not None:
+            self._eat_whitespace()
+            page_superclass = self._require_text(IDENTIFIER, "Expected superclass name")
+            LOG.debug("found superclass: " + page_superclass)
 
         # open-curly
-        self.eat_whitespace()
-        self.require_text(CURLY_OPEN)
+        self._eat_whitespace()
+        self._require_text(CURLY_OPEN)
 
-        page_props = self.parse_props()
+        page_props = self._parse_props()
 
         # close-curly
-        self.eat_whitespace()
-        self.require_text(CURLY_CLOSE)
+        self._eat_whitespace()
+        self._require_text(CURLY_CLOSE)
 
         return PageSpec(name = page_name, superclass = page_superclass, props = page_props, pos = page_pos)
 
-    def parse_props (self):
+    def _parse_props (self):
+        '''parse a list of PropSpecs'''
         props = []
         while True:
-            prop = self.parse_prop()
+            prop = self._parse_prop()
             if not prop:
-                break;
+                break
             props.append(prop)
         return props
 
-    def parse_prop (self):
-        self.eat_whitespace()
+    def _parse_prop (self):
+        '''parse a single PropSpec'''
+        self._eat_whitespace()
         prop_pos = self._scanner.pos
-        if not self.check_text(IDENTIFIER):
+        if not self._check_text(IDENTIFIER):
             return None
 
         # type
-        prop_type = self.parse_type()
-        debug_print("found prop type: " + prop_type.type.name)
+        prop_type = self._parse_type()
+        LOG.debug("found prop type: " + prop_type.type.name)
 
         # name
-        self.eat_whitespace()
-        prop_name = self.require_text(IDENTIFIER, "Expected prop name")
-        debug_print("found prop_name: " + prop_name)
+        self._eat_whitespace()
+        prop_name = self._require_text(IDENTIFIER, "Expected prop name")
+        LOG.debug("found prop_name: " + prop_name)
 
         # attrs
         attrs = None
-        self.eat_whitespace()
-        if self.get_text(PAREN_OPEN):
-            attrs = self.parse_attrs()
-            self.eat_whitespace()
-            self.require_text(PAREN_CLOSE)
+        self._eat_whitespace()
+        if self._get_text(PAREN_OPEN):
+            attrs = self._parse_attrs()
+            self._eat_whitespace()
+            self._require_text(PAREN_CLOSE)
 
-        self.require_text(SEMICOLON, "expected semicolon");
+        self._require_text(SEMICOLON, "expected semicolon")
 
         return PropSpec(type = prop_type, name = prop_name, attrs = attrs, pos = prop_pos)
 
-    def parse_type (self):
-        self.eat_whitespace()
-        typename = self.require_text(IDENTIFIER, "Expected type identifier")
+    def _parse_type (self):
+        '''parse a TypeSpec'''
+        self._eat_whitespace()
+        typename = self._require_text(IDENTIFIER, "Expected type identifier")
 
         # subtype
         subtype = None
-        self.eat_whitespace()
-        if self.get_text(ANGLE_OPEN):
-            self.eat_whitespace()
-            subtype = self.parse_type()
-            self.eat_whitespace()
-            self.require_text(ANGLE_CLOSE, "Expected '>'")
-            debug_print("found subtype: " + subtype.type.name)
+        self._eat_whitespace()
+        if self._get_text(ANGLE_OPEN):
+            self._eat_whitespace()
+            subtype = self._parse_type()
+            self._eat_whitespace()
+            self._require_text(ANGLE_CLOSE, "Expected '>'")
+            LOG.debug("found subtype: " + subtype.type.name)
 
         # if this is not one of our base types, create a new one
         if typename in BASE_TYPES:
-            theType = BASE_TYPES[typename]
+            the_type = BASE_TYPES[typename]
         else:
-            theType = Type(name = typename, is_primitive = False, has_subtype = (subtype != None))
+            the_type = Type(name = typename, is_primitive = False, has_subtype = (subtype != None))
 
-        return TypeSpec(type = theType, subtype = subtype)
+        return TypeSpec(type = the_type, subtype = subtype)
 
-    def parse_attrs (self):
+    def _parse_attrs (self):
+        '''parse a list of AttrSpecs'''
         attrs = []
         while True:
-            attrs.append(self.parse_attr())
-            self.eat_whitespace()
-            if not self.get_text(COMMA):
-                break;
+            attrs.append(self._parse_attr())
+            self._eat_whitespace()
+            if not self._get_text(COMMA):
+                break
         return attrs
 
-    def parse_attr (self):
+    def _parse_attr (self):
+        '''parse a single AttrSpec'''
         # name
-        self.eat_whitespace()
+        self._eat_whitespace()
         attr_pos = self._scanner.pos
-        attr_name = self.require_text(IDENTIFIER, "Expected attribute name")
-        debug_print("found attr_name: " + attr_name)
+        attr_name = self._require_text(IDENTIFIER, "Expected attribute name")
+        LOG.debug("found attr_name: " + attr_name)
 
         # optional value
         attr_value = None
-        self.eat_whitespace()
-        if self.get_text(EQUALS):
-            self.eat_whitespace()
-            attr_value = self.require_text(ATTR_VALUE)
-            debug_print("found attr_value: " + attr_value)
+        self._eat_whitespace()
+        if self._get_text(EQUALS):
+            self._eat_whitespace()
+            attr_value = self._require_text(ATTR_VALUE)
+            LOG.debug("found attr_value: " + attr_value)
 
         return AttrSpec(name = attr_name, value = attr_value, pos = attr_pos)
 
-    def check_text (self, pattern):
+    def _check_text (self, pattern):
         '''Returns the text that matches the given pattern if it exists at the current point
         in the stream, or None if it does not. Does not advance the stream pointer.'''
         return self._scanner.check(pattern)
 
-    def get_text (self, pattern):
+    def _get_text (self, pattern):
         '''Returns the text that matches the given pattern if it exists at the current point
         in the stream, or None if it does not.'''
         return self._scanner.scan(pattern)
 
-    def require_text (self, pattern, msg = None):
+    def _require_text (self, pattern, msg = None):
         '''Returns the text that matches the given pattern if it exists at the current point
         in the stream, or raises a ParseError if it does not.'''
-        value = self.get_text(pattern)
+        value = self._get_text(pattern)
         if value is None:
             raise ParseError(self.string, self.pos, msg or "Expected " + str(pattern.pattern))
         return value
 
-    def eat_whitespace (self):
+    def _eat_whitespace (self):
         '''advances the stream to the first non-whitespace character'''
         self._scanner.scan(WHITESPACE)
 
 if __name__ == "__main__":
-    test_str = '''
+    logging.basicConfig(level = logging.INFO)
+    TEST_STR = '''
         MyPage extends AnotherPage {
             bool foo;
             int bar;
@@ -209,8 +227,5 @@ if __name__ == "__main__":
             PageRef<ThirdPage> theRef;
         }
         '''
-    parser = Parser(test_str)
-    page = parser.parse()
-
-    print page
+    print Parser(TEST_STR).parse()
 

@@ -31,6 +31,10 @@ WHITESPACE = re.compile(r'((\s)|(#.*$))+', re.MULTILINE)
 
 LOG = logging.getLogger("parser")
 
+def parse (string):
+    '''parses a page from a string'''
+    return Parser(string).parse()
+
 class ParseError(Exception):
     '''Problem that occurred during parsing'''
     def __init__ (self, string, pos, msg):
@@ -139,7 +143,7 @@ class Parser(object):
 
         self._require_text(SEMICOLON, "expected semicolon")
 
-        return s.PropSpec(type = prop_type, name = prop_name, attrs = attrs, pos = prop_pos)
+        return s.PropSpec(type = prop_type, name = prop_name, attrs = attrs or [], pos = prop_pos)
 
     def _parse_type (self):
         '''parse a TypeSpec'''

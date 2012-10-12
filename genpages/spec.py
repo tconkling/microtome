@@ -20,5 +20,5 @@ StringType =    Type(name = "StringType", is_primitive = False, has_subtype = Fa
 PageRefType =   Type(name = "PageRefType", is_primitive = False, has_subtype = True)
 TomeType =      Type(name = "TomeType", is_primitive = False, has_subtype = True)
 
-BASE_TYPES = { the_type.name: the_type for the_type in [
-    BoolType, IntType, FloatType, StringType, PageRefType, TomeType] }
+BASE_TYPES = dict([(the_type.name, the_type) for the_type in
+    [BoolType, IntType, FloatType, StringType, PageRefType, TomeType]])

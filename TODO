@@ -1,5 +1,10 @@
 == TODO
 
+* optional header
 * figure out nested page syntax
 * namespaces?
+* other attributes
+* custom types
+* lists
+* enums
 * playn runtime

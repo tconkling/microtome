@@ -17,10 +17,12 @@ def main ():
     ap = argparse.ArgumentParser()
     ap.add_argument("input_dir", type = readable_dir)
     ap.add_argument("output_dir")
+    ap.add_argument("--header", help = "header text to include in generated source")
     args = ap.parse_args()
 
     input_dir = os.path.abspath(args.input_dir)
     output_dir = os.path.abspath(args.output_dir)
+    header_text = args.header or ""
 
     merger = sourcemerger.GeneratedSourceMerger()
 
@@ -30,7 +32,7 @@ def main ():
         # open the file, parse it, and run it through the generator
         with open(in_name, 'r') as in_file:
             page_spec = parser.parse(in_file.read())
-            generated = objc_generator.generate(page_spec)
+            generated = objc_generator.generate(page_spec, header_text)
 
         # this can result in multiple generated files (e.g. a .h and .m file for objc)
         # merge each of our generated files
@@ -58,4 +60,6 @@ def readable_dir (d):
 if __name__ == "__main__":
     sys.argv.append("test")
     sys.argv.append("test")
+    sys.argv.append("--header")
+    sys.argv.append("// It's a header!")
     main()

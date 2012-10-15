@@ -8,10 +8,10 @@ BASE_PAGE_CLASS = "MTMutablePage"
 BOOL_TYPENAME = "BOOL"
 STRING_TYPENAME = "NSString"
 
-def generate (page_spec):
+def generate (page_spec, header_text):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
-    page_view = PageView(page_spec)
+    page_view = PageView(page_spec, header_text)
     stache = pystache.Renderer(search_dirs = "templates")
 
     header_name = header_filename(page_spec)
@@ -91,9 +91,10 @@ class PropView(SpecDelegate):
         return to_bool(self.attr_dict.get("nullable"))
 
 class PageView(SpecDelegate):
-    def __init__ (self, page):
+    def __init__ (self, page, header_text):
         SpecDelegate.__init__(self, page)
         self.page = page
+        self.header = header_text
 
     def superclass (self):
         return self.page.superclass or BASE_PAGE_CLASS

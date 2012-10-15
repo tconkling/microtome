@@ -99,7 +99,7 @@ class Parser(object):
         self._eat_whitespace()
         self._require_text(CURLY_OPEN)
 
-        page_props = self._parse_props_specs()
+        page_props = self._parse_props()
 
         # close-curly
         self._eat_whitespace()
@@ -107,17 +107,17 @@ class Parser(object):
 
         return s.PageSpec(name = page_name, superclass = page_superclass, props = page_props, pos = page_pos)
 
-    def _parse_props_specs (self):
+    def _parse_props (self):
         '''parse a list of PropSpecs'''
         props = []
         while True:
-            prop = self._parse_prop_spec()
+            prop = self._parse_prop()
             if not prop:
                 break
             props.append(prop)
         return props
 
-    def _parse_prop_spec (self):
+    def _parse_prop (self):
         '''parse a single PropSpec'''
         self._eat_whitespace()
         prop_pos = self._scanner.pos
@@ -125,8 +125,8 @@ class Parser(object):
             return None
 
         # type
-        type_spec = self._parse_type_spec()
-        LOG.debug("found prop type: " + type_spec.type.name)
+        prop_type = self._parse_type()
+        LOG.debug("found prop type: " + prop_type.name)
 
         # name
         self._eat_whitespace()
@@ -137,48 +137,51 @@ class Parser(object):
         attrs = None
         self._eat_whitespace()
         if self._get_text(PAREN_OPEN):
-            attrs = self._parse_attr_specs()
+            attrs = self._parse_attrs()
             self._eat_whitespace()
             self._require_text(PAREN_CLOSE)
 
         self._require_text(SEMICOLON, "expected semicolon")
 
-        return s.PropSpec(type_spec = type_spec, name = prop_name, attrs = attrs or [], pos = prop_pos)
+        return s.PropSpec(type = prop_type, name = prop_name, attrs = attrs or [], pos = prop_pos)
 
-    def _parse_type_spec (self):
+    def _parse_type (self, is_subtype = False):
         '''parse a TypeSpec'''
         self._eat_whitespace()
         typename = self._require_text(IDENTIFIER, "Expected type identifier")
 
+        if not is_subtype and not typename in s.ALL_TYPES:
+            raise ParseError(self.string, self.pos, "Unrecognized type '%s'" % typename)
+
         # subtype
-        subtype_spec = None
+        subtype = None
         self._eat_whitespace()
         if self._get_text(ANGLE_OPEN):
             self._eat_whitespace()
-            subtype_spec = self._parse_type_spec()
+            subtype = self._parse_type(True)
             self._eat_whitespace()
             self._require_text(ANGLE_CLOSE, "Expected '>'")
-            LOG.debug("found subtype: " + subtype_spec.type.name)
+            LOG.debug("found subtype: " + subtype.name)
 
-        # if this is not one of our base types, create a new one
-        if typename in s.BASE_TYPES:
-            the_type = s.BASE_TYPES[typename]
-        else:
-            the_type = s.Type(name = typename, is_primitive = False, has_subtype = (subtype_spec != None))
+        if not is_subtype:
+            if typename in s.PARAMETERIZED_TYPES and subtype == None:
+                raise ParseError(self.string, self.pos, "Expected parameterized type for '%s'" % typename)
+            elif not typename in s.PARAMETERIZED_TYPES and subtype != None:
+                raise ParseError(self.string, self.pos, "'%s' is not parameterized" % typename)
 
-        return s.TypeSpec(type = the_type, subtype_spec = subtype_spec)
+        return s.TypeSpec(name = typename, subtype = subtype)
 
-    def _parse_attr_specs (self):
+    def _parse_attrs (self):
         '''parse a list of AttrSpecs'''
         attrs = []
         while True:
-            attrs.append(self._parse_attr_spec())
+            attrs.append(self._parse_attr())
             self._eat_whitespace()
             if not self._get_text(COMMA):
                 break
         return attrs
 
-    def _parse_attr_spec (self):
+    def _parse_attr (self):
         '''parse a single AttrSpec'''
         # name
         self._eat_whitespace()

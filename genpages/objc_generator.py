@@ -86,6 +86,9 @@ class PropView(SpecDelegate):
     def nullable (self):
         return to_bool(self.attr_dict.get("nullable"))
 
+    def is_primitive (self):
+        return self.prop.type.name in s.PRIMITIVE_TYPES
+
 class PageView(SpecDelegate):
     def __init__ (self, page, header_text):
         SpecDelegate.__init__(self, page)

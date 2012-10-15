@@ -4,8 +4,7 @@
 '''
 Usage:
 import parser
-p = parser.Parser(some_string)
-page_spec = p.parse()
+page_spec = parser.parse(some_string)
 '''
 
 import re

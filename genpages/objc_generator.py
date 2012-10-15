@@ -8,7 +8,7 @@ BASE_PAGE_CLASS = "MTMutablePage"
 BOOL_TYPENAME = "BOOL"
 STRING_TYPENAME = "NSString"
 
-def generate (page_spec, header_text):
+def generate (page_spec, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
     page_view = PageView(page_spec, header_text)
@@ -48,10 +48,7 @@ def class_filename (page_spec):
     return page_spec.name + ".m"
 
 def get_propname (the_type):
-    if the_type.name in s.BASE_TYPES:
-        return "MTMutable" + capitalize(the_type.name) + "Prop"
-    else:
-        return "MTMutablePageProp"
+    return "MTMutable" + capitalize(the_type.name) + "Prop"
 
 def to_bool (val):
     return "YES" if val else "NO"
@@ -77,15 +74,14 @@ class PropView(SpecDelegate):
             self.attr_dict[attr.name] = attr.value
 
     def exposed_type (self):
-        type_spec = self.prop.type
-        if type_spec.type == s.PageRefType:
-            return get_typename(type_spec.subtype)
+        type_spec = self.prop.type_spec
+        if type_spec.type == s.PageRefType or type_spec.type == s.PageType:
+            return get_typename(type_spec.subtype_spec.type)
         else:
             return get_typename(type_spec.type)
 
     def actual_type (self):
-        type_spec = self.prop.type
-        return get_propname(type_spec.type)
+        return get_propname(self.prop.type_spec.type)
 
     def nullable (self):
         return to_bool(self.attr_dict.get("nullable"))
@@ -104,17 +100,22 @@ class PageView(SpecDelegate):
         return self.superclass()
     def class_imports (self):
         return self.name
+    def external_class_types (self):
+        return sorted(set([ prop.type_spec.subtype_spec.type for prop in self.page.props if prop.type_spec.type.has_subtype ]))
+    def forward_decls (self):
+        return [ type.name for type in self.external_class_types() ]
 
 if __name__ == "__main__":
 
-    ANOTHER_PAGE_TYPE = s.Type(name="AnotherPage", is_primitive = False, has_subtype = False)
+    ANOTHER_PAGE_TYPE = s.TypeSpec(s.Type(name="AnotherPage", is_primitive = False, has_subtype = False), None)
 
     PAGE = s.PageSpec(name = "TestPage",
         superclass = None,
         props = [
-            s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", attrs = [], pos = 0),
-            s.PropSpec(type = s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name = "bar", attrs = [], pos = 0)
+            s.PropSpec(type_spec = s.TypeSpec(s.BoolType, None), name = "foo", attrs = [], pos = 0),
+            s.PropSpec(type_spec = s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name = "bar", attrs = [], pos = 0)
         ],
         pos = 0)
 
     print generate(PAGE)
+

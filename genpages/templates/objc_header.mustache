@@ -1,10 +1,11 @@
 {{header}}
 {{#header_imports}}
-#import "{{name}}.h"
+#import "{{.}}.h"
 {{/header_imports}}
 
-{{#header_declarations}}
-{{/header_declarations}}
+{{#forward_decls}}
+@class {{.}};
+{{/forward_decls}}
 
 @interface {{name}} : {{superclass}}
 

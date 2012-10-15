@@ -101,9 +101,9 @@ class PageView(SpecDelegate):
     def props (self):
         return [ PropView(prop) for prop in self.page.props ]
     def header_imports (self):
-        return { "name": self.superclass() }
+        return self.superclass()
     def class_imports (self):
-        return { "name": self.name }
+        return self.name
 
 if __name__ == "__main__":
 

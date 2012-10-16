@@ -7,12 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		22031C59162CE3510093E61E /* MTListProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031C57162CE3500093E61E /* MTListProp.h */; };
-		22031C5A162CE3510093E61E /* MTListProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031C58162CE3510093E61E /* MTListProp.m */; };
-		22031C5D162CE79C0093E61E /* MTEnumProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031C5B162CE79B0093E61E /* MTEnumProp.h */; };
-		22031C5E162CE79C0093E61E /* MTEnumProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031C5C162CE79C0093E61E /* MTEnumProp.m */; };
 		22031C61162CE9770093E61E /* EnumPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031C60162CE9770093E61E /* EnumPage.m */; };
 		22031C64162CEA1A0093E61E /* TestEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031C63162CEA190093E61E /* TestEnum.m */; };
+		22031CDC162E04780093E61E /* MTType.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031CDA162E04780093E61E /* MTType.h */; };
+		22031CDD162E04780093E61E /* MTType.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031CDB162E04780093E61E /* MTType.m */; };
 		221B2F44161CD0D1001B98AA /* MTPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F42161CD0D1001B98AA /* MTPage.h */; };
 		221B2F4C161CD668001B98AA /* MTTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F4A161CD668001B98AA /* MTTome.h */; };
 		221B2F51161CD918001B98AA /* MTTome.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F4F161CD918001B98AA /* MTTome.m */; };
@@ -25,20 +23,12 @@
 		221B2FC5161D00A4001B98AA /* MTXmlLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */; };
 		221B2FC6161D00A4001B98AA /* MTXmlLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FC4161D00A4001B98AA /* MTXmlLoadException.m */; };
 		221B2FD1161D0AE8001B98AA /* PrimitivePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FD0161D0AE8001B98AA /* PrimitivePage.m */; };
-		221B2FF1161DFE57001B98AA /* MTPageRefProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FEF161DFE57001B98AA /* MTPageRefProp.h */; };
-		221B2FF2161DFE57001B98AA /* MTPageRefProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FF0161DFE57001B98AA /* MTPageRefProp.m */; };
-		221B2FF5161E0262001B98AA /* MTTomeProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FF3161E0262001B98AA /* MTTomeProp.h */; };
-		221B2FF6161E0262001B98AA /* MTTomeProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FF4161E0262001B98AA /* MTTomeProp.m */; };
 		221B2FF9161E0CE6001B98AA /* MTPageRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FF7161E0CE5001B98AA /* MTPageRef.h */; };
 		221B2FFA161E0CE6001B98AA /* MTPageRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FF8161E0CE5001B98AA /* MTPageRef.m */; };
 		221B3012161E27B4001B98AA /* TomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B3011161E27B4001B98AA /* TomePage.m */; };
 		221B3017161E28FB001B98AA /* MTPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B3016161E28FB001B98AA /* MTPage.m */; };
-		221B301D161E35C8001B98AA /* MTStringProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B301B161E35C8001B98AA /* MTStringProp.h */; };
-		221B301E161E35C8001B98AA /* MTStringProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B301C161E35C8001B98AA /* MTStringProp.m */; };
 		221B303C161E5860001B98AA /* MTUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B303A161E585E001B98AA /* MTUtils.h */; };
 		221B303D161E5860001B98AA /* MTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B303B161E585F001B98AA /* MTUtils.m */; };
-		221B3041161E5E12001B98AA /* MTPageProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B303F161E5E11001B98AA /* MTPageProp.h */; };
-		221B3042161E5E12001B98AA /* MTPageProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B3040161E5E12001B98AA /* MTPageProp.m */; };
 		221B3045161E61F3001B98AA /* NestedPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B3044161E61F3001B98AA /* NestedPage.m */; };
 		225041CC1558ACB50014FA5D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041CB1558ACB50014FA5D /* Foundation.framework */; };
 		225041DA1558ACB50014FA5D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041D91558ACB50014FA5D /* SenTestingKit.framework */; };
@@ -49,8 +39,7 @@
 		225041E91558ACB50014FA5D /* microtomeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 225041E81558ACB50014FA5D /* microtomeTests.m */; };
 		225041F81558AD200014FA5D /* microtome.h in Headers */ = {isa = PBXBuildFile; fileRef = 225041F71558AD200014FA5D /* microtome.h */; };
 		226BAA41161F946900133173 /* RefPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 226BAA40161F946900133173 /* RefPage.m */; };
-		22E43A6C1559B7BC003A43B8 /* MTPrimitiveProps.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E43A6A1559B7BC003A43B8 /* MTPrimitiveProps.m */; };
-		22E43A701559B847003A43B8 /* MTPropBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E43A6E1559B847003A43B8 /* MTPropBase.m */; };
+		22E43A701559B847003A43B8 /* MTProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E43A6E1559B847003A43B8 /* MTProp.m */; };
 		22E43A7E1559B987003A43B8 /* libcooocoa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2250421C1558B00B0014FA5D /* libcooocoa.a */; };
 /* End PBXBuildFile section */
 
@@ -86,14 +75,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		22031C57162CE3500093E61E /* MTListProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTListProp.h; sourceTree = "<group>"; };
-		22031C58162CE3510093E61E /* MTListProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTListProp.m; sourceTree = "<group>"; };
-		22031C5B162CE79B0093E61E /* MTEnumProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTEnumProp.h; sourceTree = "<group>"; };
-		22031C5C162CE79C0093E61E /* MTEnumProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTEnumProp.m; sourceTree = "<group>"; };
 		22031C5F162CE9770093E61E /* EnumPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnumPage.h; sourceTree = "<group>"; };
 		22031C60162CE9770093E61E /* EnumPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnumPage.m; sourceTree = "<group>"; };
 		22031C62162CEA190093E61E /* TestEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestEnum.h; sourceTree = "<group>"; };
 		22031C63162CEA190093E61E /* TestEnum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestEnum.m; sourceTree = "<group>"; };
+		22031CDA162E04780093E61E /* MTType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTType.h; sourceTree = "<group>"; };
+		22031CDB162E04780093E61E /* MTType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTType.m; sourceTree = "<group>"; };
 		221B2F42161CD0D1001B98AA /* MTPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPage.h; sourceTree = "<group>"; };
 		221B2F4A161CD668001B98AA /* MTTome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTome.h; sourceTree = "<group>"; };
 		221B2F4F161CD918001B98AA /* MTTome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTome.m; sourceTree = "<group>"; };
@@ -103,27 +90,19 @@
 		221B2F7A161CE727001B98AA /* MTLoadException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLoadException.m; sourceTree = "<group>"; };
 		221B2FBD161CFBDE001B98AA /* MTXmlLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTXmlLoader.h; sourceTree = "<group>"; };
 		221B2FBE161CFBDE001B98AA /* MTXmlLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTXmlLoader.m; sourceTree = "<group>"; };
-		221B2FC2161CFE32001B98AA /* MTXmlPropMarshaller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTXmlPropMarshaller.h; sourceTree = "<group>"; };
+		221B2FC2161CFE32001B98AA /* MTXmlObjectMarshaller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTXmlObjectMarshaller.h; sourceTree = "<group>"; };
 		221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTXmlLoadException.h; sourceTree = "<group>"; };
 		221B2FC4161D00A4001B98AA /* MTXmlLoadException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTXmlLoadException.m; sourceTree = "<group>"; };
 		221B2FCF161D0AE8001B98AA /* PrimitivePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrimitivePage.h; sourceTree = "<group>"; };
 		221B2FD0161D0AE8001B98AA /* PrimitivePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrimitivePage.m; sourceTree = "<group>"; };
-		221B2FEF161DFE57001B98AA /* MTPageRefProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPageRefProp.h; sourceTree = "<group>"; };
-		221B2FF0161DFE57001B98AA /* MTPageRefProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPageRefProp.m; sourceTree = "<group>"; };
-		221B2FF3161E0262001B98AA /* MTTomeProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTomeProp.h; sourceTree = "<group>"; };
-		221B2FF4161E0262001B98AA /* MTTomeProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTomeProp.m; sourceTree = "<group>"; };
 		221B2FF7161E0CE5001B98AA /* MTPageRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPageRef.h; sourceTree = "<group>"; };
 		221B2FF8161E0CE5001B98AA /* MTPageRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPageRef.m; sourceTree = "<group>"; };
 		221B3010161E27B4001B98AA /* TomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TomePage.h; sourceTree = "<group>"; };
 		221B3011161E27B4001B98AA /* TomePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TomePage.m; sourceTree = "<group>"; };
 		221B3016161E28FB001B98AA /* MTPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPage.m; sourceTree = "<group>"; };
-		221B301B161E35C8001B98AA /* MTStringProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStringProp.h; sourceTree = "<group>"; };
-		221B301C161E35C8001B98AA /* MTStringProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStringProp.m; sourceTree = "<group>"; };
 		221B303A161E585E001B98AA /* MTUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTUtils.h; sourceTree = "<group>"; };
 		221B303B161E585F001B98AA /* MTUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTUtils.m; sourceTree = "<group>"; };
 		221B303E161E5B06001B98AA /* MTDefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTDefs.h; sourceTree = "<group>"; };
-		221B303F161E5E11001B98AA /* MTPageProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPageProp.h; sourceTree = "<group>"; };
-		221B3040161E5E12001B98AA /* MTPageProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPageProp.m; sourceTree = "<group>"; };
 		221B3043161E61F3001B98AA /* NestedPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NestedPage.h; sourceTree = "<group>"; };
 		221B3044161E61F3001B98AA /* NestedPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NestedPage.m; sourceTree = "<group>"; };
 		221B3046161F5F0C001B98AA /* MTContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTContainer.h; sourceTree = "<group>"; };
@@ -143,10 +122,7 @@
 		225042451558B19F0014FA5D /* MTProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTProp.h; sourceTree = "<group>"; };
 		226BAA3F161F946900133173 /* RefPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefPage.h; sourceTree = "<group>"; };
 		226BAA40161F946900133173 /* RefPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefPage.m; sourceTree = "<group>"; };
-		22E43A691559B7BC003A43B8 /* MTPrimitiveProps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPrimitiveProps.h; sourceTree = "<group>"; };
-		22E43A6A1559B7BC003A43B8 /* MTPrimitiveProps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPrimitiveProps.m; sourceTree = "<group>"; };
-		22E43A6D1559B847003A43B8 /* MTPropBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPropBase.h; sourceTree = "<group>"; };
-		22E43A6E1559B847003A43B8 /* MTPropBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPropBase.m; sourceTree = "<group>"; };
+		22E43A6E1559B847003A43B8 /* MTProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTProp.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,7 +167,7 @@
 				221B2FBE161CFBDE001B98AA /* MTXmlLoader.m */,
 				221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */,
 				221B2FC4161D00A4001B98AA /* MTXmlLoadException.m */,
-				221B2FC2161CFE32001B98AA /* MTXmlPropMarshaller.h */,
+				221B2FC2161CFE32001B98AA /* MTXmlObjectMarshaller.h */,
 			);
 			name = XML;
 			sourceTree = "<group>";
@@ -261,7 +237,6 @@
 		225041F61558ACFE0014FA5D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				225042441558B17D0014FA5D /* Prop */,
 				221B2F52161CDD66001B98AA /* Loader */,
 				225041F71558AD200014FA5D /* microtome.h */,
 				221B3046161F5F0C001B98AA /* MTContainer.h */,
@@ -272,8 +247,12 @@
 				221B3016161E28FB001B98AA /* MTPage.m */,
 				221B2FF7161E0CE5001B98AA /* MTPageRef.h */,
 				221B2FF8161E0CE5001B98AA /* MTPageRef.m */,
+				225042451558B19F0014FA5D /* MTProp.h */,
+				22E43A6E1559B847003A43B8 /* MTProp.m */,
 				221B2F4A161CD668001B98AA /* MTTome.h */,
 				221B2F4F161CD918001B98AA /* MTTome.m */,
+				22031CDA162E04780093E61E /* MTType.h */,
+				22031CDB162E04780093E61E /* MTType.m */,
 				221B303A161E585E001B98AA /* MTUtils.h */,
 				221B303B161E585F001B98AA /* MTUtils.m */,
 			);
@@ -297,30 +276,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		225042441558B17D0014FA5D /* Prop */ = {
-			isa = PBXGroup;
-			children = (
-				22031C5B162CE79B0093E61E /* MTEnumProp.h */,
-				22031C5C162CE79C0093E61E /* MTEnumProp.m */,
-				22031C57162CE3500093E61E /* MTListProp.h */,
-				22031C58162CE3510093E61E /* MTListProp.m */,
-				221B303F161E5E11001B98AA /* MTPageProp.h */,
-				221B3040161E5E12001B98AA /* MTPageProp.m */,
-				221B2FEF161DFE57001B98AA /* MTPageRefProp.h */,
-				221B2FF0161DFE57001B98AA /* MTPageRefProp.m */,
-				22E43A691559B7BC003A43B8 /* MTPrimitiveProps.h */,
-				22E43A6A1559B7BC003A43B8 /* MTPrimitiveProps.m */,
-				225042451558B19F0014FA5D /* MTProp.h */,
-				22E43A6D1559B847003A43B8 /* MTPropBase.h */,
-				22E43A6E1559B847003A43B8 /* MTPropBase.m */,
-				221B301B161E35C8001B98AA /* MTStringProp.h */,
-				221B301C161E35C8001B98AA /* MTStringProp.m */,
-				221B2FF3161E0262001B98AA /* MTTomeProp.h */,
-				221B2FF4161E0262001B98AA /* MTTomeProp.m */,
-			);
-			name = Prop;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -335,14 +290,9 @@
 				221B2F7B161CE728001B98AA /* MTLoadException.h in Headers */,
 				221B2FBF161CFBDE001B98AA /* MTXmlLoader.h in Headers */,
 				221B2FC5161D00A4001B98AA /* MTXmlLoadException.h in Headers */,
-				221B2FF1161DFE57001B98AA /* MTPageRefProp.h in Headers */,
-				221B2FF5161E0262001B98AA /* MTTomeProp.h in Headers */,
 				221B2FF9161E0CE6001B98AA /* MTPageRef.h in Headers */,
-				221B301D161E35C8001B98AA /* MTStringProp.h in Headers */,
 				221B303C161E5860001B98AA /* MTUtils.h in Headers */,
-				221B3041161E5E12001B98AA /* MTPageProp.h in Headers */,
-				22031C59162CE3510093E61E /* MTListProp.h in Headers */,
-				22031C5D162CE79C0093E61E /* MTEnumProp.h in Headers */,
+				22031CDC162E04780093E61E /* MTType.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,22 +419,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22E43A6C1559B7BC003A43B8 /* MTPrimitiveProps.m in Sources */,
-				22E43A701559B847003A43B8 /* MTPropBase.m in Sources */,
+				22E43A701559B847003A43B8 /* MTProp.m in Sources */,
 				221B2F51161CD918001B98AA /* MTTome.m in Sources */,
 				221B2F5A161CDE60001B98AA /* MTLibrary.m in Sources */,
 				221B2F7C161CE728001B98AA /* MTLoadException.m in Sources */,
 				221B2FC0161CFBDE001B98AA /* MTXmlLoader.m in Sources */,
 				221B2FC6161D00A4001B98AA /* MTXmlLoadException.m in Sources */,
-				221B2FF2161DFE57001B98AA /* MTPageRefProp.m in Sources */,
-				221B2FF6161E0262001B98AA /* MTTomeProp.m in Sources */,
 				221B2FFA161E0CE6001B98AA /* MTPageRef.m in Sources */,
 				221B3017161E28FB001B98AA /* MTPage.m in Sources */,
-				221B301E161E35C8001B98AA /* MTStringProp.m in Sources */,
 				221B303D161E5860001B98AA /* MTUtils.m in Sources */,
-				221B3042161E5E12001B98AA /* MTPageProp.m in Sources */,
-				22031C5A162CE3510093E61E /* MTListProp.m in Sources */,
-				22031C5E162CE79C0093E61E /* MTEnumProp.m in Sources */,
+				22031CDD162E04780093E61E /* MTType.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

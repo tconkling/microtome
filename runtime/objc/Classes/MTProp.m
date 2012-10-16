@@ -1,9 +1,10 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTPropBase.h"
+#import "MTProp.h"
+#import "MTType.h"
 
-@implementation MTPropBase
+@implementation MTProp
 
 @synthesize name = _name;
 
@@ -15,19 +16,21 @@
 }
 
 - (void)resolveRefs:(MTLibrary*)library {
-    // by default, do nothing
+    // do nothing by default
 }
 
 @end
 
-@implementation MTObjectPropBase
+@implementation MTObjectProp
 
+@synthesize valueType = _valueType;
 @synthesize value = _value;
 @synthesize nullable = _nullable;
 
-- (id)initWithName:(NSString*)name nullable:(BOOL)nullable {
+- (id)initWithName:(NSString*)name nullable:(BOOL)nullable valueType:(MTType*)valueType {
     if ((self = [super initWithName:name])) {
         _nullable = nullable;
+        _valueType = valueType;
     }
     return self;
 }
@@ -37,13 +40,8 @@
     [self validate];
 }
 
-- (Class)valueType {
-    OOO_IS_ABSTRACT();
-    return nil;
-}
-
 - (void)validate {
-    if (_value != nil && ![_value isKindOfClass:self.valueType]) {
+    if (_value != nil && ![_value isKindOfClass:_valueType.clazz]) {
         [NSException raise:NSGenericException
                     format:@"Incompatible value type [required=%@, got=%@]", self.valueType, [_value class]];
     }
@@ -51,15 +49,11 @@
 
 @end
 
-@implementation MTParameterizedObjectPropBase
+@implementation MTBoolProp
+@end
 
-@synthesize subType = _subType;
+@implementation MTIntProp
+@end
 
-- (id)initWithName:(NSString*)name nullable:(BOOL)nullable subType:(Class)subType {
-    if ((self = [super initWithName:name nullable:nullable])) {
-        _subType = subType;
-    }
-    return self;
-}
-
+@implementation MTFloatProp
 @end

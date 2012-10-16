@@ -1,8 +1,10 @@
 == TODO
 
-* propspec?
-* other attributes
+* nod proof-of-concept
 * custom types
+* other attributes
+* propspec?
 * recursive directory walk
 * playn runtime
 * namespaces?
+* schema changes

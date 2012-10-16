@@ -150,7 +150,7 @@ class Parser(object):
         typename = self._require_text(IDENTIFIER, "Expected type identifier")
 
         if not is_subtype and not typename in s.ALL_TYPES:
-            raise ParseError(self.string, self.pos, "Unrecognized type '%s'" % typename)
+            LOG.info("Found custom type: '%s'" % typename);
 
         # subtype
         subtype = None

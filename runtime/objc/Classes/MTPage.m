@@ -14,8 +14,8 @@
 
 // MTContainer
 - (id)childNamed:(NSString*)name {
-    id<MTProp> prop = MTGetProp(self, name);
-    return ([prop conformsToProtocol:@protocol(MTObjectProp)] ? ((id<MTObjectProp>)prop).value : nil);
+    MTProp* prop = MTGetProp(self, name);
+    return ([prop isKindOfClass:[MTObjectProp class]] ? ((MTObjectProp*)prop).value : nil);
 }
 
 @end

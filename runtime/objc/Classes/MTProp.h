@@ -1,20 +1,47 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-
-@protocol MTPage;
+@class MTType;
 @class MTLibrary;
 
-@protocol MTProp <NSObject>
+@interface MTProp : NSObject {
+@protected
+    NSString* _name;
+}
+
 @property (nonatomic,readonly) NSString* name;
-- (void)resolveRefs:(MTLibrary*)library;
+
+- (id)initWithName:(NSString*)name;
+
 @end
 
-@protocol MTObjectProp <MTProp>
+@interface MTObjectProp : MTProp {
+@protected
+    BOOL _nullable;
+    MTType* _valueType;
+    id _value;
+}
+
+@property (nonatomic,readonly) MTType* valueType;
 @property (nonatomic,readonly) BOOL nullable;
 @property (nonatomic,strong) id value;
+
+- (id)initWithName:(NSString*)name nullable:(BOOL)nullable valueType:(MTType*)valueType;
+
+// protected
+- (void)validate;
+
 @end
 
-@protocol MTParameterizedObjectProp <MTObjectProp>
-@property (nonatomic,readonly) Class subType;
+// primitive props
+@interface MTBoolProp : MTProp
+@property (nonatomic,assign) BOOL value;
+@end
+
+@interface MTIntProp : MTProp
+@property (nonatomic,assign) int value;
+@end
+
+@interface MTFloatProp : MTProp
+@property (nonatomic,assign) float value;
 @end

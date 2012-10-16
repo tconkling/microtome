@@ -48,9 +48,10 @@
     _loadedPages[page.name] = page;
     
     @try {
-        for (id<MTProp> prop in page.props) {
+        // TODO
+        /*for (MTProp* prop in page.props) {
             [prop resolveRefs:self];
-        }
+        }*/
     }
     @catch (NSException* exception) {
         [self unloadDataWithName:page.name];

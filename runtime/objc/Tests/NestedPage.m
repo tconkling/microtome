@@ -15,7 +15,7 @@ static NSString* const XML_STRING =
 
 @implementation NestedPage {
 @protected
-    MTPageProp* _nested;
+    MTObjectProp* _nested;
 }
 
 + (NSString*)XML { return XML_STRING; }
@@ -24,7 +24,7 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _nested = [[MTPageProp alloc] initWithName:@"nested" nullable:NO subType:[PrimitivePage class]];
+        _nested = [[MTObjectProp alloc] initWithName:@"nested" nullable:NO valueType:MTBuildType(@[ [PrimitivePage class] ])];
     }
     return self;
 }

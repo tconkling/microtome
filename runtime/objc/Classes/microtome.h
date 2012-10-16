@@ -1,19 +1,10 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-// Prop
-#import "MTEnumProp.h"
-#import "MTListProp.h"
-#import "MTPageProp.h"
-#import "MTPageRefProp.h"
-#import "MTPrimitiveProps.h"
-#import "MTStringProp.h"
-#import "MTTomeProp.h"
-
 // Loader - XML
 #import "MTXmlLoader.h"
 #import "MTXmlLoadException.h"
-#import "MTXmlPropMarshaller.h"
+#import "MTXmlObjectMarshaller.h"
 
 // Loader
 #import "MTLoader.h"
@@ -23,5 +14,7 @@
 #import "MTLibrary.h"
 #import "MTPage.h"
 #import "MTPageRef.h"
+#import "MTProp.h"
 #import "MTTome.h"
+#import "MTType.h"
 #import "MTUtils.h"

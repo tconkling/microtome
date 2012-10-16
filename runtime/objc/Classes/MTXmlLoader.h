@@ -4,7 +4,7 @@
 #import "MTLoader.h"
 
 @class MTLibrary;
-@protocol MTXmlPropMarshaller;
+@protocol MTXmlObjectMarshaller;
 
 @interface MTXmlLoader : NSObject <MTLoader> {
 @protected
@@ -12,7 +12,7 @@
     NSMutableDictionary* _marshallers;
 }
 
-- (void)registerPropMarshaller:(id<MTXmlPropMarshaller>)marshaller;
+- (void)registerObjectMarshaller:(id<MTXmlObjectMarshaller>)marshaller;
 
 - (MTMutablePage*)loadPage:(GDataXMLElement*)xml;
 - (MTMutablePage*)loadPage:(GDataXMLElement*)xml requiredClass:(Class)requiredClass;

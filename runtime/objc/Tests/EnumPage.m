@@ -11,7 +11,7 @@ static NSString* const XML_STRING =
 
 @implementation EnumPage {
 @protected
-    MTEnumProp* _foo;
+    MTObjectProp* _foo;
 }
 
 + (NSString*)XML { return XML_STRING; }
@@ -20,7 +20,7 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _foo = [[MTEnumProp alloc] initWithName:@"foo" nullable:NO subType:[TestEnum class]];
+        _foo = [[MTObjectProp alloc] initWithName:@"foo" nullable:NO valueType:[[MTType alloc] initWithClass:[TestEnum class] subtype:nil]];
     }
     return self;
 }

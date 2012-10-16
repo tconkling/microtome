@@ -13,13 +13,13 @@ def generate (page_spec, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
     page_view = PageView(page_spec, header_text)
-    stache = pystache.Renderer(search_dirs = "templates")
+    stache = pystache.Renderer(search_dirs = "templates/objc")
 
     header_name = header_filename(page_spec)
-    header_file = stache.render(stache.load_template("objc_header"), page_view)
+    header_file = stache.render(stache.load_template("page_header"), page_view)
 
     class_name = class_filename(page_spec)
-    class_file = stache.render(stache.load_template("objc_class"), page_view)
+    class_file = stache.render(stache.load_template("page_class"), page_view)
 
     return [ (header_name, header_file), (class_name, class_file) ]
 

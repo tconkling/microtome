@@ -7,7 +7,7 @@ import os
 import re
 
 import parser
-import objc_generator
+import generator_objc
 
 import sourcemerger
 
@@ -32,7 +32,7 @@ def main ():
         # open the file, parse it, and run it through the generator
         with open(in_name, 'r') as in_file:
             page_spec = parser.parse(in_file.read())
-            generated = objc_generator.generate(page_spec, header_text)
+            generated = generator_objc.generate(page_spec, header_text)
 
         # this can result in multiple generated files (e.g. a .h and .m file for objc)
         # merge each of our generated files

@@ -5,11 +5,10 @@
 
 @interface MTPropBase : NSObject <MTProp> {
 @protected
-    __weak id<MTPage> _parent;
     NSString* _name;
 }
 
-- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent;
+- (id)initWithName:(NSString*)name;
 
 @end
 
@@ -18,7 +17,7 @@
     BOOL _nullable;
     id _value;
 }
-- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent nullable:(BOOL)nullable;
+- (id)initWithName:(NSString*)name nullable:(BOOL)nullable;
 
 // protected
 - (Class)valueType;
@@ -31,6 +30,6 @@
     Class _subType;
 }
 
-- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent nullable:(BOOL)nullable subType:(Class)subType;
+- (id)initWithName:(NSString*)name nullable:(BOOL)nullable subType:(Class)subType;
 
 @end

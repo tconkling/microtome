@@ -25,9 +25,9 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _foo = [[MTBoolProp alloc] initWithName:@"foo" parent:self];
-        _bar = [[MTIntProp alloc] initWithName:@"bar" parent:self];
-        _baz = [[MTFloatProp alloc] initWithName:@"baz" parent:self];
+        _foo = [[MTBoolProp alloc] initWithName:@"foo"];
+        _bar = [[MTIntProp alloc] initWithName:@"bar"];
+        _baz = [[MTFloatProp alloc] initWithName:@"baz"];
     }
     return self;
 }

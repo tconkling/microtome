@@ -20,7 +20,7 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _foo = [[MTEnumProp alloc] initWithName:@"foo" parent:self nullable:NO subType:[TestEnum class]];
+        _foo = [[MTEnumProp alloc] initWithName:@"foo" nullable:NO subType:[TestEnum class]];
     }
     return self;
 }

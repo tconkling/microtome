@@ -24,7 +24,7 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _nested = [[MTPageProp alloc] initWithName:@"nested" parent:self nullable:NO subType:[PrimitivePage class]];
+        _nested = [[MTPageProp alloc] initWithName:@"nested" nullable:NO subType:[PrimitivePage class]];
     }
     return self;
 }

@@ -32,7 +32,7 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _tome = [[MTTomeProp alloc] initWithName:@"tome" parent:self nullable:NO subType:[PrimitivePage class]];
+        _tome = [[MTTomeProp alloc] initWithName:@"tome" nullable:NO subType:[PrimitivePage class]];
     }
     return self;
 }

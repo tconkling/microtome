@@ -1,6 +1,7 @@
 == TODO
 
-* enums
+* library generation
+* propspec?
 * other attributes
 * custom types
 * playn runtime

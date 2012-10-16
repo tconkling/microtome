@@ -6,7 +6,7 @@
 #import "MTTome.h"
 #import "MTUtils.h"
 
-@implementation MTMutableTomeProp
+@implementation MTTomeProp
 
 - (Class)valueType {
     return [MTMutableTome class];

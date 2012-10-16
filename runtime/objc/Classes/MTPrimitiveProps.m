@@ -3,11 +3,11 @@
 
 #import "MTPrimitiveProps.h"
 
-@implementation MTMutableBoolProp
+@implementation MTBoolProp
 @end
 
-@implementation MTMutableIntProp
+@implementation MTIntProp
 @end
 
-@implementation MTMutableFloatProp
+@implementation MTFloatProp
 @end

@@ -6,7 +6,7 @@
 #import "MTPage.h"
 #import "MTUtils.h"
 
-@implementation MTMutablePageProp
+@implementation MTPageProp
 
 - (Class)valueType {
     return _subType;

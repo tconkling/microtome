@@ -3,7 +3,7 @@
 
 #import "MTStringProp.h"
 
-@implementation MTMutableStringProp
+@implementation MTStringProp
 
 - (Class)valueType {
     return [NSString class];

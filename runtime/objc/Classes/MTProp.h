@@ -13,10 +13,6 @@
 
 @protocol MTObjectProp <MTProp>
 @property (nonatomic,readonly) BOOL nullable;
-@property (nonatomic,readonly) id value;
-@end
-
-@protocol MTMutableObjectProp <MTObjectProp>
 @property (nonatomic,strong) id value;
 @end
 

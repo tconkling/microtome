@@ -11,7 +11,7 @@ static NSString* const XML_STRING =
 
 @implementation RefPage {
 @protected
-    MTMutablePageRefProp* _nested;
+    MTPageRefProp* _nested;
 }
 
 + (NSString*)XML { return XML_STRING; }
@@ -21,7 +21,7 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _nested = [[MTMutablePageRefProp alloc] initWithName:@"nested" parent:self nullable:NO subType:[PrimitivePage class]];
+        _nested = [[MTPageRefProp alloc] initWithName:@"nested" parent:self nullable:NO subType:[PrimitivePage class]];
     }
     return self;
 }

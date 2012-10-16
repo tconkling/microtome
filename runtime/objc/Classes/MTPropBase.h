@@ -13,7 +13,7 @@
 
 @end
 
-@interface MTObjectPropBase : MTPropBase <MTMutableObjectProp> {
+@interface MTObjectPropBase : MTPropBase <MTObjectProp> {
 @protected
     BOOL _nullable;
     id _value;

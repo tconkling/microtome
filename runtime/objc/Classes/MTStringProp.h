@@ -3,9 +3,6 @@
 
 #import "MTPropBase.h"
 
-@protocol MTStringProp <MTObjectProp>
-@end
-
-@interface MTMutableStringProp : MTObjectPropBase <MTStringProp>
+@interface MTStringProp : MTObjectPropBase
 @end
 

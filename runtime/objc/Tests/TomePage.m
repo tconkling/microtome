@@ -23,7 +23,7 @@ static NSString* const XML_STRING =
 
 @implementation TomePage {
 @protected
-    MTMutableTomeProp* _tome;
+    MTTomeProp* _tome;
 }
 
 + (NSString*)XML { return XML_STRING; }
@@ -32,7 +32,7 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _tome = [[MTMutableTomeProp alloc] initWithName:@"tome" parent:self nullable:NO subType:[PrimitivePage class]];
+        _tome = [[MTTomeProp alloc] initWithName:@"tome" parent:self nullable:NO subType:[PrimitivePage class]];
     }
     return self;
 }

@@ -6,7 +6,7 @@
 #import "MTPageRef.h"
 #import "MTLibrary.h"
 
-@implementation MTMutablePageRefProp
+@implementation MTPageRefProp
 
 - (Class)valueType {
     return [MTMutablePageRef class];

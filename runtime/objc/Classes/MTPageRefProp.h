@@ -3,5 +3,5 @@
 
 #import "MTPropBase.h"
 
-@interface MTMutablePageRefProp : MTParameterizedObjectPropBase
+@interface MTPageRefProp : MTParameterizedObjectPropBase
 @end

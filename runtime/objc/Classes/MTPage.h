@@ -3,8 +3,6 @@
 
 #import "MTContainer.h"
 
-@class MTMutableStringProp;
-
 @protocol MTPage <NSObject,MTContainer>
 @property (nonatomic,readonly) NSString* name;
 @property (nonatomic,readonly) NSArray* props;

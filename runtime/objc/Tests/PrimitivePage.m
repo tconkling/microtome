@@ -12,9 +12,9 @@ static NSString* const XML_STRING =
 
 @implementation PrimitivePage {
 @protected
-    MTMutableBoolProp* _foo;
-    MTMutableIntProp* _bar;
-    MTMutableFloatProp* _baz;
+    MTBoolProp* _foo;
+    MTIntProp* _bar;
+    MTFloatProp* _baz;
 }
 
 + (NSString*)XML { return XML_STRING; }
@@ -25,9 +25,9 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _foo = [[MTMutableBoolProp alloc] initWithName:@"foo" parent:self];
-        _bar = [[MTMutableIntProp alloc] initWithName:@"bar" parent:self];
-        _baz = [[MTMutableFloatProp alloc] initWithName:@"baz" parent:self];
+        _foo = [[MTBoolProp alloc] initWithName:@"foo" parent:self];
+        _bar = [[MTIntProp alloc] initWithName:@"bar" parent:self];
+        _baz = [[MTFloatProp alloc] initWithName:@"baz" parent:self];
     }
     return self;
 }

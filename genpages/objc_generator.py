@@ -48,7 +48,7 @@ def class_filename (page_spec):
     return page_spec.name + ".m"
 
 def get_propname (typename):
-    return "MTMutable" + capitalize(typename) + "Prop"
+    return "MT" + capitalize(typename) + "Prop"
 
 def to_bool (val):
     return "YES" if val else "NO"

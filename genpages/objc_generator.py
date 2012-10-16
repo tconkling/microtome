@@ -7,6 +7,7 @@ import spec as s
 BASE_PAGE_CLASS = "MTMutablePage"
 BOOL_TYPENAME = "BOOL"
 STRING_TYPENAME = "NSString"
+LIST_TYPENAME = "NSArray"
 
 def generate (page_spec, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
@@ -31,6 +32,8 @@ def get_typename (the_type, pointer_type = True):
         typename = BOOL_TYPENAME
     elif the_type == s.StringType:
         typename = STRING_TYPENAME
+    elif the_type == s.ListType:
+        typename = LIST_TYPENAME
     else:
         typename = the_type
 

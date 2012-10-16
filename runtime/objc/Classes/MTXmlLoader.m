@@ -16,9 +16,13 @@
 #import "MTPageProp.h"
 #import "MTPageRefProp.h"
 #import "MTStringProp.h"
+#import "MTListProp.h"
 #import "MTTomeProp.h"
 
 @interface MTStringPropMarshaller : NSObject <MTXmlPropMarshaller>
+@end
+
+@interface MTListPropMarshaller : NSObject <MTXmlPropMarshaller>
 @end
 
 @interface MTPagePropMarshaller : NSObject <MTXmlPropMarshaller>
@@ -36,6 +40,7 @@
     if ((self = [super init])) {
         _marshallers = [[NSMutableDictionary alloc] init];
         [self registerPropMarshaller:[[MTStringPropMarshaller alloc] init]];
+        [self registerPropMarshaller:[[MTListPropMarshaller alloc] init]];
         [self registerPropMarshaller:[[MTPagePropMarshaller alloc] init]];
         [self registerPropMarshaller:[[MTPageRefPropMarshaller alloc] init]];
         [self registerPropMarshaller:[[MTTomePropMarshaller alloc] init]];
@@ -154,6 +159,25 @@
     if (stringProp.value == nil) {
         stringProp.value = @"";
     }
+}
+
+@end
+
+@implementation MTListPropMarshaller
+
+- (Class)propType {
+    return [MTListProp class];
+}
+
+- (void)withCtx:(MTXmlLoader*)ctx loadProp:(id<MTObjectProp>)prop fromXml:(GDataXMLElement*)xml {
+    MTListProp* listProp = (MTListProp*)prop;
+    NSMutableArray* entries = [[NSMutableArray alloc] init];
+    for (GDataXMLElement* childXml in xml.elements) {
+        id entry = [ctx loadPage:childXml requiredClass:listProp.subType];
+        [entries addObject:entry];
+    }
+
+    listProp.value = entries;
 }
 
 @end

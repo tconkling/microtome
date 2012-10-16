@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		22031C59162CE3510093E61E /* MTListProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031C57162CE3500093E61E /* MTListProp.h */; };
+		22031C5A162CE3510093E61E /* MTListProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031C58162CE3510093E61E /* MTListProp.m */; };
 		221B2F44161CD0D1001B98AA /* MTPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F42161CD0D1001B98AA /* MTPage.h */; };
 		221B2F4C161CD668001B98AA /* MTTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F4A161CD668001B98AA /* MTTome.h */; };
 		221B2F51161CD918001B98AA /* MTTome.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F4F161CD918001B98AA /* MTTome.m */; };
@@ -80,6 +82,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		22031C57162CE3500093E61E /* MTListProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTListProp.h; sourceTree = "<group>"; };
+		22031C58162CE3510093E61E /* MTListProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTListProp.m; sourceTree = "<group>"; };
 		221B2F42161CD0D1001B98AA /* MTPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPage.h; sourceTree = "<group>"; };
 		221B2F4A161CD668001B98AA /* MTTome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTome.h; sourceTree = "<group>"; };
 		221B2F4F161CD918001B98AA /* MTTome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTome.m; sourceTree = "<group>"; };
@@ -295,6 +299,8 @@
 				221B301C161E35C8001B98AA /* MTStringProp.m */,
 				221B2FF3161E0262001B98AA /* MTTomeProp.h */,
 				221B2FF4161E0262001B98AA /* MTTomeProp.m */,
+				22031C57162CE3500093E61E /* MTListProp.h */,
+				22031C58162CE3510093E61E /* MTListProp.m */,
 			);
 			name = Prop;
 			sourceTree = "<group>";
@@ -319,6 +325,7 @@
 				221B301D161E35C8001B98AA /* MTStringProp.h in Headers */,
 				221B303C161E5860001B98AA /* MTUtils.h in Headers */,
 				221B3041161E5E12001B98AA /* MTPageProp.h in Headers */,
+				22031C59162CE3510093E61E /* MTListProp.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +466,7 @@
 				221B301E161E35C8001B98AA /* MTStringProp.m in Sources */,
 				221B303D161E5860001B98AA /* MTUtils.m in Sources */,
 				221B3042161E5E12001B98AA /* MTPageProp.m in Sources */,
+				22031C5A162CE3510093E61E /* MTListProp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,9 +1,7 @@
 == TODO
 
-* figure out nested page syntax
-* namespaces?
+* enums
 * other attributes
 * custom types
-* lists
-* enums
 * playn runtime
+* namespaces?

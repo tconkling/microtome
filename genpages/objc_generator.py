@@ -78,23 +78,19 @@ class PropView(SpecDelegate):
 
     def exposed_type (self):
         type_spec = self.prop.type
-        if type_spec.name == s.PageRefType or type_spec.name == s.PageType:
+        if type_spec.name == s.PageRefType or type_spec.name == s.PageType or type_spec.name == s.EnumType:
             return get_typename(type_spec.subtype.name)
         else:
             return get_typename(type_spec.name)
 
     def actual_type (self):
         return get_propname(self.prop.type.name)
-
     def nullable (self):
         return to_bool(self.attr_dict.get("nullable"))
-
     def is_primitive (self):
         return self.prop.type.name in s.PRIMITIVE_TYPES
-
     def has_subtype (self):
         return self.prop.type.name in s.PARAMETERIZED_TYPES
-
     def subtype_class (self):
         return get_typename(self.prop.type.subtype.name, False)
 

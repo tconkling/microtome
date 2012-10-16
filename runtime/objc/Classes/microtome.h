@@ -2,6 +2,8 @@
 // microtome - Copyright 2012 Three Rings Design
 
 // Prop
+#import "MTEnumProp.h"
+#import "MTListProp.h"
 #import "MTPageProp.h"
 #import "MTPageRefProp.h"
 #import "MTPrimitiveProps.h"

@@ -17,9 +17,13 @@
 #import "MTPageRefProp.h"
 #import "MTStringProp.h"
 #import "MTListProp.h"
+#import "MTEnumProp.h"
 #import "MTTomeProp.h"
 
 @interface MTStringPropMarshaller : NSObject <MTXmlPropMarshaller>
+@end
+
+@interface MTEnumPropMarshaller : NSObject<MTXmlPropMarshaller>
 @end
 
 @interface MTListPropMarshaller : NSObject <MTXmlPropMarshaller>
@@ -40,6 +44,7 @@
     if ((self = [super init])) {
         _marshallers = [[NSMutableDictionary alloc] init];
         [self registerPropMarshaller:[[MTStringPropMarshaller alloc] init]];
+        [self registerPropMarshaller:[[MTEnumPropMarshaller alloc] init]];
         [self registerPropMarshaller:[[MTListPropMarshaller alloc] init]];
         [self registerPropMarshaller:[[MTPagePropMarshaller alloc] init]];
         [self registerPropMarshaller:[[MTPageRefPropMarshaller alloc] init]];
@@ -159,6 +164,20 @@
     if (stringProp.value == nil) {
         stringProp.value = @"";
     }
+}
+
+@end
+
+
+@implementation MTEnumPropMarshaller
+
+- (Class)propType {
+    return [MTEnumProp class];
+}
+
+- (void)withCtx:(MTXmlLoader*)ctx loadProp:(id<MTObjectProp>)prop fromXml:(GDataXMLElement*)xml {
+    MTEnumProp* enumProp = (MTEnumProp*)prop;
+    enumProp.value = [enumProp.subType valueOf:xml.stringValue];
 }
 
 @end

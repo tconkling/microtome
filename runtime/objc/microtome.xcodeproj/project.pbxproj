@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		22031C59162CE3510093E61E /* MTListProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031C57162CE3500093E61E /* MTListProp.h */; };
 		22031C5A162CE3510093E61E /* MTListProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031C58162CE3510093E61E /* MTListProp.m */; };
+		22031C5D162CE79C0093E61E /* MTEnumProp.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031C5B162CE79B0093E61E /* MTEnumProp.h */; };
+		22031C5E162CE79C0093E61E /* MTEnumProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031C5C162CE79C0093E61E /* MTEnumProp.m */; };
+		22031C61162CE9770093E61E /* EnumPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031C60162CE9770093E61E /* EnumPage.m */; };
+		22031C64162CEA1A0093E61E /* TestEnum.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031C63162CEA190093E61E /* TestEnum.m */; };
 		221B2F44161CD0D1001B98AA /* MTPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F42161CD0D1001B98AA /* MTPage.h */; };
 		221B2F4C161CD668001B98AA /* MTTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F4A161CD668001B98AA /* MTTome.h */; };
 		221B2F51161CD918001B98AA /* MTTome.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F4F161CD918001B98AA /* MTTome.m */; };
@@ -84,6 +88,12 @@
 /* Begin PBXFileReference section */
 		22031C57162CE3500093E61E /* MTListProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTListProp.h; sourceTree = "<group>"; };
 		22031C58162CE3510093E61E /* MTListProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTListProp.m; sourceTree = "<group>"; };
+		22031C5B162CE79B0093E61E /* MTEnumProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTEnumProp.h; sourceTree = "<group>"; };
+		22031C5C162CE79C0093E61E /* MTEnumProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTEnumProp.m; sourceTree = "<group>"; };
+		22031C5F162CE9770093E61E /* EnumPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnumPage.h; sourceTree = "<group>"; };
+		22031C60162CE9770093E61E /* EnumPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnumPage.m; sourceTree = "<group>"; };
+		22031C62162CEA190093E61E /* TestEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestEnum.h; sourceTree = "<group>"; };
+		22031C63162CEA190093E61E /* TestEnum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestEnum.m; sourceTree = "<group>"; };
 		221B2F42161CD0D1001B98AA /* MTPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPage.h; sourceTree = "<group>"; };
 		221B2F4A161CD668001B98AA /* MTTome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTome.h; sourceTree = "<group>"; };
 		221B2F4F161CD918001B98AA /* MTTome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTome.m; sourceTree = "<group>"; };
@@ -220,6 +230,8 @@
 		225041E11558ACB50014FA5D /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				22031C5F162CE9770093E61E /* EnumPage.h */,
+				22031C60162CE9770093E61E /* EnumPage.m */,
 				225041E71558ACB50014FA5D /* microtomeTests.h */,
 				225041E81558ACB50014FA5D /* microtomeTests.m */,
 				221B3043161E61F3001B98AA /* NestedPage.h */,
@@ -228,6 +240,8 @@
 				221B2FD0161D0AE8001B98AA /* PrimitivePage.m */,
 				226BAA3F161F946900133173 /* RefPage.h */,
 				226BAA40161F946900133173 /* RefPage.m */,
+				22031C62162CEA190093E61E /* TestEnum.h */,
+				22031C63162CEA190093E61E /* TestEnum.m */,
 				221B3010161E27B4001B98AA /* TomePage.h */,
 				221B3011161E27B4001B98AA /* TomePage.m */,
 				225041E21558ACB50014FA5D /* Supporting Files */,
@@ -286,6 +300,10 @@
 		225042441558B17D0014FA5D /* Prop */ = {
 			isa = PBXGroup;
 			children = (
+				22031C5B162CE79B0093E61E /* MTEnumProp.h */,
+				22031C5C162CE79C0093E61E /* MTEnumProp.m */,
+				22031C57162CE3500093E61E /* MTListProp.h */,
+				22031C58162CE3510093E61E /* MTListProp.m */,
 				221B303F161E5E11001B98AA /* MTPageProp.h */,
 				221B3040161E5E12001B98AA /* MTPageProp.m */,
 				221B2FEF161DFE57001B98AA /* MTPageRefProp.h */,
@@ -299,8 +317,6 @@
 				221B301C161E35C8001B98AA /* MTStringProp.m */,
 				221B2FF3161E0262001B98AA /* MTTomeProp.h */,
 				221B2FF4161E0262001B98AA /* MTTomeProp.m */,
-				22031C57162CE3500093E61E /* MTListProp.h */,
-				22031C58162CE3510093E61E /* MTListProp.m */,
 			);
 			name = Prop;
 			sourceTree = "<group>";
@@ -326,6 +342,7 @@
 				221B303C161E5860001B98AA /* MTUtils.h in Headers */,
 				221B3041161E5E12001B98AA /* MTPageProp.h in Headers */,
 				22031C59162CE3510093E61E /* MTListProp.h in Headers */,
+				22031C5D162CE79C0093E61E /* MTEnumProp.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +484,7 @@
 				221B303D161E5860001B98AA /* MTUtils.m in Sources */,
 				221B3042161E5E12001B98AA /* MTPageProp.m in Sources */,
 				22031C5A162CE3510093E61E /* MTListProp.m in Sources */,
+				22031C5E162CE79C0093E61E /* MTEnumProp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,6 +497,8 @@
 				221B3012161E27B4001B98AA /* TomePage.m in Sources */,
 				221B3045161E61F3001B98AA /* NestedPage.m in Sources */,
 				226BAA41161F946900133173 /* RefPage.m in Sources */,
+				22031C61162CE9770093E61E /* EnumPage.m in Sources */,
+				22031C64162CEA1A0093E61E /* TestEnum.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

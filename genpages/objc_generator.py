@@ -89,6 +89,12 @@ class PropView(SpecDelegate):
     def is_primitive (self):
         return self.prop.type.name in s.PRIMITIVE_TYPES
 
+    def has_subtype (self):
+        return self.prop.type.name in s.PARAMETERIZED_TYPES
+
+    def subtype_class (self):
+        return get_typename(self.prop.type.subtype.name, False)
+
 class PageView(SpecDelegate):
     def __init__ (self, page, header_text):
         SpecDelegate.__init__(self, page)
@@ -101,12 +107,12 @@ class PageView(SpecDelegate):
         return [ PropView(prop) for prop in self.page.props ]
     def header_imports (self):
         return self.superclass()
+    def external_class_names (self):
+        return sorted(set([ prop.type.subtype.name for prop in self.page.props if prop.type.subtype ]))
     def class_imports (self):
-        return self.name
-    def external_class_types (self):
-        return sorted(set([ prop.type.subtype for prop in self.page.props if prop.type.subtype ]))
+        return [ self.name ] + self.external_class_names()
     def forward_decls (self):
-        return [ type.name for type in self.external_class_types() ]
+        return self.external_class_names()
 
 if __name__ == "__main__":
 

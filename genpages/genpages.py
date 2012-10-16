@@ -13,7 +13,9 @@ import sourcemerger
 
 INPUT_FILE = re.compile(r'.*\.mt')
 
-GENERATORS = { "objc": generator_objc.generate }
+GENERATORS = { "objc": generator_objc }
+
+MERGER = sourcemerger.GeneratedSourceMerger()
 
 def main ():
     ap = argparse.ArgumentParser()
@@ -29,10 +31,9 @@ def main ():
     output_dir = os.path.abspath(args.output_dir)
     header_text = args.header or ""
 
-    merger = sourcemerger.GeneratedSourceMerger()
-
     # select our generator
     generator = GENERATORS[args.language];
+    page_names = []
 
     # process files in our input dir
     for in_name in [os.path.join(input_dir, fn) for fn in os.listdir(input_dir) if INPUT_FILE.match(fn)]:
@@ -40,22 +41,34 @@ def main ():
         # open the file, parse it, and run it through the generator
         with open(in_name, 'r') as in_file:
             page_spec = parser.parse(in_file.read())
-            generated = generator(page_spec, header_text)
+            generated = generator.generate_page(page_spec, header_text)
 
         # this can result in multiple generated files (e.g. a .h and .m file for objc)
         # merge each of our generated files
         for out_name, out_contents in generated:
             out_name = os.path.join(output_dir, out_name)
+            merge_and_write(out_name, out_contents)
 
-            # merge with existing file?
-            if os.path.isfile(out_name):
-                with open(out_name, 'r') as existing_file:
-                    merger.merge(out_contents, existing_file.read())
+        # save all our page names
+        page_names.append(page_spec.name)
 
-            # write out
-            with open(out_name, 'w') as out_file:
-                print("Writing generated file '%s'" % out_name)
-                out_file.write(out_contents)
+    # now generate and save the library file
+    generated = generator.generate_library(page_names, header_text)
+    for out_name, out_contents in generated:
+        out_name = os.path.join(output_dir, out_name)
+        merge_and_write(out_name, out_contents)
+
+def merge_and_write (filename, file_contents):
+    # merge with existing file?
+    if os.path.isfile(filename):
+        with open(filename, 'r') as existing_file:
+            MERGER.merge(file_contents, existing_file.read())
+
+    # write out
+    with open(filename, 'w') as out_file:
+        print("Writing generated file '%s'" % filename)
+        out_file.write(file_contents)
+
 
 def readable_dir (d):
     if not os.path.isdir(d):

@@ -9,19 +9,34 @@ BOOL_TYPENAME = "BOOL"
 STRING_TYPENAME = "NSString"
 LIST_TYPENAME = "NSArray"
 
-def generate (page_spec, header_text = ""):
+LIBRARY_HEADER = "MicrotomePages.h"
+LIBRARY_CLASS = "MicrotomePages.m"
+
+def generate_library (page_names, header_text = ""):
+    '''Returns a list of (filename, filecontents) tuples representing the generated files to
+    be written to disk'''
+    stache = pystache.Renderer(search_dirs = "templates/objc")
+
+    library_view = { "page_names": sorted(page_names), "header": header_text }
+
+    header_contents = stache.render(stache.load_template(LIBRARY_HEADER), library_view)
+    class_contents = stache.render(stache.load_template(LIBRARY_CLASS), library_view)
+
+    return [ (LIBRARY_HEADER, header_contents), (LIBRARY_CLASS, class_contents) ]
+
+def generate_page (page_spec, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
     page_view = PageView(page_spec, header_text)
     stache = pystache.Renderer(search_dirs = "templates/objc")
 
     header_name = header_filename(page_spec)
-    header_file = stache.render(stache.load_template("page_header"), page_view)
+    header_contents = stache.render(stache.load_template("page_header"), page_view)
 
     class_name = class_filename(page_spec)
-    class_file = stache.render(stache.load_template("page_class"), page_view)
+    class_contents = stache.render(stache.load_template("page_class"), page_view)
 
-    return [ (header_name, header_file), (class_name, class_file) ]
+    return [ (header_name, header_contents), (class_name, class_contents) ]
 
 def capitalize (string):
     '''capitalizes the first letter of the string, without lower-casing any of the others'''

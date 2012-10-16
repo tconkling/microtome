@@ -15,13 +15,22 @@
 
 @interface MTObjectPropBase : MTPropBase <MTMutableObjectProp> {
 @protected
-    Class _type;
     BOOL _nullable;
     id _value;
 }
-- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent type:(Class)type nullable:(BOOL)nullable;
+- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent nullable:(BOOL)nullable;
 
 // protected
-- (void)validateValue:(id)val;
+- (Class)valueType;
+- (void)validate;
+
+@end
+
+@interface MTParameterizedObjectPropBase : MTObjectPropBase <MTParameterizedObjectProp> {
+@protected
+    Class _subType;
+}
+
+- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent nullable:(BOOL)nullable subType:(Class)subType;
 
 @end

@@ -5,8 +5,8 @@
 
 @implementation MTMutableStringProp
 
-- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent nullable:(BOOL)nullable {
-    return [super initWithName:name parent:parent type:[NSString class] nullable:nullable];
+- (Class)valueType {
+    return [NSString class];
 }
 
 @end

@@ -19,3 +19,7 @@
 @protocol MTMutableObjectProp <MTObjectProp>
 @property (nonatomic,strong) id value;
 @end
+
+@protocol MTParameterizedObjectProp <MTObjectProp>
+@property (nonatomic,readonly) Class subType;
+@end

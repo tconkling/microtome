@@ -27,24 +27,41 @@
 @synthesize value = _value;
 @synthesize nullable = _nullable;
 
-- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent type:(__unsafe_unretained Class)type nullable:(BOOL)nullable {
+- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent nullable:(BOOL)nullable {
     if ((self = [super initWithName:name parent:parent])) {
-        _type = type;
         _nullable = nullable;
     }
     return self;
 }
 
 - (void)setValue:(id)value {
-    [self validateValue:value];
     _value = value;
+    [self validate];
 }
 
-- (void)validateValue:(id)val {
-    if (val != nil && ![val isKindOfClass:_type]) {
+- (Class)valueType {
+    OOO_IS_ABSTRACT();
+    return nil;
+}
+
+- (void)validate {
+    if (_value != nil && ![_value isKindOfClass:self.valueType]) {
         [NSException raise:NSGenericException
-                    format:@"Incompatible value type [required=%@, got=%@]", _type, [val class]];
+                    format:@"Incompatible value type [required=%@, got=%@]", self.valueType, [_value class]];
     }
+}
+
+@end
+
+@implementation MTParameterizedObjectPropBase
+
+@synthesize subType = _subType;
+
+- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent nullable:(BOOL)nullable subType:(Class)subType {
+    if ((self = [super initWithName:name parent:parent nullable:nullable])) {
+        _subType = subType;
+    }
+    return self;
 }
 
 @end

@@ -6,6 +6,7 @@
 #import "MTUtils.h"
 #import "MTLibrary.h"
 #import "MTXmlPropMarshaller.h"
+#import "MTTome.h"
 #import "MTPage.h"
 #import "MTPageRef.h"
 #import "MTProp.h"
@@ -166,7 +167,7 @@
 
 - (void)withCtx:(MTXmlLoader*)ctx loadProp:(id<MTMutableObjectProp>)prop fromXml:(GDataXMLElement*)xml {
     MTMutablePageProp* pageProp = (MTMutablePageProp*)prop;
-    id<MTPage> page = [ctx loadPage:xml requiredClass:pageProp.pageType];
+    id<MTPage> page = [ctx loadPage:xml requiredClass:pageProp.subType];
     pageProp.value = page;
 }
 
@@ -181,7 +182,7 @@
 
 - (void)withCtx:(MTXmlLoader*)ctx loadProp:(id<MTMutableObjectProp>)prop fromXml:(GDataXMLElement*)xml {
     MTMutablePageRefProp* refProp = (MTMutablePageRefProp*)prop;
-    refProp.value = [[MTMutablePageRef alloc] initWithPageType:refProp.pageType
+    refProp.value = [[MTMutablePageRef alloc] initWithPageType:refProp.subType
                                                       pageName:xml.stringValue];
 }
 
@@ -196,9 +197,9 @@
 
 - (void)withCtx:(MTXmlLoader*)ctx loadProp:(id<MTMutableObjectProp>)prop fromXml:(GDataXMLElement*)tomeXml {
     MTMutableTomeProp* tomeProp = (MTMutableTomeProp*)prop;
-    MTMutableTome* tome = [[MTMutableTome alloc] initWithPageType:tomeProp.pageType];
+    MTMutableTome* tome = [[MTMutableTome alloc] initWithPageType:tomeProp.subType];
     for (GDataXMLElement* pageXml in tomeXml.elements) {
-        id<MTPage> page = [ctx loadPage:pageXml requiredClass:tomeProp.pageType];
+        id<MTPage> page = [ctx loadPage:pageXml requiredClass:tomeProp.subType];
         [tome addPage:page];
     }
     tomeProp.value = tome;

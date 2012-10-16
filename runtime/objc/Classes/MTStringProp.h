@@ -7,6 +7,5 @@
 @end
 
 @interface MTMutableStringProp : MTObjectPropBase <MTStringProp>
-- (id)initWithName:(NSString*)name parent:(id<MTPage>)parent nullable:(BOOL)nullable;
 @end
 

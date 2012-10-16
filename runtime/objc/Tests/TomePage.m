@@ -3,6 +3,7 @@
 
 #import "TomePage.h"
 #import "PrimitivePage.h"
+#import "MTTomeProp.h"
 
 static NSString* const XML_STRING =
     @"<tomeTest type='TomePage'>"
@@ -31,7 +32,7 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _tome = [[MTMutableTomeProp alloc] initWithName:@"tome" parent:self nullable:NO pageType:[PrimitivePage class]];
+        _tome = [[MTMutableTomeProp alloc] initWithName:@"tome" parent:self nullable:NO subType:[PrimitivePage class]];
     }
     return self;
 }

@@ -13,11 +13,16 @@ import sourcemerger
 
 INPUT_FILE = re.compile(r'.*\.mt')
 
+GENERATORS = { "objc": generator_objc.generate }
+
 def main ():
     ap = argparse.ArgumentParser()
+    # optional args
+    ap.add_argument("--header", help = "header text to include in generated source")
+    # required args
     ap.add_argument("input_dir", type = readable_dir)
     ap.add_argument("output_dir")
-    ap.add_argument("--header", help = "header text to include in generated source")
+    ap.add_argument("language", help = "generated source language", choices = GENERATORS.keys())
     args = ap.parse_args()
 
     input_dir = os.path.abspath(args.input_dir)
@@ -26,13 +31,16 @@ def main ():
 
     merger = sourcemerger.GeneratedSourceMerger()
 
+    # select our generator
+    generator = GENERATORS[args.language];
+
     # process files in our input dir
     for in_name in [os.path.join(input_dir, fn) for fn in os.listdir(input_dir) if INPUT_FILE.match(fn)]:
         print("Processing " + os.path.abspath(in_name) + "...")
         # open the file, parse it, and run it through the generator
         with open(in_name, 'r') as in_file:
             page_spec = parser.parse(in_file.read())
-            generated = generator_objc.generate(page_spec, header_text)
+            generated = generator(page_spec, header_text)
 
         # this can result in multiple generated files (e.g. a .h and .m file for objc)
         # merge each of our generated files
@@ -58,8 +66,9 @@ def readable_dir (d):
         return d
 
 if __name__ == "__main__":
-    sys.argv.append("test")
-    sys.argv.append("test")
     sys.argv.append("--header")
     sys.argv.append("// It's a header!")
+    sys.argv.append("test")
+    sys.argv.append("test")
+    sys.argv.append("objc")
     main()

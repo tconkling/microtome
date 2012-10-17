@@ -4,7 +4,7 @@
 #import "MTProp.h"
 #import "MTType.h"
 
-@implementation MTProp
+@implementation MTPropSpec
 
 @synthesize name = _name;
 
@@ -15,17 +15,12 @@
     return self;
 }
 
-- (void)resolveRefs:(MTLibrary*)library {
-    // do nothing by default
-}
-
 @end
 
-@implementation MTObjectProp
+@implementation MTObjectPropSpec
 
-@synthesize valueType = _valueType;
-@synthesize value = _value;
 @synthesize nullable = _nullable;
+@synthesize valueType = _valueType;
 
 - (id)initWithName:(NSString*)name nullable:(BOOL)nullable valueType:(MTType*)valueType {
     if ((self = [super initWithName:name])) {
@@ -35,15 +30,45 @@
     return self;
 }
 
+@end
+
+@implementation MTProp
+
+- (id)initWithPropSpec:(MTPropSpec*)spec {
+    if ((self = [super init])) {
+        _spec = spec;
+    }
+    return self;
+}
+
+- (NSString*)name {
+    return _spec.name;
+}
+
+@end
+
+@implementation MTObjectProp
+
+@synthesize value = _value;
+
+- (BOOL)nullable {
+    return ((MTObjectPropSpec*)_spec).nullable;
+}
+
+- (MTType*)valueType {
+    return ((MTObjectPropSpec*)_spec).valueType;
+}
+
 - (void)setValue:(id)value {
     _value = value;
     [self validate];
 }
 
 - (void)validate {
-    if (_value != nil && ![_value isKindOfClass:_valueType.clazz]) {
+    if (_value != nil && ![_value isKindOfClass:self.valueType.clazz]) {
         [NSException raise:NSGenericException
-                    format:@"Incompatible value type [required=%@, got=%@]", self.valueType, [_value class]];
+            format:@"Incompatible value type [required=%@, got=%@]",
+            self.valueType.clazz, [_value class]];
     }
 }
 

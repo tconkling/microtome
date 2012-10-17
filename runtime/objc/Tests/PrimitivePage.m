@@ -10,6 +10,10 @@ static NSString* const XML_STRING =
     @"  <baz>3.1415</baz>"
     @"</primitiveTest>";
 
+static MTPropSpec* _fooSpec = nil;
+static MTPropSpec* _barSpec = nil;
+static MTPropSpec* _bazSpec = nil;
+
 @implementation PrimitivePage {
 @protected
     MTBoolProp* _foo;
@@ -25,15 +29,23 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _foo = [[MTBoolProp alloc] initWithName:@"foo"];
-        _bar = [[MTIntProp alloc] initWithName:@"bar"];
-        _baz = [[MTFloatProp alloc] initWithName:@"baz"];
+        _foo = [[MTBoolProp alloc] initWithPropSpec:_fooSpec];
+        _bar = [[MTIntProp alloc] initWithPropSpec:_barSpec];
+        _baz = [[MTFloatProp alloc] initWithPropSpec:_bazSpec];
     }
     return self;
 }
 
 - (NSArray*)props {
     return MT_PROPS(_foo, _bar, _baz);
+}
+
++ (void)initialize {
+    if (self == [PrimitivePage class]) {
+        _fooSpec = [[MTPropSpec alloc] initWithName:@"foo"];
+        _barSpec = [[MTPropSpec alloc] initWithName:@"bar"];
+        _bazSpec = [[MTPropSpec alloc] initWithName:@"baz"];
+    }
 }
 
 @end

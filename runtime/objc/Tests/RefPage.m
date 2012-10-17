@@ -9,6 +9,8 @@ static NSString* const XML_STRING =
     @"  <nested>tomeTest.tome.test1</nested>"
     @"</refTest>";
 
+static MTObjectPropSpec* _nestedSpec = nil;
+
 @implementation RefPage {
 @protected
     MTObjectProp* _nested;
@@ -21,13 +23,19 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _nested = [[MTObjectProp alloc] initWithName:@"nested" nullable:NO valueType:MTBuildType(@[ [MTMutablePageRef class], [PrimitivePage class] ])];
+        _nested = [[MTObjectProp alloc] initWithPropSpec:_nestedSpec];
     }
     return self;
 }
 
 - (NSArray*)props {
     return MT_PROPS(_nested);
+}
+
++ (void)initialize {
+    if (self == [RefPage class]) {
+        _nestedSpec = [[MTObjectPropSpec alloc] initWithName:@"nested" nullable:NO valueType:MTBuildType(@[ [MTMutablePageRef class], [PrimitivePage class] ])];
+    }
 }
 
 @end

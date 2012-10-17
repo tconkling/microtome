@@ -3,15 +3,19 @@
 #import "{{.}}.h"
 {{/class_imports}}
 
+{{#props}}
+static MTPropSpec* _{{name}}Spec = nil;
+{{/props}}
+
 @implementation {{name}} {
 @protected
 {{#props}}
-    {{actual_type}}* _{{name}};
+    {{typename}}* _{{name}};
 {{/props}}
 }
 
 {{#props}}
-- ({{exposed_type}}){{name}} { return _{{name}}.value; }
+- ({{type.typename}}){{name}} { return _{{name}}.value; }
 {{/props}}
 
 - (NSArray*)props { return MT_PROPS({{#props}}_{{name}}, {{/props}}); }
@@ -19,10 +23,19 @@
 - (id)init {
     if ((self = [super init])) {
     {{#props}}
-        _{{name}} = [[{{actual_type}} alloc] initWithName:@"{{name}}"{{^is_primitive}} nullable:{{nullable}}{{/is_primitive}}{{#has_subtype}} subType:[{{subtype_class}} class]{{/has_subtype}}];
+        _{{name}} = [[{{typename}} alloc] initWithPropSpec:_{{name}}Spec];
     {{/props}}
     }
     return self;
 }
+
++ (void)initialize {
+    if (self == [{{name}} class]) {
+    {{#props}}
+        _{{name}}Spec = {{#is_primitive}}[[MTPropSpec alloc] initWithName:@"{{name}}"];{{/is_primitive}}{{^is_primitive}}[[MTObjectPropSpec alloc] initWithName:@"{{name}}" nullable:{{nullable}} valueType:TODO];{{/is_primitive}}
+    {{/props}}
+    }
+}
+
 @end
 

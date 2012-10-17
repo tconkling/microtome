@@ -30,10 +30,10 @@ def generate_page (page_spec, header_text = ""):
     page_view = PageView(page_spec, header_text)
     stache = pystache.Renderer(search_dirs = "templates/objc")
 
-    header_name = header_filename(page_spec)
+    header_name = page_view.header_filename()
     header_contents = stache.render(stache.load_template("page_header"), page_view)
 
-    class_name = class_filename(page_spec)
+    class_name = page_view.class_filename()
     class_contents = stache.render(stache.load_template("page_class"), page_view)
 
     return [ (header_name, header_contents), (class_name, class_contents) ]
@@ -57,64 +57,52 @@ def get_typename (the_type, pointer_type = True):
 
     return typename
 
-def header_filename (page_spec):
-    '''returns the header's filename'''
-    return page_spec.name + ".h"
-
-def class_filename (page_spec):
-    '''returns the class file's filename'''
-    return page_spec.name + ".m"
-
-def get_propname (typename):
-    return "MT" + capitalize(typename) + "Prop"
-
 def to_bool (val):
     return "YES" if val else "NO"
 
-class SpecDelegate(object):
-    def __init__ (self, delegate):
-        self._delegate = delegate
-
-    def __getattr__ (self, name):
-        return getattr(self._delegate, name)
-
-class AttrView(SpecDelegate):
+class AttrView(object):
     def __init__ (self, attr):
-        SpecDelegate.__init__(self, attr)
         self.attr = attr
 
-class PropView(SpecDelegate):
+class TypeView(object):
+    def __init__ (self, type):
+        self.type = type
+
+    def is_primitive (self):
+        return self.type.name in s.PRIMITIVE_TYPES
+
+    def typename (self):
+        if self.type.name == s.PageRefType or self.type.name == s.PageType:
+            return get_typename(self.type.subtype.name)
+        else:
+            return get_typename(self.type.name)
+
+class PropView(object):
     def __init__ (self, prop):
-        SpecDelegate.__init__(self, prop)
         self.prop = prop
+        self.type = TypeView(prop.type)
         self.attr_dict = {}
         for attr in self.prop.attrs:
             self.attr_dict[attr.name] = attr.value
 
-    def exposed_type (self):
-        type_spec = self.prop.type
-        if type_spec.name == s.PageRefType or type_spec.name == s.PageType or type_spec.name == s.EnumType:
-            return get_typename(type_spec.subtype.name)
+    def typename (self):
+        if self.type.is_primitive():
+            return "MT" + capitalize(self.prop.type.name) + "Prop"
         else:
-            return get_typename(type_spec.name)
+            return "MTObjectProp"
 
-    def actual_type (self):
-        return get_propname(self.prop.type.name)
+    def name (self):
+        return self.prop.name
     def nullable (self):
         return to_bool(self.attr_dict.get("nullable"))
-    def is_primitive (self):
-        return self.prop.type.name in s.PRIMITIVE_TYPES
-    def has_subtype (self):
-        return self.prop.type.name in s.PARAMETERIZED_TYPES
-    def subtype_class (self):
-        return get_typename(self.prop.type.subtype.name, False)
 
-class PageView(SpecDelegate):
+class PageView(object):
     def __init__ (self, page, header_text):
-        SpecDelegate.__init__(self, page)
         self.page = page
         self.header = header_text
 
+    def name (self):
+        return self.page.name
     def superclass (self):
         return self.page.superclass or BASE_PAGE_CLASS
     def props (self):
@@ -124,9 +112,13 @@ class PageView(SpecDelegate):
     def external_class_names (self):
         return sorted(set([ prop.type.subtype.name for prop in self.page.props if prop.type.subtype ]))
     def class_imports (self):
-        return [ self.name ] + self.external_class_names()
+        return [ self.name() ] + self.external_class_names()
     def forward_decls (self):
         return self.external_class_names()
+    def header_filename (self):
+        return self.name() + ".h"
+    def class_filename (self):
+        return self.name() + ".m"
 
 if __name__ == "__main__":
 
@@ -140,5 +132,5 @@ if __name__ == "__main__":
         ],
         pos = 0)
 
-    print generate(PAGE)
+    print generate_page(PAGE)
 

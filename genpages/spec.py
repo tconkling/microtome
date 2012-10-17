@@ -15,12 +15,11 @@ BoolType =      "bool"
 IntType =       "int"
 FloatType =     "float"
 StringType =    "string"
-EnumType =      "Enum"
 ListType =      "List"
 PageType =      "Page"
 PageRefType =   "PageRef"
 TomeType =      "Tome"
 
 PRIMITIVE_TYPES = set([ BoolType, IntType, FloatType ])
-PARAMETERIZED_TYPES = set([ EnumType, ListType, PageType, PageRefType, TomeType ])
-ALL_TYPES = set([ EnumType, BoolType, IntType, FloatType, StringType, ListType, PageType, PageRefType, TomeType ])
+PARAMETERIZED_TYPES = set([ ListType, PageType, PageRefType, TomeType ])
+ALL_TYPES = set([ BoolType, IntType, FloatType, StringType, ListType, PageType, PageRefType, TomeType ])

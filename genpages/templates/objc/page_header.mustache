@@ -10,7 +10,7 @@
 @interface {{name}} : {{superclass}}
 
 {{#props}}
-@property (nonatomic,readonly) {{exposed_type}} {{name}};
+@property (nonatomic,readonly) {{type.typename}} {{name}};
 {{/props}}
 
 @end

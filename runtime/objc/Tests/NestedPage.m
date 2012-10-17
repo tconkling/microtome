@@ -13,6 +13,8 @@ static NSString* const XML_STRING =
     @"  </nested>"
     @"</nestedTest>";
 
+static MTPropSpec* _nestedSpec = nil;
+
 @implementation NestedPage {
 @protected
     MTObjectProp* _nested;
@@ -24,13 +26,19 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _nested = [[MTObjectProp alloc] initWithName:@"nested" nullable:NO valueType:MTBuildType(@[ [PrimitivePage class] ])];
+        _nested = [[MTObjectProp alloc] initWithPropSpec:_nestedSpec];
     }
     return self;
 }
 
 - (NSArray*)props {
     return MT_PROPS(_nested);
+}
+
++ (void)initialize {
+    if (self == [NestedPage class]) {
+        _nestedSpec = [[MTObjectPropSpec alloc] initWithName:@"nested" nullable:NO valueType:MTBuildType(@[ [PrimitivePage class] ])];
+    }
 }
 
 @end

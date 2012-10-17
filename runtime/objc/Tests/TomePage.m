@@ -20,6 +20,8 @@ static NSString* const XML_STRING =
     @"  </tome>"
     @"</tomeTest>";
 
+static MTPropSpec* _tomeSpec = nil;
+
 @implementation TomePage {
 @protected
     MTObjectProp* _tome;
@@ -31,13 +33,19 @@ static NSString* const XML_STRING =
 
 - (id)init {
     if ((self = [super init])) {
-        _tome = [[MTObjectProp alloc] initWithName:@"tome" nullable:NO valueType:MTBuildType(@[ [MTMutableTome class], [PrimitivePage class] ])];
+        _tome = [[MTObjectProp alloc] initWithPropSpec:_tomeSpec];
     }
     return self;
 }
 
 - (NSArray*)props {
     return MT_PROPS(_tome);
+}
+
++ (void)initialize {
+    if (self == [TomePage class]) {
+        _tomeSpec = [[MTObjectPropSpec alloc] initWithName:@"tome" nullable:NO valueType:MTBuildType(@[ [MTMutableTome class], [PrimitivePage class] ])];
+    }
 }
 
 @end

@@ -5,7 +5,7 @@
 #import "PrimitivePage.h"
 
 static NSString* const XML_STRING =
-    @"<tomeTest type='TomePage'>"
+    @"<root><tomeTest type='TomePage'>"
     @"  <tome>"
     @"      <test1 type='PrimitivePage'>"
     @"          <foo>true</foo>"
@@ -18,7 +18,7 @@ static NSString* const XML_STRING =
     @"          <baz>1.5</baz>"
     @"      </test2>"
     @"  </tome>"
-    @"</tomeTest>";
+    @"</tomeTest></root>";
 
 static MTPropSpec* _tomeSpec = nil;
 

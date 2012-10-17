@@ -3,7 +3,6 @@
 
 #import "MTLibrary.h"
 
-#import "MTLoader.h"
 #import "MTDefs.h"
 #import "MTUtils.h"
 #import "MTPage.h"
@@ -15,11 +14,10 @@
 
 @implementation MTLibrary
 
-- (id)initWithLoader:(id<MTLoader>)loader {
+- (id)init {
     if ((self = [super init])) {
-        _loader = loader;
         _pageClasses = [[NSMutableDictionary alloc] init];
-        _loadedPages = [[NSMutableDictionary alloc] init];
+        _pages = [[NSMutableDictionary alloc] init];
         _valueHandlers = [[NSMutableDictionary alloc] init];
 
         [self registerValueHandler:[[MTStringValueHandler alloc] init]];
@@ -31,9 +29,17 @@
     return self;
 }
 
+- (id)objectForKeyedSubscript:(id)key {
+    return _pages[key];
+}
+
+- (void)removeAllPages {
+    [_pages removeAllObjects];
+}
+
 // MTContainer
 - (id)childNamed:(NSString*)name {
-    return _loadedPages[name];
+    return _pages[name];
 }
 
 - (void)registerValueHandler:(id<MTValueHandler>)handler {
@@ -73,29 +79,34 @@
     }
 }
 
-- (id)loadData:(id)data {
-    MTMutablePage* page = [_loader withLibrary:self loadPage:data];
-    if (_loadedPages[page.name] != nil) {
-        [NSException raise:NSGenericException
-                    format:@"Data with that name is already loaded [name=%@]", page.name];
+- (void)addPages:(NSArray*)pages {
+    for (MTMutablePage* page in pages) {
+        if (_pages[page.name] != nil) {
+            [NSException raise:NSGenericException
+                        format:@"A page with that name is already loaded [name=%@]", page.name];
+        }
     }
-    
-    _loadedPages[page.name] = page;
-    
+
+    for (MTMutablePage* page in pages) {
+        _pages[page.name] = page;
+    }
+
     @try {
-        id<MTValueHandler> handler = [self requireValueHandlerForClass:[page class]];
-        [handler withLibrary:self type:[[MTType alloc] initWithClass:[page class] subtype:nil] resolveRefs:page];
+        for (MTMutablePage* page in pages) {
+            id<MTValueHandler> handler = [self requireValueHandlerForClass:[page class]];
+            [handler withLibrary:self type:[[MTType alloc] initWithClass:[page class] subtype:nil] resolveRefs:page];
+        }
     }
     @catch (NSException* exception) {
-        [self unloadDataWithName:page.name];
+        for (MTMutablePage* page in pages) {
+            [self removePageWithName:page.name];
+        }
         @throw exception;
     }
-
-    return page;
 }
 
-- (void)unloadDataWithName:(NSString*)name {
-    [_loadedPages removeObjectForKey:name];
+- (void)removePageWithName:(NSString*)name {
+    [_pages removeObjectForKey:name];
 }
 
 - (Class)pageClassWithName:(NSString*)name {

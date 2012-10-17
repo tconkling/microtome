@@ -15,25 +15,33 @@
 
 @implementation MTXmlLoader
 
-+ (void)registerDefaultMarshallers:(MTLibrary*)library {
-    [library registerValueHandler:[[MTStringMarshaller alloc] init]];
-    [library registerValueHandler:[[MTListMarshaller alloc] init]];
-    [library registerValueHandler:[[MTPageMarshaller alloc] init]];
-    [library registerValueHandler:[[MTPageRefMarshaller alloc] init]];
-    [library registerValueHandler:[[MTTomeMarshaller alloc] init]];
+- (id)initWithLibrary:(MTLibrary*)library {
+    if ((self = [super init])) {
+        _library = library;
+
+        [library registerValueHandler:[[MTStringMarshaller alloc] init]];
+        [library registerValueHandler:[[MTListMarshaller alloc] init]];
+        [library registerValueHandler:[[MTPageMarshaller alloc] init]];
+        [library registerValueHandler:[[MTPageRefMarshaller alloc] init]];
+        [library registerValueHandler:[[MTTomeMarshaller alloc] init]];
+    }
+
+    return self;
 }
 
-- (MTMutablePage*)withLibrary:(MTLibrary*)library loadPage:(id)data {
-    NSAssert(_library == nil, @"Already loading");
-    NSAssert(library != nil, @"Library cannot be nil");
-    NSAssert([data isKindOfClass:[GDataXMLDocument class]], @"data must be a GDataXmlDocument");
-    
-    @try {
-        _library = library;
-        return [self loadPage:((GDataXMLDocument*)data).rootElement];
-    } @finally {
-        _library = nil;
+- (void)loadPagesFromDoc:(GDataXMLDocument*)doc {
+    [self loadPagesFromDocs:@[doc]];
+}
+
+- (void)loadPagesFromDocs:(NSArray*)docs {
+    NSMutableArray* pages = [[NSMutableArray alloc] init];
+    for (GDataXMLDocument* doc in docs) {
+        for (GDataXMLElement* pageXml in doc.rootElement.elements) {
+            [pages addObject:[self loadPage:pageXml]];
+        }
     }
+
+    [_library addPages:pages];
 }
 
 - (id<MTXmlObjectMarshaller>)requireObjectMarshallerForClass:(Class)requiredClass {

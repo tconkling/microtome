@@ -5,9 +5,9 @@
 #import "PrimitivePage.h"
 
 static NSString* const XML_STRING =
-    @"<refTest type='RefPage'>"
+    @"<root><refTest type='RefPage'>"
     @"  <nested>tomeTest.tome.test1</nested>"
-    @"</refTest>";
+    @"</refTest></root>";
 
 static MTObjectPropSpec* _nestedSpec = nil;
 

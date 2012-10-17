@@ -4,28 +4,29 @@
 #import "MTContainer.h"
 
 @protocol MTValueHandler;
-@protocol MTLoader;
 @protocol MTPage;
 
 @interface MTLibrary : NSObject <MTContainer> {
 @protected
-    id<MTLoader> _loader;
-    NSMutableDictionary* _loadedPages;
+    NSMutableDictionary* _pages;
     NSMutableDictionary* _pageClasses;
     NSMutableDictionary* _valueHandlers;
 }
 
-- (id)initWithLoader:(id<MTLoader>)loader;
-
-- (id)loadData:(id)data;
-- (void)unloadDataWithName:(NSString*)name;
+/// Removes all pages from the library
+- (void)removeAllPages;
 
 - (void)registerPageClasses:(NSArray*)classes;
 - (void)registerValueHandler:(id<MTValueHandler>)handler;
 
-- (id<MTValueHandler>)requireValueHandlerForClass:(Class)requiredClass;
+/// FooPage* page = library[@"myFooPage"]
+- (id)objectForKeyedSubscript:(id)key;
 
 // protected
+- (void)addPages:(NSArray*)pages;
+
+- (id<MTValueHandler>)requireValueHandlerForClass:(Class)requiredClass;
+
 - (Class)pageClassWithName:(NSString*)name;
 - (Class)requirePageClassWithName:(NSString*)name;
 - (Class)requirePageClassWithName:(NSString*)name superClass:(Class)superClass;

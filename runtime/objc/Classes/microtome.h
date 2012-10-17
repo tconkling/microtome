@@ -7,12 +7,11 @@
 #import "MTXmlObjectMarshaller.h"
 
 // Loader
-#import "MTLoader.h"
-#import "MTLoadException.h"
 
 #import "MTContainer.h"
 #import "MTDefs.h"
 #import "MTLibrary.h"
+#import "MTLoadException.h"
 #import "MTPage.h"
 #import "MTPageRef.h"
 #import "MTProp.h"

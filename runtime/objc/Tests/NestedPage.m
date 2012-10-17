@@ -5,13 +5,13 @@
 #import "PrimitivePage.h"
 
 static NSString* const XML_STRING =
-    @"<nestedTest type='NestedPage'>"
+    @"<root><nestedTest type='NestedPage'>"
     @"  <nested type='PrimitivePage'>"
     @"      <foo>true</foo>"
     @"      <bar>2</bar>"
     @"      <baz>3.1415</baz>"
     @"  </nested>"
-    @"</nestedTest>";
+    @"</nestedTest></root>";
 
 static MTPropSpec* _nestedSpec = nil;
 

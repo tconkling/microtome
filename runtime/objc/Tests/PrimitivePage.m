@@ -4,11 +4,11 @@
 #import "PrimitivePage.h"
 
 static NSString* const XML_STRING =
-    @"<primitiveTest type='PrimitivePage'>"
+    @"<root><primitiveTest type='PrimitivePage'>"
     @"  <foo>true</foo>"
     @"  <bar>2</bar>"
     @"  <baz>3.1415</baz>"
-    @"</primitiveTest>";
+    @"</primitiveTest></root>";
 
 static MTPropSpec* _fooSpec = nil;
 static MTPropSpec* _barSpec = nil;

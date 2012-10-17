@@ -1,19 +1,21 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTLoader.h"
-
 @protocol MTXmlObjectMarshaller;
+@class MTMutablePage;
 @class MTLibrary;
 
-@interface MTXmlLoader : NSObject <MTLoader> {
+@interface MTXmlLoader : NSObject {
 @protected
     __weak MTLibrary* _library;
 }
 
-@property (nonatomic,readonly) MTLibrary* library;
+- (id)initWithLibrary:(MTLibrary*)library;
 
-+ (void)registerDefaultMarshallers:(MTLibrary*)library;
+- (void)loadPagesFromDoc:(GDataXMLDocument*)doc;
+- (void)loadPagesFromDocs:(NSArray*)docs;
+
+// protected
 
 - (id<MTXmlObjectMarshaller>)requireObjectMarshallerForClass:(Class)requiredClass;
 

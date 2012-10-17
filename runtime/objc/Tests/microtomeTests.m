@@ -19,8 +19,8 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 
 - (void)setUp {
     [super setUp];
-    _library = [[MTLibrary alloc] initWithLoader:[[MTXmlLoader alloc] init]];
-    [MTXmlLoader registerDefaultMarshallers:_library];
+    _library = [[MTLibrary alloc] init];
+    _loader = [[MTXmlLoader alloc] initWithLibrary:_library];
     [_library registerPageClasses:@[
         [PrimitivePage class],
         [TomePage class],
@@ -34,42 +34,39 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 }
 
 - (void)testPrimitives {
-    PrimitivePage* page = [_library loadData:GetXML(PrimitivePage.XML)];
+    [_loader loadPagesFromDoc:GetXML(PrimitivePage.XML)];
+    PrimitivePage* page = _library[@"primitiveTest"];
+    STAssertNotNil(page, @"");
     STAssertEquals(page.foo, YES, @"");
     STAssertEquals(page.bar, 2, @"");
     STAssertEqualsWithAccuracy(page.baz, 3.1415f, EPSILON, @"");
-    [_library unloadDataWithName:page.name];
+    [_library removeAllPages];
 }
 
 - (void)testTome {
-    TomePage* page = [_library loadData:GetXML(TomePage.XML)];
+    [_loader loadPagesFromDoc:GetXML(TomePage.XML)];
+    TomePage* page = _library[@"tomeTest"];
     STAssertEquals(page.tome.pageCount, 2, @"");
-    [_library unloadDataWithName:page.name];
+    [_library removeAllPages];
 }
 
 - (void)testNested {
-    NestedPage* page = [_library loadData:GetXML(NestedPage.XML)];
+    [_loader loadPagesFromDoc:GetXML(NestedPage.XML)];
+    NestedPage* page = _library[@"nestedTest"];
     STAssertEquals(page.nested.foo, YES, @"");
     STAssertEquals(page.nested.bar, 2, @"");
     STAssertEqualsWithAccuracy(page.nested.baz, 3.1415f, EPSILON, @"");
-    [_library unloadDataWithName:page.name];
+    [_library removeAllPages];
 }
 
 - (void)testRefs {
-    RefPage* refPage = nil;
-    @autoreleasepool {
-        TomePage* tomePage = [_library loadData:GetXML(TomePage.XML)];
-        refPage = [_library loadData:GetXML(RefPage.XML)];
-        STAssertNotNil(refPage.nested, @"");
-        STAssertEquals(refPage.nested.foo, YES, @"");
-        STAssertEquals(refPage.nested.bar, 2, @"");
-        STAssertEqualsWithAccuracy(refPage.nested.baz, 3.1415f, EPSILON, @"");
-        [_library unloadDataWithName:tomePage.name];
-        tomePage = nil;
-    }
-    
-    STAssertNil(refPage.nested, @"");
-    [_library unloadDataWithName:refPage.name];
+    [_loader loadPagesFromDocs:@[GetXML(TomePage.XML), GetXML(RefPage.XML)]];
+    RefPage* refPage = _library[@"refTest"];
+    STAssertNotNil(refPage.nested, @"");
+    STAssertEquals(refPage.nested.foo, YES, @"");
+    STAssertEquals(refPage.nested.bar, 2, @"");
+    STAssertEqualsWithAccuracy(refPage.nested.baz, 3.1415f, EPSILON, @"");
+    [_library removeAllPages];
 }
 
 @end

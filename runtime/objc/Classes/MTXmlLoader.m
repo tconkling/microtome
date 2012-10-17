@@ -91,8 +91,8 @@
 
     NSString* typeName = [pageXml stringAttribute:@"type"];
     Class pageClass = (requiredClass != nil ?
-                       [_library requireClassWithName:typeName superClass:requiredClass] :
-                       [_library requireClassWithName:typeName]);
+                       [_library requirePageClassWithName:typeName superClass:requiredClass] :
+                       [_library requirePageClassWithName:typeName]);
 
     MTMutablePage* page = [[pageClass alloc] init];
     page.name = name;

@@ -8,7 +8,9 @@
 #import "MTUtils.h"
 #import "MTPage.h"
 #import "MTProp.h"
+#import "MTValueHandler.h"
 #import "MTTome.h"
+#import "MTType.h"
 #import "MTLoadException.h"
 
 @implementation MTLibrary
@@ -18,6 +20,13 @@
         _loader = loader;
         _pageClasses = [[NSMutableDictionary alloc] init];
         _loadedPages = [[NSMutableDictionary alloc] init];
+        _valueHandlers = [[NSMutableDictionary alloc] init];
+
+        [self registerValueHandler:[[MTStringValueHandler alloc] init]];
+        [self registerValueHandler:[[MTListValueHandler alloc] init]];
+        [self registerValueHandler:[[MTPageValueHandler alloc] init]];
+        [self registerValueHandler:[[MTPageRefValueHandler alloc] init]];
+        [self registerValueHandler:[[MTTomeValueHandler alloc] init]];
     }
     return self;
 }
@@ -25,6 +34,32 @@
 // MTContainer
 - (id)childNamed:(NSString*)name {
     return _loadedPages[name];
+}
+
+- (void)registerValueHandler:(id<MTValueHandler>)handler {
+    _valueHandlers[(id<NSCopying>)handler.valueType] = handler;
+}
+
+- (id<MTValueHandler>)requireValueHandlerForClass:(Class)requiredClass {
+    id<MTValueHandler> handler = _valueHandlers[requiredClass];
+    if (handler == nil) {
+        // if we can't find an exact match, see if we have a handler for a superclass that
+        // can take subclasses
+        for (id<MTValueHandler> candidate in _valueHandlers.objectEnumerator) {
+            if (candidate.handlesSubclasses && [requiredClass isSubclassOfClass:candidate.valueType]) {
+                _valueHandlers[(id<NSCopying>)requiredClass] = candidate;
+                handler = candidate;
+                break;
+            }
+        }
+    }
+
+    if (handler == nil) {
+        [NSException raise:NSGenericException format:@"No handler for '%@'",
+            NSStringFromClass(requiredClass)];
+    }
+
+    return handler;
 }
 
 - (void)registerPageClasses:(NSArray*)classes {
@@ -48,10 +83,8 @@
     _loadedPages[page.name] = page;
     
     @try {
-        // TODO
-        /*for (MTProp* prop in page.props) {
-            [prop resolveRefs:self];
-        }*/
+        id<MTValueHandler> handler = [self requireValueHandlerForClass:[page class]];
+        [handler withLibrary:self type:[[MTType alloc] initWithClass:[page class] subtype:nil] resolveRefs:page];
     }
     @catch (NSException* exception) {
         [self unloadDataWithName:page.name];
@@ -65,11 +98,11 @@
     [_loadedPages removeObjectForKey:name];
 }
 
-- (Class)classWithName:(NSString*)name {
+- (Class)pageClassWithName:(NSString*)name {
     return _pageClasses[name];
 }
 
-- (Class)requireClassWithName:(NSString*)name {
+- (Class)requirePageClassWithName:(NSString*)name {
     Class clazz = _pageClasses[name];
     if (clazz == nil) {
         @throw [MTLoadException withReason:@"No page class for name [name=%@]", name];
@@ -77,8 +110,8 @@
     return clazz;
 }
 
-- (Class)requireClassWithName:(NSString*)name superClass:(__unsafe_unretained Class)superClass {
-    Class clazz = [self requireClassWithName:name];
+- (Class)requirePageClassWithName:(NSString*)name superClass:(__unsafe_unretained Class)superClass {
+    Class clazz = [self requirePageClassWithName:name];
     if (![clazz isSubclassOfClass:superClass]) {
         @throw [MTLoadException withReason:@"Unexpected page class [required=%@, got=%@]",
                 NSStringFromClass(superClass), NSStringFromClass(clazz)];
@@ -101,6 +134,22 @@
     }
 
     return ([container conformsToProtocol:@protocol(MTPage)] ? (id<MTPage>)container : nil);
+}
+
+- (id<MTPage>)requirePage:(NSString*)fullyQualifiedName pageClass:(Class)pageClass {
+    id<MTPage> page = [self getPage:fullyQualifiedName];
+    if (page == nil) {
+        [NSException raise:NSGenericException format:@"Missing required page [name=%@]", fullyQualifiedName];
+    }
+
+    if (![page isKindOfClass:pageClass]) {
+        [NSException raise:NSGenericException
+                    format:@"Wrong type for required page [name=%@ expectedType=%@ actualType=%@]",
+                        fullyQualifiedName, NSStringFromClass(pageClass),
+                        NSStringFromClass([page class])];
+    }
+
+    return page;
 }
 
 @end

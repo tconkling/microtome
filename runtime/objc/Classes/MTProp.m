@@ -59,19 +59,6 @@
     return ((MTObjectPropSpec*)_spec).valueType;
 }
 
-- (void)setValue:(id)value {
-    _value = value;
-    [self validate];
-}
-
-- (void)validate {
-    if (_value != nil && ![_value isKindOfClass:self.valueType.clazz]) {
-        [NSException raise:NSGenericException
-            format:@"Incompatible value type [required=%@, got=%@]",
-            self.valueType.clazz, [_value class]];
-    }
-}
-
 @end
 
 @implementation MTBoolProp

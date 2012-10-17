@@ -1,5 +1,7 @@
 == TODO
 
+* fix ref resolution
+* fix validation
 * nod proof-of-concept
 * other attributes
 * recursive directory walk

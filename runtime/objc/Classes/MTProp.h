@@ -37,8 +37,6 @@
 @property (nonatomic,readonly) MTType* valueType;
 @property (nonatomic,readonly) BOOL nullable;
 @property (nonatomic,strong) id value;
-// protected
-- (void)validate;
 @end
 
 // primitive props

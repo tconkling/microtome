@@ -10,6 +10,7 @@
 #import "MTLoader.h"
 #import "MTLoadException.h"
 
+#import "MTContainer.h"
 #import "MTDefs.h"
 #import "MTLibrary.h"
 #import "MTPage.h"

@@ -13,57 +13,14 @@
 #import "MTProp.h"
 #import "MTXmlLoadException.h"
 
-@interface MTStringMarshaller : NSObject <MTXmlObjectMarshaller>
-@end
-
-@interface MTListMarshaller : NSObject <MTXmlObjectMarshaller>
-@end
-
-@interface MTPageMarshaller : NSObject <MTXmlObjectMarshaller>
-@end
-
-@interface MTPageRefMarshaller : NSObject <MTXmlObjectMarshaller>
-@end
-
-@interface MTTomeMarshaller : NSObject <MTXmlObjectMarshaller>
-@end
-
 @implementation MTXmlLoader
 
-- (id)init {
-    if ((self = [super init])) {
-        _marshallers = [[NSMutableDictionary alloc] init];
-        [self registerObjectMarshaller:[[MTStringMarshaller alloc] init]];
-        [self registerObjectMarshaller:[[MTListMarshaller alloc] init]];
-        [self registerObjectMarshaller:[[MTPageMarshaller alloc] init]];
-        [self registerObjectMarshaller:[[MTPageRefMarshaller alloc] init]];
-        [self registerObjectMarshaller:[[MTTomeMarshaller alloc] init]];
-    }
-    return self;
-}
-
-- (void)registerObjectMarshaller:(id<MTXmlObjectMarshaller>)marshaller {
-    _marshallers[(id<NSCopying>)marshaller.objectType] = marshaller;
-}
-
-- (id<MTXmlObjectMarshaller>)requireObjectMarshallerForClass:(Class)requiredClass {
-    id<MTXmlObjectMarshaller> marshaller = _marshallers[requiredClass];
-    if (marshaller == nil) {
-        // if we can't find an exact match, see if any of our marshallers handle
-        for (id<MTXmlObjectMarshaller> candidate in _marshallers.objectEnumerator) {
-            if (candidate.handlesSubclasses && [requiredClass isSubclassOfClass:candidate.objectType]) {
-                _marshallers[(id<NSCopying>)requiredClass] = candidate;
-                marshaller = candidate;
-                break;
-            }
-        }
-    }
-
-    if (marshaller == nil) {
-        [NSException raise:NSGenericException format:@"No marshaller for '%@'", requiredClass];
-    }
-
-    return marshaller;
++ (void)registerDefaultMarshallers:(MTLibrary*)library {
+    [library registerValueHandler:[[MTStringMarshaller alloc] init]];
+    [library registerValueHandler:[[MTListMarshaller alloc] init]];
+    [library registerValueHandler:[[MTPageMarshaller alloc] init]];
+    [library registerValueHandler:[[MTPageRefMarshaller alloc] init]];
+    [library registerValueHandler:[[MTTomeMarshaller alloc] init]];
 }
 
 - (MTMutablePage*)withLibrary:(MTLibrary*)library loadPage:(id)data {
@@ -77,6 +34,15 @@
     } @finally {
         _library = nil;
     }
+}
+
+- (id<MTXmlObjectMarshaller>)requireObjectMarshallerForClass:(Class)requiredClass {
+    id<MTValueHandler> handler = [_library requireValueHandlerForClass:requiredClass];
+    if (![handler conformsToProtocol:@protocol(MTXmlObjectMarshaller)]) {
+        [NSException raise:NSGenericException format:@"No XML marshaller for '%@'",
+            NSStringFromClass(requiredClass)];
+    }
+    return (id<MTXmlObjectMarshaller>)handler;
 }
 
 - (MTMutablePage*)loadPage:(GDataXMLElement*)pageXml requiredClass:(__unsafe_unretained Class)requiredClass {
@@ -152,107 +118,6 @@
         @throw [MTXmlLoadException withElement:xml reason:@"Element is empty"];
     }
     return str;
-}
-
-@end
-
-
-@implementation MTStringMarshaller
-
-- (BOOL)handlesSubclasses {
-    return NO;
-}
-
-- (Class)objectType {
-    return [NSString class];
-}
-
-- (id)withCtx:(MTXmlLoader*)ctx type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
-    NSString* val = xml.stringValue;
-    // handle the empty string (<myStringProp></myStringProp>)
-    if (val == nil) {
-        val = @"";
-    }
-    return val;
-}
-
-@end
-
-@implementation MTListMarshaller
-
-- (BOOL)handlesSubclasses {
-    return NO;
-}
-
-- (Class)objectType {
-    return [NSArray class];
-}
-
-- (id)withCtx:(MTXmlLoader*)ctx type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
-    NSMutableArray* list = [[NSMutableArray alloc] init];
-    for (GDataXMLElement* childXml in xml.elements) {
-        id<MTXmlObjectMarshaller> marshaller = [ctx requireObjectMarshallerForClass:type.subtype.clazz];
-        id child = [marshaller withCtx:ctx type:type.subtype loadObjectfromXml:childXml];
-        [list addObject:child];
-    }
-
-    return list;
-}
-
-@end
-
-
-@implementation MTPageMarshaller
-
-- (BOOL)handlesSubclasses {
-    return YES;
-}
-
-- (Class)objectType {
-    return [MTMutablePage class];
-}
-
-- (id)withCtx:(MTXmlLoader*)ctx type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
-    return [ctx loadPage:xml requiredClass:type.subtype.clazz];
-}
-
-@end
-
-
-@implementation MTPageRefMarshaller
-
-- (BOOL)handlesSubclasses {
-    return NO;
-}
-
-- (Class)objectType {
-    return [MTMutablePageRef class];
-}
-
-- (id)withCtx:(MTXmlLoader*)ctx type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
-    return [[MTMutablePageRef alloc] initWithPageType:type.subtype.clazz pageName:xml.stringValue];
-}
-
-@end
-
-
-@implementation MTTomeMarshaller
-
-- (BOOL)handlesSubclasses {
-    return NO;
-}
-
-- (Class)objectType {
-    return [MTMutableTome class];
-}
-
-- (id)withCtx:(MTXmlLoader*)ctx type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)tomeXml {
-    MTMutableTome* tome = [[MTMutableTome alloc] initWithPageType:type.subtype.clazz];
-    for (GDataXMLElement* pageXml in tomeXml.elements) {
-        id<MTPage> page = [ctx loadPage:pageXml requiredClass:tome.pageType];
-        [tome addPage:page];
-    }
-    return tome;
 }
 
 @end

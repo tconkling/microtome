@@ -20,6 +20,7 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 - (void)setUp {
     [super setUp];
     _library = [[MTLibrary alloc] initWithLoader:[[MTXmlLoader alloc] init]];
+    [MTXmlLoader registerDefaultMarshallers:_library];
     [_library registerPageClasses:@[
         [PrimitivePage class],
         [TomePage class],

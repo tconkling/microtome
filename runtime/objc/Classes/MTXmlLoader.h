@@ -3,16 +3,19 @@
 
 #import "MTLoader.h"
 
-@class MTLibrary;
 @protocol MTXmlObjectMarshaller;
+@class MTLibrary;
 
 @interface MTXmlLoader : NSObject <MTLoader> {
 @protected
-    MTLibrary* _library;
-    NSMutableDictionary* _marshallers;
+    __weak MTLibrary* _library;
 }
 
-- (void)registerObjectMarshaller:(id<MTXmlObjectMarshaller>)marshaller;
+@property (nonatomic,readonly) MTLibrary* library;
+
++ (void)registerDefaultMarshallers:(MTLibrary*)library;
+
+- (id<MTXmlObjectMarshaller>)requireObjectMarshallerForClass:(Class)requiredClass;
 
 - (MTMutablePage*)loadPage:(GDataXMLElement*)xml;
 - (MTMutablePage*)loadPage:(GDataXMLElement*)xml requiredClass:(Class)requiredClass;

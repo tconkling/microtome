@@ -7,9 +7,6 @@
 #import "TomePage.h"
 #import "NestedPage.h"
 #import "RefPage.h"
-#import "EnumPage.h"
-
-#import "TestEnum.h"
 
 static const float EPSILON = 0.0001f;
 
@@ -28,7 +25,6 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
         [TomePage class],
         [NestedPage class],
         [RefPage class],
-        [EnumPage class],
     ]];
 }
 
@@ -73,12 +69,6 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
     
     STAssertNil(refPage.nested, @"");
     [_library unloadDataWithName:refPage.name];
-}
-
-- (void)testEnum {
-    EnumPage* page = [_library loadData:GetXML(EnumPage.XML)];
-    STAssertEquals(page.foo, TestEnum.TWO, @"");
-    [_library unloadDataWithName:page.name];
 }
 
 @end

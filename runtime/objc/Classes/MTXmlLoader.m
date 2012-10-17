@@ -16,9 +16,6 @@
 @interface MTStringMarshaller : NSObject <MTXmlObjectMarshaller>
 @end
 
-@interface MTEnumMarshaller : NSObject<MTXmlObjectMarshaller>
-@end
-
 @interface MTListMarshaller : NSObject <MTXmlObjectMarshaller>
 @end
 
@@ -37,7 +34,6 @@
     if ((self = [super init])) {
         _marshallers = [[NSMutableDictionary alloc] init];
         [self registerObjectMarshaller:[[MTStringMarshaller alloc] init]];
-        [self registerObjectMarshaller:[[MTEnumMarshaller alloc] init]];
         [self registerObjectMarshaller:[[MTListMarshaller alloc] init]];
         [self registerObjectMarshaller:[[MTPageMarshaller alloc] init]];
         [self registerObjectMarshaller:[[MTPageRefMarshaller alloc] init]];
@@ -178,23 +174,6 @@
         val = @"";
     }
     return val;
-}
-
-@end
-
-
-@implementation MTEnumMarshaller
-
-- (BOOL)handlesSubclasses {
-    return YES;
-}
-
-- (Class)objectType {
-    return [OOOEnum class];
-}
-
-- (id)withCtx:(MTXmlLoader*)ctx type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
-    return [type.clazz valueOf:xml.stringValue];
 }
 
 @end

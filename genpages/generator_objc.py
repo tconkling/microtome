@@ -2,15 +2,21 @@
 # microtome - Tim Conkling, 2012
 
 import pystache
+import itertools
 import spec as s
 
 BASE_PAGE_CLASS = "MTMutablePage"
-BOOL_TYPENAME = "BOOL"
-STRING_TYPENAME = "NSString"
-LIST_TYPENAME = "NSArray"
+BOOL_NAME = "BOOL"
+INT_NAME = "int"
+FLOAT_NAME = "float"
+STRING_NAME = "NSString"
+LIST_NAME = "NSArray"
 
 LIBRARY_HEADER = "MicrotomePages.h"
 LIBRARY_CLASS = "MicrotomePages.m"
+
+# stuff we don't need to import/forward-declare
+DISCARD_IMPORTS = set([ BOOL_NAME, INT_NAME, FLOAT_NAME, STRING_NAME, LIST_NAME ])
 
 def generate_library (page_names, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
@@ -44,11 +50,11 @@ def capitalize (string):
 
 def get_typename (the_type, pointer_type = True):
     if the_type == s.BoolType:
-        typename = BOOL_TYPENAME
+        typename = BOOL_NAME
     elif the_type == s.StringType:
-        typename = STRING_TYPENAME
+        typename = STRING_NAME
     elif the_type == s.ListType:
-        typename = LIST_TYPENAME
+        typename = LIST_NAME
     else:
         typename = the_type
 
@@ -71,22 +77,31 @@ class TypeView(object):
     def is_primitive (self):
         return self.type.name in s.PRIMITIVE_TYPES
 
-    def typename (self):
-        if self.type.name == s.PageRefType or self.type.name == s.PageType:
-            return get_typename(self.type.subtype.name)
+    def name (self):
+        return self._get_name(True)
+
+    def name_no_pointer (self):
+        return self._get_name(False)
+
+    def all_typenames (self):
+        return [ get_typename(name, False) for name in s.type_spec_to_list(self.type) ]
+
+    def _get_name (self, pointer_type):
+        if self.type.name == s.PageRefType:
+            return get_typename(self.type.subtype.name, pointer_type)
         else:
-            return get_typename(self.type.name)
+            return get_typename(self.type.name, pointer_type)
 
 class PropView(object):
     def __init__ (self, prop):
         self.prop = prop
-        self.type = TypeView(prop.type)
+        self.value_type = TypeView(prop.type)
         self.attr_dict = {}
         for attr in self.prop.attrs:
             self.attr_dict[attr.name] = attr.value
 
     def typename (self):
-        if self.type.is_primitive():
+        if self.value_type.is_primitive():
             return "MT" + capitalize(self.prop.type.name) + "Prop"
         else:
             return "MTObjectProp"
@@ -100,21 +115,27 @@ class PageView(object):
     def __init__ (self, page, header_text):
         self.page = page
         self.header = header_text
+        self.props = [ PropView(prop) for prop in self.page.props ]
+
+    def class_imports (self):
+        # generate our list of external classnames referenced by this page:
+        # create a set of all types used by our props, and then
+        # remove stuff
+        typename_lists = [ p.value_type.all_typenames() for p in self.props ]
+        # stuff we don't need to import/forward-declare
+        all_typenames = set(itertools.chain.from_iterable(typename_lists)) - DISCARD_IMPORTS
+        return [ self.name() ] + sorted(all_typenames)
+
+    def forward_decls (self):
+        decls = [ p.value_type.name_no_pointer() for p in self.props ]
+        return sorted(set(decls) - DISCARD_IMPORTS)
 
     def name (self):
         return self.page.name
     def superclass (self):
         return self.page.superclass or BASE_PAGE_CLASS
-    def props (self):
-        return [ PropView(prop) for prop in self.page.props ]
     def header_imports (self):
         return self.superclass()
-    def external_class_names (self):
-        return sorted(set([ prop.type.subtype.name for prop in self.page.props if prop.type.subtype ]))
-    def class_imports (self):
-        return [ self.name() ] + self.external_class_names()
-    def forward_decls (self):
-        return self.external_class_names()
     def header_filename (self):
         return self.name() + ".h"
     def class_filename (self):

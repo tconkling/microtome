@@ -1,9 +1,7 @@
 == TODO
 
 * nod proof-of-concept
-* custom types
 * other attributes
-* propspec?
 * recursive directory walk
 * playn runtime
 * namespaces?

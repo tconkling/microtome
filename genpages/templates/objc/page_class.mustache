@@ -4,7 +4,7 @@
 {{/class_imports}}
 
 {{#props}}
-static MTPropSpec* _{{name}}Spec = nil;
+static MTPropSpec* s_{{name}}Spec = nil;
 {{/props}}
 
 @implementation {{name}} {
@@ -23,7 +23,7 @@ static MTPropSpec* _{{name}}Spec = nil;
 - (id)init {
     if ((self = [super init])) {
     {{#props}}
-        _{{name}} = [[{{typename}} alloc] initWithPropSpec:_{{name}}Spec];
+        _{{name}} = [[{{typename}} alloc] initWithPropSpec:s_{{name}}Spec];
     {{/props}}
     }
     return self;
@@ -32,7 +32,9 @@ static MTPropSpec* _{{name}}Spec = nil;
 + (void)initialize {
     if (self == [{{name}} class]) {
     {{#props}}
-        _{{name}}Spec = [[MTPropSpec alloc] initWithName:@"{{name}}" annotations:@{ {{#annotations}}"{{name}}": {{value}}, {{/annotations}} } valueTypes:{{#value_type}}{{>valueTypes}}{{/value_type}} ];
+        s_{{name}}Spec = [[MTPropSpec alloc] initWithName:@"{{name}}"
+            annotations:@{ {{#annotations}}"{{name}}":{{value}},{{/annotations}} }
+            valueTypes:{{#value_type}}{{#is_primitive}}nil{{/is_primitive}}{{^is_primitive}}@[ {{#all_typenames}}[{{.}} class],{{/all_typenames}} ]{{/is_primitive}}{{/value_type}} ];
     {{/props}}
     }
 }

@@ -3,6 +3,7 @@
 
 import pystache
 import itertools
+import numbers
 import spec as s
 
 BASE_PAGE_CLASS = "MTMutablePage"
@@ -63,6 +64,9 @@ def get_typename (the_type, pointer_type = True):
 
     return typename
 
+def to_boxed (val):
+    return "@%s" % val
+
 def to_bool (val):
     return "YES" if val else "NO"
 
@@ -102,10 +106,11 @@ class AnnotationView(object):
     def name (self):
         return self.annotation.name
     def value (self):
-        if isinstance(self.annotation.value, Number):
-            return self.annotation.value
-        elif isinstance(self.annotation.value, bool):
-            return to_bool(self.annotation.value)
+        # bools are Numbers, so do the bool check first
+        if isinstance(self.annotation.value, bool):
+            return to_boxed(to_bool(self.annotation.value))
+        if isinstance(self.annotation.value, numbers.Number):
+            return to_boxed(self.annotation.value)
         else:
             return to_nsstring(self.annotation.value)
 

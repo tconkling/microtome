@@ -3,10 +3,15 @@
 
 #import "MTPage.h"
 
+#import "MTType.h"
 #import "MTProp.h"
 #import "MTUtils.h"
 
 @implementation MTMutablePage
+
+- (MTType*)type {
+    return [[MTType alloc] initWithClass:[self class] subtype:nil];
+}
 
 - (NSArray*)props {
     return @[];

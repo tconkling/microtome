@@ -26,7 +26,6 @@
 		221B2FD1161D0AE8001B98AA /* PrimitivePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FD0161D0AE8001B98AA /* PrimitivePage.m */; };
 		221B2FF9161E0CE6001B98AA /* MTPageRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FF7161E0CE5001B98AA /* MTPageRef.h */; };
 		221B2FFA161E0CE6001B98AA /* MTPageRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FF8161E0CE5001B98AA /* MTPageRef.m */; };
-		221B3012161E27B4001B98AA /* TomePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B3011161E27B4001B98AA /* TomePage.m */; };
 		221B3017161E28FB001B98AA /* MTPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B3016161E28FB001B98AA /* MTPage.m */; };
 		221B303C161E5860001B98AA /* MTUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B303A161E585E001B98AA /* MTUtils.h */; };
 		221B303D161E5860001B98AA /* MTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B303B161E585F001B98AA /* MTUtils.m */; };
@@ -81,6 +80,7 @@
 		22031D42162F3ADA0093E61E /* MTValueHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTValueHandler.h; sourceTree = "<group>"; };
 		22031D43162F3ADA0093E61E /* MTValueHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTValueHandler.m; sourceTree = "<group>"; };
 		22031D51162F60EA0093E61E /* MTXmlObjectMarshaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTXmlObjectMarshaller.m; sourceTree = "<group>"; };
+		22031D53162F8AAD0093E61E /* MTLibraryItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTLibraryItem.h; sourceTree = "<group>"; };
 		221B2F42161CD0D1001B98AA /* MTPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPage.h; sourceTree = "<group>"; };
 		221B2F4A161CD668001B98AA /* MTTome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTome.h; sourceTree = "<group>"; };
 		221B2F4F161CD918001B98AA /* MTTome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTome.m; sourceTree = "<group>"; };
@@ -97,15 +97,12 @@
 		221B2FD0161D0AE8001B98AA /* PrimitivePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrimitivePage.m; sourceTree = "<group>"; };
 		221B2FF7161E0CE5001B98AA /* MTPageRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPageRef.h; sourceTree = "<group>"; };
 		221B2FF8161E0CE5001B98AA /* MTPageRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPageRef.m; sourceTree = "<group>"; };
-		221B3010161E27B4001B98AA /* TomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TomePage.h; sourceTree = "<group>"; };
-		221B3011161E27B4001B98AA /* TomePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TomePage.m; sourceTree = "<group>"; };
 		221B3016161E28FB001B98AA /* MTPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPage.m; sourceTree = "<group>"; };
 		221B303A161E585E001B98AA /* MTUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTUtils.h; sourceTree = "<group>"; };
 		221B303B161E585F001B98AA /* MTUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTUtils.m; sourceTree = "<group>"; };
 		221B303E161E5B06001B98AA /* MTDefs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTDefs.h; sourceTree = "<group>"; };
 		221B3043161E61F3001B98AA /* NestedPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NestedPage.h; sourceTree = "<group>"; };
 		221B3044161E61F3001B98AA /* NestedPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NestedPage.m; sourceTree = "<group>"; };
-		221B3046161F5F0C001B98AA /* MTContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTContainer.h; sourceTree = "<group>"; };
 		225041C81558ACB50014FA5D /* libmicrotome.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmicrotome.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		225041CB1558ACB50014FA5D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		225041D81558ACB50014FA5D /* microtomeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = microtomeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -203,8 +200,6 @@
 				221B2FD0161D0AE8001B98AA /* PrimitivePage.m */,
 				226BAA3F161F946900133173 /* RefPage.h */,
 				226BAA40161F946900133173 /* RefPage.m */,
-				221B3010161E27B4001B98AA /* TomePage.h */,
-				221B3011161E27B4001B98AA /* TomePage.m */,
 				225041E21558ACB50014FA5D /* Supporting Files */,
 			);
 			path = Tests;
@@ -224,10 +219,10 @@
 			children = (
 				221B2FC1161CFBF4001B98AA /* XML */,
 				225041F71558AD200014FA5D /* microtome.h */,
-				221B3046161F5F0C001B98AA /* MTContainer.h */,
 				221B303E161E5B06001B98AA /* MTDefs.h */,
 				221B2F57161CDE60001B98AA /* MTLibrary.h */,
 				221B2F58161CDE60001B98AA /* MTLibrary.m */,
+				22031D53162F8AAD0093E61E /* MTLibraryItem.h */,
 				221B2F79161CE727001B98AA /* MTLoadException.h */,
 				221B2F7A161CE727001B98AA /* MTLoadException.m */,
 				221B2F42161CD0D1001B98AA /* MTPage.h */,
@@ -430,7 +425,6 @@
 			files = (
 				225041E91558ACB50014FA5D /* microtomeTests.m in Sources */,
 				221B2FD1161D0AE8001B98AA /* PrimitivePage.m in Sources */,
-				221B3012161E27B4001B98AA /* TomePage.m in Sources */,
 				221B3045161E61F3001B98AA /* NestedPage.m in Sources */,
 				226BAA41161F946900133173 /* RefPage.m in Sources */,
 			);

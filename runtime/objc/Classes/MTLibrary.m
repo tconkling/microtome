@@ -17,7 +17,7 @@
 - (id)init {
     if ((self = [super init])) {
         _pageClasses = [[NSMutableDictionary alloc] init];
-        _pages = [[NSMutableDictionary alloc] init];
+        _items = [[NSMutableDictionary alloc] init];
         _valueHandlers = [[NSMutableDictionary alloc] init];
 
         [self registerValueHandler:[[MTStringValueHandler alloc] init]];
@@ -30,16 +30,11 @@
 }
 
 - (id)objectForKeyedSubscript:(id)key {
-    return _pages[key];
+    return _items[key];
 }
 
-- (void)removeAllPages {
-    [_pages removeAllObjects];
-}
-
-// MTContainer
-- (id)childNamed:(NSString*)name {
-    return _pages[name];
+- (void)removeAllItems {
+    [_items removeAllObjects];
 }
 
 - (void)registerValueHandler:(id<MTValueHandler>)handler {
@@ -79,34 +74,34 @@
     }
 }
 
-- (void)addPages:(NSArray*)pages {
-    for (MTMutablePage* page in pages) {
-        if (_pages[page.name] != nil) {
+- (void)addItems:(NSArray*)items {
+    for (id<MTLibraryItem> item in items) {
+        if (_items[item.name] != nil) {
             [NSException raise:NSGenericException
-                        format:@"A page with that name is already loaded [name=%@]", page.name];
+                        format:@"An item with that name is already loaded [item=%@]", item.name];
         }
     }
 
-    for (MTMutablePage* page in pages) {
-        _pages[page.name] = page;
+    for (id<MTLibraryItem> item in items) {
+        _items[item.name] = item;
     }
 
     @try {
-        for (MTMutablePage* page in pages) {
-            id<MTValueHandler> handler = [self requireValueHandlerForClass:[page class]];
-            [handler withLibrary:self type:[[MTType alloc] initWithClass:[page class] subtype:nil] resolveRefs:page];
+        for (id<MTLibraryItem> item in items) {
+            id<MTValueHandler> handler = [self requireValueHandlerForClass:[item class]];
+            [handler withLibrary:self type:item.type resolveRefs:item];
         }
     }
     @catch (NSException* exception) {
-        for (MTMutablePage* page in pages) {
-            [self removePageWithName:page.name];
+        for (id<MTLibraryItem> item in items) {
+            [self removeItemWithName:item.name];
         }
         @throw exception;
     }
 }
 
-- (void)removePageWithName:(NSString*)name {
-    [_pages removeObjectForKey:name];
+- (void)removeItemWithName:(NSString*)name {
+    [_items removeObjectForKey:name];
 }
 
 - (Class)pageClassWithName:(NSString*)name {
@@ -135,16 +130,16 @@
     // E.g. level1.baddies.big_boss
     
     NSArray* components = [fullyQualifiedName componentsSeparatedByString:MT_NAME_SEPARATOR];
-    id<MTContainer> container = self;
+    id<MTLibraryItem> item = nil;
     for (NSString* name in components) {
-        id child = [container childNamed:name];
-        if (![child conformsToProtocol:@protocol(MTContainer)]) {
+        id child = (item != nil ? [item childNamed:name] : self[name]);
+        if (![child conformsToProtocol:@protocol(MTLibraryItem)]) {
             return nil;
         }
-        container = (id<MTContainer>)child;
+        item = (id<MTLibraryItem>)child;
     }
 
-    return ([container conformsToProtocol:@protocol(MTPage)] ? (id<MTPage>)container : nil);
+    return ([item conformsToProtocol:@protocol(MTPage)] ? (id<MTPage>)item : nil);
 }
 
 - (id<MTPage>)requirePage:(NSString*)fullyQualifiedName pageClass:(Class)pageClass {

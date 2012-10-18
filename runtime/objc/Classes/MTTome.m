@@ -3,18 +3,25 @@
 
 #import "MTTome.h"
 
+#import "MTType.h"
 #import "MTPage.h"
 
 @implementation MTMutableTome
 
-@synthesize pageType = _pageType;
+@synthesize name = _name;
+@synthesize type = _type;
 
-- (id)initWithPageType:(Class)pageType {
+- (id)initWithName:(NSString*)name pageType:(Class)pageType {
     if ((self = [super init])) {
-        _pageType = pageType;
+        _name = name;
+        _type = MTBuildType(@[[self class], pageType]);
         _pages = [[NSMutableDictionary alloc] init];
     }
     return self;
+}
+
+- (Class)pageType {
+    return _type.subtype.clazz;
 }
 
 - (int)pageCount {
@@ -45,9 +52,9 @@
 - (void)addPage:(id<MTPage>)page {
     if (page == nil) {
         [NSException raise:NSGenericException format:@"Can't add nil page"];
-    } else if (![page isKindOfClass:_pageType]) {
+    } else if (![page isKindOfClass:self.pageType]) {
         [NSException raise:NSGenericException
-                    format:@"Incorrect page type [required=%@, got=%@]", _pageType, [page class]];
+                    format:@"Incorrect page type [required=%@, got=%@]", self.pageType, [page class]];
     } else if (page.name == nil) {
         [NSException raise:NSGenericException
                     format:@"NamedPage is missing name [type=%@]", [page class]];

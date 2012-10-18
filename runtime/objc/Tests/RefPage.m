@@ -6,7 +6,7 @@
 
 static NSString* const XML_STRING =
     @"<root><refTest type='RefPage'>"
-    @"  <nested>tomeTest.tome.test1</nested>"
+    @"  <nested>tomeTest.test1</nested>"
     @"</refTest></root>";
 
 static MTObjectPropSpec* _nestedSpec = nil;

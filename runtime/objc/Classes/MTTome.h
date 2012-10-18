@@ -1,11 +1,12 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTContainer.h"
+#import "MTLibraryItem.h"
 
 @protocol MTPage;
+@class MTType;
 
-@protocol MTTome <NSObject,MTContainer>
+@protocol MTTome <NSObject,MTLibraryItem>
 @property (nonatomic,readonly) Class pageType;
 @property (nonatomic,readonly) int pageCount;
 @property (nonatomic,readonly) id<NSFastEnumeration> pages;
@@ -16,11 +17,12 @@
 
 @interface MTMutableTome : NSObject <MTTome> {
 @protected
-    Class _pageType;
+    NSString* _name;
+    MTType* _type;
     NSMutableDictionary* _pages;
 }
 
-- (id)initWithPageType:(Class)pageType;
+- (id)initWithName:(NSString*)name pageType:(Class)pageType;
 
 - (void)addPage:(id<MTPage>)page;
 

@@ -3,6 +3,7 @@
 
 #import "MTXmlLoader.h"
 
+#import "MTDefs.h"
 #import "MTUtils.h"
 #import "MTType.h"
 #import "MTLibrary.h"
@@ -29,19 +30,19 @@
     return self;
 }
 
-- (void)loadPagesFromDoc:(GDataXMLDocument*)doc {
-    [self loadPagesFromDocs:@[doc]];
+- (void)loadItemsFromDoc:(GDataXMLDocument*)doc {
+    [self loadItemsFromDocs:@[doc]];
 }
 
-- (void)loadPagesFromDocs:(NSArray*)docs {
+- (void)loadItemsFromDocs:(NSArray*)docs {
     NSMutableArray* pages = [[NSMutableArray alloc] init];
     for (GDataXMLDocument* doc in docs) {
         for (GDataXMLElement* pageXml in doc.rootElement.elements) {
-            [pages addObject:[self loadPage:pageXml]];
+            [pages addObject:[self loadLibraryItem:pageXml]];
         }
     }
 
-    [_library addPages:pages];
+    [_library addItems:pages];
 }
 
 - (id<MTXmlObjectMarshaller>)requireObjectMarshallerForClass:(Class)requiredClass {
@@ -53,15 +54,45 @@
     return (id<MTXmlObjectMarshaller>)handler;
 }
 
-- (MTMutablePage*)loadPage:(GDataXMLElement*)pageXml requiredClass:(__unsafe_unretained Class)requiredClass {
+- (id<MTLibraryItem>)loadLibraryItem:(GDataXMLElement*)xml {
+    // a tome or a page
+    NSString* typeName = [xml stringAttribute:@"type"];
+    NSRange range = [typeName rangeOfString:MT_TOME_PREFIX];
+    if (range.location == 0) {
+        // it's a tome!
+        typeName = [typeName substringFromIndex:range.length];
+        Class pageClass = [_library requirePageClassWithName:typeName];
+        return [self loadTome:xml pageType:pageClass];
+    } else {
+        // it's a page!
+        return [self loadPage:xml superclass:nil];
+    }
+}
+
+- (MTMutableTome*)loadTome:(GDataXMLElement*)tomeXml pageType:(__unsafe_unretained Class)pageType {
+    NSString* name = tomeXml.name;
+    if (!MTValidLibraryItemName(name)) {
+        @throw [MTXmlLoadException withElement:tomeXml reason:@"tome name '%@' is invalid", name];
+    }
+
+    MTMutableTome* tome = [[MTMutableTome alloc] initWithName:name pageType:pageType];
+    for (GDataXMLElement* pageXml in tomeXml.elements) {
+        id<MTPage> page = [self loadPage:pageXml superclass:pageType];
+        [tome addPage:page];
+    }
+
+    return tome;
+}
+
+- (MTMutablePage*)loadPage:(GDataXMLElement*)pageXml superclass:(__unsafe_unretained Class)superclass {
     NSString* name = pageXml.name;
-    if (!MTValidPageName(name)) {
+    if (!MTValidLibraryItemName(name)) {
         @throw [MTXmlLoadException withElement:pageXml reason:@"page name '%@' is invalid", name];
     }
 
     NSString* typeName = [pageXml stringAttribute:@"type"];
-    Class pageClass = (requiredClass != nil ?
-                       [_library requirePageClassWithName:typeName superClass:requiredClass] :
+    Class pageClass = (superclass != nil ?
+                       [_library requirePageClassWithName:typeName superClass:superclass] :
                        [_library requirePageClassWithName:typeName]);
 
     MTMutablePage* page = [[pageClass alloc] init];
@@ -114,10 +145,6 @@
         }
     }
     return page;
-}
-
-- (id<MTPage>)loadPage:(GDataXMLElement*)xml {
-    return [self loadPage:xml requiredClass:nil];
 }
 
 - (NSString*)requireTextContent:(GDataXMLElement*)xml {

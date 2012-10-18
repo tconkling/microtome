@@ -1,9 +1,9 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTContainer.h"
+#import "MTLibraryItem.h"
 
-@protocol MTPage <NSObject,MTContainer>
+@protocol MTPage <NSObject,MTLibraryItem>
 @property (nonatomic,readonly) NSString* name;
 @property (nonatomic,readonly) NSArray* props;
 @end

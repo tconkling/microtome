@@ -1,29 +1,28 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTContainer.h"
-
 @protocol MTValueHandler;
 @protocol MTPage;
 
-@interface MTLibrary : NSObject <MTContainer> {
+@interface MTLibrary : NSObject {
 @protected
-    NSMutableDictionary* _pages;
+    NSMutableDictionary* _items;
     NSMutableDictionary* _pageClasses;
     NSMutableDictionary* _valueHandlers;
 }
 
-/// Removes all pages from the library
-- (void)removeAllPages;
+/// Removes all items from the library
+- (void)removeAllItems;
 
 - (void)registerPageClasses:(NSArray*)classes;
 - (void)registerValueHandler:(id<MTValueHandler>)handler;
 
-/// FooPage* page = library[@"myFooPage"]
+/// FooPage* page = library[@"myFooPage"] or
+/// id<MTTome> tome = library[@"myTomeyTome"]
 - (id)objectForKeyedSubscript:(id)key;
 
 // protected
-- (void)addPages:(NSArray*)pages;
+- (void)addItems:(NSArray*)items;
 
 - (id<MTValueHandler>)requireValueHandlerForClass:(Class)requiredClass;
 

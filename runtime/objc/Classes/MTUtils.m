@@ -9,7 +9,7 @@
 #import "MTPage.h"
 #import "MTProp.h"
 
-BOOL MTValidPageName (NSString* name) {
+BOOL MTValidLibraryItemName (NSString* name) {
     return [name rangeOfString:MT_NAME_SEPARATOR].location == NSNotFound;
 }
 

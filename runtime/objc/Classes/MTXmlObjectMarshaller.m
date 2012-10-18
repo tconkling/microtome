@@ -44,7 +44,7 @@
 @implementation MTPageMarshaller
 
 - (id)withCtx:(MTXmlLoader*)ctx type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
-    return [ctx loadPage:xml requiredClass:type.subtype.clazz];
+    return [ctx loadPage:xml superclass:type.subtype.clazz];
 }
 
 @end
@@ -62,12 +62,7 @@
 @implementation MTTomeMarshaller
 
 - (id)withCtx:(MTXmlLoader*)ctx type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)tomeXml {
-    MTMutableTome* tome = [[MTMutableTome alloc] initWithPageType:type.subtype.clazz];
-    for (GDataXMLElement* pageXml in tomeXml.elements) {
-        id<MTPage> page = [ctx loadPage:pageXml requiredClass:tome.pageType];
-        [tome addPage:page];
-    }
-    return tome;
+    return [ctx loadTome:tomeXml pageType:type.subtype.clazz];
 }
 
 @end

@@ -4,5 +4,5 @@
 @class MTProp;
 @protocol MTPage;
 
-BOOL MTValidPageName (NSString* name);
+BOOL MTValidLibraryItemName (NSString* name);
 MTProp* MTGetProp (id<MTPage> page, NSString* name);

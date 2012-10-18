@@ -3,6 +3,7 @@
 
 @protocol MTXmlObjectMarshaller;
 @class MTMutablePage;
+@class MTMutableTome;
 @class MTLibrary;
 
 @interface MTXmlLoader : NSObject {
@@ -12,14 +13,14 @@
 
 - (id)initWithLibrary:(MTLibrary*)library;
 
-- (void)loadPagesFromDoc:(GDataXMLDocument*)doc;
-- (void)loadPagesFromDocs:(NSArray*)docs;
+- (void)loadItemsFromDoc:(GDataXMLDocument*)doc;
+- (void)loadItemsFromDocs:(NSArray*)docs;
 
 // protected
 
 - (id<MTXmlObjectMarshaller>)requireObjectMarshallerForClass:(Class)requiredClass;
 
-- (MTMutablePage*)loadPage:(GDataXMLElement*)xml;
-- (MTMutablePage*)loadPage:(GDataXMLElement*)xml requiredClass:(Class)requiredClass;
+- (MTMutableTome*)loadTome:(GDataXMLElement*)xml pageType:(__unsafe_unretained Class)pageType;
+- (MTMutablePage*)loadPage:(GDataXMLElement*)xml superclass:(Class)superclass;
 
 @end

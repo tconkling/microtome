@@ -44,7 +44,7 @@
 @implementation MTPageMarshaller
 
 - (id)withCtx:(MTXmlLoader*)ctx type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
-    return [ctx loadPage:xml superclass:type.subtype.clazz];
+    return [ctx loadPage:xml superclass:type.clazz];
 }
 
 @end

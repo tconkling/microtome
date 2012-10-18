@@ -7,19 +7,14 @@
 @interface MTPropSpec : NSObject {
 @protected
     NSString* _name;
-}
-@property (nonatomic,readonly) NSString* name;
-- (id)initWithName:(NSString*)name;
-@end
-
-@interface MTObjectPropSpec : MTPropSpec {
-@protected
-    BOOL _nullable;
+    NSDictionary* _annotations;
     MTType* _valueType;
 }
-@property (nonatomic,readonly) BOOL nullable;
+@property (nonatomic,readonly) NSString* name;
+@property (nonatomic,readonly) NSDictionary* annotations;
 @property (nonatomic,readonly) MTType* valueType;
-- (id)initWithName:(NSString*)name nullable:(BOOL)nullable valueType:(MTType*)valueType;
+
+- (id)initWithName:(NSString*)name annotations:(NSDictionary*)annotations valueTypes:(NSArray*)valueTypes;
 @end
 
 @interface MTProp : NSObject {
@@ -27,7 +22,12 @@
     MTPropSpec* _spec;
 }
 @property (nonatomic,readonly) NSString* name;
+
 - (id)initWithPropSpec:(MTPropSpec*)spec;
+
+- (BOOL)boolAnnotation:(NSString*)name default:(BOOL)defaultVal;
+- (float)floatAnnotation:(NSString*)name default:(float)defaultVal;
+- (NSString*)stringAnnotation:(NSString*)name default:(NSString*)defaultVal;
 @end
 
 @interface MTObjectProp : MTProp {

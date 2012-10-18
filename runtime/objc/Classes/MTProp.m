@@ -7,25 +7,14 @@
 @implementation MTPropSpec
 
 @synthesize name = _name;
-
-- (id)initWithName:(NSString*)name {
-    if ((self = [super init])) {
-        _name = name;
-    }
-    return self;
-}
-
-@end
-
-@implementation MTObjectPropSpec
-
-@synthesize nullable = _nullable;
+@synthesize annotations = _annotations;
 @synthesize valueType = _valueType;
 
-- (id)initWithName:(NSString*)name nullable:(BOOL)nullable valueType:(MTType*)valueType {
-    if ((self = [super initWithName:name])) {
-        _nullable = nullable;
-        _valueType = valueType;
+- (id)initWithName:(NSString*)name annotations:(NSDictionary*)annotations valueTypes:(NSArray*)valueTypes {
+    if ((self = [super init])) {
+        _name = name;
+        _annotations = annotations;
+        _valueType = (valueTypes == nil ? nil : MTBuildType(valueTypes));
     }
     return self;
 }
@@ -45,18 +34,45 @@
     return _spec.name;
 }
 
+- (BOOL)boolAnnotation:(NSString*)name default:(BOOL)defaultVal {
+    id val = _spec.annotations[name];
+    if (![val isKindOfClass:[NSNumber class]]) {
+        return defaultVal;
+    } else {
+        return ((NSNumber*)val).boolValue;
+    }
+}
+
+- (float)floatAnnotation:(NSString*)name default:(float)defaultVal {
+    id val = _spec.annotations[name];
+    if (![val isKindOfClass:[NSNumber class]]) {
+        return defaultVal;
+    } else {
+        return ((NSNumber*)val).floatValue;
+    }
+}
+
+- (NSString*)stringAnnotation:(NSString*)name default:(NSString*)defaultVal {
+    id val = _spec.annotations[name];
+    if (![val isKindOfClass:[NSString class]]) {
+        return defaultVal;
+    } else {
+        return (NSString*)val;
+    }
+}
+
 @end
 
 @implementation MTObjectProp
 
 @synthesize value = _value;
 
-- (BOOL)nullable {
-    return ((MTObjectPropSpec*)_spec).nullable;
+- (MTType*)valueType {
+    return _spec.valueType;
 }
 
-- (MTType*)valueType {
-    return ((MTObjectPropSpec*)_spec).valueType;
+- (BOOL)nullable {
+    return [self boolAnnotation:@"nullable" default:NO];
 }
 
 @end

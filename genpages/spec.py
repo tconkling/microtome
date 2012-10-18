@@ -6,10 +6,10 @@
 
 from collections import namedtuple
 
-PageSpec = namedtuple("PageSpec", ["name", "superclass", "props", "pos"])
-PropSpec = namedtuple("PropSpec", ["type", "name", "attrs", "pos"])
-AttrSpec = namedtuple("AttrSpec", ["name", "value", "pos"])
-TypeSpec = namedtuple("TypeSpec", ["name", "subtype"])
+PageSpec =          namedtuple("PageSpec", ["name", "superclass", "props", "pos"])
+PropSpec =          namedtuple("PropSpec", ["type", "name", "annotations", "pos"])
+AnnotationSpec =    namedtuple("AnnotationSpec", ["name", "value", "pos"])
+TypeSpec =          namedtuple("TypeSpec", ["name", "subtype"])
 
 BoolType =      "bool"
 IntType =       "int"

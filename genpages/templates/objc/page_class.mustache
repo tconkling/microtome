@@ -32,10 +32,9 @@ static MTPropSpec* _{{name}}Spec = nil;
 + (void)initialize {
     if (self == [{{name}} class]) {
     {{#props}}
-        _{{name}}Spec = {{#value_type.is_primitive}}[[MTPropSpec alloc] initWithName:@"{{name}}"];{{/value_type.is_primitive}}{{^value_type.is_primitive}}[[MTObjectPropSpec alloc] initWithName:@"{{name}}" nullable:{{nullable}} valueType:MTBuildType(@[ {{#value_type.all_typenames}}[{{.}} class], {{/value_type.all_typenames}} ])];{{/value_type.is_primitive}}
+        _{{name}}Spec = [[MTPropSpec alloc] initWithName:@"{{name}}" annotations:@{ {{#annotations}}"{{name}}": {{value}}, {{/annotations}} } valueTypes:{{#value_type}}{{>valueTypes}}{{/value_type}} ];
     {{/props}}
     }
 }
 
 @end
-

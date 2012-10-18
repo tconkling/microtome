@@ -15,7 +15,7 @@ from stringscanner import StringScanner
 
 # token types
 IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')    # must start with a letter or _
-ATTR_VALUE = re.compile(r'[\w\"]+')         # can contain " and '
+ANNOTATION_VALUE = re.compile(r'[\w\"]+')         # can contain " and '
 CURLY_OPEN = re.compile(r'\{')
 CURLY_CLOSE = re.compile(r'\}')
 PAREN_OPEN = re.compile(r'\(')
@@ -132,17 +132,17 @@ class Parser(object):
         prop_name = self._require_text(IDENTIFIER, "Expected prop name")
         LOG.debug("found prop_name: " + prop_name)
 
-        # attrs
-        attrs = None
+        # annotations
+        annotations = None
         self._eat_whitespace()
         if self._get_text(PAREN_OPEN):
-            attrs = self._parse_attrs()
+            annotations = self._parse_annotations()
             self._eat_whitespace()
             self._require_text(PAREN_CLOSE)
 
         self._require_text(SEMICOLON, "expected semicolon")
 
-        return s.PropSpec(type = prop_type, name = prop_name, attrs = attrs or [], pos = prop_pos)
+        return s.PropSpec(type = prop_type, name = prop_name, annotations = annotations or [], pos = prop_pos)
 
     def _parse_type (self, is_subtype = False):
         '''parse a TypeSpec'''
@@ -170,33 +170,44 @@ class Parser(object):
 
         return s.TypeSpec(name = typename, subtype = subtype)
 
-    def _parse_attrs (self):
-        '''parse a list of AttrSpecs'''
-        attrs = []
+    def _parse_annotations (self):
+        '''parse a list of AnnotationSpecs'''
+        annotations = []
         while True:
-            attrs.append(self._parse_attr())
+            annotations.append(self._parse_annotation())
             self._eat_whitespace()
             if not self._get_text(COMMA):
                 break
-        return attrs
+        return annotations
 
-    def _parse_attr (self):
-        '''parse a single AttrSpec'''
+    def _parse_annotation (self):
+        '''parse a single AnnotationSpec'''
         # name
         self._eat_whitespace()
-        attr_pos = self._scanner.pos
-        attr_name = self._require_text(IDENTIFIER, "Expected attribute name")
-        LOG.debug("found attr_name: " + attr_name)
+        anno_pos = self._scanner.pos
+        anno_name = self._require_text(IDENTIFIER, "Expected annotation name")
+        LOG.debug("found anno_name: " + anno_name)
 
         # optional value
-        attr_value = None
+        anno_value = None
         self._eat_whitespace()
         if self._get_text(EQUALS):
             self._eat_whitespace()
-            attr_value = self._require_text(ATTR_VALUE)
-            LOG.debug("found attr_value: " + attr_value)
+            # determine the type. annotations can be bools, floats, or strings
+            text = self._get_text(ANNOTATION_VALUE)
+            anno_value = get_number(text)
+            if anno_value == None:
+                anno_value = get_bool(text)
+            if anno_value == None:
+                anno_value = get_quoted_string(text)
+            if anno_value == None:
+                raise ParseError(self.string, self.pos, "Expected a bool, a number, or a quoted string")
 
-        return s.AttrSpec(name = attr_name, value = attr_value, pos = attr_pos)
+            LOG.debug("found anno_value: " + str(anno_value))
+
+        # if no value is specified, we default to True (this is for flag-like annotations,
+        # like 'nullable')
+        return s.AnnotationSpec(name = anno_name, value = anno_value or True, pos = anno_pos)
 
     def _check_text (self, pattern):
         '''Returns the text that matches the given pattern if it exists at the current point
@@ -219,6 +230,30 @@ class Parser(object):
     def _eat_whitespace (self):
         '''advances the stream to the first non-whitespace character'''
         self._scanner.scan(WHITESPACE)
+
+def get_number (s):
+    '''returns the float represented by the string, or None if the string can't be converted'''
+    try:
+        return float(s)
+    except ValueError:
+        return None
+
+def get_bool (s):
+    '''returns the bool represented by the string, or None if the string can't be converted'''
+    if s == "true":
+        return True
+    elif s == "false":
+        return False
+    else:
+        return None
+
+def get_quoted_string (s):
+    '''returns the quoted string represented by the string, or None if the string can't be
+    converted'''
+    if (s.startswith('"') and s.endswith('"')) or (s.startswith("'") and s.endswith("'")):
+        return s[1:len(s) - 2]
+    else:
+        return None
 
 if __name__ == "__main__":
     logging.basicConfig(level = logging.INFO)

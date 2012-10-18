@@ -66,6 +66,9 @@ def get_typename (the_type, pointer_type = True):
 def to_bool (val):
     return "YES" if val else "NO"
 
+def to_nsstring (val):
+    return '@"%s"' % val
+
 class AttrView(object):
     def __init__ (self, attr):
         self.attr = attr
@@ -92,13 +95,25 @@ class TypeView(object):
         else:
             return get_typename(self.type.name, pointer_type)
 
+class AnnotationView(object):
+    def __init__ (self, annotation):
+        self.annotation = annotation
+
+    def name (self):
+        return self.annotation.name
+    def value (self):
+        if isinstance(self.annotation.value, Number):
+            return self.annotation.value
+        elif isinstance(self.annotation.value, bool):
+            return to_bool(self.annotation.value)
+        else:
+            return to_nsstring(self.annotation.value)
+
 class PropView(object):
     def __init__ (self, prop):
         self.prop = prop
         self.value_type = TypeView(prop.type)
-        self.attr_dict = {}
-        for attr in self.prop.attrs:
-            self.attr_dict[attr.name] = attr.value
+        self.annotations = [ AnnotationView(a) for a in prop.annotations ]
 
     def typename (self):
         if self.value_type.is_primitive():
@@ -148,8 +163,8 @@ if __name__ == "__main__":
     PAGE = s.PageSpec(name = "TestPage",
         superclass = None,
         props = [
-            s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", attrs = [], pos = 0),
-            s.PropSpec(type = s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name = "bar", attrs = [], pos = 0)
+            s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", annotations = [], pos = 0),
+            s.PropSpec(type = s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name = "bar", annotations = [], pos = 0)
         ],
         pos = 0)
 

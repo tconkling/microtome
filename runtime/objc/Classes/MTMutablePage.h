@@ -3,6 +3,10 @@
 
 #import "MTPage.h"
 
-@interface MTMutablePage : NSObject <MTPage>
+@interface MTMutablePage : NSObject <MTPage> {
+@protected
+    NSString* _name;
+}
+
 @property (nonatomic,strong) NSString* name;
 @end

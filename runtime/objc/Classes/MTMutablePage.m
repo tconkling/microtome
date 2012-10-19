@@ -9,6 +9,8 @@
 
 @implementation MTMutablePage
 
+@synthesize name = _name;
+
 - (MTType*)type {
     return [[MTType alloc] initWithClass:[self class] subtype:nil];
 }

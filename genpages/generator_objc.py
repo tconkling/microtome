@@ -128,8 +128,8 @@ class PropView(object):
 
     def name (self):
         return self.prop.name
-    def nullable (self):
-        return to_bool(self.attr_dict.get("nullable"))
+    def has_annos (self):
+        return len(self.annotations) > 0
 
 class PageView(object):
     def __init__ (self, page, header_text):

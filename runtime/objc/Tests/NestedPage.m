@@ -37,7 +37,7 @@ static MTPropSpec* _nestedSpec = nil;
 
 + (void)initialize {
     if (self == [NestedPage class]) {
-        _nestedSpec = [[MTPropSpec alloc] initWithName:@"nested" annotations:@{} valueTypes:@[[PrimitivePage class]]];
+        _nestedSpec = [[MTPropSpec alloc] initWithName:@"nested" annotations:nil valueTypes:@[[PrimitivePage class]]];
     }
 }
 

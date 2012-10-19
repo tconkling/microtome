@@ -40,7 +40,11 @@ def main ():
         print("Processing " + os.path.abspath(in_name) + "...")
         # open the file, parse it, and run it through the generator
         with open(in_name, 'r') as in_file:
-            page_spec = parser.parse(in_file.read())
+            try:
+                page_spec = parser.parse(in_file.read())
+            except parser.ParseError, e:
+                e.filename = in_name
+                raise
             generated = generator.generate_page(page_spec, header_text)
 
         # this can result in multiple generated files (e.g. a .h and .m file for objc)

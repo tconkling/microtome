@@ -37,14 +37,15 @@ def parse (string):
 class ParseError(Exception):
     '''Problem that occurred during parsing'''
     def __init__ (self, string, pos, msg):
-        Exception.__init__(self)
         line_data = util.line_data_at_index(string, pos)
 
         self.line_number = line_data.line_num
         self.line = (string.splitlines()[line_data.line_num])[line_data.col:]
         self.message = msg
+        self.filename = None
 
-        self.args = (self.message, self.line_number, self.line)
+    def __str__ (self):
+        return 'File "%s", line %d, "%s": %s' % (self.filename, self.line_number, self.line, self.message)
 
 class Parser(object):
     '''parses a page from a string'''

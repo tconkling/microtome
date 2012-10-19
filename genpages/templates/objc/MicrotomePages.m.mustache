@@ -1,11 +1,11 @@
 {{header}}
-
+#import "MicrotomePages.h"
 {{#page_names}}
 #import "{{.}}.h"
 {{/page_names}}
 
 NSArray* MicrotomePages (void) {
-    return [{{#page_names}}
+    return @[{{#page_names}}
         [{{.}} class],{{/page_names}}
     ];
 }

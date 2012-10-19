@@ -33,7 +33,7 @@ static MTPropSpec* s_{{name}}Spec = nil;
     if (self == [{{name}} class]) {
     {{#props}}
         s_{{name}}Spec = [[MTPropSpec alloc] initWithName:@"{{name}}"
-            annotations:{{#has_annos}}@{ {{#annotations}}"{{name}}":{{value}},{{/annotations}} }{{/has_annos}}{{^has_annos}}nil{{/has_annos}}
+            annotations:{{#has_annos}}@{ {{#annotations}}@"{{name}}":{{value}},{{/annotations}} }{{/has_annos}}{{^has_annos}}nil{{/has_annos}}
             valueTypes:{{#value_type}}{{#is_primitive}}nil{{/is_primitive}}{{^is_primitive}}@[ {{#all_typenames}}[{{.}} class],{{/all_typenames}} ]{{/is_primitive}}{{/value_type}} ];
     {{/props}}
     }

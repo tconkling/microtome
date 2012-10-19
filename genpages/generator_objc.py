@@ -5,6 +5,7 @@ import pystache
 import itertools
 import numbers
 import spec as s
+import util
 
 BASE_PAGE_CLASS = "MTMutablePage"
 BOOL_NAME = "BOOL"
@@ -16,13 +17,15 @@ LIST_NAME = "NSArray"
 LIBRARY_HEADER = "MicrotomePages.h"
 LIBRARY_CLASS = "MicrotomePages.m"
 
+TEMPLATES_DIR = util.abspath("templates/objc")
+
 # stuff we don't need to import/forward-declare
 DISCARD_IMPORTS = set([ BOOL_NAME, INT_NAME, FLOAT_NAME, STRING_NAME, LIST_NAME ])
 
 def generate_library (page_names, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
-    stache = pystache.Renderer(search_dirs = "templates/objc")
+    stache = pystache.Renderer(search_dirs = TEMPLATES_DIR)
 
     library_view = { "page_names": sorted(page_names), "header": header_text }
 
@@ -35,7 +38,7 @@ def generate_page (page_spec, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
     page_view = PageView(page_spec, header_text)
-    stache = pystache.Renderer(search_dirs = "templates/objc")
+    stache = pystache.Renderer(search_dirs = TEMPLATES_DIR)
 
     header_name = page_view.header_filename()
     header_contents = stache.render(stache.load_template("page_header"), page_view)

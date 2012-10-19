@@ -3,6 +3,7 @@
 
 import re
 from collections import namedtuple
+import os
 
 LineData = namedtuple("LineData", ["line_num", "col"])
 
@@ -22,3 +23,7 @@ def line_data_at_index (str, idx):
         col = idx - pos
 
     return LineData(line_num = line_num, col = col)
+
+def abspath (path):
+    this_dir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(this_dir, path)

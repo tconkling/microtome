@@ -2,6 +2,8 @@
 // microtome - Copyright 2012 Three Rings Design
 
 #import "MTProp.h"
+
+#import "MTDefs.h"
 #import "MTType.h"
 
 @implementation MTPropSpec
@@ -34,6 +36,10 @@
     return _spec.name;
 }
 
+- (BOOL)hasAnnotation:(NSString*)name {
+    return _spec.annotations[name] != nil;
+}
+
 - (BOOL)boolAnnotation:(NSString*)name default:(BOOL)defaultVal {
     id val = _spec.annotations[name];
     if (![val isKindOfClass:[NSNumber class]]) {
@@ -49,6 +55,15 @@
         return defaultVal;
     } else {
         return ((NSNumber*)val).floatValue;
+    }
+}
+
+- (int)intAnnotation:(NSString*)name default:(int)defaultVal {
+    id val = _spec.annotations[name];
+    if (![val isKindOfClass:[NSNumber class]]) {
+        return defaultVal;
+    } else {
+        return ((NSNumber*)val).intValue;
     }
 }
 
@@ -72,7 +87,7 @@
 }
 
 - (BOOL)nullable {
-    return [self boolAnnotation:@"nullable" default:NO];
+    return [self boolAnnotation:MT_NULLABLE default:NO];
 }
 
 @end

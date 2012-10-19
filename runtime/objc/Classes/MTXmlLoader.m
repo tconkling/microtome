@@ -119,11 +119,17 @@
             if (isPrimitive) {
                 // Handle primitive props
                 if ([prop isKindOfClass:[MTIntProp class]]) {
-                    ((MTIntProp*)prop).value = [[self requireTextContent:propXml] requireIntValue];
+                    MTIntProp* intProp = (MTIntProp*)prop;
+                    intProp.value = [[self requireTextContent:propXml] requireIntValue];
+                    [_library.primitiveValueHandler validateInt:intProp];
                 } else if ([prop isKindOfClass:[MTBoolProp class]]) {
-                    ((MTBoolProp*)prop).value = [[self requireTextContent:propXml] requireBoolValue];
+                    MTBoolProp* boolProp = (MTBoolProp*)prop;
+                    boolProp.value = [[self requireTextContent:propXml] requireBoolValue];
+                    [_library.primitiveValueHandler validateBool:boolProp];
                 } else if ([prop isKindOfClass:[MTFloatProp class]]) {
-                    ((MTFloatProp*)prop).value = [[self requireTextContent:propXml] requireFloatValue];
+                    MTFloatProp* floatProp = (MTFloatProp*)prop;
+                    floatProp.value = [[self requireTextContent:propXml] requireFloatValue];
+                    [_library.primitiveValueHandler validateFloat:floatProp];
                 } else {
                     @throw [MTXmlLoadException withElement:propXml
                                 reason:@"Unrecognized primitive prop [name=%@, class=%@]",
@@ -136,6 +142,7 @@
                     [self requireObjectMarshallerForClass:objectProp.valueType.clazz];
                 id value = [marshaller withCtx:self type:objectProp.valueType loadObjectfromXml:propXml];
                 objectProp.value = value;
+                [marshaller validatePropValue:objectProp];
             }
         } @catch (MTXmlLoadException* e) {
             @throw e;

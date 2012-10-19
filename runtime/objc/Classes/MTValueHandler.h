@@ -3,13 +3,26 @@
 
 @class MTType;
 @class MTLibrary;
-@class MTObjectProp;
+@class MTProp;
+@class MTBoolProp;
+@class MTIntProp;
+@class MTFloatProp;
+
+@protocol MTPrimitiveValueHandler <NSObject>
+/// throws an MTValidationException on failure
+- (void)validateBool:(MTBoolProp*)prop;
+/// throws an MTValidationException on failure
+- (void)validateInt:(MTIntProp*)prop;
+/// throws an MTValidationException on failure
+- (void)validateFloat:(MTFloatProp*)prop;
+@end
 
 @protocol MTValueHandler <NSObject>
 @property (nonatomic,readonly) Class valueType;
 @property (nonatomic,readonly) BOOL handlesSubclasses;
 - (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value;
-- (void)validatePropValue:(MTObjectProp*)prop;
+/// throws an MTValidationException on failure
+- (void)validatePropValue:(MTProp*)prop;
 @end
 
 // abstract
@@ -17,6 +30,9 @@
 @end
 
 /// Built-in value handlers
+@interface MTDefaultPrimitiveValueHandler : NSObject <MTPrimitiveValueHandler>
+@end
+
 @interface MTStringValueHandler : MTValueHandlerBase
 @end
 

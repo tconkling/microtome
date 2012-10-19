@@ -3,12 +3,14 @@
 
 #import "MTValueHandler.h"
 
+#import "MTDefs.h"
 #import "MTPage.h"
 #import "MTPageRef.h"
 #import "MTTome.h"
 #import "MTLibrary.h"
 #import "MTType.h"
 #import "MTProp.h"
+#import "MTValidationException.h"
 
 @implementation MTValueHandlerBase
 
@@ -28,12 +30,11 @@
 
 - (void)validatePropValue:(MTObjectProp*)prop {
     if (!prop.nullable && prop.value == nil) {
-        [NSException raise:NSGenericException format:@"nil value for non-nullable prop [name=%@]", prop.name];
+        @throw [MTValidationException withProp:prop reason:@"nil value for non-nullable prop"];
     }
     if (prop.value != nil && ![prop.value isKindOfClass:self.valueType]) {
-        [NSException raise:NSGenericException
-                    format:@"incompatible value type [name=%@, requiredType=%@, actualType=%@]",
-                        prop.name, NSStringFromClass(self.valueType),
+        @throw [MTValidationException withProp:prop reason:@"incompatible value type [required=%@, actual=%@]",
+                        NSStringFromClass(self.valueType),
                         NSStringFromClass([prop.value class])];
     }
 }
@@ -41,6 +42,41 @@
 @end
 
 // Built-in value handlers
+
+@implementation MTDefaultPrimitiveValueHandler
+
+#define MT_TOO_SMALL(prop, min) \
+    ({ [MTValidationException withProp:prop reason:@"value too small (%d < %d)", prop.value, min]; })
+#define MT_TOO_LARGE(prop, max) \
+    ({ [MTValidationException withProp:prop reason:@"value too large (%d > %d)", prop.value, max]; })
+
+- (void)validateBool:(MTBoolProp*)prop {
+    // do nothing
+}
+
+- (void)validateInt:(MTIntProp*)prop {
+    int min = [prop intAnnotation:MT_MIN default:INT_MIN];
+    if (prop.value < min) {
+        @throw [MTValidationException withProp:prop reason:@"value too small (%d < %d)", prop.value, min];
+    }
+    int max = [prop intAnnotation:MT_MAX default:INT_MAX];
+    if (prop.value > max) {
+        @throw [MTValidationException withProp:prop reason:@"value too small (%d < %d)", prop.value, min];
+    }
+}
+
+- (void)validateFloat:(MTFloatProp*)prop {
+    float min = [prop floatAnnotation:MT_MIN default:-FLT_MAX];
+    if (prop.value < min) {
+        @throw [MTValidationException withProp:prop reason:@"value too small (%g < %g)", prop.value, min];
+    }
+    float max = [prop floatAnnotation:MT_MAX default:FLT_MAX];
+    if (prop.value > max) {
+        @throw [MTValidationException withProp:prop reason:@"value too small (%g < %g)", prop.value, min];
+    }
+}
+
+@end
 
 @implementation MTStringValueHandler
 

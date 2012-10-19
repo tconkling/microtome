@@ -1,7 +1,9 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
+@protocol MTPrimitiveValueHandler;
 @protocol MTValueHandler;
+@protocol MTPrimitiveValueHandler;
 @protocol MTPage;
 
 @interface MTLibrary : NSObject {
@@ -9,7 +11,10 @@
     NSMutableDictionary* _items;
     NSMutableDictionary* _pageClasses;
     NSMutableDictionary* _valueHandlers;
+    id<MTPrimitiveValueHandler> _primitiveValueHandler;
 }
+
+@property (nonatomic,strong) id<MTPrimitiveValueHandler> primitiveValueHandler;
 
 /// Removes all items from the library
 - (void)removeAllItems;

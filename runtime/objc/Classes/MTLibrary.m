@@ -14,6 +14,8 @@
 
 @implementation MTLibrary
 
+@synthesize primitiveValueHandler = _primitiveValueHandler;
+
 - (id)init {
     if ((self = [super init])) {
         _pageClasses = [[NSMutableDictionary alloc] init];
@@ -25,6 +27,8 @@
         [self registerValueHandler:[[MTPageValueHandler alloc] init]];
         [self registerValueHandler:[[MTPageRefValueHandler alloc] init]];
         [self registerValueHandler:[[MTTomeValueHandler alloc] init]];
+
+        _primitiveValueHandler = [[MTDefaultPrimitiveValueHandler alloc] init];
     }
     return self;
 }

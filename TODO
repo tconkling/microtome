@@ -1,8 +1,6 @@
 == TODO
 
-* validation
 * nod proof-of-concept
-* other attributes
 * recursive directory walk
 * playn runtime
 * namespaces?

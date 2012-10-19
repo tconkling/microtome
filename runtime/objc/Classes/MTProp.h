@@ -25,7 +25,9 @@
 
 - (id)initWithPropSpec:(MTPropSpec*)spec;
 
+- (BOOL)hasAnnotation:(NSString*)name;
 - (BOOL)boolAnnotation:(NSString*)name default:(BOOL)defaultVal;
+- (int)intAnnotation:(NSString*)name default:(int)defaultVal;
 - (float)floatAnnotation:(NSString*)name default:(float)defaultVal;
 - (NSString*)stringAnnotation:(NSString*)name default:(NSString*)defaultVal;
 @end

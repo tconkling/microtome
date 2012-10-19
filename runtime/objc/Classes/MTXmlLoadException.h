@@ -3,8 +3,6 @@
 
 #import "MTLoadException.h"
 
-@class GDataXMLElement;
-
 @interface MTXmlLoadException : MTLoadException
 
 + (MTXmlLoadException*)withReason:(NSString*)format, ... NS_FORMAT_FUNCTION(1, 2);

@@ -11,8 +11,6 @@
 #import "MTMutablePageRef.h"
 #import "MTMutableTome.h"
 
-#import "GDataXMLNode+MTExtensions.h"
-
 @implementation MTStringMarshaller
 
 - (id)withCtx:(MTLibrary*)ctx type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {

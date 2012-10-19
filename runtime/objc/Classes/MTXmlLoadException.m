@@ -3,7 +3,6 @@
 
 #import "MTXmlLoadException.h"
 
-#import "GDataXMLNode+MTExtensions.h"
 #import "MTDefs.h"
 
 static NSString * const NAME = @"MTXmlLoadException";

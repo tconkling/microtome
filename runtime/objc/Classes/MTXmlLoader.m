@@ -14,8 +14,6 @@
 #import "MTProp.h"
 #import "MTXmlLoadException.h"
 
-#import "GDataXMLNode+MTExtensions.h"
-
 @implementation MTXmlLoader
 
 - (id)initWithLibrary:(MTLibrary*)library {

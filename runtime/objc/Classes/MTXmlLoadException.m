@@ -3,16 +3,19 @@
 
 #import "MTXmlLoadException.h"
 
+#import "GDataXMLNode+MTExtensions.h"
+#import "MTDefs.h"
+
 static NSString * const NAME = @"MTXmlLoadException";
 
 @implementation MTXmlLoadException
 
 + (MTXmlLoadException*)withReason:(NSString*)format, ... {
-    return [[MTXmlLoadException alloc] initWithReason:OOO_FORMAT_TO_NSSTRING(format)];
+    return [[MTXmlLoadException alloc] initWithReason:MT_FORMAT_TO_NSSTRING(format)];
 }
 
 + (MTXmlLoadException*)withElement:(GDataXMLElement*)badElement reason:(NSString*)format, ... {
-    NSString* reason = OOO_FORMAT_TO_NSSTRING(format);
+    NSString* reason = MT_FORMAT_TO_NSSTRING(format);
 
     if (badElement != nil) {
         reason = [NSString stringWithFormat:@"%@\nXML: %@", reason, [badElement description]];

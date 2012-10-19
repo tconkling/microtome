@@ -11,16 +11,50 @@
 		22031CDD162E04780093E61E /* MTType.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031CDB162E04780093E61E /* MTType.m */; };
 		22031D44162F3ADA0093E61E /* MTValueHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D42162F3ADA0093E61E /* MTValueHandler.h */; };
 		22031D45162F3ADA0093E61E /* MTValueHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D43162F3ADA0093E61E /* MTValueHandler.m */; };
-		22031D52162F60EB0093E61E /* MTXmlObjectMarshaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D51162F60EA0093E61E /* MTXmlObjectMarshaller.m */; };
 		22031D881630CB500093E61E /* MTValidationException.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D861630CB4E0093E61E /* MTValidationException.h */; };
 		22031D891630CB500093E61E /* MTValidationException.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D871630CB4F0093E61E /* MTValidationException.m */; };
-		22031DB31630D3DB0093E61E /* libcooocoa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2250421C1558B00B0014FA5D /* libcooocoa.a */; };
 		22031DC41631D8850093E61E /* MTMutablePage.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DC21631D8840093E61E /* MTMutablePage.h */; };
 		22031DC51631D8850093E61E /* MTMutablePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DC31631D8850093E61E /* MTMutablePage.m */; };
 		22031DC81631D9930093E61E /* MTMutablePageRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DC61631D9920093E61E /* MTMutablePageRef.h */; };
 		22031DC91631D9930093E61E /* MTMutablePageRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DC71631D9920093E61E /* MTMutablePageRef.m */; };
 		22031DCC1631D9EE0093E61E /* MTMutableTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DCA1631D9ED0093E61E /* MTMutableTome.h */; };
 		22031DCD1631D9EE0093E61E /* MTMutableTome.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DCB1631D9EE0093E61E /* MTMutableTome.m */; };
+		22031DEB1631EAEC0093E61E /* MTProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E43A6E1559B847003A43B8 /* MTProp.m */; };
+		22031DEC1631EAEC0093E61E /* MTLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F58161CDE60001B98AA /* MTLibrary.m */; };
+		22031DED1631EAEC0093E61E /* MTLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F7A161CE727001B98AA /* MTLoadException.m */; };
+		22031DEE1631EAEC0093E61E /* MTXmlLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FBE161CFBDE001B98AA /* MTXmlLoader.m */; };
+		22031DEF1631EAEC0093E61E /* MTXmlLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FC4161D00A4001B98AA /* MTXmlLoadException.m */; };
+		22031DF01631EAEC0093E61E /* MTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B303B161E585F001B98AA /* MTUtils.m */; };
+		22031DF11631EAEC0093E61E /* MTType.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031CDB162E04780093E61E /* MTType.m */; };
+		22031DF21631EAEC0093E61E /* MTValueHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D43162F3ADA0093E61E /* MTValueHandler.m */; };
+		22031DF31631EAEC0093E61E /* MTXmlObjectMarshaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D51162F60EA0093E61E /* MTXmlObjectMarshaller.m */; };
+		22031DF41631EAEC0093E61E /* MTValidationException.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D871630CB4F0093E61E /* MTValidationException.m */; };
+		22031DF51631EAEC0093E61E /* MTMutablePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DC31631D8850093E61E /* MTMutablePage.m */; };
+		22031DF61631EAEC0093E61E /* MTMutablePageRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DC71631D9920093E61E /* MTMutablePageRef.m */; };
+		22031DF71631EAEC0093E61E /* MTMutableTome.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DCB1631D9EE0093E61E /* MTMutableTome.m */; };
+		22031DF91631EAEC0093E61E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041CB1558ACB50014FA5D /* Foundation.framework */; };
+		22031DFB1631EAEC0093E61E /* microtome.h in Headers */ = {isa = PBXBuildFile; fileRef = 225041F71558AD200014FA5D /* microtome.h */; };
+		22031DFC1631EAEC0093E61E /* MTPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F42161CD0D1001B98AA /* MTPage.h */; };
+		22031DFD1631EAEC0093E61E /* MTTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F4A161CD668001B98AA /* MTTome.h */; };
+		22031DFE1631EAEC0093E61E /* MTLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F57161CDE60001B98AA /* MTLibrary.h */; };
+		22031DFF1631EAEC0093E61E /* MTLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F79161CE727001B98AA /* MTLoadException.h */; };
+		22031E001631EAEC0093E61E /* MTXmlLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FBD161CFBDE001B98AA /* MTXmlLoader.h */; };
+		22031E011631EAEC0093E61E /* MTXmlLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */; };
+		22031E021631EAEC0093E61E /* MTPageRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FF7161E0CE5001B98AA /* MTPageRef.h */; };
+		22031E031631EAEC0093E61E /* MTUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B303A161E585E001B98AA /* MTUtils.h */; };
+		22031E041631EAEC0093E61E /* MTType.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031CDA162E04780093E61E /* MTType.h */; };
+		22031E051631EAEC0093E61E /* MTValueHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D42162F3ADA0093E61E /* MTValueHandler.h */; };
+		22031E061631EAEC0093E61E /* MTValidationException.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D861630CB4E0093E61E /* MTValidationException.h */; };
+		22031E071631EAEC0093E61E /* MTMutablePage.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DC21631D8840093E61E /* MTMutablePage.h */; };
+		22031E081631EAEC0093E61E /* MTMutablePageRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DC61631D9920093E61E /* MTMutablePageRef.h */; };
+		22031E091631EAEC0093E61E /* MTMutableTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DCA1631D9ED0093E61E /* MTMutableTome.h */; };
+		22031E161631ECAD0093E61E /* GDataXMLNode+MTExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031E101631ECAD0093E61E /* GDataXMLNode+MTExtensions.h */; };
+		22031E171631ECAD0093E61E /* GDataXMLNode+MTExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031E111631ECAD0093E61E /* GDataXMLNode+MTExtensions.m */; };
+		22031E181631ECAD0093E61E /* GDataXMLException.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031E121631ECAD0093E61E /* GDataXMLException.h */; };
+		22031E191631ECAD0093E61E /* GDataXMLException.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031E131631ECAD0093E61E /* GDataXMLException.m */; };
+		22031E1A1631ECAD0093E61E /* GDataXMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031E141631ECAD0093E61E /* GDataXMLNode.h */; };
+		22031E1B1631ECAD0093E61E /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031E151631ECAD0093E61E /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		22031E411631F04F0093E61E /* libmicrotome-xml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22031E0D1631EAEC0093E61E /* libmicrotome-xml.a */; };
 		221B2F44161CD0D1001B98AA /* MTPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F42161CD0D1001B98AA /* MTPage.h */; };
 		221B2F4C161CD668001B98AA /* MTTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F4A161CD668001B98AA /* MTTome.h */; };
 		221B2F59161CDE60001B98AA /* MTLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F57161CDE60001B98AA /* MTLibrary.h */; };
@@ -28,9 +62,7 @@
 		221B2F7B161CE728001B98AA /* MTLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F79161CE727001B98AA /* MTLoadException.h */; };
 		221B2F7C161CE728001B98AA /* MTLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F7A161CE727001B98AA /* MTLoadException.m */; };
 		221B2FBF161CFBDE001B98AA /* MTXmlLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FBD161CFBDE001B98AA /* MTXmlLoader.h */; };
-		221B2FC0161CFBDE001B98AA /* MTXmlLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FBE161CFBDE001B98AA /* MTXmlLoader.m */; };
 		221B2FC5161D00A4001B98AA /* MTXmlLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */; };
-		221B2FC6161D00A4001B98AA /* MTXmlLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FC4161D00A4001B98AA /* MTXmlLoadException.m */; };
 		221B2FD1161D0AE8001B98AA /* PrimitivePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FD0161D0AE8001B98AA /* PrimitivePage.m */; };
 		221B2FF9161E0CE6001B98AA /* MTPageRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FF7161E0CE5001B98AA /* MTPageRef.h */; };
 		221B303C161E5860001B98AA /* MTUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B303A161E585E001B98AA /* MTUtils.h */; };
@@ -40,7 +72,6 @@
 		225041DA1558ACB50014FA5D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041D91558ACB50014FA5D /* SenTestingKit.framework */; };
 		225041DC1558ACB50014FA5D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041DB1558ACB50014FA5D /* UIKit.framework */; };
 		225041DD1558ACB50014FA5D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041CB1558ACB50014FA5D /* Foundation.framework */; };
-		225041E01558ACB50014FA5D /* libmicrotome.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041C81558ACB50014FA5D /* libmicrotome.a */; };
 		225041E61558ACB50014FA5D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 225041E41558ACB50014FA5D /* InfoPlist.strings */; };
 		225041E91558ACB50014FA5D /* microtomeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 225041E81558ACB50014FA5D /* microtomeTests.m */; };
 		225041F81558AD200014FA5D /* microtome.h in Headers */ = {isa = PBXBuildFile; fileRef = 225041F71558AD200014FA5D /* microtome.h */; };
@@ -49,33 +80,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		225041DE1558ACB50014FA5D /* PBXContainerItemProxy */ = {
+		22031E3F1631F0300093E61E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 225041BF1558ACB50014FA5D /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 225041C71558ACB50014FA5D;
-			remoteInfo = microtome;
-		};
-		2250421B1558B00B0014FA5D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 225041FB1558ADBC0014FA5D /* cooocoa.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 229E27B11557473D001452E5;
-			remoteInfo = cooocoa;
-		};
-		2250421D1558B00B0014FA5D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 225041FB1558ADBC0014FA5D /* cooocoa.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 229E27C11557473D001452E5;
-			remoteInfo = cooocoaTests;
-		};
-		22E43A7C1559B982003A43B8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 225041FB1558ADBC0014FA5D /* cooocoa.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 229E27B01557473D001452E5;
-			remoteInfo = cooocoa;
+			remoteGlobalIDString = 22031DE71631EAEC0093E61E;
+			remoteInfo = "microtome-xml";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -94,6 +104,17 @@
 		22031DC71631D9920093E61E /* MTMutablePageRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTMutablePageRef.m; sourceTree = "<group>"; };
 		22031DCA1631D9ED0093E61E /* MTMutableTome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTMutableTome.h; sourceTree = "<group>"; };
 		22031DCB1631D9EE0093E61E /* MTMutableTome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTMutableTome.m; sourceTree = "<group>"; };
+		22031DDF1631EAD70093E61E /* microtome-xml-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "microtome-xml-Prefix.pch"; sourceTree = "<group>"; };
+		22031DE01631EAD70093E61E /* microtome_xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = microtome_xml.h; sourceTree = "<group>"; };
+		22031DE21631EAD70093E61E /* microtome_xml.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = microtome_xml.m; sourceTree = "<group>"; };
+		22031E0D1631EAEC0093E61E /* libmicrotome-xml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmicrotome-xml.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		22031E0E1631EB250093E61E /* microtome-xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "microtome-xml.h"; sourceTree = "<group>"; };
+		22031E101631ECAD0093E61E /* GDataXMLNode+MTExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GDataXMLNode+MTExtensions.h"; sourceTree = "<group>"; };
+		22031E111631ECAD0093E61E /* GDataXMLNode+MTExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GDataXMLNode+MTExtensions.m"; sourceTree = "<group>"; };
+		22031E121631ECAD0093E61E /* GDataXMLException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLException.h; sourceTree = "<group>"; };
+		22031E131631ECAD0093E61E /* GDataXMLException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLException.m; sourceTree = "<group>"; };
+		22031E141631ECAD0093E61E /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
+		22031E151631ECAD0093E61E /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
 		221B2F42161CD0D1001B98AA /* MTPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPage.h; sourceTree = "<group>"; };
 		221B2F4A161CD668001B98AA /* MTTome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTome.h; sourceTree = "<group>"; };
 		221B2F57161CDE60001B98AA /* MTLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLibrary.h; sourceTree = "<group>"; };
@@ -124,7 +145,6 @@
 		225041E81558ACB50014FA5D /* microtomeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = microtomeTests.m; sourceTree = "<group>"; };
 		225041F71558AD200014FA5D /* microtome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = microtome.h; sourceTree = "<group>"; };
 		225041FA1558AD740014FA5D /* microtome_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = microtome_Prefix.pch; sourceTree = "<group>"; };
-		225041FB1558ADBC0014FA5D /* cooocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cooocoa.xcodeproj; path = ../cooocoa.xcodeproj; sourceTree = COOOCOA_SRC; };
 		225042451558B19F0014FA5D /* MTProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTProp.h; sourceTree = "<group>"; };
 		226BAA3F161F946900133173 /* RefPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefPage.h; sourceTree = "<group>"; };
 		226BAA40161F946900133173 /* RefPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefPage.m; sourceTree = "<group>"; };
@@ -132,6 +152,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		22031DF81631EAEC0093E61E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				22031DF91631EAEC0093E61E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		225041C51558ACB50014FA5D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -144,20 +172,52 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22031DB31630D3DB0093E61E /* libcooocoa.a in Frameworks */,
+				22031E411631F04F0093E61E /* libmicrotome-xml.a in Frameworks */,
 				225041DA1558ACB50014FA5D /* SenTestingKit.framework in Frameworks */,
 				225041DC1558ACB50014FA5D /* UIKit.framework in Frameworks */,
 				225041DD1558ACB50014FA5D /* Foundation.framework in Frameworks */,
-				225041E01558ACB50014FA5D /* libmicrotome.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		22031DDD1631EAD70093E61E /* microtome-xml */ = {
+			isa = PBXGroup;
+			children = (
+				22031DE01631EAD70093E61E /* microtome_xml.h */,
+				22031DE21631EAD70093E61E /* microtome_xml.m */,
+				22031DDE1631EAD70093E61E /* Supporting Files */,
+			);
+			path = "microtome-xml";
+			sourceTree = "<group>";
+		};
+		22031DDE1631EAD70093E61E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				22031DDF1631EAD70093E61E /* microtome-xml-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		22031E0F1631EC9B0093E61E /* GDataXML */ = {
+			isa = PBXGroup;
+			children = (
+				22031E101631ECAD0093E61E /* GDataXMLNode+MTExtensions.h */,
+				22031E111631ECAD0093E61E /* GDataXMLNode+MTExtensions.m */,
+				22031E121631ECAD0093E61E /* GDataXMLException.h */,
+				22031E131631ECAD0093E61E /* GDataXMLException.m */,
+				22031E141631ECAD0093E61E /* GDataXMLNode.h */,
+				22031E151631ECAD0093E61E /* GDataXMLNode.m */,
+			);
+			name = GDataXML;
+			sourceTree = "<group>";
+		};
 		221B2FC1161CFBF4001B98AA /* XML */ = {
 			isa = PBXGroup;
 			children = (
+				22031E0F1631EC9B0093E61E /* GDataXML */,
+				22031E0E1631EB250093E61E /* microtome-xml.h */,
 				221B2FBD161CFBDE001B98AA /* MTXmlLoader.h */,
 				221B2FBE161CFBDE001B98AA /* MTXmlLoader.m */,
 				221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */,
@@ -171,10 +231,10 @@
 		225041BD1558ACB50014FA5D = {
 			isa = PBXGroup;
 			children = (
-				225041FB1558ADBC0014FA5D /* cooocoa.xcodeproj */,
 				225041F61558ACFE0014FA5D /* Classes */,
 				225041E11558ACB50014FA5D /* Tests */,
 				225041F91558AD520014FA5D /* Supporting Files */,
+				22031DDD1631EAD70093E61E /* microtome-xml */,
 				225041CA1558ACB50014FA5D /* Frameworks */,
 				225041C91558ACB50014FA5D /* Products */,
 			);
@@ -185,6 +245,7 @@
 			children = (
 				225041C81558ACB50014FA5D /* libmicrotome.a */,
 				225041D81558ACB50014FA5D /* microtomeTests.octest */,
+				22031E0D1631EAEC0093E61E /* libmicrotome-xml.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -266,18 +327,34 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		225042171558B00B0014FA5D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2250421C1558B00B0014FA5D /* libcooocoa.a */,
-				2250421E1558B00B0014FA5D /* cooocoaTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		22031DFA1631EAEC0093E61E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				22031DFB1631EAEC0093E61E /* microtome.h in Headers */,
+				22031DFC1631EAEC0093E61E /* MTPage.h in Headers */,
+				22031DFD1631EAEC0093E61E /* MTTome.h in Headers */,
+				22031DFE1631EAEC0093E61E /* MTLibrary.h in Headers */,
+				22031DFF1631EAEC0093E61E /* MTLoadException.h in Headers */,
+				22031E001631EAEC0093E61E /* MTXmlLoader.h in Headers */,
+				22031E011631EAEC0093E61E /* MTXmlLoadException.h in Headers */,
+				22031E021631EAEC0093E61E /* MTPageRef.h in Headers */,
+				22031E031631EAEC0093E61E /* MTUtils.h in Headers */,
+				22031E041631EAEC0093E61E /* MTType.h in Headers */,
+				22031E051631EAEC0093E61E /* MTValueHandler.h in Headers */,
+				22031E061631EAEC0093E61E /* MTValidationException.h in Headers */,
+				22031E071631EAEC0093E61E /* MTMutablePage.h in Headers */,
+				22031E081631EAEC0093E61E /* MTMutablePageRef.h in Headers */,
+				22031E091631EAEC0093E61E /* MTMutableTome.h in Headers */,
+				22031E161631ECAD0093E61E /* GDataXMLNode+MTExtensions.h in Headers */,
+				22031E181631ECAD0093E61E /* GDataXMLException.h in Headers */,
+				22031E1A1631ECAD0093E61E /* GDataXMLNode.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		225041C61558ACB50014FA5D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -303,6 +380,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		22031DE71631EAEC0093E61E /* microtome-xml */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 22031E0A1631EAEC0093E61E /* Build configuration list for PBXNativeTarget "microtome-xml" */;
+			buildPhases = (
+				22031DEA1631EAEC0093E61E /* Sources */,
+				22031DF81631EAEC0093E61E /* Frameworks */,
+				22031DFA1631EAEC0093E61E /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "microtome-xml";
+			productName = microtome;
+			productReference = 22031E0D1631EAEC0093E61E /* libmicrotome-xml.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		225041C71558ACB50014FA5D /* microtome */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 225041EC1558ACB50014FA5D /* Build configuration list for PBXNativeTarget "microtome" */;
@@ -314,7 +408,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				22E43A7D1559B982003A43B8 /* PBXTargetDependency */,
 			);
 			name = microtome;
 			productName = microtome;
@@ -333,7 +426,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				225041DF1558ACB50014FA5D /* PBXTargetDependency */,
+				22031E401631F0300093E61E /* PBXTargetDependency */,
 			);
 			name = microtomeTests;
 			productName = microtomeTests;
@@ -360,36 +453,14 @@
 			mainGroup = 225041BD1558ACB50014FA5D;
 			productRefGroup = 225041C91558ACB50014FA5D /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 225042171558B00B0014FA5D /* Products */;
-					ProjectRef = 225041FB1558ADBC0014FA5D /* cooocoa.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				225041C71558ACB50014FA5D /* microtome */,
+				22031DE71631EAEC0093E61E /* microtome-xml */,
 				225041D71558ACB50014FA5D /* microtomeTests */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		2250421C1558B00B0014FA5D /* libcooocoa.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libcooocoa.a;
-			remoteRef = 2250421B1558B00B0014FA5D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2250421E1558B00B0014FA5D /* cooocoaTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = cooocoaTests.octest;
-			remoteRef = 2250421D1558B00B0014FA5D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		225041D51558ACB50014FA5D /* Resources */ = {
@@ -419,6 +490,29 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		22031DEA1631EAEC0093E61E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				22031DEB1631EAEC0093E61E /* MTProp.m in Sources */,
+				22031DEC1631EAEC0093E61E /* MTLibrary.m in Sources */,
+				22031DED1631EAEC0093E61E /* MTLoadException.m in Sources */,
+				22031DEE1631EAEC0093E61E /* MTXmlLoader.m in Sources */,
+				22031DEF1631EAEC0093E61E /* MTXmlLoadException.m in Sources */,
+				22031DF01631EAEC0093E61E /* MTUtils.m in Sources */,
+				22031DF11631EAEC0093E61E /* MTType.m in Sources */,
+				22031DF21631EAEC0093E61E /* MTValueHandler.m in Sources */,
+				22031DF31631EAEC0093E61E /* MTXmlObjectMarshaller.m in Sources */,
+				22031DF41631EAEC0093E61E /* MTValidationException.m in Sources */,
+				22031DF51631EAEC0093E61E /* MTMutablePage.m in Sources */,
+				22031DF61631EAEC0093E61E /* MTMutablePageRef.m in Sources */,
+				22031DF71631EAEC0093E61E /* MTMutableTome.m in Sources */,
+				22031E171631ECAD0093E61E /* GDataXMLNode+MTExtensions.m in Sources */,
+				22031E191631ECAD0093E61E /* GDataXMLException.m in Sources */,
+				22031E1B1631ECAD0093E61E /* GDataXMLNode.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		225041C41558ACB50014FA5D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -426,12 +520,9 @@
 				22E43A701559B847003A43B8 /* MTProp.m in Sources */,
 				221B2F5A161CDE60001B98AA /* MTLibrary.m in Sources */,
 				221B2F7C161CE728001B98AA /* MTLoadException.m in Sources */,
-				221B2FC0161CFBDE001B98AA /* MTXmlLoader.m in Sources */,
-				221B2FC6161D00A4001B98AA /* MTXmlLoadException.m in Sources */,
 				221B303D161E5860001B98AA /* MTUtils.m in Sources */,
 				22031CDD162E04780093E61E /* MTType.m in Sources */,
 				22031D45162F3ADA0093E61E /* MTValueHandler.m in Sources */,
-				22031D52162F60EB0093E61E /* MTXmlObjectMarshaller.m in Sources */,
 				22031D891630CB500093E61E /* MTValidationException.m in Sources */,
 				22031DC51631D8850093E61E /* MTMutablePage.m in Sources */,
 				22031DC91631D9930093E61E /* MTMutablePageRef.m in Sources */,
@@ -453,15 +544,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		225041DF1558ACB50014FA5D /* PBXTargetDependency */ = {
+		22031E401631F0300093E61E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 225041C71558ACB50014FA5D /* microtome */;
-			targetProxy = 225041DE1558ACB50014FA5D /* PBXContainerItemProxy */;
-		};
-		22E43A7D1559B982003A43B8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = cooocoa;
-			targetProxy = 22E43A7C1559B982003A43B8 /* PBXContainerItemProxy */;
+			target = 22031DE71631EAEC0093E61E /* microtome-xml */;
+			targetProxy = 22031E3F1631F0300093E61E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -477,6 +563,32 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		22031E0B1631EAEC0093E61E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/microtome.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = microtome_Prefix.pch;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "microtome-xml";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		22031E0C1631EAEC0093E61E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/microtome.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = microtome_Prefix.pch;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "microtome-xml";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		225041EA1558ACB50014FA5D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -497,15 +609,12 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
-					"-lxml2",
 					"-all_load",
 					"-ObjC",
 				);
 				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = "${COOOCOA_SRC}/**";
 			};
 			name = Debug;
 		};
@@ -522,15 +631,12 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
-					"-lxml2",
 					"-all_load",
 					"-ObjC",
 				);
 				SDKROOT = iphoneos;
-				USER_HEADER_SEARCH_PATHS = "${COOOCOA_SRC}/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -568,7 +674,13 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = microtome_Prefix.pch;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "Tests/microtomeTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+					"-lxml2",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -583,7 +695,13 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = microtome_Prefix.pch;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "Tests/microtomeTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+					"-lxml2",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -592,6 +710,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		22031E0A1631EAEC0093E61E /* Build configuration list for PBXNativeTarget "microtome-xml" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				22031E0B1631EAEC0093E61E /* Debug */,
+				22031E0C1631EAEC0093E61E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		225041C21558ACB50014FA5D /* Build configuration list for PBXProject "microtome" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

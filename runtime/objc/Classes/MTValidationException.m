@@ -3,6 +3,7 @@
 
 #import "MTValidationException.h"
 
+#import "MTDefs.h"
 #import "MTProp.h"
 
 static NSString* const NAME = @"MTValidationException";
@@ -10,7 +11,7 @@ static NSString* const NAME = @"MTValidationException";
 @implementation MTValidationException
 
 + (MTValidationException*)withProp:(MTProp*)prop reason:(NSString *)format, ... {
-    return [[MTValidationException alloc] initWithProp:prop reason:OOO_FORMAT_TO_NSSTRING(format)];
+    return [[MTValidationException alloc] initWithProp:prop reason:MT_FORMAT_TO_NSSTRING(format)];
 }
 
 - (id)initWithProp:(MTProp*)prop reason:(NSString*)reason {

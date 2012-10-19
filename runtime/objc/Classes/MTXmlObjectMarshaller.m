@@ -11,6 +11,7 @@
 #import "MTMutablePageRef.h"
 #import "MTMutableTome.h"
 
+#import "GDataXMLNode+MTExtensions.h"
 
 @implementation MTStringMarshaller
 

@@ -1,13 +1,6 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-// Loader - XML
-#import "MTXmlLoader.h"
-#import "MTXmlLoadException.h"
-#import "MTXmlObjectMarshaller.h"
-
-// Loader
-
 #import "MTDefs.h"
 #import "MTLibrary.h"
 #import "MTLibraryItem.h"

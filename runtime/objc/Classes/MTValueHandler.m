@@ -15,12 +15,12 @@
 @implementation MTValueHandlerBase
 
 - (Class)valueType {
-    OOO_IS_ABSTRACT();
+    MT_IS_ABSTRACT();
     return nil;
 }
 
 - (BOOL)handlesSubclasses {
-    OOO_IS_ABSTRACT();
+    MT_IS_ABSTRACT();
     return NO;
 }
 

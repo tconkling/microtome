@@ -14,6 +14,8 @@
 #import "MTProp.h"
 #import "MTXmlLoadException.h"
 
+#import "GDataXMLNode+MTExtensions.h"
+
 @implementation MTXmlLoader
 
 - (id)initWithLibrary:(MTLibrary*)library {
@@ -120,15 +122,15 @@
                 // Handle primitive props
                 if ([prop isKindOfClass:[MTIntProp class]]) {
                     MTIntProp* intProp = (MTIntProp*)prop;
-                    intProp.value = [[self requireTextContent:propXml] requireIntValue];
+                    intProp.value = MTRequireIntValue([self requireTextContent:propXml]);
                     [_library.primitiveValueHandler validateInt:intProp];
                 } else if ([prop isKindOfClass:[MTBoolProp class]]) {
                     MTBoolProp* boolProp = (MTBoolProp*)prop;
-                    boolProp.value = [[self requireTextContent:propXml] requireBoolValue];
+                    boolProp.value = MTRequireBoolValue([self requireTextContent:propXml]);
                     [_library.primitiveValueHandler validateBool:boolProp];
                 } else if ([prop isKindOfClass:[MTFloatProp class]]) {
                     MTFloatProp* floatProp = (MTFloatProp*)prop;
-                    floatProp.value = [[self requireTextContent:propXml] requireFloatValue];
+                    floatProp.value = MTRequireFloatValue([self requireTextContent:propXml]);
                     [_library.primitiveValueHandler validateFloat:floatProp];
                 } else {
                     @throw [MTXmlLoadException withElement:propXml

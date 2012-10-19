@@ -14,7 +14,43 @@ BOOL MTValidLibraryItemName (NSString* name) {
 }
 
 MTProp* MTGetProp (id<MTPage> page, NSString* name) {
-    return [page.props findObject:^BOOL(MTProp* prop) {
-        return [prop.name isEqualToString:name];
-    }];
+    for (MTProp* prop in page.props) {
+        if ([prop.name isEqualToString:name]) {
+            return prop;
+        }
+    }
+    return nil;
+}
+
+float MTRequireFloatValue (NSString* string) {
+    NSScanner* scanner = [[NSScanner alloc] initWithString:string];
+    float retVal;
+    if (![scanner scanFloat:&retVal] || !scanner.isAtEnd) {
+        [NSException raise:NSGenericException format:@"'%@' could not be converted to a float", string];
+    }
+
+    return retVal;
+}
+
+int MTRequireIntValue (NSString* string) {
+    NSScanner* scanner = [[NSScanner alloc] initWithString:string];
+    int retVal;
+    if (![scanner scanInt:&retVal] || !scanner.isAtEnd) {
+        [NSException raise:NSGenericException format:@"'%@' could not be converted to a int", string];
+    }
+
+    return retVal;
+}
+
+BOOL MTRequireBoolValue (NSString* string) {
+    NSString* lowercase = [string lowercaseString];
+    if ([lowercase isEqualToString:@"true"] || [lowercase isEqualToString:@"yes"]) {
+        return YES;
+    } else if ([lowercase isEqualToString:@"false"] || [lowercase isEqualToString:@"no"]) {
+        return NO;
+    } else {
+        [NSException raise:NSGenericException format:@"'%@' could not be converted to a BOOL", string];
+    }
+
+    return NO;
 }

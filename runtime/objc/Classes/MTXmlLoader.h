@@ -5,6 +5,8 @@
 @class MTMutablePage;
 @class MTMutableTome;
 @class MTLibrary;
+@class GDataXMLDocument;
+@class GDataXMLElement;
 
 @interface MTXmlLoader : NSObject {
 @protected

@@ -3,7 +3,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-#import "microtome.h"
+#import "microtome-xml.h"
 
 @interface microtomeTests : SenTestCase {
 @protected

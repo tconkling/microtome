@@ -104,9 +104,6 @@
 		22031DC71631D9920093E61E /* MTMutablePageRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTMutablePageRef.m; sourceTree = "<group>"; };
 		22031DCA1631D9ED0093E61E /* MTMutableTome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTMutableTome.h; sourceTree = "<group>"; };
 		22031DCB1631D9EE0093E61E /* MTMutableTome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTMutableTome.m; sourceTree = "<group>"; };
-		22031DDF1631EAD70093E61E /* microtome-xml-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "microtome-xml-Prefix.pch"; sourceTree = "<group>"; };
-		22031DE01631EAD70093E61E /* microtome_xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = microtome_xml.h; sourceTree = "<group>"; };
-		22031DE21631EAD70093E61E /* microtome_xml.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = microtome_xml.m; sourceTree = "<group>"; };
 		22031E0D1631EAEC0093E61E /* libmicrotome-xml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmicrotome-xml.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		22031E0E1631EB250093E61E /* microtome-xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "microtome-xml.h"; sourceTree = "<group>"; };
 		22031E101631ECAD0093E61E /* GDataXMLNode+MTExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GDataXMLNode+MTExtensions.h"; sourceTree = "<group>"; };
@@ -182,24 +179,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		22031DDD1631EAD70093E61E /* microtome-xml */ = {
-			isa = PBXGroup;
-			children = (
-				22031DE01631EAD70093E61E /* microtome_xml.h */,
-				22031DE21631EAD70093E61E /* microtome_xml.m */,
-				22031DDE1631EAD70093E61E /* Supporting Files */,
-			);
-			path = "microtome-xml";
-			sourceTree = "<group>";
-		};
-		22031DDE1631EAD70093E61E /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				22031DDF1631EAD70093E61E /* microtome-xml-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		22031E0F1631EC9B0093E61E /* GDataXML */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,7 +213,6 @@
 				225041F61558ACFE0014FA5D /* Classes */,
 				225041E11558ACB50014FA5D /* Tests */,
 				225041F91558AD520014FA5D /* Supporting Files */,
-				22031DDD1631EAD70093E61E /* microtome-xml */,
 				225041CA1558ACB50014FA5D /* Frameworks */,
 				225041C91558ACB50014FA5D /* Products */,
 			);

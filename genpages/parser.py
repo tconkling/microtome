@@ -203,12 +203,12 @@ class Parser(object):
                 anno_value = get_quoted_string(text)
             if anno_value == None:
                 raise ParseError(self.string, self.pos, "Expected a bool, a number, or a quoted string")
+        else:
+            # if no value is specified, we default to True (this is for flag-like annotations,
+            # like 'nullable')
+            anno_value = True
 
-            LOG.debug("found anno_value: " + str(anno_value))
-
-        # if no value is specified, we default to True (this is for flag-like annotations,
-        # like 'nullable')
-        return s.AnnotationSpec(name = anno_name, value = anno_value or True, pos = anno_pos)
+        return s.AnnotationSpec(name = anno_name, value = anno_value, pos = anno_pos)
 
     def _check_text (self, pattern):
         '''Returns the text that matches the given pattern if it exists at the current point

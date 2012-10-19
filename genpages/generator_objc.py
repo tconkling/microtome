@@ -25,7 +25,9 @@ DISCARD_IMPORTS = set([ BOOL_NAME, INT_NAME, FLOAT_NAME, STRING_NAME, LIST_NAME 
 def generate_library (page_names, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
-    stache = pystache.Renderer(search_dirs = TEMPLATES_DIR)
+
+    # "escape" param disables html-escaping
+    stache = pystache.Renderer(search_dirs = TEMPLATES_DIR, escape = lambda u: u)
 
     library_view = { "page_names": sorted(page_names), "header": header_text }
 
@@ -38,7 +40,9 @@ def generate_page (page_spec, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
     page_view = PageView(page_spec, header_text)
-    stache = pystache.Renderer(search_dirs = TEMPLATES_DIR)
+
+    # "escape" param disables html-escaping
+    stache = pystache.Renderer(search_dirs = TEMPLATES_DIR, escape = lambda u: u)
 
     header_name = page_view.header_filename()
     header_contents = stache.render(stache.load_template("page_header"), page_view)
@@ -171,10 +175,14 @@ if __name__ == "__main__":
     PAGE = s.PageSpec(name = "TestPage",
         superclass = None,
         props = [
-            s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", annotations = [], pos = 0),
+            s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", annotations = [
+                s.AnnotationSpec(name="default", value="test", pos=0)
+            ], pos = 0),
             s.PropSpec(type = s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name = "bar", annotations = [], pos = 0)
         ],
         pos = 0)
 
-    print generate_page(PAGE)
+    for filename, file_contents in generate_page(PAGE):
+        print filename + ":\n"
+        print file_contents
 

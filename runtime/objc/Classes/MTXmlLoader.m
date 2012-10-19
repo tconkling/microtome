@@ -8,9 +8,9 @@
 #import "MTType.h"
 #import "MTLibrary.h"
 #import "MTXmlObjectMarshaller.h"
-#import "MTTome.h"
-#import "MTPage.h"
-#import "MTPageRef.h"
+#import "MTMutableTome.h"
+#import "MTMutablePage.h"
+#import "MTMutablePageRef.h"
 #import "MTProp.h"
 #import "MTXmlLoadException.h"
 

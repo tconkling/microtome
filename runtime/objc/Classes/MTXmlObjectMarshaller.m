@@ -7,9 +7,9 @@
 #import "MTLibrary.h"
 #import "MTType.h"
 #import "MTProp.h"
-#import "MTPage.h"
-#import "MTPageRef.h"
-#import "MTTome.h"
+#import "MTMutablePage.h"
+#import "MTMutablePageRef.h"
+#import "MTMutableTome.h"
 
 
 @implementation MTStringMarshaller

@@ -1,7 +1,7 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTTome.h"
+#import "MTMutableTome.h"
 
 #import "MTType.h"
 #import "MTPage.h"

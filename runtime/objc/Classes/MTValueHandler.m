@@ -4,9 +4,9 @@
 #import "MTValueHandler.h"
 
 #import "MTDefs.h"
-#import "MTPage.h"
-#import "MTPageRef.h"
-#import "MTTome.h"
+#import "MTMutablePage.h"
+#import "MTMutablePageRef.h"
+#import "MTMutableTome.h"
 #import "MTLibrary.h"
 #import "MTType.h"
 #import "MTProp.h"

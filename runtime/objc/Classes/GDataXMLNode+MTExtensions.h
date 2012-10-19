@@ -3,7 +3,7 @@
 
 #import "GDataXMLNode.h"
 
-@interface GDataXMLElement (MTExceptions)
+@interface GDataXMLElement (MTExtensions)
 
 - (NSArray*)elements; // returns all child elements
 

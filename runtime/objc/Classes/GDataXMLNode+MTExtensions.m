@@ -5,7 +5,7 @@
 #import "MTXmlLoadException.h"
 #import "MTUtils.h"
 
-@implementation GDataXMLElement (MTExceptions)
+@implementation GDataXMLElement (MTExtensions)
 
 - (NSArray*)elements {
     NSMutableArray* elements = nil;

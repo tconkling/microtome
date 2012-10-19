@@ -252,7 +252,7 @@ def get_quoted_string (s):
     '''returns the quoted string represented by the string, or None if the string can't be
     converted'''
     if (s.startswith('"') and s.endswith('"')) or (s.startswith("'") and s.endswith("'")):
-        return s[1:len(s) - 2]
+        return s[1:len(s) - 1]
     else:
         return None
 

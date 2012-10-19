@@ -2,7 +2,7 @@
 // microtome - Copyright 2012 Three Rings Design
 
 #import "GDataXMLNode+MTExtensions.h"
-#import "GDataXMLException.h"
+#import "MTXmlLoadException.h"
 #import "MTUtils.h"
 
 @implementation GDataXMLElement (MTExceptions)
@@ -24,7 +24,7 @@
 - (NSString*)getAttr:(NSString*)name required:(BOOL)required {
     GDataXMLNode* attr = [self attributeForName:name];
     if (attr == nil && required) {
-        @throw [GDataXMLException withElement:self reason:@"Missing required attribute '%@'", name];
+        @throw [MTXmlLoadException withElement:self reason:@"Missing required attribute '%@'", name];
     }
     return (attr != nil ? [attr stringValue] : nil);
 }
@@ -58,7 +58,7 @@
     @try {
         return MTRequireFloatValue(attr);
     } @catch (NSException* e) {
-        @throw [GDataXMLException withElement:self
+        @throw [MTXmlLoadException withElement:self
                                        reason:@"Error reading attribute '%@': %@", name, e.reason];
     }
 }
@@ -78,7 +78,7 @@
     @try {
         return MTRequireIntValue(attr);
     } @catch (NSException* e) {
-        @throw [GDataXMLException withElement:self
+        @throw [MTXmlLoadException withElement:self
                                        reason:@"Error reading attribute '%@': %@", name, e.reason];
     }
 }
@@ -98,7 +98,7 @@
     @try {
         return MTRequireBoolValue(attr);
     } @catch (NSException* e) {
-        @throw [GDataXMLException withElement:self
+        @throw [MTXmlLoadException withElement:self
                                        reason:@"Error reading attribute '%@': %@", name, e.reason];
     }
 }
@@ -114,7 +114,7 @@
 - (GDataXMLElement*)requireSingleChild {
     NSArray* elements = self.elements;
     if (elements.count != 1) {
-        @throw [GDataXMLException withElement:self
+        @throw [MTXmlLoadException withElement:self
            reason:@"Expected exactly 1 child element (found %d)", elements.count];
     }
     return elements[0];
@@ -134,10 +134,10 @@
     for (NSString* name in [path componentsSeparatedByString:@"/"]) {
         NSArray* els = [current elementsForName:name];
         if ([els count] > 1) {
-            @throw [GDataXMLException withElement:current
+            @throw [MTXmlLoadException withElement:current
                 reason:@"More than one child named '%@' in path '%@'", name, path];
         } else if ([els count] == 0) {
-            @throw [GDataXMLException withElement:current
+            @throw [MTXmlLoadException withElement:current
                 reason:@"No child named '%@' in path '%@'", name, path];
         }
         current = els[0];

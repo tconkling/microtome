@@ -50,8 +50,6 @@
 		22031E091631EAEC0093E61E /* MTMutableTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DCA1631D9ED0093E61E /* MTMutableTome.h */; };
 		22031E161631ECAD0093E61E /* GDataXMLNode+MTExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031E101631ECAD0093E61E /* GDataXMLNode+MTExtensions.h */; };
 		22031E171631ECAD0093E61E /* GDataXMLNode+MTExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031E111631ECAD0093E61E /* GDataXMLNode+MTExtensions.m */; };
-		22031E181631ECAD0093E61E /* GDataXMLException.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031E121631ECAD0093E61E /* GDataXMLException.h */; };
-		22031E191631ECAD0093E61E /* GDataXMLException.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031E131631ECAD0093E61E /* GDataXMLException.m */; };
 		22031E1A1631ECAD0093E61E /* GDataXMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031E141631ECAD0093E61E /* GDataXMLNode.h */; };
 		22031E1B1631ECAD0093E61E /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031E151631ECAD0093E61E /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		22031E411631F04F0093E61E /* libmicrotome-xml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22031E0D1631EAEC0093E61E /* libmicrotome-xml.a */; };
@@ -108,8 +106,6 @@
 		22031E0E1631EB250093E61E /* microtome-xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "microtome-xml.h"; sourceTree = "<group>"; };
 		22031E101631ECAD0093E61E /* GDataXMLNode+MTExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GDataXMLNode+MTExtensions.h"; sourceTree = "<group>"; };
 		22031E111631ECAD0093E61E /* GDataXMLNode+MTExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GDataXMLNode+MTExtensions.m"; sourceTree = "<group>"; };
-		22031E121631ECAD0093E61E /* GDataXMLException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLException.h; sourceTree = "<group>"; };
-		22031E131631ECAD0093E61E /* GDataXMLException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLException.m; sourceTree = "<group>"; };
 		22031E141631ECAD0093E61E /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
 		22031E151631ECAD0093E61E /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
 		221B2F42161CD0D1001B98AA /* MTPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPage.h; sourceTree = "<group>"; };
@@ -184,8 +180,6 @@
 			children = (
 				22031E101631ECAD0093E61E /* GDataXMLNode+MTExtensions.h */,
 				22031E111631ECAD0093E61E /* GDataXMLNode+MTExtensions.m */,
-				22031E121631ECAD0093E61E /* GDataXMLException.h */,
-				22031E131631ECAD0093E61E /* GDataXMLException.m */,
 				22031E141631ECAD0093E61E /* GDataXMLNode.h */,
 				22031E151631ECAD0093E61E /* GDataXMLNode.m */,
 			);
@@ -328,7 +322,6 @@
 				22031E081631EAEC0093E61E /* MTMutablePageRef.h in Headers */,
 				22031E091631EAEC0093E61E /* MTMutableTome.h in Headers */,
 				22031E161631ECAD0093E61E /* GDataXMLNode+MTExtensions.h in Headers */,
-				22031E181631ECAD0093E61E /* GDataXMLException.h in Headers */,
 				22031E1A1631ECAD0093E61E /* GDataXMLNode.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -486,7 +479,6 @@
 				22031DF61631EAEC0093E61E /* MTMutablePageRef.m in Sources */,
 				22031DF71631EAEC0093E61E /* MTMutableTome.m in Sources */,
 				22031E171631ECAD0093E61E /* GDataXMLNode+MTExtensions.m in Sources */,
-				22031E191631ECAD0093E61E /* GDataXMLException.m in Sources */,
 				22031E1B1631ECAD0093E61E /* GDataXMLNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

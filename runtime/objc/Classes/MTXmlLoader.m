@@ -163,7 +163,7 @@
                 }
                 id<MTXmlObjectMarshaller> marshaller =
                     [self requireObjectMarshallerForClass:objectProp.valueType.clazz];
-                id value = [marshaller withCtx:self type:objectProp.valueType loadObjectfromXml:propXml];
+                id value = [marshaller withLoader:self type:objectProp.valueType loadObjectfromXml:propXml];
                 objectProp.value = value;
                 [marshaller validatePropValue:objectProp];
             } @catch (MTXmlLoadException* e) {

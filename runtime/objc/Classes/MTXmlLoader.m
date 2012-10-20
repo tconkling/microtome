@@ -102,53 +102,59 @@
         MTObjectProp* objectProp =
             ([prop isKindOfClass:[MTObjectProp class]] ? (MTObjectProp*)prop : nil);
         BOOL isPrimitive = (objectProp == nil);
-        
-        GDataXMLElement* propXml = [pageXml getChild:prop.name];
-        if (propXml == nil) {
-            if (isPrimitive || !objectProp.nullable) {
-                @throw [MTXmlLoadException withElement:pageXml
-                            reason:@"Missing required child [name=%@]", prop.name];
-            } else {
-                // Object is nullable.
-                objectProp.value = nil;
-            }
-            continue;
-        }
 
-        @try {
-            if (isPrimitive) {
-                // Handle primitive props
+        if (isPrimitive) {
+            // Handle primitive props (read from attributes)
+            @try {
                 if ([prop isKindOfClass:[MTIntProp class]]) {
                     MTIntProp* intProp = (MTIntProp*)prop;
-                    intProp.value = MTRequireIntValue([self requireTextContent:propXml]);
+                    intProp.value = [pageXml intAttribute:prop.name];
                     [_library.primitiveValueHandler validateInt:intProp];
                 } else if ([prop isKindOfClass:[MTBoolProp class]]) {
                     MTBoolProp* boolProp = (MTBoolProp*)prop;
-                    boolProp.value = MTRequireBoolValue([self requireTextContent:propXml]);
+                    boolProp.value = [pageXml boolAttribute:prop.name];
                     [_library.primitiveValueHandler validateBool:boolProp];
                 } else if ([prop isKindOfClass:[MTFloatProp class]]) {
                     MTFloatProp* floatProp = (MTFloatProp*)prop;
-                    floatProp.value = MTRequireFloatValue([self requireTextContent:propXml]);
+                    floatProp.value = [pageXml floatAttribute:prop.name];
                     [_library.primitiveValueHandler validateFloat:floatProp];
                 } else {
-                    @throw [MTXmlLoadException withElement:propXml
+                    @throw [MTXmlLoadException withElement:pageXml
                                 reason:@"Unrecognized primitive prop [name=%@, class=%@]",
                                 prop.name, [prop class]];
                 }
-
-            } else {
-                // Handle object props
+            } @catch (MTXmlLoadException* e) {
+                @throw e;
+            } @catch (NSException* e) {
+                @throw [MTXmlLoadException withElement:pageXml reason:@"Error loading prop '%@': %@",
+                        prop.name, e.reason];
+            }
+            
+        } else {
+            // Handle object props (read from child elements)
+            GDataXMLElement* propXml = [pageXml getChild:prop.name];
+            @try {
+                if (propXml == nil) {
+                    if (!objectProp.nullable) {
+                        @throw [MTXmlLoadException withElement:pageXml
+                                                        reason:@"Missing required child [name=%@]", prop.name];
+                    } else {
+                        // Object is nullable.
+                        objectProp.value = nil;
+                    }
+                    continue;
+                }
                 id<MTXmlObjectMarshaller> marshaller =
                     [self requireObjectMarshallerForClass:objectProp.valueType.clazz];
                 id value = [marshaller withCtx:self type:objectProp.valueType loadObjectfromXml:propXml];
                 objectProp.value = value;
                 [marshaller validatePropValue:objectProp];
+            } @catch (MTXmlLoadException* e) {
+                @throw e;
+            } @catch (NSException* e) {
+                @throw [MTXmlLoadException withElement:propXml reason:@"Error loading prop '%@': %@",
+                        prop.name, e.reason];
             }
-        } @catch (MTXmlLoadException* e) {
-            @throw e;
-        } @catch (NSException* e) {
-            @throw [MTXmlLoadException withElement:propXml reason:@"Error loading prop '%@': %@",
-                    prop.name, e.reason];
         }
     }
     return page;

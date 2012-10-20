@@ -6,11 +6,7 @@
 
 static NSString* const XML_STRING =
     @"<root><nestedTest type='NestedPage'>"
-    @"  <nested type='PrimitivePage'>"
-    @"      <foo>true</foo>"
-    @"      <bar>2</bar>"
-    @"      <baz>3.1415</baz>"
-    @"  </nested>"
+    @"  <nested type='PrimitivePage' foo='true' bar='2' baz='3.1415'/>"
     @"</nestedTest></root>";
 
 static MTPropSpec* _nestedSpec = nil;

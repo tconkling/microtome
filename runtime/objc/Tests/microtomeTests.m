@@ -9,16 +9,8 @@
 
 static NSString* const TOME_XML =
     @"<root><tomeTest type='Tome:PrimitivePage'>"
-    @"  <test1 type='PrimitivePage'>"
-    @"      <foo>true</foo>"
-    @"      <bar>2</bar>"
-    @"      <baz>3.1415</baz>"
-    @"  </test1>"
-    @"  <test2 type='PrimitivePage'>"
-    @"      <foo>false</foo>"
-    @"      <bar>666</bar>"
-    @"      <baz>0.1</baz>"
-    @"  </test2>"
+    @"  <test1 type='PrimitivePage' foo='true' bar='2' baz='3.1415'/>"
+    @"  <test2 type='PrimitivePage' foo='false' bar='666' baz='0.1'/>"
     @"</tomeTest></root>";
 
 static const float EPSILON = 0.0001f;

@@ -13,8 +13,11 @@
 
 - (id)initWithLibrary:(MTLibrary*)library;
 
-- (void)loadItemsFromDoc:(GDataXMLDocument*)doc;
-- (void)loadItemsFromDocs:(NSArray*)docs;
+/// loads the given files into the library.
+/// Filenames is an array of NSString file paths
+- (void)loadFiles:(NSArray*)filenames;
+/// loads the given GDataXMLDocuments into the library.
+- (void)loadXmlDocs:(NSArray*)docs;
 
 // protected
 

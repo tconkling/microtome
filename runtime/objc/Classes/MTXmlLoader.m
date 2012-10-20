@@ -30,11 +30,28 @@
     return self;
 }
 
-- (void)loadItemsFromDoc:(GDataXMLDocument*)doc {
-    [self loadItemsFromDocs:@[doc]];
+- (void)loadFiles:(NSArray*)filenames {
+    NSMutableArray* docs = [[NSMutableArray alloc] initWithCapacity:filenames.count];
+    for (NSString* filename in filenames) {
+        NSData* data = [NSData dataWithContentsOfFile:filename];
+        if (data == nil) {
+            [NSException raise:NSGenericException format:@"Unable to load file '%@'", filename];
+        }
+
+        NSError* err;
+        GDataXMLDocument* doc = [[GDataXMLDocument alloc] initWithData:data options:0 error:&err];
+        if (doc == nil) {
+            @throw [[NSException alloc] initWithName:NSGenericException
+                                              reason:[err localizedDescription]
+                                            userInfo:[err userInfo]];
+        }
+        [docs addObject:doc];
+    }
+
+    [self loadXmlDocs:docs];
 }
 
-- (void)loadItemsFromDocs:(NSArray*)docs {
+- (void)loadXmlDocs:(NSArray*)docs {
     NSMutableArray* pages = [[NSMutableArray alloc] init];
     for (GDataXMLDocument* doc in docs) {
         for (GDataXMLElement* pageXml in doc.rootElement.elements) {

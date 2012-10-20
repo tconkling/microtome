@@ -75,9 +75,12 @@ class Parser(object):
         # check for duplicate property names
         prop_names = set()
         for prop in page.props:
-            if prop.name in prop_names:
-                raise ParseError(self.string, prop.pos, "Duplicate property name: '" + prop.name + "'")
-            prop_names.add(prop.name)
+            lc_name = prop.name.lower()
+            if lc_name in s.RESERVED_NAMES:
+                raise ParseError(self.string, prop.pos, "Illegal use of reserved property name '%s'" % prop.name)
+            elif lc_name in prop_names:
+                raise ParseError(self.string, prop.pos, "Duplicate property name '%s'" % prop.name)
+            prop_names.add(lc_name)
 
     def _parse_page (self):
         '''parse a PageSpec'''

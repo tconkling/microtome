@@ -20,7 +20,6 @@
 }
 
 - (BOOL)handlesSubclasses {
-    MT_IS_ABSTRACT();
     return NO;
 }
 
@@ -81,14 +80,12 @@
 @implementation MTStringValueHandler
 
 - (Class)valueType { return [NSString class]; }
-- (BOOL)handlesSubclasses { return NO; }
 
 @end
 
 @implementation MTListValueHandler
 
 - (Class)valueType { return [NSArray class]; }
-- (BOOL)handlesSubclasses { return NO; }
 
 - (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {
     NSArray* list = (NSArray*)value;
@@ -123,7 +120,6 @@
 @implementation MTPageRefValueHandler
 
 - (Class)valueType { return [MTMutablePageRef class]; }
-- (BOOL)handlesSubclasses { return NO; }
 
 - (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {
     MTMutablePageRef* ref = (MTMutablePageRef*)value;
@@ -135,7 +131,6 @@
 @implementation MTTomeValueHandler
 
 - (Class)valueType { return [MTMutableTome class]; }
-- (BOOL)handlesSubclasses { return NO; }
 
 - (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {
     MTMutableTome* tome = (MTMutableTome*)value;

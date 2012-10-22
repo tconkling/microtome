@@ -5,10 +5,12 @@
 @class MTMutablePage;
 @class MTMutableTome;
 @class MTLibrary;
+@class MTXmlLoadTask;
 
 @interface MTXmlLoader : NSObject {
 @protected
     __weak MTLibrary* _library;
+    MTXmlLoadTask* _loadTask;
 }
 
 - (id)initWithLibrary:(MTLibrary*)library;

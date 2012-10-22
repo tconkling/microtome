@@ -14,6 +14,34 @@
 #import "MTProp.h"
 #import "MTXmlLoadException.h"
 
+/// TemplatedPage
+
+@interface MTTemplatedPage : NSObject {
+@protected
+    MTMutablePage* _page;
+    GDataXMLElement* _xml;
+}
+@property (nonatomic,readonly) MTMutablePage* page;
+@property (nonatomic,readonly) GDataXMLElement* xml;
+@property (nonatomic,readonly) NSString* templateName;
+
+- (id)initWithPage:(MTMutablePage*)page xml:(GDataXMLElement*)xml;
+@end
+
+/// LoadTask
+
+@interface MTXmlLoadTask : NSObject {
+@protected
+    NSMutableArray* _libraryItems;
+    NSMutableArray* _pendingTemplatedPages;
+}
+
+@property (nonatomic,readonly) NSMutableArray* libraryItems;
+@property (nonatomic,readonly) NSMutableArray* pendingTemplatedPages;
+@end
+
+/// Loader
+
 @implementation MTXmlLoader
 
 - (id)initWithLibrary:(MTLibrary*)library {
@@ -52,14 +80,17 @@
 }
 
 - (void)loadXmlDocs:(NSArray*)docs {
-    NSMutableArray* pages = [[NSMutableArray alloc] init];
+    NSAssert(_loadTask == nil, @"Load already in progress!");
+    _loadTask = [[MTXmlLoadTask alloc] init];
+    
     for (GDataXMLDocument* doc in docs) {
         for (GDataXMLElement* pageXml in doc.rootElement.elements) {
-            [pages addObject:[self loadLibraryItem:pageXml]];
+            [_loadTask.libraryItems addObject:[self loadLibraryItem:pageXml]];
         }
     }
 
-    [_library addItems:pages];
+    [_library addItems:_loadTask.libraryItems];
+    _loadTask = nil;
 }
 
 - (id<MTXmlObjectMarshaller>)requireObjectMarshallerForClass:(Class)requiredClass {
@@ -114,31 +145,65 @@
 
     MTMutablePage* page = [[pageClass alloc] init];
     page.name = name;
+
+    if ([pageXml hasAttribute:@"template"]) {
+        // if this page has a template, we defer its loading until the end
+        [_loadTask.pendingTemplatedPages addObject:
+            [[MTTemplatedPage alloc] initWithPage:page xml:pageXml]];
+    } else {
+        [self loadPageProps:page xml:pageXml template:nil];
+    }
     
+    return page;
+}
+
+- (void)loadPageProps:(MTMutablePage*)page xml:(GDataXMLElement*)pageXml template:(MTMutablePage*)template {
+    if (template != nil && [[template class] isSubclassOfClass:[page class]]) {
+        @throw [MTXmlLoadException withElement:pageXml reason:
+                @"Incompatible template [pageName=%@ pageClass=%@ templateName=%@ templateClass=%@]",
+                    page.name, NSStringFromClass([page class]),
+                    template.name, NSStringFromClass([template class])];
+    }
     for (MTProp* prop in page.props) {
         MTObjectProp* objectProp =
-            ([prop isKindOfClass:[MTObjectProp class]] ? (MTObjectProp*)prop : nil);
+        ([prop isKindOfClass:[MTObjectProp class]] ? (MTObjectProp*)prop : nil);
         BOOL isPrimitive = (objectProp == nil);
+
+        MTProp* tProp = (template != nil ? MTGetProp(template, prop.name) : nil);
 
         if (isPrimitive) {
             // Handle primitive props (read from attributes)
             @try {
+                BOOL useTemplate = (tProp != nil && ![pageXml hasAttribute:prop.name]);
+
                 if ([prop isKindOfClass:[MTIntProp class]]) {
                     MTIntProp* intProp = (MTIntProp*)prop;
-                    intProp.value = [pageXml intAttribute:prop.name];
-                    [_library.primitiveValueHandler validateInt:intProp];
+                    if (useTemplate) {
+                        intProp.value = ((MTIntProp*)prop).value;
+                    } else {
+                        intProp.value = [pageXml intAttribute:prop.name];
+                        [_library.primitiveValueHandler validateInt:intProp];
+                    }
                 } else if ([prop isKindOfClass:[MTBoolProp class]]) {
                     MTBoolProp* boolProp = (MTBoolProp*)prop;
-                    boolProp.value = [pageXml boolAttribute:prop.name];
-                    [_library.primitiveValueHandler validateBool:boolProp];
+                    if (useTemplate) {
+                        boolProp.value = ((MTBoolProp*)prop).value;
+                    } else {
+                        boolProp.value = [pageXml boolAttribute:prop.name];
+                        [_library.primitiveValueHandler validateBool:boolProp];
+                    }
                 } else if ([prop isKindOfClass:[MTFloatProp class]]) {
                     MTFloatProp* floatProp = (MTFloatProp*)prop;
-                    floatProp.value = [pageXml floatAttribute:prop.name];
-                    [_library.primitiveValueHandler validateFloat:floatProp];
+                    if (useTemplate) {
+                        floatProp.value = ((MTFloatProp*)prop).value;
+                    } else {
+                        floatProp.value = [pageXml floatAttribute:prop.name];
+                        [_library.primitiveValueHandler validateFloat:floatProp];
+                    }
                 } else {
                     @throw [MTXmlLoadException withElement:pageXml
-                                reason:@"Unrecognized primitive prop [name=%@, class=%@]",
-                                prop.name, [prop class]];
+                                                    reason:@"Unrecognized primitive prop [name=%@, class=%@]",
+                            prop.name, [prop class]];
                 }
             } @catch (MTXmlLoadException* e) {
                 @throw e;
@@ -146,21 +211,27 @@
                 @throw [MTXmlLoadException withElement:pageXml reason:@"Error loading prop '%@': %@",
                         prop.name, e.reason];
             }
-            
+
         } else {
             // Handle object props (read from child elements)
+            MTObjectProp* tObjectProp = (tProp != nil ? (MTObjectProp*)tProp : nil);
             GDataXMLElement* propXml = [pageXml getChild:prop.name];
             @try {
+                // Handle null objects
                 if (propXml == nil) {
-                    if (!objectProp.nullable) {
-                        @throw [MTXmlLoadException withElement:pageXml
-                                                        reason:@"Missing required child [name=%@]", prop.name];
-                    } else {
+                    if (tObjectProp != nil) {
+                        // inherit from template
+                        objectProp.value = tObjectProp.value;
+                    } else if (objectProp.nullable) {
                         // Object is nullable.
                         objectProp.value = nil;
+                    } else {
+                        @throw [MTXmlLoadException withElement:pageXml
+                                    reason:@"Missing required child [name=%@]", prop.name];
                     }
                     continue;
                 }
+                
                 id<MTXmlObjectMarshaller> marshaller =
                     [self requireObjectMarshallerForClass:objectProp.valueType.clazz];
                 id value = [marshaller withLoader:self type:objectProp.valueType loadObjectfromXml:propXml];
@@ -174,7 +245,6 @@
             }
         }
     }
-    return page;
 }
 
 - (NSString*)requireTextContent:(GDataXMLElement*)xml {
@@ -187,3 +257,32 @@
 
 @end
 
+@implementation MTTemplatedPage
+
+@synthesize page = _page;
+@synthesize xml = _xml;
+
+- (id)initWithPage:(MTMutablePage*)page xml:(GDataXMLElement*)xml {
+    if ((self = [super init])) {
+        _page = page;
+        _xml = xml;
+    }
+    return self;
+}
+
+@end
+
+@implementation MTXmlLoadTask
+
+@synthesize libraryItems = _libraryItems;
+@synthesize pendingTemplatedPages = _pendingTemplatedPages;
+
+- (id)init {
+    if ((self = [super init])) {
+        _libraryItems = [[NSMutableArray alloc] init];
+        _pendingTemplatedPages = [[NSMutableArray alloc] init];
+    }
+    return self;
+}
+
+@end        

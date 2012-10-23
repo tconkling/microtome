@@ -26,6 +26,12 @@
 		22031F2B16372D3E0093E61E /* libmicrotome.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041C81558ACB50014FA5D /* libmicrotome.a */; };
 		22031F31163733150093E61E /* MTPrimitiveMarshaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F2F163733130093E61E /* MTPrimitiveMarshaller.h */; };
 		22031F32163733150093E61E /* MTPrimitiveMarshaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031F30163733140093E61E /* MTPrimitiveMarshaller.m */; };
+		22031F7816373D3A0093E61E /* MTDataElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F7616373D390093E61E /* MTDataElement.h */; };
+		22031F7916373D3A0093E61E /* MTDataElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031F7716373D390093E61E /* MTDataElement.m */; };
+		22031F8516374B7E0093E61E /* GDataXMLElement+MTExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F8316374B7E0093E61E /* GDataXMLElement+MTExtensions.h */; };
+		22031F8616374B7E0093E61E /* GDataXMLElement+MTExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031F8416374B7E0093E61E /* GDataXMLElement+MTExtensions.m */; };
+		22031F9A163763DD0093E61E /* MTXmlLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F98163763DD0093E61E /* MTXmlLibrary.h */; };
+		22031F9B163763DD0093E61E /* MTXmlLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031F99163763DD0093E61E /* MTXmlLibrary.m */; };
 		221B2F44161CD0D1001B98AA /* MTPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F42161CD0D1001B98AA /* MTPage.h */; };
 		221B2F4C161CD668001B98AA /* MTTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F4A161CD668001B98AA /* MTTome.h */; };
 		221B2F59161CDE60001B98AA /* MTLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F57161CDE60001B98AA /* MTLibrary.h */; };
@@ -99,6 +105,12 @@
 		22031F0F1637263B0093E61E /* MTLibrary+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MTLibrary+Internal.h"; sourceTree = "<group>"; };
 		22031F2F163733130093E61E /* MTPrimitiveMarshaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPrimitiveMarshaller.h; sourceTree = "<group>"; };
 		22031F30163733140093E61E /* MTPrimitiveMarshaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPrimitiveMarshaller.m; sourceTree = "<group>"; };
+		22031F7616373D390093E61E /* MTDataElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTDataElement.h; sourceTree = "<group>"; };
+		22031F7716373D390093E61E /* MTDataElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTDataElement.m; sourceTree = "<group>"; };
+		22031F8316374B7E0093E61E /* GDataXMLElement+MTExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GDataXMLElement+MTExtensions.h"; sourceTree = "<group>"; };
+		22031F8416374B7E0093E61E /* GDataXMLElement+MTExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GDataXMLElement+MTExtensions.m"; sourceTree = "<group>"; };
+		22031F98163763DD0093E61E /* MTXmlLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTXmlLibrary.h; sourceTree = "<group>"; };
+		22031F99163763DD0093E61E /* MTXmlLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTXmlLibrary.m; sourceTree = "<group>"; };
 		221B2F42161CD0D1001B98AA /* MTPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPage.h; sourceTree = "<group>"; };
 		221B2F4A161CD668001B98AA /* MTTome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTome.h; sourceTree = "<group>"; };
 		221B2F57161CDE60001B98AA /* MTLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLibrary.h; sourceTree = "<group>"; };
@@ -177,6 +189,17 @@
 			name = Internal;
 			sourceTree = "<group>";
 		};
+		22031F7E16374B030093E61E /* GDataXML */ = {
+			isa = PBXGroup;
+			children = (
+				22031F8316374B7E0093E61E /* GDataXMLElement+MTExtensions.h */,
+				22031F8416374B7E0093E61E /* GDataXMLElement+MTExtensions.m */,
+				22031F98163763DD0093E61E /* MTXmlLibrary.h */,
+				22031F99163763DD0093E61E /* MTXmlLibrary.m */,
+			);
+			name = GDataXML;
+			sourceTree = "<group>";
+		};
 		225041BD1558ACB50014FA5D = {
 			isa = PBXGroup;
 			children = (
@@ -236,8 +259,11 @@
 		225041F61558ACFE0014FA5D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				22031F7E16374B030093E61E /* GDataXML */,
 				22031F081637194D0093E61E /* Internal */,
 				225041F71558AD200014FA5D /* microtome.h */,
+				22031F7616373D390093E61E /* MTDataElement.h */,
+				22031F7716373D390093E61E /* MTDataElement.m */,
 				221B2F57161CDE60001B98AA /* MTLibrary.h */,
 				221B2F58161CDE60001B98AA /* MTLibrary.m */,
 				221B2F79161CE727001B98AA /* MTLoadException.h */,
@@ -296,6 +322,9 @@
 				22031F0B163719620093E61E /* MTLoadTask.h in Headers */,
 				22031F111637263B0093E61E /* MTLibrary+Internal.h in Headers */,
 				22031F31163733150093E61E /* MTPrimitiveMarshaller.h in Headers */,
+				22031F7816373D3A0093E61E /* MTDataElement.h in Headers */,
+				22031F8516374B7E0093E61E /* GDataXMLElement+MTExtensions.h in Headers */,
+				22031F9A163763DD0093E61E /* MTXmlLibrary.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,6 +463,9 @@
 				22031DCD1631D9EE0093E61E /* MTMutableTome.m in Sources */,
 				22031F0D163719620093E61E /* MTLoadTask.m in Sources */,
 				22031F32163733150093E61E /* MTPrimitiveMarshaller.m in Sources */,
+				22031F7916373D3A0093E61E /* MTDataElement.m in Sources */,
+				22031F8616374B7E0093E61E /* GDataXMLElement+MTExtensions.m in Sources */,
+				22031F9B163763DD0093E61E /* MTXmlLibrary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

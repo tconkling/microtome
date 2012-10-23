@@ -3,6 +3,7 @@
 
 #import "MTLibrary.h"
 
+@protocol MTDataElement;
 @protocol MTPage;
 @class MTLoadTask;
 @class MTMutableTome;
@@ -23,7 +24,7 @@
 - (id<MTPage>)pageWithQualifiedName:(NSString*)qualifiedName;
 - (id<MTPage>)requirePageWithQualifiedName:(NSString*)qualifiedName pageClass:(Class)pageClass;
 
-- (MTMutableTome*)loadTome:(GDataXMLElement*)xml pageType:(__unsafe_unretained Class)pageType;
-- (MTMutablePage*)loadPage:(GDataXMLElement*)xml superclass:(Class)superclass;
+- (MTMutableTome*)loadTome:(id<MTDataElement>)data pageType:(__unsafe_unretained Class)pageType;
+- (MTMutablePage*)loadPage:(id<MTDataElement>)data superclass:(Class)superclass;
 
 @end

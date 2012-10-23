@@ -2,6 +2,8 @@
 // microtome - Copyright 2012 Three Rings Design
 
 #import "MTLoadException.h"
+
+#import "MTDataElement.h"
 #import "MTDefs.h"
 
 static NSString* const NAME = @"MTLoadException";
@@ -12,11 +14,11 @@ static NSString* const NAME = @"MTLoadException";
     return [[MTLoadException alloc] initWithReason:MT_FORMAT_TO_NSSTRING(format)];
 }
 
-+ (MTLoadException*)withElement:(GDataXMLElement*)badElement reason:(NSString*)format, ... {
++ (MTLoadException*)withData:(id<MTDataElement>)badElement reason:(NSString*)format, ... {
     NSString* reason = MT_FORMAT_TO_NSSTRING(format);
 
     if (badElement != nil) {
-        reason = [NSString stringWithFormat:@"%@\nXML: %@", reason, [badElement description]];
+        reason = [NSString stringWithFormat:@"%@ data:\n%@", reason, badElement.description];
     }
 
     return [[MTLoadException alloc] initWithReason:reason];

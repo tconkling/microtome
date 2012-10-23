@@ -3,6 +3,7 @@
 
 #import "MTLibrary+Internal.h"
 
+#import "MTDataElement.h"
 #import "MTDefs.h"
 #import "MTUtils.h"
 #import "MTType.h"
@@ -23,13 +24,13 @@ static NSString* const TYPE_ATTR = @"type";
 @interface MTTemplatedPage : NSObject {
 @protected
     MTMutablePage* _page;
-    GDataXMLElement* _xml;
+    MTDataReader* _data;
 }
 @property (nonatomic,readonly) MTMutablePage* page;
-@property (nonatomic,readonly) GDataXMLElement* xml;
+@property (nonatomic,readonly) id<MTDataElement> data;
 @property (nonatomic,readonly) NSString* templateName;
 
-- (id)initWithPage:(MTMutablePage*)page xml:(GDataXMLElement*)xml;
+- (id)initWithPage:(MTMutablePage*)page data:(id<MTDataElement>)data;
 @end
 
 @implementation MTLibrary
@@ -53,35 +54,14 @@ static NSString* const TYPE_ATTR = @"type";
     return self;
 }
 
-- (void)loadFiles:(NSArray*)filenames {
-    NSMutableArray* docs = [[NSMutableArray alloc] initWithCapacity:filenames.count];
-    for (NSString* filename in filenames) {
-        NSData* data = [NSData dataWithContentsOfFile:filename];
-        if (data == nil) {
-            [NSException raise:NSGenericException format:@"Unable to load file '%@'", filename];
-        }
-
-        NSError* err;
-        GDataXMLDocument* doc = [[GDataXMLDocument alloc] initWithData:data options:0 error:&err];
-        if (doc == nil) {
-            @throw [[NSException alloc] initWithName:NSGenericException
-                                              reason:[err localizedDescription]
-                                            userInfo:[err userInfo]];
-        }
-        [docs addObject:doc];
-    }
-
-    [self loadXmlDocs:docs];
-}
-
-- (void)loadXmlDocs:(NSArray*)docs {
+- (void)loadData:(NSArray*)dataElements {
     NSAssert(_loadTask == nil, @"Load already in progress!");
     _loadTask = [[MTLoadTask alloc] init];
 
     @try {
-        for (GDataXMLDocument* doc in docs) {
-            for (GDataXMLElement* pageXml in doc.rootElement.elements) {
-                [_loadTask addItem:[self loadLibraryItem:pageXml]];
+        for (id<MTDataElement> doc in dataElements) {
+            for (id<MTDataElement> itemData in [MTDataReader withData:doc].children) {
+                [_loadTask addItem:[self loadLibraryItem:itemData]];
             }
         }
 
@@ -100,7 +80,7 @@ static NSString* const TYPE_ATTR = @"type";
                 if (tmpl == nil) {
                     continue;
                 }
-                [self loadPageProps:tpage.page xml:tpage.xml template:tmpl];
+                [self loadPageProps:tpage.page data:tpage.data template:tmpl];
                 [_loadTask.pendingTemplatedPages removeObjectAtIndex:ii--];
                 foundTemplate = YES;
             }
@@ -109,7 +89,7 @@ static NSString* const TYPE_ATTR = @"type";
         // Throw an error if we're missing a template
         if (_loadTask.pendingTemplatedPages.count > 0) {
             MTTemplatedPage* tpage = _loadTask.pendingTemplatedPages[0];
-            @throw [MTLoadException withElement:tpage.xml
+            @throw [MTLoadException withData:tpage.data
                                          reason:@"Missing template '%@'", tpage.templateName];
         }
 
@@ -125,43 +105,45 @@ static NSString* const TYPE_ATTR = @"type";
     }
 }
 
-- (id<MTLibraryItem>)loadLibraryItem:(GDataXMLElement*)xml {
+- (id<MTLibraryItem>)loadLibraryItem:(id<MTDataElement>)data {
     // a tome or a page
-    NSString* typeName = [xml stringAttribute:TYPE_ATTR];
+    NSString* typeName = [data attributeNamed:TYPE_ATTR];
     NSRange range = [typeName rangeOfString:MT_TOME_PREFIX];
     if (range.location == 0) {
         // it's a tome!
         typeName = [typeName substringFromIndex:range.length];
         Class pageClass = [self requirePageClassWithName:typeName];
-        return [self loadTome:xml pageType:pageClass];
+        return [self loadTome:data pageType:pageClass];
     } else {
         // it's a page!
-        return [self loadPage:xml superclass:nil];
+        return [self loadPage:data superclass:nil];
     }
 }
 
-- (MTMutableTome*)loadTome:(GDataXMLElement*)tomeXml pageType:(__unsafe_unretained Class)pageType {
-    NSString* name = tomeXml.name;
+- (MTMutableTome*)loadTome:(id<MTDataElement>)tomeData pageType:(__unsafe_unretained Class)pageType {
+    NSString* name = tomeData.name;
     if (!MTValidLibraryItemName(name)) {
-        @throw [MTLoadException withElement:tomeXml reason:@"tome name '%@' is invalid", name];
+        @throw [MTLoadException withData:tomeData reason:@"tome name '%@' is invalid", name];
     }
 
     MTMutableTome* tome = [[MTMutableTome alloc] initWithName:name pageType:pageType];
-    for (GDataXMLElement* pageXml in tomeXml.elements) {
-        id<MTPage> page = [self loadPage:pageXml superclass:pageType];
+    for (id<MTDataElement> pageData in [MTDataReader withData:tomeData].children) {
+        id<MTPage> page = [self loadPage:pageData superclass:pageType];
         [tome addPage:page];
     }
 
     return tome;
 }
 
-- (MTMutablePage*)loadPage:(GDataXMLElement*)pageXml superclass:(__unsafe_unretained Class)superclass {
-    NSString* name = pageXml.name;
+- (MTMutablePage*)loadPage:(id<MTDataElement>)pageData superclass:(__unsafe_unretained Class)superclass {
+    NSString* name = pageData.name;
     if (!MTValidLibraryItemName(name)) {
-        @throw [MTLoadException withElement:pageXml reason:@"page name '%@' is invalid", name];
+        @throw [MTLoadException withData:pageData reason:@"page name '%@' is invalid", name];
     }
 
-    NSString* typeName = [pageXml stringAttribute:TYPE_ATTR];
+    MTDataReader* reader = [MTDataReader withData:pageData];
+
+    NSString* typeName = [reader requireAttribute:TYPE_ATTR];
     Class pageClass = (superclass != nil ?
                        [self requirePageClassWithName:typeName superClass:superclass] :
                        [self requirePageClassWithName:typeName]);
@@ -169,24 +151,27 @@ static NSString* const TYPE_ATTR = @"type";
     MTMutablePage* page = [[pageClass alloc] init];
     page.name = name;
 
-    if ([pageXml hasAttribute:TEMPLATE_ATTR]) {
+    if ([reader hasAttribute:TEMPLATE_ATTR]) {
         // if this page has a template, we defer its loading until the end
         [_loadTask.pendingTemplatedPages addObject:
-         [[MTTemplatedPage alloc] initWithPage:page xml:pageXml]];
+         [[MTTemplatedPage alloc] initWithPage:page data:pageData]];
     } else {
-        [self loadPageProps:page xml:pageXml template:nil];
+        [self loadPageProps:page data:reader template:nil];
     }
 
     return page;
 }
 
-- (void)loadPageProps:(MTMutablePage*)page xml:(GDataXMLElement*)pageXml template:(id<MTPage>)tmpl {
+- (void)loadPageProps:(MTMutablePage*)page data:(id<MTDataElement>)pageData template:(id<MTPage>)tmpl {
     if (tmpl != nil && ![[tmpl class] isSubclassOfClass:[page class]]) {
-        @throw [MTLoadException withElement:pageXml reason:
+        @throw [MTLoadException withData:pageData reason:
                 @"Incompatible template [pageName=%@ pageClass=%@ templateName=%@ templateClass=%@]",
                 page.name, NSStringFromClass([page class]),
                 tmpl.name, NSStringFromClass([tmpl class])];
     }
+    
+    MTDataReader* pageReader = [MTDataReader withData:pageData];
+    
     for (MTProp* prop in page.props) {
         MTObjectProp* objectProp =
         ([prop isKindOfClass:[MTObjectProp class]] ? (MTObjectProp*)prop : nil);
@@ -197,14 +182,14 @@ static NSString* const TYPE_ATTR = @"type";
         if (isPrimitive) {
             // Handle primitive props (read from attributes)
             @try {
-                BOOL useTemplate = (tProp != nil && ![pageXml hasAttribute:prop.name]);
+                BOOL useTemplate = (tProp != nil && ![pageReader hasAttribute:prop.name]);
 
                 if ([prop isKindOfClass:[MTIntProp class]]) {
                     MTIntProp* intProp = (MTIntProp*)prop;
                     if (useTemplate) {
                         intProp.value = ((MTIntProp*)tProp).value;
                     } else {
-                        intProp.value = [pageXml intAttribute:prop.name];
+                        intProp.value = [pageReader requireIntAttribute:prop.name];
                         [self.primitiveMarshaller validateInt:intProp];
                     }
                 } else if ([prop isKindOfClass:[MTBoolProp class]]) {
@@ -212,7 +197,7 @@ static NSString* const TYPE_ATTR = @"type";
                     if (useTemplate) {
                         boolProp.value = ((MTBoolProp*)tProp).value;
                     } else {
-                        boolProp.value = [pageXml boolAttribute:prop.name];
+                        boolProp.value = [pageReader requireBoolAttribute:prop.name];
                         [self.primitiveMarshaller validateBool:boolProp];
                     }
                 } else if ([prop isKindOfClass:[MTFloatProp class]]) {
@@ -220,28 +205,28 @@ static NSString* const TYPE_ATTR = @"type";
                     if (useTemplate) {
                         floatProp.value = ((MTFloatProp*)tProp).value;
                     } else {
-                        floatProp.value = [pageXml floatAttribute:prop.name];
+                        floatProp.value = [pageReader requireFloatAttribute:prop.name];
                         [self.primitiveMarshaller validateFloat:floatProp];
                     }
                 } else {
-                    @throw [MTLoadException withElement:pageXml
+                    @throw [MTLoadException withData:pageData
                                                  reason:@"Unrecognized primitive prop [name=%@, class=%@]",
                             prop.name, [prop class]];
                 }
             } @catch (MTLoadException* e) {
                 @throw e;
             } @catch (NSException* e) {
-                @throw [MTLoadException withElement:pageXml reason:@"Error loading prop '%@': %@",
+                @throw [MTLoadException withData:pageData reason:@"Error loading prop '%@': %@",
                         prop.name, e.reason];
             }
 
         } else {
             // Handle object props (read from child elements)
             MTObjectProp* tObjectProp = (tProp != nil ? (MTObjectProp*)tProp : nil);
-            GDataXMLElement* propXml = [pageXml getChild:prop.name];
+            MTDataReader* propReader = [pageReader childNamed:prop.name];
             @try {
                 // Handle null objects
-                if (propXml == nil) {
+                if (propReader == nil) {
                     if (tObjectProp != nil) {
                         // inherit from template
                         objectProp.value = tObjectProp.value;
@@ -249,32 +234,24 @@ static NSString* const TYPE_ATTR = @"type";
                         // Object is nullable.
                         objectProp.value = nil;
                     } else {
-                        @throw [MTLoadException withElement:pageXml
+                        @throw [MTLoadException withData:pageData
                                                      reason:@"Missing required child [name=%@]", prop.name];
                     }
                     continue;
                 }
 
                 id<MTObjectMarshaller> marshaller = [self requireMarshallerForClass:objectProp.valueType.clazz];
-                id value = [marshaller withLibrary:self type:objectProp.valueType loadObjectfromXml:propXml];
+                id value = [marshaller withLibrary:self type:objectProp.valueType loadObject:propReader];
                 objectProp.value = value;
                 [marshaller validatePropValue:objectProp];
             } @catch (MTLoadException* e) {
                 @throw e;
             } @catch (NSException* e) {
-                @throw [MTLoadException withElement:propXml reason:@"Error loading prop '%@': %@",
+                @throw [MTLoadException withData:propReader reason:@"Error loading prop '%@': %@",
                         prop.name, e.reason];
             }
         }
     }
-}
-
-- (NSString*)requireTextContent:(GDataXMLElement*)xml {
-    NSString* str = xml.stringValue;
-    if (str == nil) {
-        @throw [MTLoadException withElement:xml reason:@"Element is empty"];
-    }
-    return str;
 }
 
 - (id)objectForKeyedSubscript:(id)key {
@@ -426,18 +403,18 @@ static NSString* const TYPE_ATTR = @"type";
 @implementation MTTemplatedPage
 
 @synthesize page = _page;
-@synthesize xml = _xml;
+@synthesize data = _data;
 
-- (id)initWithPage:(MTMutablePage*)page xml:(GDataXMLElement*)xml {
+- (id)initWithPage:(MTMutablePage*)page data:(id<MTDataElement>)data {
     if ((self = [super init])) {
         _page = page;
-        _xml = xml;
+        _data = [MTDataReader withData:data];
     }
     return self;
 }
 
 - (NSString*)templateName {
-    return [_xml stringAttribute:TEMPLATE_ATTR];
+    return [_data requireAttribute:TEMPLATE_ATTR];
 }
 
 @end

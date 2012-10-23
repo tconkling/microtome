@@ -16,11 +16,8 @@
 
 @property (nonatomic,strong) id<MTPrimitiveMarshaller> primitiveMarshaller;
 
-/// loads the given files into the library.
-- (void)loadFiles:(NSArray*)filenames;
-
-/// loads the given GDataXMLDocuments into the library.
-- (void)loadXmlDocs:(NSArray*)docs;
+/// loads the given MTDataElements into the library
+- (void)loadData:(NSArray*)dataElements;
 
 /// Removes all items from the library
 - (void)removeAllItems;

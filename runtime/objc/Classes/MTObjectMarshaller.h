@@ -1,6 +1,7 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
+@protocol MTDataElement;
 @class MTType;
 @class MTLibrary;
 @class MTLibrary;
@@ -12,7 +13,7 @@
 @property (nonatomic,readonly) BOOL handlesSubclasses;
 
 /// loads an object from XML
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml;
+- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data;
 
 /// Resolves PageRefs contained within an object
 - (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value;

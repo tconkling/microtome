@@ -4,6 +4,7 @@
 #import "MTObjectMarshaller.h"
 
 #import "MTDefs.h"
+#import "MTDataElement.h"
 #import "MTMutablePage.h"
 #import "MTMutablePageRef.h"
 #import "MTMutableTome.h"
@@ -23,7 +24,7 @@
     return NO;
 }
 
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
+- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data {
     MT_IS_ABSTRACT();
     return nil;
 }
@@ -51,8 +52,8 @@
 
 - (Class)valueType { return [NSString class]; }
 
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
-    NSString* val = xml.stringValue;
+- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data {
+    NSString* val = data.value;
     // handle the empty string (<myStringProp></myStringProp>)
     if (val == nil) {
         val = @"";
@@ -66,11 +67,11 @@
 
 - (Class)valueType { return [NSArray class]; }
 
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
+- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data {
     NSMutableArray* list = [[NSMutableArray alloc] init];
-    for (GDataXMLElement* childXml in xml.elements) {
+    for (id<MTDataElement> childData in [MTDataReader withData:data].children) {
         id<MTObjectMarshaller> marshaller = [library requireMarshallerForClass:type.subtype.clazz];
-        id child = [marshaller withLibrary:library type:type.subtype loadObjectfromXml:childXml];
+        id child = [marshaller withLibrary:library type:type.subtype loadObject:childData];
         [list addObject:child];
     }
 
@@ -92,8 +93,8 @@
 - (Class)valueType { return [MTMutablePage class]; }
 - (BOOL)handlesSubclasses { return YES; }
 
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
-    return [library loadPage:xml superclass:type.clazz];
+- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data {
+    return [library loadPage:data superclass:type.clazz];
 }
 
 - (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {
@@ -115,8 +116,8 @@
 
 - (Class)valueType { return [MTMutablePageRef class]; }
 
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
-    return [[MTMutablePageRef alloc] initWithPageType:type.subtype.clazz pageName:xml.stringValue];
+- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data {
+    return [[MTMutablePageRef alloc] initWithPageType:type.subtype.clazz pageName:data.value];
 }
 
 - (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {
@@ -130,8 +131,8 @@
 
 - (Class)valueType { return [MTMutableTome class]; }
 
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)tomeXml {
-    return [library loadTome:tomeXml pageType:type.subtype.clazz];
+- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data {
+    return [library loadTome:data pageType:type.subtype.clazz];
 }
 
 - (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {

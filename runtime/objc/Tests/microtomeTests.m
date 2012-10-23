@@ -3,6 +3,10 @@
 
 #import "microtomeTests.h"
 
+#import "microtome.h"
+#import "MTXmlLibrary.h"
+#import "GDataXMLElement+MTExtensions.h"
+
 #import "PrimitivePage.h"
 #import "NestedPage.h"
 #import "RefPage.h"
@@ -31,7 +35,7 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 
 - (void)setUp {
     [super setUp];
-    _library = [[MTLibrary alloc] init];
+    _library = [[MTXmlLibrary alloc] init];
     [_library registerPageClasses:@[
         [PrimitivePage class],
         [NestedPage class],

@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		22031CDC162E04780093E61E /* MTType.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031CDA162E04780093E61E /* MTType.h */; };
 		22031CDD162E04780093E61E /* MTType.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031CDB162E04780093E61E /* MTType.m */; };
-		22031D44162F3ADA0093E61E /* MTValueHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D42162F3ADA0093E61E /* MTValueHandler.h */; };
-		22031D45162F3ADA0093E61E /* MTValueHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D43162F3ADA0093E61E /* MTValueHandler.m */; };
+		22031D44162F3ADA0093E61E /* MTObjectMarshaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D42162F3ADA0093E61E /* MTObjectMarshaller.h */; };
+		22031D45162F3ADA0093E61E /* MTObjectMarshaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D43162F3ADA0093E61E /* MTObjectMarshaller.m */; };
 		22031D881630CB500093E61E /* MTValidationException.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D861630CB4E0093E61E /* MTValidationException.h */; };
 		22031D891630CB500093E61E /* MTValidationException.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D871630CB4F0093E61E /* MTValidationException.m */; };
 		22031DC41631D8850093E61E /* MTMutablePage.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DC21631D8840093E61E /* MTMutablePage.h */; };
@@ -19,53 +19,19 @@
 		22031DC91631D9930093E61E /* MTMutablePageRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DC71631D9920093E61E /* MTMutablePageRef.m */; };
 		22031DCC1631D9EE0093E61E /* MTMutableTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DCA1631D9ED0093E61E /* MTMutableTome.h */; };
 		22031DCD1631D9EE0093E61E /* MTMutableTome.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DCB1631D9EE0093E61E /* MTMutableTome.m */; };
-		22031DEB1631EAEC0093E61E /* MTProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E43A6E1559B847003A43B8 /* MTProp.m */; };
-		22031DEC1631EAEC0093E61E /* MTLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F58161CDE60001B98AA /* MTLibrary.m */; };
-		22031DED1631EAEC0093E61E /* MTLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F7A161CE727001B98AA /* MTLoadException.m */; };
-		22031DEE1631EAEC0093E61E /* MTXmlLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FBE161CFBDE001B98AA /* MTXmlLibrary.m */; };
-		22031DEF1631EAEC0093E61E /* MTXmlLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FC4161D00A4001B98AA /* MTXmlLoadException.m */; };
-		22031DF01631EAEC0093E61E /* MTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B303B161E585F001B98AA /* MTUtils.m */; };
-		22031DF11631EAEC0093E61E /* MTType.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031CDB162E04780093E61E /* MTType.m */; };
-		22031DF21631EAEC0093E61E /* MTValueHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D43162F3ADA0093E61E /* MTValueHandler.m */; };
-		22031DF31631EAEC0093E61E /* MTXmlObjectMarshaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D51162F60EA0093E61E /* MTXmlObjectMarshaller.m */; };
-		22031DF41631EAEC0093E61E /* MTValidationException.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D871630CB4F0093E61E /* MTValidationException.m */; };
-		22031DF51631EAEC0093E61E /* MTMutablePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DC31631D8850093E61E /* MTMutablePage.m */; };
-		22031DF61631EAEC0093E61E /* MTMutablePageRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DC71631D9920093E61E /* MTMutablePageRef.m */; };
-		22031DF71631EAEC0093E61E /* MTMutableTome.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DCB1631D9EE0093E61E /* MTMutableTome.m */; };
-		22031DF91631EAEC0093E61E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041CB1558ACB50014FA5D /* Foundation.framework */; };
-		22031DFB1631EAEC0093E61E /* microtome.h in Headers */ = {isa = PBXBuildFile; fileRef = 225041F71558AD200014FA5D /* microtome.h */; };
-		22031DFC1631EAEC0093E61E /* MTPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F42161CD0D1001B98AA /* MTPage.h */; };
-		22031DFD1631EAEC0093E61E /* MTTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F4A161CD668001B98AA /* MTTome.h */; };
-		22031DFE1631EAEC0093E61E /* MTLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F57161CDE60001B98AA /* MTLibrary.h */; };
-		22031DFF1631EAEC0093E61E /* MTLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F79161CE727001B98AA /* MTLoadException.h */; };
-		22031E001631EAEC0093E61E /* MTXmlLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FBD161CFBDE001B98AA /* MTXmlLibrary.h */; };
-		22031E011631EAEC0093E61E /* MTXmlLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */; };
-		22031E021631EAEC0093E61E /* MTPageRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FF7161E0CE5001B98AA /* MTPageRef.h */; };
-		22031E031631EAEC0093E61E /* MTUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B303A161E585E001B98AA /* MTUtils.h */; };
-		22031E041631EAEC0093E61E /* MTType.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031CDA162E04780093E61E /* MTType.h */; };
-		22031E051631EAEC0093E61E /* MTValueHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D42162F3ADA0093E61E /* MTValueHandler.h */; };
-		22031E061631EAEC0093E61E /* MTValidationException.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D861630CB4E0093E61E /* MTValidationException.h */; };
-		22031E071631EAEC0093E61E /* MTMutablePage.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DC21631D8840093E61E /* MTMutablePage.h */; };
-		22031E081631EAEC0093E61E /* MTMutablePageRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DC61631D9920093E61E /* MTMutablePageRef.h */; };
-		22031E091631EAEC0093E61E /* MTMutableTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DCA1631D9ED0093E61E /* MTMutableTome.h */; };
-		22031E411631F04F0093E61E /* libmicrotome-xml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22031E0D1631EAEC0093E61E /* libmicrotome-xml.a */; };
 		22031E7D163212610093E61E /* libcooocoa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22031E771632110A0093E61E /* libcooocoa.a */; };
 		22031F0B163719620093E61E /* MTLoadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F09163719620093E61E /* MTLoadTask.h */; };
-		22031F0C163719620093E61E /* MTLoadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F09163719620093E61E /* MTLoadTask.h */; };
 		22031F0D163719620093E61E /* MTLoadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031F0A163719620093E61E /* MTLoadTask.m */; };
-		22031F0E163719620093E61E /* MTLoadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031F0A163719620093E61E /* MTLoadTask.m */; };
 		22031F111637263B0093E61E /* MTLibrary+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F0F1637263B0093E61E /* MTLibrary+Internal.h */; };
-		22031F121637263B0093E61E /* MTLibrary+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F0F1637263B0093E61E /* MTLibrary+Internal.h */; };
-		22031F181637285E0093E61E /* MTXmlLibrary+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F161637285E0093E61E /* MTXmlLibrary+Internal.h */; };
-		22031F191637285E0093E61E /* MTXmlLibrary+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F161637285E0093E61E /* MTXmlLibrary+Internal.h */; };
+		22031F2B16372D3E0093E61E /* libmicrotome.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 225041C81558ACB50014FA5D /* libmicrotome.a */; };
+		22031F31163733150093E61E /* MTPrimitiveMarshaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F2F163733130093E61E /* MTPrimitiveMarshaller.h */; };
+		22031F32163733150093E61E /* MTPrimitiveMarshaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031F30163733140093E61E /* MTPrimitiveMarshaller.m */; };
 		221B2F44161CD0D1001B98AA /* MTPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F42161CD0D1001B98AA /* MTPage.h */; };
 		221B2F4C161CD668001B98AA /* MTTome.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F4A161CD668001B98AA /* MTTome.h */; };
 		221B2F59161CDE60001B98AA /* MTLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F57161CDE60001B98AA /* MTLibrary.h */; };
 		221B2F5A161CDE60001B98AA /* MTLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F58161CDE60001B98AA /* MTLibrary.m */; };
 		221B2F7B161CE728001B98AA /* MTLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F79161CE727001B98AA /* MTLoadException.h */; };
 		221B2F7C161CE728001B98AA /* MTLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F7A161CE727001B98AA /* MTLoadException.m */; };
-		221B2FBF161CFBDE001B98AA /* MTXmlLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FBD161CFBDE001B98AA /* MTXmlLibrary.h */; };
-		221B2FC5161D00A4001B98AA /* MTXmlLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */; };
 		221B2FD1161D0AE8001B98AA /* PrimitivePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2FD0161D0AE8001B98AA /* PrimitivePage.m */; };
 		221B2FF9161E0CE6001B98AA /* MTPageRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FF7161E0CE5001B98AA /* MTPageRef.h */; };
 		221B303C161E5860001B98AA /* MTUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B303A161E585E001B98AA /* MTUtils.h */; };
@@ -83,13 +49,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		22031E3F1631F0300093E61E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 225041BF1558ACB50014FA5D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 22031DE71631EAEC0093E61E;
-			remoteInfo = "microtome-xml";
-		};
 		22031E761632110A0093E61E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 22031E6E163211090093E61E /* cooocoa.xcodeproj */;
@@ -104,7 +63,14 @@
 			remoteGlobalIDString = 229E27C11557473D001452E5;
 			remoteInfo = cooocoaTests;
 		};
-		22031E7A1632111D0093E61E /* PBXContainerItemProxy */ = {
+		22031F2916372D390093E61E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 225041BF1558ACB50014FA5D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 225041C71558ACB50014FA5D;
+			remoteInfo = microtome;
+		};
+		22031F2C16372DBC0093E61E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 22031E6E163211090093E61E /* cooocoa.xcodeproj */;
 			proxyType = 1;
@@ -116,9 +82,8 @@
 /* Begin PBXFileReference section */
 		22031CDA162E04780093E61E /* MTType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTType.h; sourceTree = "<group>"; };
 		22031CDB162E04780093E61E /* MTType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTType.m; sourceTree = "<group>"; };
-		22031D42162F3ADA0093E61E /* MTValueHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTValueHandler.h; sourceTree = "<group>"; };
-		22031D43162F3ADA0093E61E /* MTValueHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTValueHandler.m; sourceTree = "<group>"; };
-		22031D51162F60EA0093E61E /* MTXmlObjectMarshaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTXmlObjectMarshaller.m; sourceTree = "<group>"; };
+		22031D42162F3ADA0093E61E /* MTObjectMarshaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTObjectMarshaller.h; sourceTree = "<group>"; };
+		22031D43162F3ADA0093E61E /* MTObjectMarshaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTObjectMarshaller.m; sourceTree = "<group>"; };
 		22031D53162F8AAD0093E61E /* MTLibraryItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTLibraryItem.h; sourceTree = "<group>"; };
 		22031D861630CB4E0093E61E /* MTValidationException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTValidationException.h; sourceTree = "<group>"; };
 		22031D871630CB4F0093E61E /* MTValidationException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTValidationException.m; sourceTree = "<group>"; };
@@ -128,25 +93,18 @@
 		22031DC71631D9920093E61E /* MTMutablePageRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTMutablePageRef.m; sourceTree = "<group>"; };
 		22031DCA1631D9ED0093E61E /* MTMutableTome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTMutableTome.h; sourceTree = "<group>"; };
 		22031DCB1631D9EE0093E61E /* MTMutableTome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTMutableTome.m; sourceTree = "<group>"; };
-		22031E0D1631EAEC0093E61E /* libmicrotome-xml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmicrotome-xml.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		22031E0E1631EB250093E61E /* microtome-xml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "microtome-xml.h"; sourceTree = "<group>"; };
 		22031E6E163211090093E61E /* cooocoa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cooocoa.xcodeproj; path = ../../../cooocoa/cooocoa.xcodeproj; sourceTree = "<group>"; };
-		22031E7C163211A10093E61E /* microtome-xml_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "microtome-xml_Prefix.pch"; sourceTree = "<group>"; };
 		22031F09163719620093E61E /* MTLoadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLoadTask.h; sourceTree = "<group>"; };
 		22031F0A163719620093E61E /* MTLoadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLoadTask.m; sourceTree = "<group>"; };
 		22031F0F1637263B0093E61E /* MTLibrary+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MTLibrary+Internal.h"; sourceTree = "<group>"; };
-		22031F161637285E0093E61E /* MTXmlLibrary+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MTXmlLibrary+Internal.h"; sourceTree = "<group>"; };
+		22031F2F163733130093E61E /* MTPrimitiveMarshaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPrimitiveMarshaller.h; sourceTree = "<group>"; };
+		22031F30163733140093E61E /* MTPrimitiveMarshaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTPrimitiveMarshaller.m; sourceTree = "<group>"; };
 		221B2F42161CD0D1001B98AA /* MTPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPage.h; sourceTree = "<group>"; };
 		221B2F4A161CD668001B98AA /* MTTome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTome.h; sourceTree = "<group>"; };
 		221B2F57161CDE60001B98AA /* MTLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLibrary.h; sourceTree = "<group>"; };
 		221B2F58161CDE60001B98AA /* MTLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLibrary.m; sourceTree = "<group>"; };
 		221B2F79161CE727001B98AA /* MTLoadException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTLoadException.h; sourceTree = "<group>"; };
 		221B2F7A161CE727001B98AA /* MTLoadException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTLoadException.m; sourceTree = "<group>"; };
-		221B2FBD161CFBDE001B98AA /* MTXmlLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTXmlLibrary.h; sourceTree = "<group>"; };
-		221B2FBE161CFBDE001B98AA /* MTXmlLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTXmlLibrary.m; sourceTree = "<group>"; };
-		221B2FC2161CFE32001B98AA /* MTXmlObjectMarshaller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTXmlObjectMarshaller.h; sourceTree = "<group>"; };
-		221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTXmlLoadException.h; sourceTree = "<group>"; };
-		221B2FC4161D00A4001B98AA /* MTXmlLoadException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTXmlLoadException.m; sourceTree = "<group>"; };
 		221B2FCF161D0AE8001B98AA /* PrimitivePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrimitivePage.h; sourceTree = "<group>"; };
 		221B2FD0161D0AE8001B98AA /* PrimitivePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrimitivePage.m; sourceTree = "<group>"; };
 		221B2FF7161E0CE5001B98AA /* MTPageRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTPageRef.h; sourceTree = "<group>"; };
@@ -173,14 +131,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		22031DF81631EAEC0093E61E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				22031DF91631EAEC0093E61E /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		225041C51558ACB50014FA5D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -193,8 +143,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22031F2B16372D3E0093E61E /* libmicrotome.a in Frameworks */,
 				22031E7D163212610093E61E /* libcooocoa.a in Frameworks */,
-				22031E411631F04F0093E61E /* libmicrotome-xml.a in Frameworks */,
 				225041DA1558ACB50014FA5D /* SenTestingKit.framework in Frameworks */,
 				225041DC1558ACB50014FA5D /* UIKit.framework in Frameworks */,
 				225041DD1558ACB50014FA5D /* Foundation.framework in Frameworks */,
@@ -221,43 +171,10 @@
 				22031D53162F8AAD0093E61E /* MTLibraryItem.h */,
 				22031F09163719620093E61E /* MTLoadTask.h */,
 				22031F0A163719620093E61E /* MTLoadTask.m */,
-				22031DC21631D8840093E61E /* MTMutablePage.h */,
-				22031DC31631D8850093E61E /* MTMutablePage.m */,
-				22031DC61631D9920093E61E /* MTMutablePageRef.h */,
-				22031DC71631D9920093E61E /* MTMutablePageRef.m */,
-				22031DCA1631D9ED0093E61E /* MTMutableTome.h */,
-				22031DCB1631D9EE0093E61E /* MTMutableTome.m */,
-				225042451558B19F0014FA5D /* MTProp.h */,
-				22E43A6E1559B847003A43B8 /* MTProp.m */,
-				22031CDA162E04780093E61E /* MTType.h */,
-				22031CDB162E04780093E61E /* MTType.m */,
 				221B303A161E585E001B98AA /* MTUtils.h */,
 				221B303B161E585F001B98AA /* MTUtils.m */,
 			);
 			name = Internal;
-			sourceTree = "<group>";
-		};
-		22031F151637284D0093E61E /* Internal */ = {
-			isa = PBXGroup;
-			children = (
-				22031F161637285E0093E61E /* MTXmlLibrary+Internal.h */,
-			);
-			name = Internal;
-			sourceTree = "<group>";
-		};
-		221B2FC1161CFBF4001B98AA /* XML */ = {
-			isa = PBXGroup;
-			children = (
-				22031F151637284D0093E61E /* Internal */,
-				22031E0E1631EB250093E61E /* microtome-xml.h */,
-				221B2FBD161CFBDE001B98AA /* MTXmlLibrary.h */,
-				221B2FBE161CFBDE001B98AA /* MTXmlLibrary.m */,
-				221B2FC3161D00A4001B98AA /* MTXmlLoadException.h */,
-				221B2FC4161D00A4001B98AA /* MTXmlLoadException.m */,
-				221B2FC2161CFE32001B98AA /* MTXmlObjectMarshaller.h */,
-				22031D51162F60EA0093E61E /* MTXmlObjectMarshaller.m */,
-			);
-			name = XML;
 			sourceTree = "<group>";
 		};
 		225041BD1558ACB50014FA5D = {
@@ -277,7 +194,6 @@
 			children = (
 				225041C81558ACB50014FA5D /* libmicrotome.a */,
 				225041D81558ACB50014FA5D /* microtomeTests.octest */,
-				22031E0D1631EAEC0093E61E /* libmicrotome-xml.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -321,19 +237,30 @@
 			isa = PBXGroup;
 			children = (
 				22031F081637194D0093E61E /* Internal */,
-				221B2FC1161CFBF4001B98AA /* XML */,
 				225041F71558AD200014FA5D /* microtome.h */,
 				221B2F57161CDE60001B98AA /* MTLibrary.h */,
 				221B2F58161CDE60001B98AA /* MTLibrary.m */,
 				221B2F79161CE727001B98AA /* MTLoadException.h */,
 				221B2F7A161CE727001B98AA /* MTLoadException.m */,
+				22031DC21631D8840093E61E /* MTMutablePage.h */,
+				22031DC31631D8850093E61E /* MTMutablePage.m */,
+				22031DC61631D9920093E61E /* MTMutablePageRef.h */,
+				22031DC71631D9920093E61E /* MTMutablePageRef.m */,
+				22031DCA1631D9ED0093E61E /* MTMutableTome.h */,
+				22031DCB1631D9EE0093E61E /* MTMutableTome.m */,
+				22031D42162F3ADA0093E61E /* MTObjectMarshaller.h */,
+				22031D43162F3ADA0093E61E /* MTObjectMarshaller.m */,
 				221B2F42161CD0D1001B98AA /* MTPage.h */,
 				221B2FF7161E0CE5001B98AA /* MTPageRef.h */,
+				22031F2F163733130093E61E /* MTPrimitiveMarshaller.h */,
+				22031F30163733140093E61E /* MTPrimitiveMarshaller.m */,
+				225042451558B19F0014FA5D /* MTProp.h */,
+				22E43A6E1559B847003A43B8 /* MTProp.m */,
 				221B2F4A161CD668001B98AA /* MTTome.h */,
+				22031CDA162E04780093E61E /* MTType.h */,
+				22031CDB162E04780093E61E /* MTType.m */,
 				22031D861630CB4E0093E61E /* MTValidationException.h */,
 				22031D871630CB4F0093E61E /* MTValidationException.m */,
-				22031D42162F3ADA0093E61E /* MTValueHandler.h */,
-				22031D43162F3ADA0093E61E /* MTValueHandler.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -342,7 +269,6 @@
 			isa = PBXGroup;
 			children = (
 				225041FA1558AD740014FA5D /* microtome_Prefix.pch */,
-				22031E7C163211A10093E61E /* microtome-xml_Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -350,31 +276,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		22031DFA1631EAEC0093E61E /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				22031DFB1631EAEC0093E61E /* microtome.h in Headers */,
-				22031DFC1631EAEC0093E61E /* MTPage.h in Headers */,
-				22031DFD1631EAEC0093E61E /* MTTome.h in Headers */,
-				22031DFE1631EAEC0093E61E /* MTLibrary.h in Headers */,
-				22031DFF1631EAEC0093E61E /* MTLoadException.h in Headers */,
-				22031E001631EAEC0093E61E /* MTXmlLibrary.h in Headers */,
-				22031E011631EAEC0093E61E /* MTXmlLoadException.h in Headers */,
-				22031E021631EAEC0093E61E /* MTPageRef.h in Headers */,
-				22031E031631EAEC0093E61E /* MTUtils.h in Headers */,
-				22031E041631EAEC0093E61E /* MTType.h in Headers */,
-				22031E051631EAEC0093E61E /* MTValueHandler.h in Headers */,
-				22031E061631EAEC0093E61E /* MTValidationException.h in Headers */,
-				22031E071631EAEC0093E61E /* MTMutablePage.h in Headers */,
-				22031E081631EAEC0093E61E /* MTMutablePageRef.h in Headers */,
-				22031E091631EAEC0093E61E /* MTMutableTome.h in Headers */,
-				22031F0C163719620093E61E /* MTLoadTask.h in Headers */,
-				22031F121637263B0093E61E /* MTLibrary+Internal.h in Headers */,
-				22031F191637285E0093E61E /* MTXmlLibrary+Internal.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		225041C61558ACB50014FA5D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -384,43 +285,23 @@
 				221B2F4C161CD668001B98AA /* MTTome.h in Headers */,
 				221B2F59161CDE60001B98AA /* MTLibrary.h in Headers */,
 				221B2F7B161CE728001B98AA /* MTLoadException.h in Headers */,
-				221B2FBF161CFBDE001B98AA /* MTXmlLibrary.h in Headers */,
-				221B2FC5161D00A4001B98AA /* MTXmlLoadException.h in Headers */,
 				221B2FF9161E0CE6001B98AA /* MTPageRef.h in Headers */,
 				221B303C161E5860001B98AA /* MTUtils.h in Headers */,
 				22031CDC162E04780093E61E /* MTType.h in Headers */,
-				22031D44162F3ADA0093E61E /* MTValueHandler.h in Headers */,
+				22031D44162F3ADA0093E61E /* MTObjectMarshaller.h in Headers */,
 				22031D881630CB500093E61E /* MTValidationException.h in Headers */,
 				22031DC41631D8850093E61E /* MTMutablePage.h in Headers */,
 				22031DC81631D9930093E61E /* MTMutablePageRef.h in Headers */,
 				22031DCC1631D9EE0093E61E /* MTMutableTome.h in Headers */,
 				22031F0B163719620093E61E /* MTLoadTask.h in Headers */,
 				22031F111637263B0093E61E /* MTLibrary+Internal.h in Headers */,
-				22031F181637285E0093E61E /* MTXmlLibrary+Internal.h in Headers */,
+				22031F31163733150093E61E /* MTPrimitiveMarshaller.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		22031DE71631EAEC0093E61E /* microtome-xml */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 22031E0A1631EAEC0093E61E /* Build configuration list for PBXNativeTarget "microtome-xml" */;
-			buildPhases = (
-				22031DEA1631EAEC0093E61E /* Sources */,
-				22031DF81631EAEC0093E61E /* Frameworks */,
-				22031DFA1631EAEC0093E61E /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				22031E7B1632111D0093E61E /* PBXTargetDependency */,
-			);
-			name = "microtome-xml";
-			productName = microtome;
-			productReference = 22031E0D1631EAEC0093E61E /* libmicrotome-xml.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		225041C71558ACB50014FA5D /* microtome */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 225041EC1558ACB50014FA5D /* Build configuration list for PBXNativeTarget "microtome" */;
@@ -432,6 +313,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				22031F2D16372DBC0093E61E /* PBXTargetDependency */,
 			);
 			name = microtome;
 			productName = microtome;
@@ -450,7 +332,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				22031E401631F0300093E61E /* PBXTargetDependency */,
+				22031F2A16372D390093E61E /* PBXTargetDependency */,
 			);
 			name = microtomeTests;
 			productName = microtomeTests;
@@ -486,7 +368,6 @@
 			projectRoot = "";
 			targets = (
 				225041C71558ACB50014FA5D /* microtome */,
-				22031DE71631EAEC0093E61E /* microtome-xml */,
 				225041D71558ACB50014FA5D /* microtomeTests */,
 			);
 		};
@@ -537,27 +418,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		22031DEA1631EAEC0093E61E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				22031DEB1631EAEC0093E61E /* MTProp.m in Sources */,
-				22031DEC1631EAEC0093E61E /* MTLibrary.m in Sources */,
-				22031DED1631EAEC0093E61E /* MTLoadException.m in Sources */,
-				22031DEE1631EAEC0093E61E /* MTXmlLibrary.m in Sources */,
-				22031DEF1631EAEC0093E61E /* MTXmlLoadException.m in Sources */,
-				22031DF01631EAEC0093E61E /* MTUtils.m in Sources */,
-				22031DF11631EAEC0093E61E /* MTType.m in Sources */,
-				22031DF21631EAEC0093E61E /* MTValueHandler.m in Sources */,
-				22031DF31631EAEC0093E61E /* MTXmlObjectMarshaller.m in Sources */,
-				22031DF41631EAEC0093E61E /* MTValidationException.m in Sources */,
-				22031DF51631EAEC0093E61E /* MTMutablePage.m in Sources */,
-				22031DF61631EAEC0093E61E /* MTMutablePageRef.m in Sources */,
-				22031DF71631EAEC0093E61E /* MTMutableTome.m in Sources */,
-				22031F0E163719620093E61E /* MTLoadTask.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		225041C41558ACB50014FA5D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -567,12 +427,13 @@
 				221B2F7C161CE728001B98AA /* MTLoadException.m in Sources */,
 				221B303D161E5860001B98AA /* MTUtils.m in Sources */,
 				22031CDD162E04780093E61E /* MTType.m in Sources */,
-				22031D45162F3ADA0093E61E /* MTValueHandler.m in Sources */,
+				22031D45162F3ADA0093E61E /* MTObjectMarshaller.m in Sources */,
 				22031D891630CB500093E61E /* MTValidationException.m in Sources */,
 				22031DC51631D8850093E61E /* MTMutablePage.m in Sources */,
 				22031DC91631D9930093E61E /* MTMutablePageRef.m in Sources */,
 				22031DCD1631D9EE0093E61E /* MTMutableTome.m in Sources */,
 				22031F0D163719620093E61E /* MTLoadTask.m in Sources */,
+				22031F32163733150093E61E /* MTPrimitiveMarshaller.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,15 +451,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		22031E401631F0300093E61E /* PBXTargetDependency */ = {
+		22031F2A16372D390093E61E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 22031DE71631EAEC0093E61E /* microtome-xml */;
-			targetProxy = 22031E3F1631F0300093E61E /* PBXContainerItemProxy */;
+			target = 225041C71558ACB50014FA5D /* microtome */;
+			targetProxy = 22031F2916372D390093E61E /* PBXContainerItemProxy */;
 		};
-		22031E7B1632111D0093E61E /* PBXTargetDependency */ = {
+		22031F2D16372DBC0093E61E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = cooocoa;
-			targetProxy = 22031E7A1632111D0093E61E /* PBXContainerItemProxy */;
+			targetProxy = 22031F2C16372DBC0093E61E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -614,34 +475,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		22031E0B1631EAEC0093E61E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DSTROOT = /tmp/microtome.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "microtome-xml_Prefix.pch";
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "microtome-xml";
-				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "${COOOCOA_SRC}/**";
-			};
-			name = Debug;
-		};
-		22031E0C1631EAEC0093E61E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DSTROOT = /tmp/microtome.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "microtome-xml_Prefix.pch";
-				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "microtome-xml";
-				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "${COOOCOA_SRC}/**";
-			};
-			name = Release;
-		};
 		225041EA1558ACB50014FA5D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -661,12 +494,14 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
 				);
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "${COOOCOA_SRC}/**";
 			};
 			name = Debug;
 		};
@@ -682,12 +517,14 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
 				);
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "${COOOCOA_SRC}/**";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -763,15 +600,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		22031E0A1631EAEC0093E61E /* Build configuration list for PBXNativeTarget "microtome-xml" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				22031E0B1631EAEC0093E61E /* Debug */,
-				22031E0C1631EAEC0093E61E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		225041C21558ACB50014FA5D /* Build configuration list for PBXProject "microtome" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

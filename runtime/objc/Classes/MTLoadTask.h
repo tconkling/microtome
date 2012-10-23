@@ -14,10 +14,12 @@ typedef enum {
 @interface MTLoadTask : NSObject {
 @protected
     NSMutableArray* _libraryItems;
+    NSMutableArray* _pendingTemplatedPages;
     MTLoadState _state;
 }
 
 @property (nonatomic,readonly) NSArray* libraryItems;
+@property (nonatomic,readonly) NSMutableArray* pendingTemplatedPages;
 @property (nonatomic,assign) MTLoadState state;
 
 - (void)addItem:(id<MTLibraryItem>)item;

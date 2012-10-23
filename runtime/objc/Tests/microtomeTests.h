@@ -3,11 +3,11 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-#import "microtome-xml.h"
+#import "microtome.h"
 
 @interface microtomeTests : SenTestCase {
 @protected
-    MTXmlLibrary* _library;
+    MTLibrary* _library;
 }
 
 @end

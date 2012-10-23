@@ -31,7 +31,7 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 
 - (void)setUp {
     [super setUp];
-    _library = [[MTXmlLibrary alloc] init];
+    _library = [[MTLibrary alloc] init];
     [_library registerPageClasses:@[
         [PrimitivePage class],
         [NestedPage class],

@@ -1,7 +1,0 @@
-//
-// microtome - Copyright 2012 Three Rings Design
-
-#ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-    #import "cooocoa.h"
-#endif

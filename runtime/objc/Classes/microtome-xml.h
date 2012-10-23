@@ -4,6 +4,6 @@
 #import "microtome.h"
 #import "cooocoa.h"
 
-#import "MTXmlLoader.h"
+#import "MTXmlLibrary.h"
 #import "MTXmlLoadException.h"
 #import "MTXmlObjectMarshaller.h"

@@ -1,19 +1,18 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
+#import "MTLibrary.h"
+
 @protocol MTXmlObjectMarshaller;
 @class MTMutablePage;
 @class MTMutableTome;
 @class MTLibrary;
 @class MTXmlLoadTask;
 
-@interface MTXmlLoader : NSObject {
+@interface MTXmlLibrary : MTLibrary {
 @protected
-    __weak MTLibrary* _library;
     MTXmlLoadTask* _loadTask;
 }
-
-- (id)initWithLibrary:(MTLibrary*)library;
 
 /// loads the given files into the library.
 - (void)loadFiles:(NSArray*)filenames;

@@ -1,9 +1,10 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTXmlLoader.h"
+#import "MTXmlLibrary.h"
+#import "MTLibrary+Internal.h"
 
-@interface MTXmlLoader (MTInternal)
+@interface MTXmlLibrary (MTInternal)
 
 - (id<MTXmlObjectMarshaller>)requireObjectMarshallerForClass:(Class)requiredClass;
 

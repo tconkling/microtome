@@ -3,12 +3,12 @@
 
 #import "MTValueHandler.h"
 
-@class MTXmlLoader;
+@class MTXmlLibrary;
 @class MTType;
 
 /// Extends MTValueHandler with support for loading values from XML
 @protocol MTXmlObjectMarshaller <MTObjectValueHandler>
-- (id)withLoader:(MTXmlLoader*)loader type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml;
+- (id)withLoader:(MTXmlLibrary*)loader type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml;
 @end
 
 // built-in marshallers

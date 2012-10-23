@@ -1,12 +1,11 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTXmlLoader+Internal.h"
+#import "MTXmlLibrary+Internal.h"
 
 #import "MTDefs.h"
 #import "MTUtils.h"
 #import "MTType.h"
-#import "MTLibrary+Internal.h"
 #import "MTXmlObjectMarshaller.h"
 #import "MTMutableTome.h"
 #import "MTMutablePage.h"
@@ -44,17 +43,15 @@ static NSString* const TYPE_ATTR = @"type";
 
 /// Loader
 
-@implementation MTXmlLoader
+@implementation MTXmlLibrary
 
-- (id)initWithLibrary:(MTLibrary*)library {
+- (id)init {
     if ((self = [super init])) {
-        _library = library;
-
-        [library registerValueHandler:[[MTStringMarshaller alloc] init]];
-        [library registerValueHandler:[[MTListMarshaller alloc] init]];
-        [library registerValueHandler:[[MTPageMarshaller alloc] init]];
-        [library registerValueHandler:[[MTPageRefMarshaller alloc] init]];
-        [library registerValueHandler:[[MTTomeMarshaller alloc] init]];
+        [self registerValueHandler:[[MTStringMarshaller alloc] init]];
+        [self registerValueHandler:[[MTListMarshaller alloc] init]];
+        [self registerValueHandler:[[MTPageMarshaller alloc] init]];
+        [self registerValueHandler:[[MTPageRefMarshaller alloc] init]];
+        [self registerValueHandler:[[MTTomeMarshaller alloc] init]];
     }
 
     return self;
@@ -92,7 +89,7 @@ static NSString* const TYPE_ATTR = @"type";
             }
         }
 
-        [_library beginLoad:_loadTask];
+        [self beginLoad:_loadTask];
 
         // Resolve all templated items:
         // Iterate through the array as many times as it takes to resolve all template-dependent
@@ -103,7 +100,7 @@ static NSString* const TYPE_ATTR = @"type";
             foundTemplate = NO;
             for (int ii = 0; ii < _loadTask.pendingTemplatedPages.count; ++ii) {
                 MTTemplatedPage* tpage = _loadTask.pendingTemplatedPages[ii];
-                id<MTPage> tmpl = [_library getPage:tpage.templateName];
+                id<MTPage> tmpl = [self getPage:tpage.templateName];
                 if (tmpl == nil) {
                     continue;
                 }
@@ -121,10 +118,10 @@ static NSString* const TYPE_ATTR = @"type";
         }
 
         // Finalize the load, which resolves all PageRefs
-        [_library finalizeLoad:_loadTask];
+        [self finalizeLoad:_loadTask];
 
     } @catch (NSException* e) {
-        [_library abortLoad:_loadTask];
+        [self abortLoad:_loadTask];
         @throw e;
         
     } @finally {
@@ -133,7 +130,7 @@ static NSString* const TYPE_ATTR = @"type";
 }
 
 - (id<MTXmlObjectMarshaller>)requireObjectMarshallerForClass:(Class)requiredClass {
-    id<MTObjectValueHandler> handler = [_library requireValueHandlerForClass:requiredClass];
+    id<MTObjectValueHandler> handler = [self requireValueHandlerForClass:requiredClass];
     if (![handler conformsToProtocol:@protocol(MTXmlObjectMarshaller)]) {
         [NSException raise:NSGenericException format:@"No XML marshaller for '%@'",
             NSStringFromClass(requiredClass)];
@@ -148,7 +145,7 @@ static NSString* const TYPE_ATTR = @"type";
     if (range.location == 0) {
         // it's a tome!
         typeName = [typeName substringFromIndex:range.length];
-        Class pageClass = [_library requirePageClassWithName:typeName];
+        Class pageClass = [self requirePageClassWithName:typeName];
         return [self loadTome:xml pageType:pageClass];
     } else {
         // it's a page!
@@ -179,8 +176,8 @@ static NSString* const TYPE_ATTR = @"type";
 
     NSString* typeName = [pageXml stringAttribute:TYPE_ATTR];
     Class pageClass = (superclass != nil ?
-                       [_library requirePageClassWithName:typeName superClass:superclass] :
-                       [_library requirePageClassWithName:typeName]);
+                       [self requirePageClassWithName:typeName superClass:superclass] :
+                       [self requirePageClassWithName:typeName]);
 
     MTMutablePage* page = [[pageClass alloc] init];
     page.name = name;
@@ -221,7 +218,7 @@ static NSString* const TYPE_ATTR = @"type";
                         intProp.value = ((MTIntProp*)tProp).value;
                     } else {
                         intProp.value = [pageXml intAttribute:prop.name];
-                        [_library.primitiveValueHandler validateInt:intProp];
+                        [self.primitiveValueHandler validateInt:intProp];
                     }
                 } else if ([prop isKindOfClass:[MTBoolProp class]]) {
                     MTBoolProp* boolProp = (MTBoolProp*)prop;
@@ -229,7 +226,7 @@ static NSString* const TYPE_ATTR = @"type";
                         boolProp.value = ((MTBoolProp*)tProp).value;
                     } else {
                         boolProp.value = [pageXml boolAttribute:prop.name];
-                        [_library.primitiveValueHandler validateBool:boolProp];
+                        [self.primitiveValueHandler validateBool:boolProp];
                     }
                 } else if ([prop isKindOfClass:[MTFloatProp class]]) {
                     MTFloatProp* floatProp = (MTFloatProp*)prop;
@@ -237,7 +234,7 @@ static NSString* const TYPE_ATTR = @"type";
                         floatProp.value = ((MTFloatProp*)tProp).value;
                     } else {
                         floatProp.value = [pageXml floatAttribute:prop.name];
-                        [_library.primitiveValueHandler validateFloat:floatProp];
+                        [self.primitiveValueHandler validateFloat:floatProp];
                     }
                 } else {
                     @throw [MTXmlLoadException withElement:pageXml

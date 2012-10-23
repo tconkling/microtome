@@ -31,8 +31,7 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 
 - (void)setUp {
     [super setUp];
-    _library = [[MTLibrary alloc] init];
-    _loader = [[MTXmlLoader alloc] initWithLibrary:_library];
+    _library = [[MTXmlLibrary alloc] init];
     [_library registerPageClasses:@[
         [PrimitivePage class],
         [NestedPage class],
@@ -45,7 +44,7 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 }
 
 - (void)testPrimitives {
-    [_loader loadXmlDocs:@[GetXML(PrimitivePage.XML)]];
+    [_library loadXmlDocs:@[GetXML(PrimitivePage.XML)]];
     PrimitivePage* page = _library[@"primitiveTest"];
     STAssertNotNil(page, @"");
     STAssertEquals(page.foo, YES, @"");
@@ -55,14 +54,14 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 }
 
 - (void)testTome {
-    [_loader loadXmlDocs:@[GetXML(TOME_XML)]];
+    [_library loadXmlDocs:@[GetXML(TOME_XML)]];
     id<MTTome> tome = _library[@"tomeTest"];
     STAssertEquals(tome.pageCount, 2, @"");
     [_library removeAllItems];
 }
 
 - (void)testNested {
-    [_loader loadXmlDocs:@[GetXML(NestedPage.XML)]];
+    [_library loadXmlDocs:@[GetXML(NestedPage.XML)]];
     NestedPage* page = _library[@"nestedTest"];
     STAssertEquals(page.nested.foo, YES, @"");
     STAssertEquals(page.nested.bar, 2, @"");
@@ -71,7 +70,7 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 }
 
 - (void)testRefs {
-    [_loader loadXmlDocs:@[GetXML(TOME_XML), GetXML(RefPage.XML)]];
+    [_library loadXmlDocs:@[GetXML(TOME_XML), GetXML(RefPage.XML)]];
     RefPage* refPage = _library[@"refTest"];
     STAssertNotNil(refPage.nested, @"");
     STAssertEquals(refPage.nested.foo, YES, @"");
@@ -81,7 +80,7 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 }
 
 - (void)testTemplates {
-    [_loader loadXmlDocs:@[ GetXML(TEMPLATE_XML) ]];
+    [_library loadXmlDocs:@[ GetXML(TEMPLATE_XML) ]];
     
     PrimitivePage* page = _library[@"test1"];
     STAssertEquals(page.foo, YES, @"");

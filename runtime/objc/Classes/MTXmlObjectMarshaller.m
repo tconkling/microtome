@@ -3,7 +3,7 @@
 
 #import "MTXmlObjectMarshaller.h"
 
-#import "MTXmlLoader+Internal.h"
+#import "MTXmlLibrary+Internal.h"
 #import "MTLibrary.h"
 #import "MTType.h"
 #import "MTProp.h"
@@ -26,7 +26,7 @@
 
 @implementation MTListMarshaller
 
-- (id)withLoader:(MTXmlLoader*)loader type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
+- (id)withLoader:(MTXmlLibrary*)loader type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
     NSMutableArray* list = [[NSMutableArray alloc] init];
     for (GDataXMLElement* childXml in xml.elements) {
         id<MTXmlObjectMarshaller> marshaller = [loader requireObjectMarshallerForClass:type.subtype.clazz];
@@ -42,7 +42,7 @@
 
 @implementation MTPageMarshaller
 
-- (id)withLoader:(MTXmlLoader*)loader type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
+- (id)withLoader:(MTXmlLibrary*)loader type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
     return [loader loadPage:xml superclass:type.clazz];
 }
 
@@ -51,7 +51,7 @@
 
 @implementation MTPageRefMarshaller
 
-- (id)withLoader:(MTXmlLoader*)loader type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
+- (id)withLoader:(MTXmlLibrary*)loader type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml {
     return [[MTMutablePageRef alloc] initWithPageType:type.subtype.clazz pageName:xml.stringValue];
 }
 
@@ -60,7 +60,7 @@
 
 @implementation MTTomeMarshaller
 
-- (id)withLoader:(MTXmlLoader*)loader type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)tomeXml {
+- (id)withLoader:(MTXmlLibrary*)loader type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)tomeXml {
     return [loader loadTome:tomeXml pageType:type.subtype.clazz];
 }
 

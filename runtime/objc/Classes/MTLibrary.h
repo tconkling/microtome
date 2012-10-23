@@ -5,6 +5,7 @@
 @protocol MTValueHandler;
 @protocol MTPrimitiveValueHandler;
 @protocol MTPage;
+@class MTLoadTask;
 
 @interface MTLibrary : NSObject {
 @protected
@@ -27,7 +28,9 @@
 - (id)objectForKeyedSubscript:(id)key;
 
 // protected
-- (void)addItems:(NSArray*)items;
+- (void)beginLoad:(MTLoadTask*)task;
+- (void)finalizeLoad:(MTLoadTask*)task;
+- (void)abortLoad:(MTLoadTask*)task;
 
 - (id<MTValueHandler>)requireValueHandlerForClass:(Class)requiredClass;
 

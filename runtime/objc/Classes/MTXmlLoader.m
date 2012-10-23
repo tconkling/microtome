@@ -13,6 +13,7 @@
 #import "MTMutablePageRef.h"
 #import "MTProp.h"
 #import "MTXmlLoadException.h"
+#import "MTLoadTask.h"
 
 static NSString* const TEMPLATE_ATTR = @"template";
 static NSString* const TYPE_ATTR = @"type";
@@ -33,13 +34,11 @@ static NSString* const TYPE_ATTR = @"type";
 
 /// LoadTask
 
-@interface MTXmlLoadTask : NSObject {
+@interface MTXmlLoadTask : MTLoadTask {
 @protected
-    NSMutableArray* _libraryItems;
     NSMutableArray* _pendingTemplatedPages;
 }
 
-@property (nonatomic,readonly) NSMutableArray* libraryItems;
 @property (nonatomic,readonly) NSMutableArray* pendingTemplatedPages;
 @end
 
@@ -85,38 +84,51 @@ static NSString* const TYPE_ATTR = @"type";
 - (void)loadXmlDocs:(NSArray*)docs {
     NSAssert(_loadTask == nil, @"Load already in progress!");
     _loadTask = [[MTXmlLoadTask alloc] init];
-    
-    for (GDataXMLDocument* doc in docs) {
-        for (GDataXMLElement* pageXml in doc.rootElement.elements) {
-            [_loadTask.libraryItems addObject:[self loadLibraryItem:pageXml]];
-        }
-    }
 
-    [_library addItems:_loadTask.libraryItems];
-
-    // resolve all templated items
     @try {
-        // Iterate through the array as many times as it takes to resolve
-        // the templates (some templates may themselves have templates in the pendingTemplatedPages)
-        // Throw an error if we have a complete iteration with no resolution
+        for (GDataXMLDocument* doc in docs) {
+            for (GDataXMLElement* pageXml in doc.rootElement.elements) {
+                [_loadTask addItem:[self loadLibraryItem:pageXml]];
+            }
+        }
+
+        [_library beginLoad:_loadTask];
+
+        // Resolve all templated items:
+        // Iterate through the array as many times as it takes to resolve all template-dependent
+        // pages (some templates may themselves have templates in the pendingTemplatedPages).
+        // _pendingTemplatedPages can have items added to it during this process.
         BOOL foundTemplate;
         do {
             foundTemplate = NO;
             for (int ii = 0; ii < _loadTask.pendingTemplatedPages.count; ++ii) {
                 MTTemplatedPage* tpage = _loadTask.pendingTemplatedPages[ii];
-                NSString* templateName = [tpage.xml stringAttribute:TEMPLATE_ATTR];
-                id<MTPage> page = [_library getPage:templateName];
-                if (page != nil) {
+                id<MTPage> tmpl = [_library getPage:tpage.templateName];
+                if (tmpl != nil) {
                     continue;
                 }
+                [self loadPageProps:tpage.page xml:tpage.xml template:tmpl];
                 foundTemplate = YES;
             }
         } while (foundTemplate);
-    }
-    @catch (NSException *exception) {
-    }
 
-    _loadTask = nil;
+        // Throw an error if we're missing a template
+        if (_loadTask.pendingTemplatedPages.count > 0) {
+            MTTemplatedPage* tpage = _loadTask.pendingTemplatedPages[0];
+            @throw [MTXmlLoadException withElement:tpage.xml
+                                            reason:@"Missing template '%@'", tpage.templateName];
+        }
+
+        // Finalize the load, which resolves all PageRefs
+        [_library finalizeLoad:_loadTask];
+
+    } @catch (NSException* e) {
+        [_library abortLoad:_loadTask];
+        @throw e;
+        
+    } @finally {
+        _loadTask = nil;
+    }
 }
 
 - (id<MTXmlObjectMarshaller>)requireObjectMarshallerForClass:(Class)requiredClass {
@@ -183,19 +195,19 @@ static NSString* const TYPE_ATTR = @"type";
     return page;
 }
 
-- (void)loadPageProps:(MTMutablePage*)page xml:(GDataXMLElement*)pageXml template:(MTMutablePage*)template {
-    if (template != nil && [[template class] isSubclassOfClass:[page class]]) {
+- (void)loadPageProps:(MTMutablePage*)page xml:(GDataXMLElement*)pageXml template:(id<MTPage>)tmpl {
+    if (tmpl != nil && [[tmpl class] isSubclassOfClass:[page class]]) {
         @throw [MTXmlLoadException withElement:pageXml reason:
                 @"Incompatible template [pageName=%@ pageClass=%@ templateName=%@ templateClass=%@]",
                     page.name, NSStringFromClass([page class]),
-                    template.name, NSStringFromClass([template class])];
+                    tmpl.name, NSStringFromClass([tmpl class])];
     }
     for (MTProp* prop in page.props) {
         MTObjectProp* objectProp =
         ([prop isKindOfClass:[MTObjectProp class]] ? (MTObjectProp*)prop : nil);
         BOOL isPrimitive = (objectProp == nil);
 
-        MTProp* tProp = (template != nil ? MTGetProp(template, prop.name) : nil);
+        MTProp* tProp = (tmpl != nil ? MTGetProp(tmpl, prop.name) : nil);
 
         if (isPrimitive) {
             // Handle primitive props (read from attributes)
@@ -296,19 +308,21 @@ static NSString* const TYPE_ATTR = @"type";
     return self;
 }
 
+- (NSString*)templateName {
+    return [_xml stringAttribute:TEMPLATE_ATTR];
+}
+
 @end
 
 @implementation MTXmlLoadTask
 
-@synthesize libraryItems = _libraryItems;
 @synthesize pendingTemplatedPages = _pendingTemplatedPages;
 
 - (id)init {
     if ((self = [super init])) {
-        _libraryItems = [[NSMutableArray alloc] init];
         _pendingTemplatedPages = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
-@end        
+@end

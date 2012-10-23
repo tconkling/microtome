@@ -11,6 +11,7 @@
 #import "MTTome.h"
 #import "MTType.h"
 #import "MTLoadException.h"
+#import "MTLoadTask.h"
 
 @implementation MTLibrary
 
@@ -78,34 +79,48 @@
     }
 }
 
-- (void)addItems:(NSArray*)items {
-    for (id<MTLibraryItem> item in items) {
+- (void)beginLoad:(MTLoadTask*)task {
+    NSAssert(task.state == MT_Loading, @"task.state != MT_Loading");
+    for (id<MTLibraryItem> item in task.libraryItems) {
         if (_items[item.name] != nil) {
+            task.state = MT_Aborted;
             [NSException raise:NSGenericException
                         format:@"An item with that name is already loaded [item=%@]", item.name];
         }
     }
 
-    for (id<MTLibraryItem> item in items) {
+    for (id<MTLibraryItem> item in task.libraryItems) {
         _items[item.name] = item;
     }
 
+    task.state = MT_AddedItems;
+}
+
+- (void)finalizeLoad:(MTLoadTask*)task {
+    NSAssert(task.state == MT_AddedItems, @"task.state != MT_AddedItems");
     @try {
-        for (id<MTLibraryItem> item in items) {
+        for (id<MTLibraryItem> item in task.libraryItems) {
             id<MTValueHandler> handler = [self requireValueHandlerForClass:[item class]];
             [handler withLibrary:self type:item.type resolveRefs:item];
         }
     }
     @catch (NSException* exception) {
-        for (id<MTLibraryItem> item in items) {
-            [self removeItemWithName:item.name];
-        }
+        [self abortLoad:task];
         @throw exception;
     }
+
+    task.state = MT_Finalized;
 }
 
-- (void)removeItemWithName:(NSString*)name {
-    [_items removeObjectForKey:name];
+- (void)abortLoad:(MTLoadTask*)task {
+    if (task.state == MT_Aborted) {
+        return;
+    }
+
+    for (id<MTLibraryItem> item in task.libraryItems) {
+        [_items removeObjectForKey:item.name];
+    }
+    task.state = MT_Aborted;
 }
 
 - (Class)pageClassWithName:(NSString*)name {

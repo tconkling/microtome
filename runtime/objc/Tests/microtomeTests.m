@@ -13,6 +13,13 @@ static NSString* const TOME_XML =
     @"  <test2 type='PrimitivePage' foo='false' bar='666' baz='0.1'/>"
     @"</tomeTest></root>";
 
+static NSString* const TEMPLATE_XML =
+    @"<root>"
+    @"  <test0 type='PrimitivePage' foo='true' bar='2' baz='3.1415'/>"
+    @"  <test2 type='PrimitivePage' template='test1' baz='666'/>"
+    @"  <test1 type='PrimitivePage' template='test0'/>"
+    @"</root>";
+
 static const float EPSILON = 0.0001f;
 
 static GDataXMLDocument* GetXML (NSString* xmlString) {
@@ -70,6 +77,20 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
     STAssertEquals(refPage.nested.foo, YES, @"");
     STAssertEquals(refPage.nested.bar, 2, @"");
     STAssertEqualsWithAccuracy(refPage.nested.baz, 3.1415f, EPSILON, @"");
+    [_library removeAllItems];
+}
+
+- (void)testTemplates {
+    [_loader loadXmlDocs:@[ GetXML(TEMPLATE_XML) ]];
+    
+    PrimitivePage* page = _library[@"test1"];
+    STAssertEquals(page.foo, YES, @"");
+    STAssertEquals(page.bar, 2, @"");
+    STAssertEqualsWithAccuracy(page.baz, 3.1415f, EPSILON, @"");
+
+    page = _library[@"test2"];
+    STAssertEqualsWithAccuracy(page.baz, 666.0f, EPSILON, @"");
+    
     [_library removeAllItems];
 }
 

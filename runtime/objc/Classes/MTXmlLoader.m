@@ -104,10 +104,11 @@ static NSString* const TYPE_ATTR = @"type";
             for (int ii = 0; ii < _loadTask.pendingTemplatedPages.count; ++ii) {
                 MTTemplatedPage* tpage = _loadTask.pendingTemplatedPages[ii];
                 id<MTPage> tmpl = [_library getPage:tpage.templateName];
-                if (tmpl != nil) {
+                if (tmpl == nil) {
                     continue;
                 }
                 [self loadPageProps:tpage.page xml:tpage.xml template:tmpl];
+                [_loadTask.pendingTemplatedPages removeObjectAtIndex:ii--];
                 foundTemplate = YES;
             }
         } while (foundTemplate);
@@ -196,7 +197,7 @@ static NSString* const TYPE_ATTR = @"type";
 }
 
 - (void)loadPageProps:(MTMutablePage*)page xml:(GDataXMLElement*)pageXml template:(id<MTPage>)tmpl {
-    if (tmpl != nil && [[tmpl class] isSubclassOfClass:[page class]]) {
+    if (tmpl != nil && ![[tmpl class] isSubclassOfClass:[page class]]) {
         @throw [MTXmlLoadException withElement:pageXml reason:
                 @"Incompatible template [pageName=%@ pageClass=%@ templateName=%@ templateClass=%@]",
                     page.name, NSStringFromClass([page class]),
@@ -217,7 +218,7 @@ static NSString* const TYPE_ATTR = @"type";
                 if ([prop isKindOfClass:[MTIntProp class]]) {
                     MTIntProp* intProp = (MTIntProp*)prop;
                     if (useTemplate) {
-                        intProp.value = ((MTIntProp*)prop).value;
+                        intProp.value = ((MTIntProp*)tProp).value;
                     } else {
                         intProp.value = [pageXml intAttribute:prop.name];
                         [_library.primitiveValueHandler validateInt:intProp];
@@ -225,7 +226,7 @@ static NSString* const TYPE_ATTR = @"type";
                 } else if ([prop isKindOfClass:[MTBoolProp class]]) {
                     MTBoolProp* boolProp = (MTBoolProp*)prop;
                     if (useTemplate) {
-                        boolProp.value = ((MTBoolProp*)prop).value;
+                        boolProp.value = ((MTBoolProp*)tProp).value;
                     } else {
                         boolProp.value = [pageXml boolAttribute:prop.name];
                         [_library.primitiveValueHandler validateBool:boolProp];
@@ -233,7 +234,7 @@ static NSString* const TYPE_ATTR = @"type";
                 } else if ([prop isKindOfClass:[MTFloatProp class]]) {
                     MTFloatProp* floatProp = (MTFloatProp*)prop;
                     if (useTemplate) {
-                        floatProp.value = ((MTFloatProp*)prop).value;
+                        floatProp.value = ((MTFloatProp*)tProp).value;
                     } else {
                         floatProp.value = [pageXml floatAttribute:prop.name];
                         [_library.primitiveValueHandler validateFloat:floatProp];

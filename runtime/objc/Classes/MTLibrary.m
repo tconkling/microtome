@@ -1,7 +1,7 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTLibrary.h"
+#import "MTLibrary+Internal.h"
 
 #import "MTDefs.h"
 #import "MTUtils.h"
@@ -14,8 +14,6 @@
 #import "MTLoadTask.h"
 
 @implementation MTLibrary
-
-@synthesize primitiveValueHandler = _primitiveValueHandler;
 
 - (id)init {
     if ((self = [super init])) {
@@ -34,6 +32,14 @@
     return self;
 }
 
+- (id<MTPrimitiveValueHandler>)primitiveValueHandler {
+    return _primitiveValueHandler;
+}
+
+- (void)setPrimitiveValueHandler:(id<MTPrimitiveValueHandler>)primitiveValueHandler {
+    _primitiveValueHandler = primitiveValueHandler;
+}
+
 - (id)objectForKeyedSubscript:(id)key {
     return _items[key];
 }
@@ -42,16 +48,16 @@
     [_items removeAllObjects];
 }
 
-- (void)registerValueHandler:(id<MTValueHandler>)handler {
+- (void)registerValueHandler:(id<MTObjectValueHandler>)handler {
     _valueHandlers[(id<NSCopying>)handler.valueType] = handler;
 }
 
-- (id<MTValueHandler>)requireValueHandlerForClass:(Class)requiredClass {
-    id<MTValueHandler> handler = _valueHandlers[requiredClass];
+- (id<MTObjectValueHandler>)requireValueHandlerForClass:(Class)requiredClass {
+    id<MTObjectValueHandler> handler = _valueHandlers[requiredClass];
     if (handler == nil) {
         // if we can't find an exact match, see if we have a handler for a superclass that
         // can take subclasses
-        for (id<MTValueHandler> candidate in _valueHandlers.objectEnumerator) {
+        for (id<MTObjectValueHandler> candidate in _valueHandlers.objectEnumerator) {
             if (candidate.handlesSubclasses && [requiredClass isSubclassOfClass:candidate.valueType]) {
                 _valueHandlers[(id<NSCopying>)requiredClass] = candidate;
                 handler = candidate;
@@ -100,7 +106,7 @@
     NSAssert(task.state == MT_AddedItems, @"task.state != MT_AddedItems");
     @try {
         for (id<MTLibraryItem> item in task.libraryItems) {
-            id<MTValueHandler> handler = [self requireValueHandlerForClass:[item class]];
+            id<MTObjectValueHandler> handler = [self requireValueHandlerForClass:[item class]];
             [handler withLibrary:self type:item.type resolveRefs:item];
         }
     }

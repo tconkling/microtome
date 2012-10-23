@@ -7,7 +7,7 @@
 @class MTType;
 
 /// Extends MTValueHandler with support for loading values from XML
-@protocol MTXmlObjectMarshaller <MTValueHandler>
+@protocol MTXmlObjectMarshaller <MTObjectValueHandler>
 - (id)withLoader:(MTXmlLoader*)loader type:(MTType*)type loadObjectfromXml:(GDataXMLElement*)xml;
 @end
 

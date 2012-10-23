@@ -3,7 +3,7 @@
 
 #import "MTXmlObjectMarshaller.h"
 
-#import "MTXmlLoader.h"
+#import "MTXmlLoader+Internal.h"
 #import "MTLibrary.h"
 #import "MTType.h"
 #import "MTProp.h"

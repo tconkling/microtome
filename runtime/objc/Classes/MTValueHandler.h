@@ -17,7 +17,7 @@
 - (void)validateFloat:(MTFloatProp*)prop;
 @end
 
-@protocol MTValueHandler <NSObject>
+@protocol MTObjectValueHandler <NSObject>
 @property (nonatomic,readonly) Class valueType;
 @property (nonatomic,readonly) BOOL handlesSubclasses;
 - (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value;
@@ -26,24 +26,24 @@
 @end
 
 // abstract
-@interface MTValueHandlerBase : NSObject <MTValueHandler>
+@interface MTObjectValueHandlerBase : NSObject <MTObjectValueHandler>
 @end
 
 /// Built-in value handlers
 @interface MTDefaultPrimitiveValueHandler : NSObject <MTPrimitiveValueHandler>
 @end
 
-@interface MTStringValueHandler : MTValueHandlerBase
+@interface MTStringValueHandler : MTObjectValueHandlerBase
 @end
 
-@interface MTListValueHandler : MTValueHandlerBase
+@interface MTListValueHandler : MTObjectValueHandlerBase
 @end
 
-@interface MTPageValueHandler : MTValueHandlerBase
+@interface MTPageValueHandler : MTObjectValueHandlerBase
 @end
 
-@interface MTPageRefValueHandler : MTValueHandlerBase
+@interface MTPageRefValueHandler : MTObjectValueHandlerBase
 @end
 
-@interface MTTomeValueHandler : MTValueHandlerBase
+@interface MTTomeValueHandler : MTObjectValueHandlerBase
 @end

@@ -1,12 +1,12 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTXmlLoader.h"
+#import "MTXmlLoader+Internal.h"
 
 #import "MTDefs.h"
 #import "MTUtils.h"
 #import "MTType.h"
-#import "MTLibrary.h"
+#import "MTLibrary+Internal.h"
 #import "MTXmlObjectMarshaller.h"
 #import "MTMutableTome.h"
 #import "MTMutablePage.h"
@@ -133,7 +133,7 @@ static NSString* const TYPE_ATTR = @"type";
 }
 
 - (id<MTXmlObjectMarshaller>)requireObjectMarshallerForClass:(Class)requiredClass {
-    id<MTValueHandler> handler = [_library requireValueHandlerForClass:requiredClass];
+    id<MTObjectValueHandler> handler = [_library requireValueHandlerForClass:requiredClass];
     if (![handler conformsToProtocol:@protocol(MTXmlObjectMarshaller)]) {
         [NSException raise:NSGenericException format:@"No XML marshaller for '%@'",
             NSStringFromClass(requiredClass)];

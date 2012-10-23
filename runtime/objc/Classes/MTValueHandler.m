@@ -7,12 +7,12 @@
 #import "MTMutablePage.h"
 #import "MTMutablePageRef.h"
 #import "MTMutableTome.h"
-#import "MTLibrary.h"
+#import "MTLibrary+Internal.h"
 #import "MTType.h"
 #import "MTProp.h"
 #import "MTValidationException.h"
 
-@implementation MTValueHandlerBase
+@implementation MTObjectValueHandlerBase
 
 - (Class)valueType {
     MT_IS_ABSTRACT();
@@ -89,7 +89,7 @@
 
 - (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {
     NSArray* list = (NSArray*)value;
-    id<MTValueHandler> childHandler = [library requireValueHandlerForClass:type.subtype.clazz];
+    id<MTObjectValueHandler> childHandler = [library requireValueHandlerForClass:type.subtype.clazz];
     for (id child in list) {
         [childHandler withLibrary:library type:type.subtype resolveRefs:child];
     }
@@ -108,7 +108,7 @@
         if ([prop isKindOfClass:[MTObjectProp class]]) {
             MTObjectProp* objectProp = (MTObjectProp*)prop;
             if (objectProp.value != nil) {
-                id<MTValueHandler> propHandler = [library requireValueHandlerForClass:objectProp.valueType.clazz];
+                id<MTObjectValueHandler> propHandler = [library requireValueHandlerForClass:objectProp.valueType.clazz];
                 [propHandler withLibrary:library type:objectProp.valueType resolveRefs:objectProp.value];
             }
         }
@@ -134,7 +134,7 @@
 
 - (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {
     MTMutableTome* tome = (MTMutableTome*)value;
-    id<MTValueHandler> pageHandler = [library requireValueHandlerForClass:tome.pageType];
+    id<MTObjectValueHandler> pageHandler = [library requireValueHandlerForClass:tome.pageType];
     for (id<MTPage> page in tome.pages) {
         [pageHandler withLibrary:library type:type.subtype resolveRefs:page];
     }

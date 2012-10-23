@@ -14,6 +14,9 @@
 #import "MTProp.h"
 #import "MTXmlLoadException.h"
 
+static NSString* const TEMPLATE_ATTR = @"template";
+static NSString* const TYPE_ATTR = @"type";
+
 /// TemplatedPage
 
 @interface MTTemplatedPage : NSObject {
@@ -90,6 +93,29 @@
     }
 
     [_library addItems:_loadTask.libraryItems];
+
+    // resolve all templated items
+    @try {
+        // Iterate through the array as many times as it takes to resolve
+        // the templates (some templates may themselves have templates in the pendingTemplatedPages)
+        // Throw an error if we have a complete iteration with no resolution
+        BOOL foundTemplate;
+        do {
+            foundTemplate = NO;
+            for (int ii = 0; ii < _loadTask.pendingTemplatedPages.count; ++ii) {
+                MTTemplatedPage* tpage = _loadTask.pendingTemplatedPages[ii];
+                NSString* templateName = [tpage.xml stringAttribute:TEMPLATE_ATTR];
+                id<MTPage> page = [_library getPage:templateName];
+                if (page != nil) {
+                    continue;
+                }
+                foundTemplate = YES;
+            }
+        } while (foundTemplate);
+    }
+    @catch (NSException *exception) {
+    }
+
     _loadTask = nil;
 }
 
@@ -104,7 +130,7 @@
 
 - (id<MTLibraryItem>)loadLibraryItem:(GDataXMLElement*)xml {
     // a tome or a page
-    NSString* typeName = [xml stringAttribute:@"type"];
+    NSString* typeName = [xml stringAttribute:TYPE_ATTR];
     NSRange range = [typeName rangeOfString:MT_TOME_PREFIX];
     if (range.location == 0) {
         // it's a tome!
@@ -138,7 +164,7 @@
         @throw [MTXmlLoadException withElement:pageXml reason:@"page name '%@' is invalid", name];
     }
 
-    NSString* typeName = [pageXml stringAttribute:@"type"];
+    NSString* typeName = [pageXml stringAttribute:TYPE_ATTR];
     Class pageClass = (superclass != nil ?
                        [_library requirePageClassWithName:typeName superClass:superclass] :
                        [_library requirePageClassWithName:typeName]);
@@ -146,7 +172,7 @@
     MTMutablePage* page = [[pageClass alloc] init];
     page.name = name;
 
-    if ([pageXml hasAttribute:@"template"]) {
+    if ([pageXml hasAttribute:TEMPLATE_ATTR]) {
         // if this page has a template, we defer its loading until the end
         [_loadTask.pendingTemplatedPages addObject:
             [[MTTemplatedPage alloc] initWithPage:page xml:pageXml]];

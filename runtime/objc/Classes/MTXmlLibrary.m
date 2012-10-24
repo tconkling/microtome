@@ -2,6 +2,7 @@
 // microtome - Copyright 2012 Three Rings Design
 
 #import "MTXmlLibrary.h"
+#import "GDataXMLElement+MTExtensions.h"
 
 @implementation MTXmlLibrary
 

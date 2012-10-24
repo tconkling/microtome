@@ -3,10 +3,6 @@
 
 #import "microtomeTests.h"
 
-#import "microtome.h"
-#import "MTXmlLibrary.h"
-#import "GDataXMLElement+MTExtensions.h"
-
 #import "PrimitivePage.h"
 #import "NestedPage.h"
 #import "RefPage.h"

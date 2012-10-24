@@ -1,6 +1,7 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
+#import "MTDataElement.h"
 #import "MTLibrary.h"
 #import "MTLoadException.h"
 #import "MTMutablePage.h"

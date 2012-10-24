@@ -3,7 +3,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-#import "microtome-xml.h"
+#import "microtome-include-gdataxml.h"
 
 @class MTXmlLibrary;
 

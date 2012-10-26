@@ -7,7 +7,7 @@
 @implementation MTXmlLibrary
 
 - (void)loadFiles:(NSArray*)filenames {
-    NSMutableArray* data = [[NSMutableArray alloc] initWithCapacity:filenames.count];
+    NSMutableArray* docs = [[NSMutableArray alloc] initWithCapacity:filenames.count];
     for (NSString* filename in filenames) {
         NSData* filedata = [NSData dataWithContentsOfFile:filename];
         if (filedata == nil) {
@@ -21,10 +21,16 @@
                                               reason:[err localizedDescription]
                                             userInfo:[err userInfo]];
         }
-        [data addObject:doc.rootElement];
+        [docs addObject:doc];
     }
 
-    [self loadData:data];
+    // We need all the GDataXmlDocuments to be in scope while loading occurs,
+    // because GDataXmlDocument.dealloc deletes all the XML data which trashes any
+    // outstanding elements that we're still using.
+    // So instead of just passing a set of rootElements directly to loadData:,
+    // we pass our documents to loadXmlDocs, so that are docs are retained throughout
+    // the loading process.
+    [self loadXmlDocs:docs];
 }
 
 - (void)loadXmlDocs:(NSArray*)docs {

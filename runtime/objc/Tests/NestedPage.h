@@ -7,8 +7,6 @@
 
 @interface NestedPage : MTMutablePage
 
-+ (NSString*)XML;
-
 @property (nonatomic,readonly) PrimitivePage* nested;
 
 @end

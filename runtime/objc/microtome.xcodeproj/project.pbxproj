@@ -122,6 +122,11 @@
 		225041E91558ACB50014FA5D /* microtomeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 225041E81558ACB50014FA5D /* microtomeTests.m */; };
 		225041F81558AD200014FA5D /* microtome.h in Headers */ = {isa = PBXBuildFile; fileRef = 225041F71558AD200014FA5D /* microtome.h */; };
 		226BAA41161F946900133173 /* RefPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 226BAA40161F946900133173 /* RefPage.m */; };
+		229031F1163A1D5D0006344E /* PrimitiveTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 229031ED163A1D5D0006344E /* PrimitiveTest.xml */; };
+		229031F2163A1D5D0006344E /* RefTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 229031EE163A1D5D0006344E /* RefTest.xml */; };
+		229031F3163A1D5D0006344E /* TemplateTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 229031EF163A1D5D0006344E /* TemplateTest.xml */; };
+		229031F4163A1D5D0006344E /* TomeTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 229031F0163A1D5D0006344E /* TomeTest.xml */; };
+		229031F7163A29680006344E /* NestedTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 229031F6163A29680006344E /* NestedTest.xml */; };
 		22E43A701559B847003A43B8 /* MTProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E43A6E1559B847003A43B8 /* MTProp.m */; };
 /* End PBXBuildFile section */
 
@@ -194,6 +199,11 @@
 		225042451558B19F0014FA5D /* MTProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTProp.h; sourceTree = "<group>"; };
 		226BAA3F161F946900133173 /* RefPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefPage.h; sourceTree = "<group>"; };
 		226BAA40161F946900133173 /* RefPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefPage.m; sourceTree = "<group>"; };
+		229031ED163A1D5D0006344E /* PrimitiveTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = PrimitiveTest.xml; path = XML/PrimitiveTest.xml; sourceTree = "<group>"; };
+		229031EE163A1D5D0006344E /* RefTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = RefTest.xml; path = XML/RefTest.xml; sourceTree = "<group>"; };
+		229031EF163A1D5D0006344E /* TemplateTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TemplateTest.xml; path = XML/TemplateTest.xml; sourceTree = "<group>"; };
+		229031F0163A1D5D0006344E /* TomeTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TomeTest.xml; path = XML/TomeTest.xml; sourceTree = "<group>"; };
+		229031F6163A29680006344E /* NestedTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = NestedTest.xml; path = XML/NestedTest.xml; sourceTree = "<group>"; };
 		22E43A6E1559B847003A43B8 /* MTProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTProp.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -316,6 +326,11 @@
 		225041E21558ACB50014FA5D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				229031F6163A29680006344E /* NestedTest.xml */,
+				229031ED163A1D5D0006344E /* PrimitiveTest.xml */,
+				229031EE163A1D5D0006344E /* RefTest.xml */,
+				229031EF163A1D5D0006344E /* TemplateTest.xml */,
+				229031F0163A1D5D0006344E /* TomeTest.xml */,
 				225041E31558ACB50014FA5D /* microtomeTests-Info.plist */,
 				225041E41558ACB50014FA5D /* InfoPlist.strings */,
 			);
@@ -558,6 +573,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				225041E61558ACB50014FA5D /* InfoPlist.strings in Resources */,
+				229031F1163A1D5D0006344E /* PrimitiveTest.xml in Resources */,
+				229031F2163A1D5D0006344E /* RefTest.xml in Resources */,
+				229031F3163A1D5D0006344E /* TemplateTest.xml in Resources */,
+				229031F4163A1D5D0006344E /* TomeTest.xml in Resources */,
+				229031F7163A29680006344E /* NestedTest.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

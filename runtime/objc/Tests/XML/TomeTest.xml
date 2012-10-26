@@ -1,0 +1,6 @@
+<microtome>
+    <tomeTest type='Tome:PrimitivePage'>
+        <test1 type='PrimitivePage' foo='true' bar='2' baz='3.1415'/>
+        <test2 type='PrimitivePage' foo='false' bar='666' baz='0.1'/>
+    </tomeTest>
+</microtome>

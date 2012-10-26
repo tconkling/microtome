@@ -4,19 +4,12 @@
 #import "RefPage.h"
 #import "PrimitivePage.h"
 
-static NSString* const XML_STRING =
-    @"<root><refTest type='RefPage'>"
-    @"  <nested>tomeTest.test1</nested>"
-    @"</refTest></root>";
-
 static MTPropSpec* _nestedSpec = nil;
 
 @implementation RefPage {
 @protected
     MTObjectProp* _nested;
 }
-
-+ (NSString*)XML { return XML_STRING; }
 
 - (MTMutablePageRef*)nestedRef { return _nested.value; }
 - (PrimitivePage*)nested { return self.nestedRef.page; }

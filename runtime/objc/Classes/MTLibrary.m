@@ -107,7 +107,8 @@ static NSString* const TYPE_ATTR = @"type";
 
 - (id<MTLibraryItem>)loadLibraryItem:(id<MTDataElement>)data {
     // a tome or a page
-    NSString* typeName = [data attributeNamed:TYPE_ATTR];
+    MTDataReader* reader = [MTDataReader withData:data];
+    NSString* typeName = [reader requireAttribute:TYPE_ATTR];
     NSRange range = [typeName rangeOfString:MT_TOME_PREFIX];
     if (range.location == 0) {
         // it's a tome!

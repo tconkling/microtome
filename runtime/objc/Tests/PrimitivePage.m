@@ -3,9 +3,6 @@
 
 #import "PrimitivePage.h"
 
-static NSString* const XML_STRING =
-    @"<root><primitiveTest type='PrimitivePage' foo='true' bar='2' baz='3.1415'/></root>";
-
 static MTPropSpec* _fooSpec = nil;
 static MTPropSpec* _barSpec = nil;
 static MTPropSpec* _bazSpec = nil;
@@ -16,8 +13,6 @@ static MTPropSpec* _bazSpec = nil;
     MTIntProp* _bar;
     MTFloatProp* _baz;
 }
-
-+ (NSString*)XML { return XML_STRING; }
 
 - (BOOL)foo { return _foo.value; }
 - (int)bar { return _bar.value; }

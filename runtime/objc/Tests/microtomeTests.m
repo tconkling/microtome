@@ -7,27 +7,16 @@
 #import "NestedPage.h"
 #import "RefPage.h"
 
-static NSString* const TOME_XML =
-    @"<root><tomeTest type='Tome:PrimitivePage'>"
-    @"  <test1 type='PrimitivePage' foo='true' bar='2' baz='3.1415'/>"
-    @"  <test2 type='PrimitivePage' foo='false' bar='666' baz='0.1'/>"
-    @"</tomeTest></root>";
-
-static NSString* const TEMPLATE_XML =
-    @"<root>"
-    @"  <test0 type='PrimitivePage' foo='true' bar='2' baz='3.1415'/>"
-    @"  <test2 type='PrimitivePage' template='test1' baz='666'/>"
-    @"  <test1 type='PrimitivePage' template='test0'/>"
-    @"</root>";
-
 static const float EPSILON = 0.0001f;
 
-static GDataXMLDocument* GetXML (NSString* xmlString) {
-    NSError* err = nil;
-    return [[GDataXMLDocument alloc] initWithXMLString:xmlString options:0 error:&err];
-}
-
 @implementation microtomeTests
+
+- (NSString*)pathFor:(NSString*)filename {
+    NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+    filename = [filename lastPathComponent];
+    NSString* path = [bundle pathForResource:filename ofType:nil];
+    return path;
+}
 
 - (void)setUp {
     [super setUp];
@@ -44,7 +33,7 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 }
 
 - (void)testPrimitives {
-    [_library loadXmlDocs:@[GetXML(PrimitivePage.XML)]];
+    [_library loadFiles:@[ [self pathFor:@"PrimitiveTest.xml"] ]];
     PrimitivePage* page = _library[@"primitiveTest"];
     STAssertNotNil(page, @"");
     STAssertEquals(page.foo, YES, @"");
@@ -54,14 +43,14 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 }
 
 - (void)testTome {
-    [_library loadXmlDocs:@[GetXML(TOME_XML)]];
+    [_library loadFiles:@[ [self pathFor:@"TomeTest.xml"] ]];
     id<MTTome> tome = _library[@"tomeTest"];
     STAssertEquals(tome.pageCount, 2, @"");
     [_library removeAllItems];
 }
 
 - (void)testNested {
-    [_library loadXmlDocs:@[GetXML(NestedPage.XML)]];
+    [_library loadFiles:@[ [self pathFor:@"NestedTest.xml"] ]];
     NestedPage* page = _library[@"nestedTest"];
     STAssertEquals(page.nested.foo, YES, @"");
     STAssertEquals(page.nested.bar, 2, @"");
@@ -70,7 +59,7 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 }
 
 - (void)testRefs {
-    [_library loadXmlDocs:@[GetXML(TOME_XML), GetXML(RefPage.XML)]];
+    [_library loadFiles:@[ [self pathFor:@"TomeTest.xml"], [self pathFor:@"RefTest.xml"] ]];
     RefPage* refPage = _library[@"refTest"];
     STAssertNotNil(refPage.nested, @"");
     STAssertEquals(refPage.nested.foo, YES, @"");
@@ -80,7 +69,7 @@ static GDataXMLDocument* GetXML (NSString* xmlString) {
 }
 
 - (void)testTemplates {
-    [_library loadXmlDocs:@[ GetXML(TEMPLATE_XML) ]];
+    [_library loadFiles:@[ [self pathFor:@"TemplateTest.xml"] ]];
     
     PrimitivePage* page = _library[@"test1"];
     STAssertEquals(page.foo, YES, @"");

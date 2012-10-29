@@ -1,7 +1,14 @@
 //
 // microtome
 
-package microtome {
+package microtome.marshaller {
+import microtome.DataElement;
+import microtome.Library;
+import microtome.ObjectMarshaller;
+import microtome.ObjectProp;
+import microtome.Util;
+import microtome.ValidationError;
+import microtome.ValueType;
 
 public class ObjectMarshallerBase
     implements ObjectMarshaller
@@ -30,7 +37,6 @@ public class ObjectMarshallerBase
                 Util.getClassName(this.valueType) + ", actual=" +
                 Util.getClassName(prop.value) + "]");
         }
-
     }
 }
 }

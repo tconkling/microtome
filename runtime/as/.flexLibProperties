@@ -22,6 +22,8 @@
     <classEntry path="microtome.DefaultPrimitiveMarshaller"/>
     <classEntry path="microtome.ValidationError"/>
     <classEntry path="microtome.ObjectMarshaller"/>
+    <classEntry path="microtome.DataElement"/>
+    <classEntry path="microtome.ObjectMarshallerBase"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

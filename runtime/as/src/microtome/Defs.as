@@ -3,7 +3,8 @@
 
 package microtome {
 
-public class Defs {
+public class Defs
+{
     public static const NULLABLE :String = "nullable";
     public static const MIN :String = "min";
     public static const MAX :String = "max";

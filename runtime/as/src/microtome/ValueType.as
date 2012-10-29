@@ -5,7 +5,7 @@ package microtome {
 
 public class ValueType
 {
-    public static function fromClasses (classes :Vector.<Class>) :ValueType {
+    public static function fromClasses (...classes) :ValueType {
         var last :ValueType = null;
         for (var ii :int = classes.length - 1; ii >= 0; --ii) {
             var clazz :Class = classes[ii];

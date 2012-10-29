@@ -57,7 +57,7 @@
                     format:@"Incorrect page type [required=%@, got=%@]", self.pageType, [page class]];
     } else if (page.name == nil) {
         [NSException raise:NSGenericException
-                    format:@"NamedPage is missing name [type=%@]", [page class]];
+                    format:@"Page is missing name [type=%@]", [page class]];
     } else if ([self pageNamed:page.name] != nil) {
         [NSException raise:NSGenericException format:@"Duplicate page name [name=%@]", page.name];
     }

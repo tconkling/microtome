@@ -9,11 +9,6 @@
 
 @implementation MTDefaultPrimitiveMarshaller
 
-#define MT_TOO_SMALL(prop, min) \
-({ [MTValidationException withProp:prop reason:@"value too small (%d < %d)", prop.value, min]; })
-#define MT_TOO_LARGE(prop, max) \
-({ [MTValidationException withProp:prop reason:@"value too large (%d > %d)", prop.value, max]; })
-
 - (void)validateBool:(MTBoolProp*)prop {
     // do nothing
 }

@@ -5,9 +5,16 @@ package microtome {
 
 import flash.utils.Dictionary;
 
-public class PropSpec
+internal class PropSpec
 {
-    public function PropSpec (name :String, annotations :Dictionary, valueType :ValueType) {
+    public var name :String;
+    public var annotations :Dictionary;
+    public var valueType :ValueType;
+
+    public function PropSpec (name :String, annotations :Dictionary, valueClasses :Vector.<Class>) {
+        this.name = name;
+        this.annotations = annotations;
+        this.valueType = ValueType.fromClasses(valueClasses);
     }
 }
 }

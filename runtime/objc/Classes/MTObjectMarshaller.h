@@ -12,7 +12,7 @@
 @property (nonatomic,readonly) Class valueType;
 @property (nonatomic,readonly) BOOL handlesSubclasses;
 
-/// loads an object from XML
+/// loads an object from a data element
 - (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data;
 
 /// Resolves PageRefs contained within an object

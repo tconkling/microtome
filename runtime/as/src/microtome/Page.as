@@ -3,9 +3,8 @@
 
 package microtome {
 
-public interface Page
+public interface Page extends LibraryItem
 {
-    function get name () :String;
     function get props () :Vector.<Prop>;
 }
 }

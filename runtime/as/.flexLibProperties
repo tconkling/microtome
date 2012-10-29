@@ -10,6 +10,7 @@
     <classEntry path="microtome.BoolProp"/>
     <classEntry path="microtome.IntProp"/>
     <classEntry path="microtome.NumberProp"/>
+    <classEntry path="microtome.LibraryItem"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

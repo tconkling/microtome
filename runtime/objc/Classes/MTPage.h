@@ -4,7 +4,6 @@
 #import "MTLibraryItem.h"
 
 @protocol MTPage <NSObject,MTLibraryItem>
-@property (nonatomic,readonly) NSString* name;
 @property (nonatomic,readonly) NSArray* props;
 @end
 

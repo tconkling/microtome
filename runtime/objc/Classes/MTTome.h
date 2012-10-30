@@ -7,7 +7,7 @@
 @class MTTypeInfo;
 
 @protocol MTTome <NSObject,MTLibraryItem>
-@property (nonatomic,readonly) Class pageType;
+@property (nonatomic,readonly) Class pageClass;
 @property (nonatomic,readonly) int pageCount;
 @property (nonatomic,readonly) id<NSFastEnumeration> pages;
 

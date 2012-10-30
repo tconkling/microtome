@@ -10,7 +10,7 @@
     NSMutableDictionary* _pages;
 }
 
-- (id)initWithName:(NSString*)name pageType:(Class)pageType;
+- (id)initWithName:(NSString*)name pageClass:(Class)pageClass;
 
 - (void)addPage:(id<MTPage>)page;
 

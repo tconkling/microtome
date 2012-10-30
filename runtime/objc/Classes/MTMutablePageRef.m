@@ -5,13 +5,13 @@
 
 @implementation MTMutablePageRef
 
-@synthesize pageType = _pageType;
+@synthesize pageClass = _pageClass;
 @synthesize pageName = _pageName;
 @synthesize page = _page;
 
-- (id)initWithPageType:(Class)pageType pageName:(NSString*)pageName {
+- (id)initWithPageClass:(Class)pageClass pageName:(NSString*)pageName {
     if ((self = [super init])) {
-        _pageType = pageType;
+        _pageClass = pageClass;
         _pageName = pageName;
     }
     return self;

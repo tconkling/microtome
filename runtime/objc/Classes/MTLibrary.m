@@ -114,22 +114,22 @@ static NSString* const TYPE_ATTR = @"type";
         // it's a tome!
         typeName = [typeName substringFromIndex:range.length];
         Class pageClass = [self requirePageClassWithName:typeName];
-        return [self loadTome:data pageType:pageClass];
+        return [self loadTome:data pageClass:pageClass];
     } else {
         // it's a page!
         return [self loadPage:data superclass:nil];
     }
 }
 
-- (MTMutableTome*)loadTome:(id<MTDataElement>)tomeData pageType:(__unsafe_unretained Class)pageType {
+- (MTMutableTome*)loadTome:(id<MTDataElement>)tomeData pageClass:(__unsafe_unretained Class)pageClass {
     NSString* name = tomeData.name;
     if (!MTValidLibraryItemName(name)) {
         @throw [MTLoadException withData:tomeData reason:@"tome name '%@' is invalid", name];
     }
 
-    MTMutableTome* tome = [[MTMutableTome alloc] initWithName:name pageType:pageType];
+    MTMutableTome* tome = [[MTMutableTome alloc] initWithName:name pageClass:pageClass];
     for (id<MTDataElement> pageData in [MTDataReader withData:tomeData].children) {
-        id<MTPage> page = [self loadPage:pageData superclass:pageType];
+        id<MTPage> page = [self loadPage:pageData superclass:pageClass];
         [tome addPage:page];
     }
 

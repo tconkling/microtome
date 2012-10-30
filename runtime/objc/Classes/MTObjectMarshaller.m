@@ -117,12 +117,12 @@
 - (Class)valueType { return [MTMutablePageRef class]; }
 
 - (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
-    return [[MTMutablePageRef alloc] initWithPageType:type.subtype.clazz pageName:data.value];
+    return [[MTMutablePageRef alloc] initWithPageClass:type.subtype.clazz pageName:data.value];
 }
 
 - (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {
     MTMutablePageRef* ref = (MTMutablePageRef*)value;
-    ref.page = [library requirePageWithQualifiedName:ref.pageName pageClass:ref.pageType];
+    ref.page = [library requirePageWithQualifiedName:ref.pageName pageClass:ref.pageClass];
 }
 
 @end
@@ -132,12 +132,12 @@
 - (Class)valueType { return [MTMutableTome class]; }
 
 - (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
-    return [library loadTome:data pageType:type.subtype.clazz];
+    return [library loadTome:data pageClass:type.subtype.clazz];
 }
 
 - (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {
     MTMutableTome* tome = (MTMutableTome*)value;
-    id<MTObjectMarshaller> pageHandler = [library requireMarshallerForClass:tome.pageType];
+    id<MTObjectMarshaller> pageHandler = [library requireMarshallerForClass:tome.pageClass];
     for (id<MTPage> page in tome.pages) {
         [pageHandler withLibrary:library type:type.subtype resolveRefs:page];
     }

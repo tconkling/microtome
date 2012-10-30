@@ -5,13 +5,13 @@
 
 @interface MTMutablePageRef : NSObject <MTPageRef> {
 @protected
-    Class _pageType;
+    Class _pageClass;
     NSString* _pageName;
     __weak id _page;
 }
 
 @property (nonatomic,weak) id page;
 
-- (id)initWithPageType:(Class)pageType pageName:(NSString*)pageName;
+- (id)initWithPageClass:(Class)pageClass pageName:(NSString*)pageName;
 
 @end

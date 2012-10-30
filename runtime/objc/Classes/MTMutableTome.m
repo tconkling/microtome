@@ -11,16 +11,16 @@
 @synthesize name = _name;
 @synthesize type = _type;
 
-- (id)initWithName:(NSString*)name pageType:(Class)pageType {
+- (id)initWithName:(NSString*)name pageClass:(Class)pageClass {
     if ((self = [super init])) {
         _name = name;
-        _type = MTBuildTypeInfo(@[[self class], pageType]);
+        _type = MTBuildTypeInfo(@[[self class], pageClass]);
         _pages = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
-- (Class)pageType {
+- (Class)pageClass {
     return _type.subtype.clazz;
 }
 
@@ -52,9 +52,9 @@
 - (void)addPage:(id<MTPage>)page {
     if (page == nil) {
         [NSException raise:NSGenericException format:@"Can't add nil page"];
-    } else if (![page isKindOfClass:self.pageType]) {
+    } else if (![page isKindOfClass:self.pageClass]) {
         [NSException raise:NSGenericException
-                    format:@"Incorrect page type [required=%@, got=%@]", self.pageType, [page class]];
+                    format:@"Incorrect page type [required=%@, got=%@]", self.pageClass, [page class]];
     } else if (page.name == nil) {
         [NSException raise:NSGenericException
                     format:@"Page is missing name [type=%@]", [page class]];

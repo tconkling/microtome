@@ -24,7 +24,7 @@
 - (id<MTPage>)pageWithQualifiedName:(NSString*)qualifiedName;
 - (id<MTPage>)requirePageWithQualifiedName:(NSString*)qualifiedName pageClass:(Class)pageClass;
 
-- (MTMutableTome*)loadTome:(id<MTDataElement>)data pageType:(__unsafe_unretained Class)pageType;
+- (MTMutableTome*)loadTome:(id<MTDataElement>)data pageClass:(__unsafe_unretained Class)pageClass;
 - (MTMutablePage*)loadPage:(id<MTDataElement>)data superclass:(Class)superclass;
 
 @end

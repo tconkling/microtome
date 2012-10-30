@@ -1,18 +1,18 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-@class MTType;
+@class MTTypeInfo;
 @class MTLibrary;
 
 @interface MTPropSpec : NSObject {
 @protected
     NSString* _name;
     NSDictionary* _annotations;
-    MTType* _valueType;
+    MTTypeInfo* _valueType;
 }
 @property (nonatomic,readonly) NSString* name;
 @property (nonatomic,readonly) NSDictionary* annotations;
-@property (nonatomic,readonly) MTType* valueType;
+@property (nonatomic,readonly) MTTypeInfo* valueType;
 
 - (id)initWithName:(NSString*)name annotations:(NSDictionary*)annotations valueTypes:(NSArray*)valueTypes;
 @end
@@ -36,7 +36,7 @@
 @protected
     id _value;
 }
-@property (nonatomic,readonly) MTType* valueType;
+@property (nonatomic,readonly) MTTypeInfo* valueType;
 @property (nonatomic,readonly) BOOL nullable;
 @property (nonatomic,strong) id value;
 @end

@@ -2,7 +2,7 @@
 // microtome - Copyright 2012 Three Rings Design
 
 @protocol MTDataElement;
-@class MTType;
+@class MTTypeInfo;
 @class MTLibrary;
 @class MTLibrary;
 @class MTProp;
@@ -13,10 +13,10 @@
 @property (nonatomic,readonly) BOOL handlesSubclasses;
 
 /// loads an object from a data element
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data;
+- (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data;
 
 /// Resolves PageRefs contained within an object
-- (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value;
+- (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value;
 
 /// Validates an object's value. Throws an MTValidationException on failure
 - (void)validatePropValue:(MTProp*)prop;

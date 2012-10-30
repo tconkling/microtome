@@ -6,7 +6,7 @@
 @interface MTMutableTome : NSObject <MTTome> {
 @protected
     NSString* _name;
-    MTType* _type;
+    MTTypeInfo* _type;
     NSMutableDictionary* _pages;
 }
 

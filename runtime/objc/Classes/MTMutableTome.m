@@ -3,7 +3,7 @@
 
 #import "MTMutableTome.h"
 
-#import "MTType.h"
+#import "MTTypeInfo.h"
 #import "MTPage.h"
 
 @implementation MTMutableTome
@@ -14,7 +14,7 @@
 - (id)initWithName:(NSString*)name pageType:(Class)pageType {
     if ((self = [super init])) {
         _name = name;
-        _type = MTBuildType(@[[self class], pageType]);
+        _type = MTBuildTypeInfo(@[[self class], pageType]);
         _pages = [[NSMutableDictionary alloc] init];
     }
     return self;

@@ -4,7 +4,7 @@
 #import "MTProp.h"
 
 #import "MTDefs.h"
-#import "MTType.h"
+#import "MTTypeInfo.h"
 
 @implementation MTPropSpec
 
@@ -16,7 +16,7 @@
     if ((self = [super init])) {
         _name = name;
         _annotations = annotations;
-        _valueType = (valueTypes == nil ? nil : MTBuildType(valueTypes));
+        _valueType = (valueTypes == nil ? nil : MTBuildTypeInfo(valueTypes));
     }
     return self;
 }
@@ -82,7 +82,7 @@
 
 @synthesize value = _value;
 
-- (MTType*)valueType {
+- (MTTypeInfo*)valueType {
     return _spec.valueType;
 }
 

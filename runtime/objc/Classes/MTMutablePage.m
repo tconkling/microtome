@@ -3,7 +3,7 @@
 
 #import "MTMutablePage.h"
 
-#import "MTType.h"
+#import "MTTypeInfo.h"
 #import "MTProp.h"
 #import "MTUtils.h"
 
@@ -11,8 +11,8 @@
 
 @synthesize name = _name;
 
-- (MTType*)type {
-    return [[MTType alloc] initWithClass:[self class] subtype:nil];
+- (MTTypeInfo*)type {
+    return [[MTTypeInfo alloc] initWithClass:[self class] subtype:nil];
 }
 
 - (NSArray*)props {

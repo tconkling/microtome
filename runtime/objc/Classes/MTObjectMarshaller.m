@@ -9,7 +9,7 @@
 #import "MTMutablePageRef.h"
 #import "MTMutableTome.h"
 #import "MTLibrary+Internal.h"
-#import "MTType.h"
+#import "MTTypeInfo.h"
 #import "MTProp.h"
 #import "MTValidationException.h"
 
@@ -24,12 +24,12 @@
     return NO;
 }
 
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data {
+- (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
     MT_IS_ABSTRACT();
     return nil;
 }
 
-- (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {
+- (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {
     // do nothing by default
 }
 
@@ -52,7 +52,7 @@
 
 - (Class)valueType { return [NSString class]; }
 
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data {
+- (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
     NSString* val = data.value;
     // handle the empty string (<myStringProp></myStringProp>)
     if (val == nil) {
@@ -67,7 +67,7 @@
 
 - (Class)valueType { return [NSArray class]; }
 
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data {
+- (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
     NSMutableArray* list = [[NSMutableArray alloc] init];
     for (id<MTDataElement> childData in [MTDataReader withData:data].children) {
         id<MTObjectMarshaller> marshaller = [library requireMarshallerForClass:type.subtype.clazz];
@@ -78,7 +78,7 @@
     return list;
 }
 
-- (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {
+- (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {
     NSArray* list = (NSArray*)value;
     id<MTObjectMarshaller> childHandler = [library requireMarshallerForClass:type.subtype.clazz];
     for (id child in list) {
@@ -93,11 +93,11 @@
 - (Class)valueType { return [MTMutablePage class]; }
 - (BOOL)handlesSubclasses { return YES; }
 
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data {
+- (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
     return [library loadPage:data superclass:type.clazz];
 }
 
-- (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {
+- (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {
     MTMutablePage* page = (MTMutablePage*)value;
     for (MTProp* prop in page.props) {
         if ([prop isKindOfClass:[MTObjectProp class]]) {
@@ -116,11 +116,11 @@
 
 - (Class)valueType { return [MTMutablePageRef class]; }
 
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data {
+- (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
     return [[MTMutablePageRef alloc] initWithPageType:type.subtype.clazz pageName:data.value];
 }
 
-- (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {
+- (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {
     MTMutablePageRef* ref = (MTMutablePageRef*)value;
     ref.page = [library requirePageWithQualifiedName:ref.pageName pageClass:ref.pageType];
 }
@@ -131,11 +131,11 @@
 
 - (Class)valueType { return [MTMutableTome class]; }
 
-- (id)withLibrary:(MTLibrary*)library type:(MTType*)type loadObject:(id<MTDataElement>)data {
+- (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
     return [library loadTome:data pageType:type.subtype.clazz];
 }
 
-- (void)withLibrary:(MTLibrary*)library type:(MTType*)type resolveRefs:(id)value {
+- (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {
     MTMutableTome* tome = (MTMutableTome*)value;
     id<MTObjectMarshaller> pageHandler = [library requireMarshallerForClass:tome.pageType];
     for (id<MTPage> page in tome.pages) {

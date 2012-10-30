@@ -13,5 +13,5 @@
 #import "MTPrimitiveMarshaller.h"
 #import "MTProp.h"
 #import "MTTome.h"
-#import "MTType.h"
+#import "MTTypeInfo.h"
 #import "MTValidationException.h"

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		22031CDC162E04780093E61E /* MTType.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031CDA162E04780093E61E /* MTType.h */; };
-		22031CDD162E04780093E61E /* MTType.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031CDB162E04780093E61E /* MTType.m */; };
+		22031CDC162E04780093E61E /* MTTypeInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031CDA162E04780093E61E /* MTTypeInfo.h */; };
+		22031CDD162E04780093E61E /* MTTypeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031CDB162E04780093E61E /* MTTypeInfo.m */; };
 		22031D44162F3ADA0093E61E /* MTObjectMarshaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D42162F3ADA0093E61E /* MTObjectMarshaller.h */; };
 		22031D45162F3ADA0093E61E /* MTObjectMarshaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D43162F3ADA0093E61E /* MTObjectMarshaller.m */; };
 		22031D881630CB500093E61E /* MTValidationException.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D861630CB4E0093E61E /* MTValidationException.h */; };
@@ -33,7 +33,7 @@
 		221A685216376BE0008B4AD2 /* MTLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F58161CDE60001B98AA /* MTLibrary.m */; };
 		221A685316376BE0008B4AD2 /* MTLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F7A161CE727001B98AA /* MTLoadException.m */; };
 		221A685416376BE0008B4AD2 /* MTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B303B161E585F001B98AA /* MTUtils.m */; };
-		221A685516376BE0008B4AD2 /* MTType.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031CDB162E04780093E61E /* MTType.m */; };
+		221A685516376BE0008B4AD2 /* MTTypeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031CDB162E04780093E61E /* MTTypeInfo.m */; };
 		221A685616376BE0008B4AD2 /* MTObjectMarshaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D43162F3ADA0093E61E /* MTObjectMarshaller.m */; };
 		221A685716376BE0008B4AD2 /* MTValidationException.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D871630CB4F0093E61E /* MTValidationException.m */; };
 		221A685816376BE0008B4AD2 /* MTMutablePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DC31631D8850093E61E /* MTMutablePage.m */; };
@@ -52,7 +52,7 @@
 		221A686816376BE0008B4AD2 /* MTLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F79161CE727001B98AA /* MTLoadException.h */; };
 		221A686916376BE0008B4AD2 /* MTPageRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FF7161E0CE5001B98AA /* MTPageRef.h */; };
 		221A686A16376BE0008B4AD2 /* MTUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B303A161E585E001B98AA /* MTUtils.h */; };
-		221A686B16376BE0008B4AD2 /* MTType.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031CDA162E04780093E61E /* MTType.h */; };
+		221A686B16376BE0008B4AD2 /* MTTypeInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031CDA162E04780093E61E /* MTTypeInfo.h */; };
 		221A686C16376BE0008B4AD2 /* MTObjectMarshaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D42162F3ADA0093E61E /* MTObjectMarshaller.h */; };
 		221A686D16376BE0008B4AD2 /* MTValidationException.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D861630CB4E0093E61E /* MTValidationException.h */; };
 		221A686E16376BE0008B4AD2 /* MTMutablePage.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DC21631D8840093E61E /* MTMutablePage.h */; };
@@ -70,7 +70,7 @@
 		221A68F516388EA9008B4AD2 /* MTLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F58161CDE60001B98AA /* MTLibrary.m */; };
 		221A68F616388EA9008B4AD2 /* MTLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F7A161CE727001B98AA /* MTLoadException.m */; };
 		221A68F716388EA9008B4AD2 /* MTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B303B161E585F001B98AA /* MTUtils.m */; };
-		221A68F816388EA9008B4AD2 /* MTType.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031CDB162E04780093E61E /* MTType.m */; };
+		221A68F816388EA9008B4AD2 /* MTTypeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031CDB162E04780093E61E /* MTTypeInfo.m */; };
 		221A68F916388EA9008B4AD2 /* MTObjectMarshaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D43162F3ADA0093E61E /* MTObjectMarshaller.m */; };
 		221A68FA16388EA9008B4AD2 /* MTValidationException.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031D871630CB4F0093E61E /* MTValidationException.m */; };
 		221A68FB16388EA9008B4AD2 /* MTMutablePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 22031DC31631D8850093E61E /* MTMutablePage.m */; };
@@ -89,7 +89,7 @@
 		221A690B16388EA9008B4AD2 /* MTLoadException.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2F79161CE727001B98AA /* MTLoadException.h */; };
 		221A690C16388EA9008B4AD2 /* MTPageRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B2FF7161E0CE5001B98AA /* MTPageRef.h */; };
 		221A690D16388EA9008B4AD2 /* MTUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 221B303A161E585E001B98AA /* MTUtils.h */; };
-		221A690E16388EA9008B4AD2 /* MTType.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031CDA162E04780093E61E /* MTType.h */; };
+		221A690E16388EA9008B4AD2 /* MTTypeInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031CDA162E04780093E61E /* MTTypeInfo.h */; };
 		221A690F16388EA9008B4AD2 /* MTObjectMarshaller.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D42162F3ADA0093E61E /* MTObjectMarshaller.h */; };
 		221A691016388EA9008B4AD2 /* MTValidationException.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031D861630CB4E0093E61E /* MTValidationException.h */; };
 		221A691116388EA9008B4AD2 /* MTMutablePage.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031DC21631D8840093E61E /* MTMutablePage.h */; };
@@ -141,8 +141,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		22031CDA162E04780093E61E /* MTType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTType.h; sourceTree = "<group>"; };
-		22031CDB162E04780093E61E /* MTType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTType.m; sourceTree = "<group>"; };
+		22031CDA162E04780093E61E /* MTTypeInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTTypeInfo.h; sourceTree = "<group>"; };
+		22031CDB162E04780093E61E /* MTTypeInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTTypeInfo.m; sourceTree = "<group>"; };
 		22031D42162F3ADA0093E61E /* MTObjectMarshaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTObjectMarshaller.h; sourceTree = "<group>"; };
 		22031D43162F3ADA0093E61E /* MTObjectMarshaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTObjectMarshaller.m; sourceTree = "<group>"; };
 		22031D53162F8AAD0093E61E /* MTLibraryItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTLibraryItem.h; sourceTree = "<group>"; };
@@ -364,8 +364,8 @@
 				225042451558B19F0014FA5D /* MTProp.h */,
 				22E43A6E1559B847003A43B8 /* MTProp.m */,
 				221B2F4A161CD668001B98AA /* MTTome.h */,
-				22031CDA162E04780093E61E /* MTType.h */,
-				22031CDB162E04780093E61E /* MTType.m */,
+				22031CDA162E04780093E61E /* MTTypeInfo.h */,
+				22031CDB162E04780093E61E /* MTTypeInfo.m */,
 				22031D861630CB4E0093E61E /* MTValidationException.h */,
 				22031D871630CB4F0093E61E /* MTValidationException.m */,
 			);
@@ -394,7 +394,7 @@
 				221A686816376BE0008B4AD2 /* MTLoadException.h in Headers */,
 				221A686916376BE0008B4AD2 /* MTPageRef.h in Headers */,
 				221A686A16376BE0008B4AD2 /* MTUtils.h in Headers */,
-				221A686B16376BE0008B4AD2 /* MTType.h in Headers */,
+				221A686B16376BE0008B4AD2 /* MTTypeInfo.h in Headers */,
 				221A686C16376BE0008B4AD2 /* MTObjectMarshaller.h in Headers */,
 				221A686D16376BE0008B4AD2 /* MTValidationException.h in Headers */,
 				221A686E16376BE0008B4AD2 /* MTMutablePage.h in Headers */,
@@ -421,7 +421,7 @@
 				221A690B16388EA9008B4AD2 /* MTLoadException.h in Headers */,
 				221A690C16388EA9008B4AD2 /* MTPageRef.h in Headers */,
 				221A690D16388EA9008B4AD2 /* MTUtils.h in Headers */,
-				221A690E16388EA9008B4AD2 /* MTType.h in Headers */,
+				221A690E16388EA9008B4AD2 /* MTTypeInfo.h in Headers */,
 				221A690F16388EA9008B4AD2 /* MTObjectMarshaller.h in Headers */,
 				221A691016388EA9008B4AD2 /* MTValidationException.h in Headers */,
 				221A691116388EA9008B4AD2 /* MTMutablePage.h in Headers */,
@@ -448,7 +448,7 @@
 				221B2F7B161CE728001B98AA /* MTLoadException.h in Headers */,
 				221B2FF9161E0CE6001B98AA /* MTPageRef.h in Headers */,
 				221B303C161E5860001B98AA /* MTUtils.h in Headers */,
-				22031CDC162E04780093E61E /* MTType.h in Headers */,
+				22031CDC162E04780093E61E /* MTTypeInfo.h in Headers */,
 				22031D44162F3ADA0093E61E /* MTObjectMarshaller.h in Headers */,
 				22031D881630CB500093E61E /* MTValidationException.h in Headers */,
 				22031DC41631D8850093E61E /* MTMutablePage.h in Headers */,
@@ -608,7 +608,7 @@
 				221A685216376BE0008B4AD2 /* MTLibrary.m in Sources */,
 				221A685316376BE0008B4AD2 /* MTLoadException.m in Sources */,
 				221A685416376BE0008B4AD2 /* MTUtils.m in Sources */,
-				221A685516376BE0008B4AD2 /* MTType.m in Sources */,
+				221A685516376BE0008B4AD2 /* MTTypeInfo.m in Sources */,
 				221A685616376BE0008B4AD2 /* MTObjectMarshaller.m in Sources */,
 				221A685716376BE0008B4AD2 /* MTValidationException.m in Sources */,
 				221A685816376BE0008B4AD2 /* MTMutablePage.m in Sources */,
@@ -631,7 +631,7 @@
 				221A68F516388EA9008B4AD2 /* MTLibrary.m in Sources */,
 				221A68F616388EA9008B4AD2 /* MTLoadException.m in Sources */,
 				221A68F716388EA9008B4AD2 /* MTUtils.m in Sources */,
-				221A68F816388EA9008B4AD2 /* MTType.m in Sources */,
+				221A68F816388EA9008B4AD2 /* MTTypeInfo.m in Sources */,
 				221A68F916388EA9008B4AD2 /* MTObjectMarshaller.m in Sources */,
 				221A68FA16388EA9008B4AD2 /* MTValidationException.m in Sources */,
 				221A68FB16388EA9008B4AD2 /* MTMutablePage.m in Sources */,
@@ -653,7 +653,7 @@
 				221B2F5A161CDE60001B98AA /* MTLibrary.m in Sources */,
 				221B2F7C161CE728001B98AA /* MTLoadException.m in Sources */,
 				221B303D161E5860001B98AA /* MTUtils.m in Sources */,
-				22031CDD162E04780093E61E /* MTType.m in Sources */,
+				22031CDD162E04780093E61E /* MTTypeInfo.m in Sources */,
 				22031D45162F3ADA0093E61E /* MTObjectMarshaller.m in Sources */,
 				22031D891630CB500093E61E /* MTValidationException.m in Sources */,
 				22031DC51631D8850093E61E /* MTMutablePage.m in Sources */,

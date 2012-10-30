@@ -4,7 +4,7 @@
 #import "MTLibraryItem.h"
 
 @protocol MTPage;
-@class MTType;
+@class MTTypeInfo;
 
 @protocol MTTome <NSObject,MTLibraryItem>
 @property (nonatomic,readonly) Class pageType;

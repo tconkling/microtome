@@ -1,10 +1,10 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-@class MTType;
+@class MTTypeInfo;
 
 @protocol MTLibraryItem <NSObject>
 @property (nonatomic,readonly) NSString* name;
-@property (nonatomic,readonly) MTType* type;
+@property (nonatomic,readonly) MTTypeInfo* type;
 - (id)childNamed:(NSString*)name;
 @end

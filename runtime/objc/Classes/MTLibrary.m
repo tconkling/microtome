@@ -6,7 +6,7 @@
 #import "MTDataElement.h"
 #import "MTDefs.h"
 #import "MTUtils.h"
-#import "MTType.h"
+#import "MTTypeInfo.h"
 #import "MTObjectMarshaller.h"
 #import "MTPrimitiveMarshaller.h"
 #import "MTMutableTome.h"

@@ -4,6 +4,7 @@
 package microtome.marshaller {
 
 import microtome.DataElement;
+import microtome.DataReader;
 import microtome.Library;
 import microtome.ObjectMarshaller;
 import microtome.TypeInfo;
@@ -18,7 +19,7 @@ public class ListMarshaller extends ObjectMarshallerBase
         var list :Array = [];
         var childMarshaller :ObjectMarshaller =
             library.requireObjectMarshallerForClass(type.subtype.clazz);
-        for each (var childData :DataElement in data.children) {
+        for each (var childData :DataElement in DataReader.withData(data).children) {
             var child :* = childMarshaller.loadObject(childData, type.subtype, library);
             list.push(child);
         }

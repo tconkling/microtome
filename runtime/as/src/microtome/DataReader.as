@@ -11,6 +11,20 @@ public class DataReader
         return (data is DataReader ? DataReader(data) : new DataReader(data));
     }
 
+    public function get children () :Array {
+        return getAllChildren();
+    }
+
+    public function childNamed (name :String) :DataElement {
+        if (_childrenByName == null) {
+            _childrenByName = new Dictionary();
+            for each (var child :DataElement in this.children) {
+                _childrenByName[child.name] = child;
+            }
+        }
+        return _childrenByName[name];
+    }
+
     public function requireValue () :String {
         var val :String = _data.value;
         if (val == null) {
@@ -69,6 +83,13 @@ public class DataReader
         return (childNamed(name) != null);
     }
 
+    public function getAllChildren () :Array {
+        if (_children == null) {
+            _children = _data.getAllChildren();
+        }
+        return _children;
+    }
+
     public function get name () :String {
         return _data.name;
     }
@@ -81,14 +102,6 @@ public class DataReader
         return _data.description;
     }
 
-    public function get children () :Array {
-        return _data.children;
-    }
-
-    public function childNamed (name :String) :DataElement {
-        return _data.childNamed(name);
-    }
-
     public function attributeNamed (name :String) :String {
         return _data.attributeNamed(name);
     }
@@ -99,5 +112,7 @@ public class DataReader
     }
 
     protected var _data :DataElement;
+    protected var _children :Array;
+    protected var _childrenByName :Dictionary;
 }
 }

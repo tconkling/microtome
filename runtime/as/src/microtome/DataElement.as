@@ -9,9 +9,8 @@ public interface DataElement
     function get value () :String;
     function get description () :String;
 
-    function get children () :Array;
+    function getAllChildren () :Array;
 
-    function childNamed (name :String) :DataElement;
     function attributeNamed (name :String) :String;
 
 }

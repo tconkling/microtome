@@ -31,7 +31,7 @@ public class Library
 
         try {
             for each (var doc :DataElement in dataElements) {
-                for each (var itemData :DataElement in doc.children) {
+                for each (var itemData :DataElement in DataReader.withData(doc).children) {
                     _loadTask.addItem(loadLibraryItem(itemData));
                 }
             }
@@ -126,7 +126,7 @@ public class Library
         }
 
         var tome :MutableTome = new MutableTome(name, pageClass);
-        for each (var pageData :DataElement in tomeData.children) {
+        for each (var pageData :DataElement in DataReader.withData(tomeData).children) {
             tome.addPage(loadPage(pageData, pageClass));
         }
         return tome;

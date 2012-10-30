@@ -60,10 +60,6 @@ class XmlDataElement
         return _xml.attribute(name)[0];
     }
 
-    public function childNamed (name :String) :String  {
-        return _xml.elements(name)[0];
-    }
-
     /**
      * Call toXMLString() on the specified XML object safely. This is equivalent to
      * <code>xml.toXMLString()</code> but offers protection from other code that may have changed

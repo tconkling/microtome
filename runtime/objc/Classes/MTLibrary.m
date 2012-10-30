@@ -273,25 +273,25 @@ static NSString* const TYPE_ATTR = @"type";
 }
 
 - (id<MTObjectMarshaller>)requireMarshallerForClass:(Class)requiredClass {
-    id<MTObjectMarshaller> handler = _objectMarshallers[requiredClass];
-    if (handler == nil) {
+    id<MTObjectMarshaller> marshaller = _objectMarshallers[requiredClass];
+    if (marshaller == nil) {
         // if we can't find an exact match, see if we have a handler for a superclass that
         // can take subclasses
         for (id<MTObjectMarshaller> candidate in _objectMarshallers.objectEnumerator) {
             if (candidate.handlesSubclasses && [requiredClass isSubclassOfClass:candidate.valueClass]) {
                 _objectMarshallers[(id<NSCopying>)requiredClass] = candidate;
-                handler = candidate;
+                marshaller = candidate;
                 break;
             }
         }
     }
 
-    if (handler == nil) {
+    if (marshaller == nil) {
         [NSException raise:NSGenericException format:@"No handler for '%@'",
             NSStringFromClass(requiredClass)];
     }
 
-    return handler;
+    return marshaller;
 }
 
 - (void)registerPageClasses:(NSArray*)classes {

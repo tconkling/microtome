@@ -46,7 +46,7 @@
 
 @end
 
-// Built-in value handlers
+// Built-in marshallers
 
 @implementation MTStringMarshaller
 
@@ -69,9 +69,9 @@
 
 - (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
     NSMutableArray* list = [[NSMutableArray alloc] init];
+    id<MTObjectMarshaller> childMarshaller = [library requireMarshallerForClass:type.subtype.clazz];
     for (id<MTDataElement> childData in [MTDataReader withData:data].children) {
-        id<MTObjectMarshaller> marshaller = [library requireMarshallerForClass:type.subtype.clazz];
-        id child = [marshaller withLibrary:library type:type.subtype loadObject:childData];
+        id child = [childMarshaller withLibrary:library type:type.subtype loadObject:childData];
         [list addObject:child];
     }
 
@@ -80,9 +80,9 @@
 
 - (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {
     NSArray* list = (NSArray*)value;
-    id<MTObjectMarshaller> childHandler = [library requireMarshallerForClass:type.subtype.clazz];
+    id<MTObjectMarshaller> childMarshaller = [library requireMarshallerForClass:type.subtype.clazz];
     for (id child in list) {
-        [childHandler withLibrary:library type:type.subtype resolveRefs:child];
+        [childMarshaller withLibrary:library type:type.subtype resolveRefs:child];
     }
 }
 
@@ -103,8 +103,8 @@
         if ([prop isKindOfClass:[MTObjectProp class]]) {
             MTObjectProp* objectProp = (MTObjectProp*)prop;
             if (objectProp.value != nil) {
-                id<MTObjectMarshaller> propHandler = [library requireMarshallerForClass:objectProp.valueType.clazz];
-                [propHandler withLibrary:library type:objectProp.valueType resolveRefs:objectProp.value];
+                id<MTObjectMarshaller> propMarshaller = [library requireMarshallerForClass:objectProp.valueType.clazz];
+                [propMarshaller withLibrary:library type:objectProp.valueType resolveRefs:objectProp.value];
             }
         }
     }
@@ -137,9 +137,9 @@
 
 - (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {
     MTMutableTome* tome = (MTMutableTome*)value;
-    id<MTObjectMarshaller> pageHandler = [library requireMarshallerForClass:tome.pageClass];
+    id<MTObjectMarshaller> pageMarshaller = [library requireMarshallerForClass:tome.pageClass];
     for (id<MTPage> page in tome.pages) {
-        [pageHandler withLibrary:library type:type.subtype resolveRefs:page];
+        [pageMarshaller withLibrary:library type:type.subtype resolveRefs:page];
     }
 }
 

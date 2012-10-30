@@ -11,6 +11,7 @@ public interface DataElement
 
     function get children () :Array;
 
+    function childNamed (name :String) :DataElement;
     function attributeNamed (name :String) :String;
 
 }

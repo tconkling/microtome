@@ -25,6 +25,9 @@
     <classEntry path="microtome.DataElement"/>
     <classEntry path="microtome.marshaller.ObjectMarshallerBase"/>
     <classEntry path="microtome.marshaller.StringMarshaller"/>
+    <classEntry path="microtome.LoadTask"/>
+    <classEntry path="microtome.DataReader"/>
+    <classEntry path="microtome.LoadError"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

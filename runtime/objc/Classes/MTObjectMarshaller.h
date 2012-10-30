@@ -9,7 +9,7 @@
 
 @protocol MTObjectMarshaller <NSObject>
 
-@property (nonatomic,readonly) Class valueType;
+@property (nonatomic,readonly) Class valueClass;
 @property (nonatomic,readonly) BOOL handlesSubclasses;
 
 /// loads an object from a data element

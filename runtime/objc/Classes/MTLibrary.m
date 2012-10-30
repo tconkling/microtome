@@ -264,7 +264,7 @@ static NSString* const TYPE_ATTR = @"type";
 }
 
 - (void)registerObjectMarshaller:(id<MTObjectMarshaller>)marshaller {
-    _objectMarshallers[(id<NSCopying>)marshaller.valueType] = marshaller;
+    _objectMarshallers[(id<NSCopying>)marshaller.valueClass] = marshaller;
 }
 
 - (id<MTObjectMarshaller>)requireMarshallerForClass:(Class)requiredClass {
@@ -273,7 +273,7 @@ static NSString* const TYPE_ATTR = @"type";
         // if we can't find an exact match, see if we have a handler for a superclass that
         // can take subclasses
         for (id<MTObjectMarshaller> candidate in _objectMarshallers.objectEnumerator) {
-            if (candidate.handlesSubclasses && [requiredClass isSubclassOfClass:candidate.valueType]) {
+            if (candidate.handlesSubclasses && [requiredClass isSubclassOfClass:candidate.valueClass]) {
                 _objectMarshallers[(id<NSCopying>)requiredClass] = candidate;
                 handler = candidate;
                 break;

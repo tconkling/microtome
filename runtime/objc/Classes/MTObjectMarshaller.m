@@ -15,7 +15,7 @@
 
 @implementation MTObjectMarshallerBase
 
-- (Class)valueType {
+- (Class)valueClass {
     MT_IS_ABSTRACT();
     return nil;
 }
@@ -37,9 +37,9 @@
     if (!prop.nullable && prop.value == nil) {
         @throw [MTValidationException withProp:prop reason:@"nil value for non-nullable prop"];
     }
-    if (prop.value != nil && ![prop.value isKindOfClass:self.valueType]) {
+    if (prop.value != nil && ![prop.value isKindOfClass:self.valueClass]) {
         @throw [MTValidationException withProp:prop reason:@"incompatible value type [required=%@, actual=%@]",
-                        NSStringFromClass(self.valueType),
+                        NSStringFromClass(self.valueClass),
                         NSStringFromClass([prop.value class])];
     }
 }
@@ -50,7 +50,7 @@
 
 @implementation MTStringMarshaller
 
-- (Class)valueType { return [NSString class]; }
+- (Class)valueClass { return [NSString class]; }
 
 - (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
     NSString* val = data.value;
@@ -65,7 +65,7 @@
 
 @implementation MTListMarshaller
 
-- (Class)valueType { return [NSArray class]; }
+- (Class)valueClass { return [NSArray class]; }
 
 - (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
     NSMutableArray* list = [[NSMutableArray alloc] init];
@@ -90,7 +90,7 @@
 
 @implementation MTPageMarshaller
 
-- (Class)valueType { return [MTMutablePage class]; }
+- (Class)valueClass { return [MTMutablePage class]; }
 - (BOOL)handlesSubclasses { return YES; }
 
 - (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
@@ -114,7 +114,7 @@
 
 @implementation MTPageRefMarshaller
 
-- (Class)valueType { return [MTMutablePageRef class]; }
+- (Class)valueClass { return [MTMutablePageRef class]; }
 
 - (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
     return [[MTMutablePageRef alloc] initWithPageClass:type.subtype.clazz pageName:data.value];
@@ -129,7 +129,7 @@
 
 @implementation MTTomeMarshaller
 
-- (Class)valueType { return [MTMutableTome class]; }
+- (Class)valueClass { return [MTMutableTome class]; }
 
 - (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
     return [library loadTome:data pageClass:type.subtype.clazz];

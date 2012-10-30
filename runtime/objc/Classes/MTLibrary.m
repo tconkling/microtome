@@ -174,7 +174,7 @@ static NSString* const TYPE_ATTR = @"type";
     for (MTProp* prop in page.props) {
         MTProp* tProp = nil;
         if (tmpl != nil) {
-            MTProp* tProp = MTGetProp(tmpl, prop.name);
+            tProp = MTGetProp(tmpl, prop.name);
             if (tProp == nil) {
                 @throw [MTLoadException withData:pageData reason:@"Template '%@' missing prop '%@'",
                         tmpl.name, prop.name];
@@ -236,8 +236,9 @@ static NSString* const TYPE_ATTR = @"type";
         // Handle object props (read from child elements)
         MTObjectProp* tObjectProp = (tProp != nil ? (MTObjectProp*)tProp : nil);
         MTDataReader* propReader = [pageReader childNamed:prop.name];
-        // Handle null objects
+        
         if (propReader == nil) {
+            // Handle null object
             if (tObjectProp != nil) {
                 // inherit from template
                 objectProp.value = tObjectProp.value;
@@ -248,12 +249,14 @@ static NSString* const TYPE_ATTR = @"type";
                 @throw [MTLoadException withData:pageData
                                           reason:@"Missing required child [name=%@]", prop.name];
             }
+            
+        } else {
+            // load normally
+            id<MTObjectMarshaller> marshaller = [self requireMarshallerForClass:objectProp.valueType.clazz];
+            id value = [marshaller withLibrary:self type:objectProp.valueType loadObject:propReader];
+            objectProp.value = value;
+            [marshaller validatePropValue:objectProp];
         }
-
-        id<MTObjectMarshaller> marshaller = [self requireMarshallerForClass:objectProp.valueType.clazz];
-        id value = [marshaller withLibrary:self type:objectProp.valueType loadObject:propReader];
-        objectProp.value = value;
-        [marshaller validatePropValue:objectProp];
     }
 }
 

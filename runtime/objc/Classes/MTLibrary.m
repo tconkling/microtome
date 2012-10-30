@@ -65,7 +65,7 @@ static NSString* const TYPE_ATTR = @"type";
             }
         }
 
-        [self beginLoad:_loadTask];
+        [self addLoadedItems:_loadTask];
 
         // Resolve all templated items:
         // Iterate through the array as many times as it takes to resolve all template-dependent
@@ -94,7 +94,7 @@ static NSString* const TYPE_ATTR = @"type";
         }
 
         // Finalize the load, which resolves all PageRefs
-        [self finalizeLoad:_loadTask];
+        [self finalizeLoadedItems:_loadTask];
 
     } @catch (NSException* e) {
         [self abortLoad:_loadTask];
@@ -305,7 +305,7 @@ static NSString* const TYPE_ATTR = @"type";
     }
 }
 
-- (void)beginLoad:(MTLoadTask*)task {
+- (void)addLoadedItems:(MTLoadTask*)task {
     NSAssert(task.state == MT_Loading, @"task.state != MT_Loading");
     for (id<MTLibraryItem> item in task.libraryItems) {
         if (_items[item.name] != nil) {
@@ -322,7 +322,7 @@ static NSString* const TYPE_ATTR = @"type";
     task.state = MT_AddedItems;
 }
 
-- (void)finalizeLoad:(MTLoadTask*)task {
+- (void)finalizeLoadedItems:(MTLoadTask*)task {
     NSAssert(task.state == MT_AddedItems, @"task.state != MT_AddedItems");
     @try {
         for (id<MTLibraryItem> item in task.libraryItems) {

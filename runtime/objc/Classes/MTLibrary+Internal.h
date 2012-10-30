@@ -11,8 +11,8 @@
 
 @interface MTLibrary (MTInternal)
 
-- (void)beginLoad:(MTLoadTask*)task;
-- (void)finalizeLoad:(MTLoadTask*)task;
+- (void)addLoadedItems:(MTLoadTask*)task;
+- (void)finalizeLoadedItems:(MTLoadTask*)task;
 - (void)abortLoad:(MTLoadTask*)task;
 
 - (id<MTObjectMarshaller>)requireMarshallerForClass:(Class)requiredClass;

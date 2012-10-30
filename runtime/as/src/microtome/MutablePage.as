@@ -10,8 +10,8 @@ public class MutablePage
         return _name;
     }
 
-    public function get type () :ValueType {
-        return new ValueType(Util.getClass(this), null);
+    public function get type () :TypeInfo {
+        return new TypeInfo(Util.getClass(this), null);
     }
 
     public function get props () :Vector.<Prop> {

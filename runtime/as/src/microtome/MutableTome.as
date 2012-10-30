@@ -9,14 +9,14 @@ public class MutableTome
 {
     public function MutableTome (name :String, pageType :Class) {
         _name = name;
-        _type = ValueType.fromClasses(Util.getClass(this), pageType);
+        _type = TypeInfo.fromClasses(Util.getClass(this), pageType);
     }
 
     public function get name () :String {
         return _name;
     }
 
-    public function get type () :ValueType {
+    public function get type () :TypeInfo {
         return _type;
     }
 
@@ -68,7 +68,7 @@ public class MutableTome
     }
 
     protected var _name :String;
-    protected var _type :ValueType;
+    protected var _type :TypeInfo;
     protected var _pages :Dictionary = new Dictionary();
     protected var _size :int;
 }

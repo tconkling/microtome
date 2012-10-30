@@ -8,7 +8,7 @@ import microtome.ObjectMarshaller;
 import microtome.ObjectProp;
 import microtome.Util;
 import microtome.ValidationError;
-import microtome.ValueType;
+import microtome.TypeInfo;
 
 public class ObjectMarshallerBase
     implements ObjectMarshaller
@@ -21,11 +21,11 @@ public class ObjectMarshallerBase
         return false;
     }
 
-    public function loadObject (data :DataElement, type :ValueType, library :Library) :* {
+    public function loadObject (data :DataElement, type :TypeInfo, library :Library) :* {
         throw new Error("abstract");
     }
 
-    public function resolveRefs (obj :*, type :ValueType, library :Library) :void {
+    public function resolveRefs (obj :*, type :TypeInfo, library :Library) :void {
         // do nothing by default
     }
 

@@ -4,7 +4,7 @@
     <classEntry path="microtome.Page"/>
     <classEntry path="microtome.Prop"/>
     <classEntry path="microtome.PropSpec"/>
-    <classEntry path="microtome.ValueType"/>
+    <classEntry path="microtome.TypeInfo"/>
     <classEntry path="microtome.Defs"/>
     <classEntry path="microtome.ObjectProp"/>
     <classEntry path="microtome.BoolProp"/>

@@ -11,7 +11,7 @@ public class ObjectProp extends Prop
         super(spec);
     }
 
-    public function get valueType () :ValueType {
+    public function get valueType () :TypeInfo {
         return _spec.valueType;
     }
 

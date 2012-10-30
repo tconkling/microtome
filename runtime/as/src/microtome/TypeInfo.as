@@ -3,18 +3,18 @@
 
 package microtome {
 
-public class ValueType
+public class TypeInfo
 {
-    public static function fromClasses (...classes) :ValueType {
-        var last :ValueType = null;
+    public static function fromClasses (...classes) :TypeInfo {
+        var last :TypeInfo = null;
         for (var ii :int = classes.length - 1; ii >= 0; --ii) {
             var clazz :Class = classes[ii];
-            last = new ValueType(clazz, last);
+            last = new TypeInfo(clazz, last);
         }
         return null;
     }
 
-    public function ValueType (clazz :Class, subtype :ValueType) {
+    public function TypeInfo (clazz :Class, subtype :TypeInfo) {
         _clazz = clazz;
         _subtype = subtype;
     }
@@ -23,11 +23,11 @@ public class ValueType
         return _clazz;
     }
 
-    public function get subtype () :ValueType {
+    public function get subtype () :TypeInfo {
         return _subtype;
     }
 
     protected var _clazz :Class;
-    protected var _subtype :ValueType;
+    protected var _subtype :TypeInfo;
 }
 }

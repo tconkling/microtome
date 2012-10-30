@@ -6,7 +6,7 @@ package microtome {
 public interface LibraryItem
 {
     function get name () :String;
-    function get type () :ValueType;
+    function get type () :TypeInfo;
 
     function childNamed (name :String) :*;
 }

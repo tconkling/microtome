@@ -23,10 +23,45 @@ public class Library
                 for each (var itemData :DataElement in doc.children) {
                     _loadTask.addItem(loadLibraryItem(itemData));
                 }
-
             }
+
+            addLoadedItems(_loadTask);
+
+            // Resolve all templated items:
+            // Iterate through the array as many times as it takes to resolve all template-dependent
+            // pages (some templates may themselves have templates in the pendingTemplatedPages).
+            // _pendingTemplatedPages can have items added to it during this process.
+            var foundTemplate :Boolean;
+            do {
+                foundTemplate = false;
+                for (var ii :int = 0; ii < _loadTask.pendingTemplatedPages.length; ++ii) {
+                    var tPage :TemplatedPage = _loadTask.pendingTemplatedPages[ii];
+                    var tmpl :Page = pageWithQualifiedName(tPage.templateName);
+                    if (tmpl == null) {
+                        continue;
+                    }
+                    loadPageProps(tPage.page, tPage.data, tmpl);
+                    _loadTask.pendingTemplatedPages.splice(ii--, 1);
+                    foundTemplate = true;
+                }
+            } while (foundTemplate);
+
+            // throw an error if we're missing a template
+            if (_loadTask.pendingTemplatedPages.length > 0) {
+                var missing :TemplatedPage = _loadTask.pendingTemplatedPages[0];
+                throw new LoadError("Missing template '" + missing.templateName + "'",
+                    missing.data);
+            }
+
+            // finalize the load, which resolves all PageRefs
+            finalizeLoadedItems(_loadTask);
+
         } catch (e :Error) {
-            // TODO
+            abortLoad(_loadTask);
+            throw e;
+
+        } finally {
+            _loadTask = null;
         }
     }
 
@@ -43,6 +78,34 @@ public class Library
 
     public function registerObjectMarshaller (marshaller :ObjectMarshaller) :void {
         _objectMarshallers[marshaller.valueClass] = marshaller;
+    }
+
+    public function pageWithQualifiedName (qualifiedName :String) :Page {
+        // A page's qualifiedName is a series of page and tome names, separated by dots
+        // E.g. level1.baddies.big_boss
+
+        var item :LibraryItem = null;
+        for each (var name :String in qualifiedName.split(Defs.NAME_SEPARATOR)) {
+            var child :* = (item != null ? item.childNamed(name) : _items[name]);
+            if (!(child is LibraryItem)) {
+                return null;
+            }
+            item = LibraryItem(child);
+        }
+
+        return (item as Page);
+    }
+
+    public function requirePageWithQualifiedName (qualifiedName :String, pageClass :Class) :Page {
+        var page :Page = pageWithQualifiedName(qualifiedName);
+        if (page == null) {
+            throw new Error("Missing required page [name='" + qualifiedName + "']");
+        } else if (!(page is pageClass)) {
+            throw new Error("Wrong type for required page [name='" + qualifiedName +
+                "', expectedType=" + Util.getClassName(pageClass) +
+                ", actualType=" + Util.getClassName(page) + "]");
+        }
+        return page;
     }
 
     public function loadTome (tomeData :DataElement, pageClass :Class) :MutableTome {
@@ -230,6 +293,55 @@ public class Library
                 Util.getClassName(requiredSuperclass) + ", got=" + Util.getClassName(clazz));
         }
         return clazz;
+    }
+
+    protected function addLoadedItems (task :LoadTask) :void {
+        if (task.state != LoadTask.LOADING) {
+            throw new Error("task.state != LOADING");
+        }
+
+        for each (var item :LibraryItem in task.libraryItems) {
+            if (_items[item.name] != null) {
+                task.state = LoadTask.ABORTED;
+                throw new Error("An item named '" + item.name + "' is already loaded");
+            }
+        }
+
+        for each (item in task.libraryItems) {
+            _items[item.name] = item;
+        }
+
+        task.state = LoadTask.ADDED_ITEMS;
+    }
+
+    protected function finalizeLoadedItems (task :LoadTask) :void {
+        if (task.state != LoadTask.ADDED_ITEMS) {
+            throw new Error("task.state != ADDED_ITEMS");
+        }
+
+        try {
+            for each (var item :LibraryItem in task.libraryItems) {
+                var marshaller :ObjectMarshaller =
+                    requireObjectMarshallerForClass(Util.getClass(item));
+                marshaller.resolveRefs(item, item.type, this);
+            }
+        } catch (e :Error) {
+            abortLoad(task);
+            throw e;
+        }
+
+        task.state = LoadTask.FINALIZED;
+    }
+
+    protected function abortLoad (task :LoadTask) :void {
+        if (task.state == LoadTask.ABORTED) {
+            return;
+        }
+
+        for each (var item :LibraryItem in task.libraryItems) {
+            delete _items[item.name];
+        }
+        task.state = LoadTask.ABORTED;
     }
 
     protected var _loadTask :LoadTask;

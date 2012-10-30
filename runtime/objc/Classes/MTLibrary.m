@@ -171,87 +171,89 @@ static NSString* const TYPE_ATTR = @"type";
                 tmpl.name, NSStringFromClass([tmpl class])];
     }
     
-    MTDataReader* pageReader = [MTDataReader withData:pageData];
-    
     for (MTProp* prop in page.props) {
-        MTObjectProp* objectProp =
-        ([prop isKindOfClass:[MTObjectProp class]] ? (MTObjectProp*)prop : nil);
-        BOOL isPrimitive = (objectProp == nil);
-
-        MTProp* tProp = (tmpl != nil ? MTGetProp(tmpl, prop.name) : nil);
-
-        if (isPrimitive) {
-            // Handle primitive props (read from attributes)
-            @try {
-                BOOL useTemplate = (tProp != nil && ![pageReader hasAttribute:prop.name]);
-
-                if ([prop isKindOfClass:[MTIntProp class]]) {
-                    MTIntProp* intProp = (MTIntProp*)prop;
-                    if (useTemplate) {
-                        intProp.value = ((MTIntProp*)tProp).value;
-                    } else {
-                        intProp.value = [pageReader requireIntAttribute:prop.name];
-                        [self.primitiveMarshaller validateInt:intProp];
-                    }
-                } else if ([prop isKindOfClass:[MTBoolProp class]]) {
-                    MTBoolProp* boolProp = (MTBoolProp*)prop;
-                    if (useTemplate) {
-                        boolProp.value = ((MTBoolProp*)tProp).value;
-                    } else {
-                        boolProp.value = [pageReader requireBoolAttribute:prop.name];
-                        [self.primitiveMarshaller validateBool:boolProp];
-                    }
-                } else if ([prop isKindOfClass:[MTFloatProp class]]) {
-                    MTFloatProp* floatProp = (MTFloatProp*)prop;
-                    if (useTemplate) {
-                        floatProp.value = ((MTFloatProp*)tProp).value;
-                    } else {
-                        floatProp.value = [pageReader requireFloatAttribute:prop.name];
-                        [self.primitiveMarshaller validateFloat:floatProp];
-                    }
-                } else {
-                    @throw [MTLoadException withData:pageData
-                                                 reason:@"Unrecognized primitive prop [name=%@, class=%@]",
-                            prop.name, [prop class]];
-                }
-            } @catch (MTLoadException* e) {
-                @throw e;
-            } @catch (NSException* e) {
-                @throw [MTLoadException withData:pageData reason:@"Error loading prop '%@': %@",
-                        prop.name, e.reason];
-            }
-
-        } else {
-            // Handle object props (read from child elements)
-            MTObjectProp* tObjectProp = (tProp != nil ? (MTObjectProp*)tProp : nil);
-            MTDataReader* propReader = [pageReader childNamed:prop.name];
-            @try {
-                // Handle null objects
-                if (propReader == nil) {
-                    if (tObjectProp != nil) {
-                        // inherit from template
-                        objectProp.value = tObjectProp.value;
-                    } else if (objectProp.nullable) {
-                        // Object is nullable.
-                        objectProp.value = nil;
-                    } else {
-                        @throw [MTLoadException withData:pageData
-                                                     reason:@"Missing required child [name=%@]", prop.name];
-                    }
-                    continue;
-                }
-
-                id<MTObjectMarshaller> marshaller = [self requireMarshallerForClass:objectProp.valueType.clazz];
-                id value = [marshaller withLibrary:self type:objectProp.valueType loadObject:propReader];
-                objectProp.value = value;
-                [marshaller validatePropValue:objectProp];
-            } @catch (MTLoadException* e) {
-                @throw e;
-            } @catch (NSException* e) {
-                @throw [MTLoadException withData:propReader reason:@"Error loading prop '%@': %@",
-                        prop.name, e.reason];
+        MTProp* tProp = nil;
+        if (tmpl != nil) {
+            MTProp* tProp = MTGetProp(tmpl, prop.name);
+            if (tProp == nil) {
+                @throw [MTLoadException withData:pageData reason:@"Template '%@' missing prop '%@'",
+                        tmpl.name, prop.name];
             }
         }
+        @try {
+            [self loadPageProp:prop templateProp:tProp pageData:pageData];
+        } @catch (MTLoadException* e) {
+            @throw e;
+        } @catch (NSException* e) {
+            @throw [MTLoadException withData:pageData reason:@"Error loading prop '%@': %@",
+                    prop.name, e.reason];
+        }
+    }
+}
+
+- (void)loadPageProp:(MTProp*)prop templateProp:(MTProp*)tProp pageData:(id<MTDataElement>)pageData {
+    MTObjectProp* objectProp =
+        ([prop isKindOfClass:[MTObjectProp class]] ? (MTObjectProp*)prop : nil);
+    BOOL isPrimitive = (objectProp == nil);
+
+    MTDataReader* pageReader = [MTDataReader withData:pageData];
+
+    if (isPrimitive) {
+        // Handle primitive props (read from attributes)
+        BOOL useTemplate = (tProp != nil && ![pageReader hasAttribute:prop.name]);
+
+        if ([prop isKindOfClass:[MTIntProp class]]) {
+            MTIntProp* intProp = (MTIntProp*)prop;
+            if (useTemplate) {
+                intProp.value = ((MTIntProp*)tProp).value;
+            } else {
+                intProp.value = [pageReader requireIntAttribute:prop.name];
+                [self.primitiveMarshaller validateInt:intProp];
+            }
+        } else if ([prop isKindOfClass:[MTBoolProp class]]) {
+            MTBoolProp* boolProp = (MTBoolProp*)prop;
+            if (useTemplate) {
+                boolProp.value = ((MTBoolProp*)tProp).value;
+            } else {
+                boolProp.value = [pageReader requireBoolAttribute:prop.name];
+                [self.primitiveMarshaller validateBool:boolProp];
+            }
+        } else if ([prop isKindOfClass:[MTFloatProp class]]) {
+            MTFloatProp* floatProp = (MTFloatProp*)prop;
+            if (useTemplate) {
+                floatProp.value = ((MTFloatProp*)tProp).value;
+            } else {
+                floatProp.value = [pageReader requireFloatAttribute:prop.name];
+                [self.primitiveMarshaller validateFloat:floatProp];
+            }
+        } else {
+            @throw [MTLoadException withData:pageData
+                                      reason:@"Unrecognized primitive prop [name=%@, class=%@]",
+                    prop.name, [prop class]];
+        }
+
+    } else {
+        // Handle object props (read from child elements)
+        MTObjectProp* tObjectProp = (tProp != nil ? (MTObjectProp*)tProp : nil);
+        MTDataReader* propReader = [pageReader childNamed:prop.name];
+        // Handle null objects
+        if (propReader == nil) {
+            if (tObjectProp != nil) {
+                // inherit from template
+                objectProp.value = tObjectProp.value;
+            } else if (objectProp.nullable) {
+                // Object is nullable.
+                objectProp.value = nil;
+            } else {
+                @throw [MTLoadException withData:pageData
+                                          reason:@"Missing required child [name=%@]", prop.name];
+            }
+        }
+
+        id<MTObjectMarshaller> marshaller = [self requireMarshallerForClass:objectProp.valueType.clazz];
+        id value = [marshaller withLibrary:self type:objectProp.valueType loadObject:propReader];
+        objectProp.value = value;
+        [marshaller validatePropValue:objectProp];
     }
 }
 

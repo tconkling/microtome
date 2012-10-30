@@ -28,6 +28,10 @@
     <classEntry path="microtome.LoadTask"/>
     <classEntry path="microtome.DataReader"/>
     <classEntry path="microtome.LoadError"/>
+    <classEntry path="microtome.marshaller.ListMarshaller"/>
+    <classEntry path="microtome.marshaller.PageMarshaller"/>
+    <classEntry path="microtome.marshaller.PageRefMarshaller"/>
+    <classEntry path="microtome.marshaller.TomeMarshaller"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

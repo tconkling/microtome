@@ -5,11 +5,22 @@ package microtome {
 
 import flash.utils.Dictionary;
 
+import microtome.marshaller.ListMarshaller;
+import microtome.marshaller.PageMarshaller;
+import microtome.marshaller.PageRefMarshaller;
+import microtome.marshaller.StringMarshaller;
+import microtome.marshaller.TomeMarshaller;
+
 public class Library
 {
     public var primitiveMarshaller :PrimitiveMarshaller = new DefaultPrimitiveMarshaller();
 
     public function Library () {
+        registerObjectMarshaller(new ListMarshaller());
+        registerObjectMarshaller(new PageMarshaller());
+        registerObjectMarshaller(new PageRefMarshaller());
+        registerObjectMarshaller(new StringMarshaller());
+        registerObjectMarshaller(new TomeMarshaller());
     }
 
     public function loadData (dataElements :Array) :void {
@@ -144,7 +155,7 @@ public class Library
         return page;
     }
 
-    protected function requireObjectMarshallerForClass (clazz :Class) :ObjectMarshaller {
+    public function requireObjectMarshallerForClass (clazz :Class) :ObjectMarshaller {
         var marshaller :ObjectMarshaller = _objectMarshallers[clazz];
         if (marshaller == null) {
             // if we can't find an exact match, see if we have a handler for a superclass that

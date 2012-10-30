@@ -2,6 +2,7 @@
 // microtome
 
 package microtome.marshaller {
+
 import microtome.DataElement;
 import microtome.Library;
 import microtome.ObjectMarshaller;
@@ -13,7 +14,7 @@ import microtome.TypeInfo;
 public class ObjectMarshallerBase
     implements ObjectMarshaller
 {
-    public function get valueType () :Class {
+    public function get valueClass () :Class {
         throw new Error("abstract");
     }
 
@@ -32,9 +33,9 @@ public class ObjectMarshallerBase
     public function validatePropValue (prop :ObjectProp) :void {
         if (!prop.nullable && prop.value == null) {
             throw new ValidationError(prop, "null value for non-nullable prop");
-        } else if (prop.value != null && !(prop.value is this.valueType)) {
+        } else if (prop.value != null && !(prop.value is this.valueClass)) {
             throw new ValidationError(prop, "incompatible value type [required=" +
-                Util.getClassName(this.valueType) + ", actual=" +
+                Util.getClassName(this.valueClass) + ", actual=" +
                 Util.getClassName(prop.value) + "]");
         }
     }

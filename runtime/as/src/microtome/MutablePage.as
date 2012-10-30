@@ -23,7 +23,7 @@ public class MutablePage
         return (prop != null && prop is ObjectProp ? ObjectProp(prop).value : null);
     }
 
-    internal function set name (name :String) :void {
+    internal function setName (name :String) :void {
         _name = name;
     }
 

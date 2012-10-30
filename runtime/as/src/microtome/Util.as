@@ -8,6 +8,11 @@ import flash.utils.getQualifiedClassName;
 
 public class Util
 {
+    public static function validLibraryItemName (name :String) :Boolean {
+        // library items cannot have '.' in the name
+        return name.indexOf(Defs.NAME_SEPARATOR) < 0;
+}
+
     /**
      * Get the full class name, e.g. "com.threerings.util.ClassUtil".
      * Calling getClassName with a Class object will return the same value as calling it with an

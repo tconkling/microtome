@@ -9,7 +9,7 @@ import microtome.TypeInfo;
 
 public class StringMarshaller extends ObjectMarshallerBase
 {
-    override public function get valueType () :Class {
+    override public function get valueClass () :Class {
         return String;
     }
 

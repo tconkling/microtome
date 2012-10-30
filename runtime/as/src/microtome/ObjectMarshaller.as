@@ -5,7 +5,7 @@ package microtome {
 
 public interface ObjectMarshaller
 {
-    function get valueType () :Class;
+    function get valueClass () :Class;
     function get handlesSubclasses () :Boolean;
 
     /** loads an object from a data element */

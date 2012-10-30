@@ -7,9 +7,9 @@ import flash.utils.Dictionary;
 public class MutableTome
     implements Tome
 {
-    public function MutableTome (name :String, pageType :Class) {
+    public function MutableTome (name :String, pageClass :Class) {
         _name = name;
-        _type = TypeInfo.fromClasses(Util.getClass(this), pageType);
+        _type = TypeInfo.fromClasses(Util.getClass(this), pageClass);
     }
 
     public function get name () :String {
@@ -20,7 +20,7 @@ public class MutableTome
         return _type;
     }
 
-    public function get pageType () :Class {
+    public function get pageClass () :Class {
         return _type.subtype.clazz;
     }
 
@@ -55,9 +55,9 @@ public class MutableTome
     public function addPage (page :Page) :void {
         if (page == null) {
             throw new Error("Can't add null page");
-        } else if (!(page is this.pageType)) {
+        } else if (!(page is this.pageClass)) {
             throw new Error("Incorrect page type [required='" +
-                Util.getClassName(this.pageType) + "', got='" +
+                Util.getClassName(this.pageClass) + "', got='" +
                 Util.getClassName(page) + "']");
         } else if (page.name == null) {
             throw new Error("Page is missing name [type='" + Util.getClassName(page) + "']");

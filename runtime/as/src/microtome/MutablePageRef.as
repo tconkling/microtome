@@ -6,13 +6,13 @@ package microtome {
 public class MutablePageRef
     implements PageRef
 {
-    public function MutablePageRef (pageType :Class, pageName :String) {
-        _pageType = pageType;
+    public function MutablePageRef (pageClass :Class, pageName :String) {
+        _pageClass = pageClass;
         _pageName = pageName;
     }
 
-    public function get pageType () :Class {
-        return _pageType;
+    public function get pageClass () :Class {
+        return _pageClass;
     }
 
     public function get pageName () :String {
@@ -27,7 +27,7 @@ public class MutablePageRef
         _page = page;
     }
 
-    protected var _pageType :Class;
+    protected var _pageClass :Class;
     protected var _pageName :String;
     protected var _page :Page;
 }

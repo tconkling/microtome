@@ -13,14 +13,11 @@
 
   <target name="prepare" depends="-init-ooo">
     <mkdir dir="${deploy.dir}"/>
-    <mavendep pom="pom.xml" pathProp="aslib.path"/>
     <maventaskdef groupId="com.threerings.ant" artifactId="actionscript" version="1.6"/>
   </target>
 
   <target name="swc" depends="prepare" description="Builds the library (.swc file)">
-    <compc srcdir="${asrc.dir}" libpath="${aslib.path}"
-      dest="${deploy.dir}/${ant.project.name}.swc">
-    </compc>
+    <compc srcdir="${asrc.dir}" dest="${deploy.dir}/${ant.project.name}.swc"/>
   </target>
 
   <target name="maven-deploy" depends="swc"

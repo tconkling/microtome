@@ -7,9 +7,11 @@ import microtome.Library;
 
 public class XmlLibrary extends Library
 {
-    public function XmlLibrary()
-    {
-        super();
+    /** Loads an array of XML documents into the library */
+    public function loadXmlDocs (xmlDocs :Array) :void {
+        loadData(xmlDocs.map(function (xml :XML, ...ignored) :XmlDataElement {
+            return new XmlDataElement(xml);
+        }));
     }
 }
 }

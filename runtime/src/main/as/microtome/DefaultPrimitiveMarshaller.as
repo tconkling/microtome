@@ -22,11 +22,11 @@ public class DefaultPrimitiveMarshaller
     }
 
     public function validateNumber (prop :NumberProp) :void {
-        var min :Number = prop.intAnnotation(Defs.MIN, Number.MIN_VALUE);
+        var min :Number = prop.numberAnnotation(Defs.MIN, Number.MIN_VALUE);
         if (prop.value < min) {
             throw new ValidationError(prop, "value too small (" + prop.value + " < " + min + ")");
         }
-        var max :Number = prop.intAnnotation(Defs.MAX, Number.MAX_VALUE);
+        var max :Number = prop.numberAnnotation(Defs.MAX, Number.MAX_VALUE);
         if (prop.value > max) {
             throw new ValidationError(prop, "value too large (" + prop.value + " > " + max + ")");
         }

@@ -78,7 +78,7 @@ public class Library
 
     public function registerPageClasses (...classes) :void {
         for each (var clazz :Class in classes) {
-            if (!(clazz is Page)) {
+            if (!ClassUtil.isAssignableAs(Page, clazz)) {
                 throw new Error("Class must implement " + ClassUtil.getClassName(Page) +
                     " [pageClass=" + ClassUtil.getClassName(clazz) + "]");
             }
@@ -161,7 +161,7 @@ public class Library
             // if we can't find an exact match, see if we have a handler for a superclass that
             // can take subclasses
             for each (var candidate :ObjectMarshaller in _objectMarshallers) {
-                if (candidate.handlesSubclasses && clazz is candidate.valueClass) {
+                if (candidate.handlesSubclasses && ClassUtil.isAssignableAs(candidate.valueClass, clazz)) {
                     _objectMarshallers[clazz] = candidate;
                     marshaller = candidate;
                     break;

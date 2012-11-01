@@ -40,6 +40,7 @@ def main ():
     for (path, dirs, files) in os.walk(input_dir):
         # get the component of the path relative to the input_dir
         relative_path = path[len(input_dir):].lstrip("/")
+        package = relative_path.split("/")
         for in_name in [os.path.join(path, candidate) for candidate in files if INPUT_FILE.match(candidate)]:
             print("Processing " + os.path.abspath(in_name) + "...")
             # open the file, parse it, and run it through the generator
@@ -49,7 +50,7 @@ def main ():
                 except parser.ParseError, e:
                     e.filename = in_name
                     raise
-                generated = generator.generate_page(page_spec, header_text)
+                generated = generator.generate_page(page_spec, package, header_text)
 
             # this can result in multiple generated files (e.g. a .h and .m file for objc)
             # merge each of our generated files

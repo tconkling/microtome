@@ -36,7 +36,7 @@ def generate_library (page_names, header_text = ""):
 
     return [ (LIBRARY_HEADER, header_contents), (LIBRARY_CLASS, class_contents) ]
 
-def generate_page (page_spec, header_text = ""):
+def generate_page (page_spec, package = None, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
     page_view = PageView(page_spec, header_text)

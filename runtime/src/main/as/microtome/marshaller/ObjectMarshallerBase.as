@@ -7,7 +7,7 @@ import microtome.DataElement;
 import microtome.Library;
 import microtome.ObjectMarshaller;
 import microtome.ObjectProp;
-import microtome.Util;
+import microtome.ClassUtil;
 import microtome.ValidationError;
 import microtome.TypeInfo;
 
@@ -35,8 +35,8 @@ public class ObjectMarshallerBase
             throw new ValidationError(prop, "null value for non-nullable prop");
         } else if (prop.value != null && !(prop.value is this.valueClass)) {
             throw new ValidationError(prop, "incompatible value type [required=" +
-                Util.getClassName(this.valueClass) + ", actual=" +
-                Util.getClassName(prop.value) + "]");
+                ClassUtil.getClassName(this.valueClass) + ", actual=" +
+                ClassUtil.getClassName(prop.value) + "]");
         }
     }
 }

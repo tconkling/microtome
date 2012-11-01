@@ -9,7 +9,7 @@ public class MutableTome
 {
     public function MutableTome (name :String, pageClass :Class) {
         _name = name;
-        _type = TypeInfo.fromClasses([ Util.getClass(this), pageClass ]);
+        _type = TypeInfo.fromClasses([ ClassUtil.getClass(this), pageClass ]);
     }
 
     public function get name () :String {
@@ -57,10 +57,10 @@ public class MutableTome
             throw new Error("Can't add null page");
         } else if (!(page is this.pageClass)) {
             throw new Error("Incorrect page type [required='" +
-                Util.getClassName(this.pageClass) + "', got='" +
-                Util.getClassName(page) + "']");
+                ClassUtil.getClassName(this.pageClass) + "', got='" +
+                ClassUtil.getClassName(page) + "']");
         } else if (page.name == null) {
-            throw new Error("Page is missing name [type='" + Util.getClassName(page) + "']");
+            throw new Error("Page is missing name [type='" + ClassUtil.getClassName(page) + "']");
         } else if (pageNamed(page.name) != null) {
             throw new Error("Duplicate page name '" + page.name + "'");
         }

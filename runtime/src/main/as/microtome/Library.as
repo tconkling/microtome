@@ -79,11 +79,11 @@ public class Library
     public function registerPageClasses (...classes) :void {
         for each (var clazz :Class in classes) {
             if (!(clazz is Page)) {
-                throw new Error("Class must implement " + Util.getClassName(Page) +
-                    " [pageClass=" + Util.getClassName(clazz) + "]");
+                throw new Error("Class must implement " + ClassUtil.getClassName(Page) +
+                    " [pageClass=" + ClassUtil.getClassName(clazz) + "]");
             }
 
-            _pageClasses[Util.tinyClassName(clazz)] = clazz;
+            _pageClasses[ClassUtil.tinyClassName(clazz)] = clazz;
         }
     }
 
@@ -113,8 +113,8 @@ public class Library
             throw new Error("Missing required page [name='" + qualifiedName + "']");
         } else if (!(page is pageClass)) {
             throw new Error("Wrong type for required page [name='" + qualifiedName +
-                "', expectedType=" + Util.getClassName(pageClass) +
-                ", actualType=" + Util.getClassName(page) + "]");
+                "', expectedType=" + ClassUtil.getClassName(pageClass) +
+                ", actualType=" + ClassUtil.getClassName(page) + "]");
         }
         return page;
     }
@@ -170,7 +170,7 @@ public class Library
         }
 
         if (marshaller == null) {
-            throw new Error("No ObjectMarshaller for '" + Util.getClassName(clazz) + "'");
+            throw new Error("No ObjectMarshaller for '" + ClassUtil.getClassName(clazz) + "'");
         }
 
         return marshaller;
@@ -178,11 +178,11 @@ public class Library
 
     protected function loadPageProps (page :MutablePage, pageData :DataElement, tmpl :Page = null) :void {
         // template's class must be equal to (or a subclass of) page's class
-        if (tmpl != null && !(tmpl is Util.getClass(page))) {
+        if (tmpl != null && !(tmpl is ClassUtil.getClass(page))) {
             throw new LoadError("Incompatible template [pageName='" + page.name +
-                "', pageClass=" + Util.getClassName(page) +
+                "', pageClass=" + ClassUtil.getClassName(page) +
                 ", templateName='" + tmpl.name +
-                "', templateClass=" + Util.getClassName(tmpl), pageData);
+                "', templateClass=" + ClassUtil.getClassName(tmpl), pageData);
         }
 
         for each (var prop :Prop in page.props) {
@@ -245,7 +245,7 @@ public class Library
                 }
             } else {
                 throw new LoadError("Unrecognized primitive prop [name='" + prop.name +
-                    "', class=" + Util.getClassName(prop) + "]", pageData);
+                    "', class=" + ClassUtil.getClassName(prop) + "]", pageData);
             }
 
         } else {
@@ -301,7 +301,7 @@ public class Library
             throw new LoadError("No page class for name '" + name + "'");
         } else if (requiredSuperclass != null && !(clazz is requiredSuperclass)) {
             throw new LoadError("Unexpected page class [required=" +
-                Util.getClassName(requiredSuperclass) + ", got=" + Util.getClassName(clazz));
+                ClassUtil.getClassName(requiredSuperclass) + ", got=" + ClassUtil.getClassName(clazz));
         }
         return clazz;
     }
@@ -333,7 +333,7 @@ public class Library
         try {
             for each (var item :LibraryItem in task.libraryItems) {
                 var marshaller :ObjectMarshaller =
-                    requireObjectMarshallerForClass(Util.getClass(item));
+                    requireObjectMarshallerForClass(ClassUtil.getClass(item));
                 marshaller.resolveRefs(item, item.type, this);
             }
         } catch (e :Error) {

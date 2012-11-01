@@ -11,7 +11,7 @@ public class MutablePage
     }
 
     public function get type () :TypeInfo {
-        return new TypeInfo(Util.getClass(this), null);
+        return new TypeInfo(ClassUtil.getClass(this), null);
     }
 
     public function get props () :Vector.<Prop> {

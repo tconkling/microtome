@@ -5,7 +5,7 @@ package microtome {
 
 import flash.utils.Dictionary;
 
-internal class PropSpec
+public class PropSpec
 {
     public var name :String;
     public var annotations :Dictionary;

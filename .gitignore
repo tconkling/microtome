@@ -1,4 +1,5 @@
 genpages/test/*.h
 genpages/test/*.m
-runtime/as/bin
 .settings
+html-template
+dist

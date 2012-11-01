@@ -23,7 +23,7 @@ def generate_page (page_spec, package, header_text = ""):
     stache = pystache.Renderer(search_dirs = TEMPLATES_DIR, escape = lambda u: u)
 
     class_name = page_view.class_filename()
-    class_contents = stache.render(stache.load_template("page_class"), page_view)
+    class_contents = stache.render(stache.load_template("as_class"), page_view)
 
     return [ (class_name, class_contents) ]
 

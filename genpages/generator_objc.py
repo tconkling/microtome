@@ -45,10 +45,10 @@ def generate_page (page_spec, package = None, header_text = ""):
     stache = pystache.Renderer(search_dirs = TEMPLATES_DIR, escape = lambda u: u)
 
     header_name = page_view.header_filename()
-    header_contents = stache.render(stache.load_template("page_header"), page_view)
+    header_contents = stache.render(stache.load_template("objc_header"), page_view)
 
     class_name = page_view.class_filename()
-    class_contents = stache.render(stache.load_template("page_class"), page_view)
+    class_contents = stache.render(stache.load_template("objc_class"), page_view)
 
     return [ (header_name, header_contents), (class_name, class_contents) ]
 

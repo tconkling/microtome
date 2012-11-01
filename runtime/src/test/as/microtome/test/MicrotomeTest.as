@@ -13,17 +13,16 @@ import microtome.xml.XmlLibrary;
 public class MicrotomeTest extends Sprite
 {
     public function MicrotomeTest() {
-        addEventListener(Event.ADDED_TO_STAGE, function (..._) :void {
-            _library.registerPageClasses(
-                PrimitivePage,
-                NestedPage,
-                RefPage);
+        _library.registerPageClasses(
+            PrimitivePage,
+            NestedPage,
+            RefPage);
 
-            testPrimitives();
-            testTome();
-            testNested();
-            testRefs();
-        });
+        testPrimitives();
+        testTome();
+        testNested();
+        testRefs();
+        testTemplates();
     }
 
     protected function testPrimitives () :void {
@@ -66,6 +65,20 @@ public class MicrotomeTest extends Sprite
         _library.removeAllItems();
     }
 
+    protected function testTemplates () :void {
+        _library.loadXmlDocs([ newXml(TEMPLATE_TEST_XML) ]);
+
+        var page :PrimitivePage = _library["test1"];
+        assertEquals(page.foo, true);
+        assertEquals(page.bar, 2);
+        assertEqualsWithAccuracy(page.baz, 3.1415, EPSILON);
+
+        page = _library["test2"];
+        assertEqualsWithAccuracy(page.baz, 666.0, EPSILON);
+
+        _library.removeAllItems();
+    }
+
     protected static function newXml (clazz :Class) :XML {
         var ba :ByteArray = new clazz;
         return new XML(ba.readUTFBytes(ba.length));
@@ -84,6 +97,9 @@ public class MicrotomeTest extends Sprite
 
     [Embed(source="../../../resources/RefTest.xml", mimeType="application/octet-stream")]
     private static const REF_TEST_XML :Class;
+
+    [Embed(source="../../../resources/TemplateTest.xml", mimeType="application/octet-stream")]
+    private static const TEMPLATE_TEST_XML :Class;
 
     protected static const EPSILON :Number = 0.0001;
 }

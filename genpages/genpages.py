@@ -40,7 +40,8 @@ def main ():
     for (path, dirs, files) in os.walk(input_dir):
         # get the component of the path relative to the input_dir
         relative_path = path[len(input_dir):].lstrip("/")
-        package = relative_path.split("/")
+        # infer our package from the relative path
+        package = relative_path.replace(".")
         for in_name in [os.path.join(path, candidate) for candidate in files if INPUT_FILE.match(candidate)]:
             print("Processing " + os.path.abspath(in_name) + "...")
             # open the file, parse it, and run it through the generator

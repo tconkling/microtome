@@ -56,7 +56,8 @@ def capitalize (string):
     '''capitalizes the first letter of the string, without lower-casing any of the others'''
     return string[0].capitalize() + string[1:]
 
-def get_typename (the_type, pointer_type = True):
+def get_objc_typename (the_type, pointer_type = True):
+    '''converts a microtome typename to an objective-c typename'''
     if the_type == s.BoolType:
         typename = BOOL_NAME
     elif the_type == s.StringType:
@@ -98,13 +99,13 @@ class TypeView(object):
         return self._get_name(False)
 
     def all_typenames (self):
-        return [ get_typename(name, False) for name in s.type_spec_to_list(self.type) ]
+        return [ get_objc_typename(name, False) for name in s.type_spec_to_list(self.type) ]
 
     def _get_name (self, pointer_type):
         if self.type.name == s.PageRefType:
-            return get_typename(self.type.subtype.name, pointer_type)
+            return get_objc_typename(self.type.subtype.name, pointer_type)
         else:
-            return get_typename(self.type.name, pointer_type)
+            return get_objc_typename(self.type.name, pointer_type)
 
 class AnnotationView(object):
     def __init__ (self, annotation):

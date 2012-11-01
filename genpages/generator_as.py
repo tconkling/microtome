@@ -27,14 +27,71 @@ def generate_page (page_spec, package, header_text = ""):
 
     return [ (class_name, class_contents) ]
 
+def get_as3_typename (the_type):
+    '''converts a microtome typename to an actionscript typename'''
+    if the_type == s.BoolType:
+        return BOOL_NAME
+    elif the_type == s.IntType:
+        return INT_NAME
+    elif the_type == s.FloatType:
+        return FLOAT_NAME
+    elif the_type == s.StringType:
+        return STRING_NAME
+    elif the_type == s.ListType:
+        return LIST_NAME
+    else:
+        return the_type
+
+def get_prop_typename (the_type):
+    '''returns the prop typename for the given typename'''
+    if the_type == s.BoolType:
+        return "BoolProp"
+    elif the_type == s.IntType:
+        return "IntProp"
+    elif the_type == s.FloatType:
+        return "NumberProp"
+    else:
+        return "ObjectProp"
+
+class TypeView(object):
+    def __init__ (self, type):
+        self.type = type;
+
+    def is_primitive (self):
+        return self.type.name in s.PRIMITIVE_TYPES
+
+    def name (self):
+        if self.type.name == s.PageRefType:
+            return get_as3_typename(self.type.subtype.name)
+        else:
+            return get_as3_typename(self.type.name)
+
+
+class PropView(object):
+    def __init__ (self, prop):
+        self.prop = prop;
+        self.value_type = TypeView(prop.type)
+        self.annotations = None
+
+    def typename (self):
+        return get_prop_typename(self.prop.type.name)
+
+    def name (self):
+        return self.prop.name
+
 class PageView(object):
     def __init__ (self, page, package, header_text):
         self.page = page
         self.header = header_text
-        self.package = ".".join(package)
+        self.package = package
+        self.props = [ PropView(prop) for prop in self.page.props ]
 
     def name (self):
         return self.page.name
+
+    def superclass (self):
+        return self.page.superclass or BASE_PAGE_CLASS
+
     def class_filename (self):
         return self.name() + ".as"
 
@@ -51,7 +108,7 @@ if __name__ == "__main__":
         ],
         pos = 0)
 
-    PACKAGE = [ "com", "microtome", "test" ]
+    PACKAGE = "com.microtome.test"
 
     for filename, file_contents in generate_page(PAGE, PACKAGE):
         print filename + ":\n"

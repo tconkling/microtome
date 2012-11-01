@@ -11,7 +11,7 @@ public class TypeInfo
             var clazz :Class = classes[ii];
             last = new TypeInfo(clazz, last);
         }
-        return null;
+        return last;
     }
 
     public function TypeInfo (clazz :Class, subtype :TypeInfo) {

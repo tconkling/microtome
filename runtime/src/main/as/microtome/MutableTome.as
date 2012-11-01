@@ -28,12 +28,17 @@ public class MutableTome
         return _size;
     }
 
-    public function get pages () :Vector.<Page> {
-        var pages :Vector.<Page> = new Vector.<Page>(_size);
-        for each (var page :Page in _pages) {
-            pages.push(page);
+    /**
+     * Iterates over the pages in the Tome.
+     * fn should take a single MutablePage argument. It can optionally return a Boolean specifying
+     * whether to stop the iteration.
+     */
+    public function forEach (fn :Function) :void {
+        for each (var page :MutablePage in _pages) {
+            if (fn(page)) {
+                return;
+            }
         }
-        return pages;
     }
 
     public function childNamed (name :String) :* {
@@ -41,11 +46,11 @@ public class MutableTome
     }
 
     public function pageNamed (name :String) :Page {
-        return _pages.get(name);
+        return _pages[name];
     }
 
     public function requirePageNamed (name :String) :Page {
-        var page :Page = _pages.get(name);
+        var page :Page = _pages[name];
         if (page == null) {
             throw new Error("Missing required page [name='" + name + "']");
         }
@@ -64,7 +69,8 @@ public class MutableTome
         } else if (pageNamed(page.name) != null) {
             throw new Error("Duplicate page name '" + page.name + "'");
         }
-        _pages.put(page.name, page);
+        _pages[page.name] = page;
+        _size++;
     }
 
     protected var _name :String;

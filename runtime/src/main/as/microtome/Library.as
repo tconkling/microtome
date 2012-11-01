@@ -90,6 +90,10 @@ public dynamic class Library extends Proxy
         }
     }
 
+    public function removeAllItems () :void {
+        _items = new Dictionary();
+    }
+
     public function registerPageClasses (...classes) :void {
         for each (var clazz :Class in classes) {
             if (!ClassUtil.isAssignableAs(Page, clazz)) {
@@ -215,10 +219,10 @@ public dynamic class Library extends Proxy
                 loadPageProp(prop, tProp, pageData);
             } catch (loadErr :LoadError) {
                 throw loadErr;
-            } /*catch (err :Error) {
+            } catch (err :Error) {
                 throw new LoadError("Error loading prop '" + prop.name + "': " + err.message,
                     pageData);
-            }*/
+            }
         }
     }
 
@@ -313,7 +317,7 @@ public dynamic class Library extends Proxy
         var clazz :Class = getPageClass(name);
         if (clazz == null) {
             throw new LoadError("No page class for name '" + name + "'");
-        } else if (requiredSuperclass != null && !(clazz is requiredSuperclass)) {
+        } else if (requiredSuperclass != null && !ClassUtil.isAssignableAs(requiredSuperclass, clazz)) {
             throw new LoadError("Unexpected page class [required=" +
                 ClassUtil.getClassName(requiredSuperclass) + ", got=" + ClassUtil.getClassName(clazz));
         }

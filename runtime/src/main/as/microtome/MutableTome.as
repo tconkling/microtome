@@ -9,7 +9,7 @@ public class MutableTome
 {
     public function MutableTome (name :String, pageClass :Class) {
         _name = name;
-        _type = TypeInfo.fromClasses(Util.getClass(this), pageClass);
+        _type = TypeInfo.fromClasses([ Util.getClass(this), pageClass ]);
     }
 
     public function get name () :String {

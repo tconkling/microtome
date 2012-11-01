@@ -5,7 +5,7 @@ package microtome {
 
 public class TypeInfo
 {
-    public static function fromClasses (...classes) :TypeInfo {
+    public static function fromClasses (classes :Array) :TypeInfo {
         var last :TypeInfo = null;
         for (var ii :int = classes.length - 1; ii >= 0; --ii) {
             var clazz :Class = classes[ii];

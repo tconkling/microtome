@@ -14,8 +14,8 @@ public class MutablePage
         return new TypeInfo(ClassUtil.getClass(this), null);
     }
 
-    public function get props () :Vector.<Prop> {
-        return new Vector.<Prop>();
+    public function get props () :Array {
+        return EMPTY_ARRAY;
     }
 
     public function childNamed (name :String) :* {
@@ -28,5 +28,7 @@ public class MutablePage
     }
 
     protected var _name :String;
+
+    protected static var EMPTY_ARRAY :Array = [];
 }
 }

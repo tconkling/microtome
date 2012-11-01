@@ -4,6 +4,8 @@
 package microtome {
 
 import flash.utils.Dictionary;
+import flash.utils.Proxy;
+import flash.utils.flash_proxy;
 
 import microtome.marshaller.ListMarshaller;
 import microtome.marshaller.PageMarshaller;
@@ -11,7 +13,7 @@ import microtome.marshaller.PageRefMarshaller;
 import microtome.marshaller.StringMarshaller;
 import microtome.marshaller.TomeMarshaller;
 
-public class Library
+public dynamic class Library extends Proxy
 {
     public var primitiveMarshaller :PrimitiveMarshaller = new DefaultPrimitiveMarshaller();
 
@@ -21,6 +23,18 @@ public class Library
         registerObjectMarshaller(new PageRefMarshaller());
         registerObjectMarshaller(new StringMarshaller());
         registerObjectMarshaller(new TomeMarshaller());
+    }
+
+    flash_proxy override function getProperty (name :*): * {
+        return _items[name];
+    }
+
+    flash_proxy override function hasProperty (name :*) :Boolean {
+        return (name in _items);
+    }
+
+    flash_proxy override function setProperty (name :*, value :*) :void {
+        throw new Error("Library items cannot be directly added to the Library");
     }
 
     public function loadData (dataElements :Array) :void {
@@ -201,10 +215,10 @@ public class Library
                 loadPageProp(prop, tProp, pageData);
             } catch (loadErr :LoadError) {
                 throw loadErr;
-            } catch (err :Error) {
+            } /*catch (err :Error) {
                 throw new LoadError("Error loading prop '" + prop.name + "': " + err.message,
                     pageData);
-            }
+            }*/
         }
     }
 

@@ -33,9 +33,9 @@ static MTPropSpec* _bazSpec = nil;
 
 + (void)initialize {
     if (self == [PrimitivePage class]) {
-        _fooSpec = [[MTPropSpec alloc] initWithName:@"foo" annotations:nil valueTypes:nil];
-        _barSpec = [[MTPropSpec alloc] initWithName:@"bar" annotations:nil valueTypes:nil];
-        _bazSpec = [[MTPropSpec alloc] initWithName:@"baz" annotations:nil valueTypes:nil];
+        _fooSpec = [[MTPropSpec alloc] initWithName:@"foo" annotations:nil valueClasses:nil];
+        _barSpec = [[MTPropSpec alloc] initWithName:@"bar" annotations:nil valueClasses:nil];
+        _bazSpec = [[MTPropSpec alloc] initWithName:@"baz" annotations:nil valueClasses:nil];
     }
 }
 

@@ -12,11 +12,11 @@
 @synthesize annotations = _annotations;
 @synthesize valueType = _valueType;
 
-- (id)initWithName:(NSString*)name annotations:(NSDictionary*)annotations valueTypes:(NSArray*)valueTypes {
+- (id)initWithName:(NSString*)name annotations:(NSDictionary*)annotations valueClasses:(NSArray*)valueClasses {
     if ((self = [super init])) {
         _name = name;
         _annotations = annotations;
-        _valueType = (valueTypes == nil ? nil : MTBuildTypeInfo(valueTypes));
+        _valueType = (valueClasses == nil ? nil : MTBuildTypeInfo(valueClasses));
     }
     return self;
 }

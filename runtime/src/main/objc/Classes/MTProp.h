@@ -14,7 +14,7 @@
 @property (nonatomic,readonly) NSDictionary* annotations;
 @property (nonatomic,readonly) MTTypeInfo* valueType;
 
-- (id)initWithName:(NSString*)name annotations:(NSDictionary*)annotations valueTypes:(NSArray*)valueTypes;
+- (id)initWithName:(NSString*)name annotations:(NSDictionary*)annotations valueClasses:(NSArray*)valueClasses;
 @end
 
 @interface MTProp : NSObject {

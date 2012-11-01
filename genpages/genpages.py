@@ -4,6 +4,7 @@
 import argparse
 import sys
 import os
+import errno
 import re
 
 import parser
@@ -36,25 +37,28 @@ def main ():
     page_names = []
 
     # process files in our input dir
-    for in_name in [os.path.join(input_dir, fn) for fn in os.listdir(input_dir) if INPUT_FILE.match(fn)]:
-        print("Processing " + os.path.abspath(in_name) + "...")
-        # open the file, parse it, and run it through the generator
-        with open(in_name, 'r') as in_file:
-            try:
-                page_spec = parser.parse(in_file.read())
-            except parser.ParseError, e:
-                e.filename = in_name
-                raise
-            generated = generator.generate_page(page_spec, header_text)
+    for (path, dirs, files) in os.walk(input_dir):
+        # get the component of the path relative to the input_dir
+        relative_path = path[len(input_dir):].lstrip("/")
+        for in_name in [os.path.join(path, candidate) for candidate in files if INPUT_FILE.match(candidate)]:
+            print("Processing " + os.path.abspath(in_name) + "...")
+            # open the file, parse it, and run it through the generator
+            with open(in_name, 'r') as in_file:
+                try:
+                    page_spec = parser.parse(in_file.read())
+                except parser.ParseError, e:
+                    e.filename = in_name
+                    raise
+                generated = generator.generate_page(page_spec, header_text)
 
-        # this can result in multiple generated files (e.g. a .h and .m file for objc)
-        # merge each of our generated files
-        for out_name, out_contents in generated:
-            out_name = os.path.join(output_dir, out_name)
-            merge_and_write(out_name, out_contents)
+            # this can result in multiple generated files (e.g. a .h and .m file for objc)
+            # merge each of our generated files
+            for out_name, out_contents in generated:
+                out_name = os.path.join(output_dir, relative_path, out_name)
+                merge_and_write(out_name, out_contents)
 
-        # save all our page names
-        page_names.append(page_spec.name)
+            # save all our page names
+            page_names.append(page_spec.name)
 
     # now generate and save the library file
     generated = generator.generate_library(page_names, header_text)
@@ -67,6 +71,16 @@ def merge_and_write (filename, file_contents):
     if os.path.isfile(filename):
         with open(filename, 'r') as existing_file:
             MERGER.merge(file_contents, existing_file.read())
+
+    # generate output directories
+    full_path = os.path.split(filename)[0]
+    try:
+        os.makedirs(full_path)
+    except OSError as e:
+        if e.errno == errno.EEXIST:
+            pass
+        else:
+            raise
 
     # write out
     with open(filename, 'w') as out_file:
@@ -86,6 +100,6 @@ if __name__ == "__main__":
     sys.argv.append("--header")
     sys.argv.append("// It's a header!")
     sys.argv.append("test")
-    sys.argv.append("test")
+    sys.argv.append("test-out")
     sys.argv.append("objc")
     main()

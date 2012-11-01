@@ -16,7 +16,7 @@ public class PrimitivePage extends MutablePage
     public function get bar () :int { return _bar.value; }
     public function get baz () :Number { return _baz.value; }
 
-    override public function get props () :Vector.<Prop> { return super.props.concat(_foo, _bar, _baz); }
+    override public function get props () :Array { return super.props.concat([ _foo, _bar, _baz ]); }
 
     protected var _foo :BoolProp = new BoolProp(_fooSpec);
     protected var _bar :IntProp = new IntProp(_barSpec);

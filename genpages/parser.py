@@ -16,6 +16,7 @@ from stringscanner import StringScanner
 # token types
 IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')    # must start with a letter or _
 ANNOTATION_VALUE = re.compile(r'[\w\"]+')         # can contain " and '
+NAMESPACE = re.compile(r'[a-zA-Z]+(\.[a-zA-Z]+)*') # letters separated by .s
 CURLY_OPEN = re.compile(r'\{')
 CURLY_CLOSE = re.compile(r'\}')
 PAREN_OPEN = re.compile(r'\(')
@@ -30,9 +31,9 @@ WHITESPACE = re.compile(r'((\s)|(#.*$))+', re.MULTILINE)
 
 LOG = logging.getLogger("parser")
 
-def parse_page (string, package):
-    '''parses a page from a string. 'package' is a string containing the page's package '''
-    return Parser(string, package).parse()
+def parse_page (string):
+    '''parses a page from a string'''
+    return Parser(string).parse()
 
 class ParseError(Exception):
     '''Problem that occurred during parsing'''
@@ -49,9 +50,8 @@ class ParseError(Exception):
 
 class Parser(object):
     '''parses a page from a string'''
-    def __init__ (self, string, package):
+    def __init__ (self, string):
         self._scanner = StringScanner(string)
-        self._package = package
 
     def parse (self):
         '''parse the page and returns a PageSpec token'''
@@ -85,6 +85,16 @@ class Parser(object):
 
     def _parse_page (self):
         '''parse a PageSpec'''
+        # optional namespace
+        self._eat_whitespace()
+        if self._get_text("namespace") is not None:
+            self._eat_whitespace()
+            page_namespace = self._require_text(NAMESPACE, "Expected namespace")
+            self._require_text(SEMICOLON, "invalid namespace (expected ';')")
+            LOG.debug("found namespace: " + page_namespace)
+        else:
+            page_namespace = ""
+
         # name
         self._eat_whitespace()
         page_pos = self._scanner.pos
@@ -109,7 +119,7 @@ class Parser(object):
         self._eat_whitespace()
         self._require_text(CURLY_CLOSE)
 
-        return s.PageSpec(name = page_name, superclass = page_superclass, package = self._package, props = page_props, pos = page_pos)
+        return s.PageSpec(name = page_name, superclass = page_superclass, namespace = page_namespace, props = page_props, pos = page_pos)
 
     def _parse_props (self):
         '''parse a list of PropSpecs'''
@@ -263,6 +273,7 @@ def get_quoted_string (s):
 if __name__ == "__main__":
     logging.basicConfig(level = logging.INFO)
     TEST_STR = '''
+        namespace com.test;
         # comment 1
         MyPage extends AnotherPage {
             bool foo;   # comment 2

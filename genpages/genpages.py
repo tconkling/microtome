@@ -41,14 +41,12 @@ def main ():
     for (path, dirs, files) in os.walk(input_dir):
         # get the component of the path relative to the input_dir
         relative_path = path[len(input_dir):].lstrip("/")
-        # infer our package from the relative path
-        package = relative_path.replace("/", ".")
         for in_name in [os.path.join(path, candidate) for candidate in files if INPUT_FILE.match(candidate)]:
             print("Processing " + os.path.abspath(in_name) + "...")
             # open the file, parse it, and run it through the generator
             with open(in_name, 'r') as in_file:
                 try:
-                    page_spec = parser.parse_page(in_file.read(), package)
+                    page_spec = parser.parse_page(in_file.read())
                 except parser.ParseError, e:
                     e.filename = in_name
                     raise

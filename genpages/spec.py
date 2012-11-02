@@ -6,7 +6,7 @@
 
 from collections import namedtuple
 
-PageSpec =          namedtuple("PageSpec", ["name", "superclass", "package", "props", "pos"])
+PageSpec =          namedtuple("PageSpec", ["name", "superclass", "namespace", "props", "pos"])
 PropSpec =          namedtuple("PropSpec", ["type", "name", "annotations", "pos"])
 AnnotationSpec =    namedtuple("AnnotationSpec", ["name", "value", "pos"])
 TypeSpec =          namedtuple("TypeSpec", ["name", "subtype"])

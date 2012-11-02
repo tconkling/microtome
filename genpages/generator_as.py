@@ -104,8 +104,8 @@ class PageView(object):
     def superclass (self):
         return self.page.superclass or BASE_PAGE_CLASS
 
-    def package (self):
-        return self.page.package
+    def namespace (self):
+        return self.page.namespace
 
     def class_filename (self):
         return self.name() + ".as"
@@ -114,7 +114,7 @@ if __name__ == "__main__":
     ANOTHER_PAGE_TYPE = s.TypeSpec(name="AnotherPage", subtype = None)
 
     PAGE = s.PageSpec(name = "TestPage",
-        package = "com.microtome.test",
+        namespace = "com.microtome.test",
         superclass = None,
         props = [
             s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", annotations = [

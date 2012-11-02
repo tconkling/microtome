@@ -35,14 +35,14 @@ TEMPLATES_DIR = util.abspath("templates/objc")
 # stuff we don't need to import/forward-declare (built-in types)
 DISCARD_IMPORTS = set([ name for name in OBJC_TYPENAMES.values() if not name.startswith("MT") ])
 
-def generate_library (page_names, header_text = ""):
+def generate_library (page_specs, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
 
     # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs = TEMPLATES_DIR, escape = lambda u: u)
 
-    library_view = { "page_names": sorted(page_names), "header": header_text }
+    library_view = { "page_names": sorted(set([ spec.name for spec in page_specs ])), "header": header_text }
 
     header_contents = stache.render(stache.load_template(LIBRARY_HEADER), library_view)
     class_contents = stache.render(stache.load_template(LIBRARY_CLASS), library_view)

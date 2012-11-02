@@ -36,7 +36,7 @@ def generate_library (page_names, header_text = ""):
 
     return [ (LIBRARY_HEADER, header_contents), (LIBRARY_CLASS, class_contents) ]
 
-def generate_page (page_spec, package = None, header_text = ""):
+def generate_page (page_spec, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
     page_view = PageView(page_spec, header_text)
@@ -174,6 +174,7 @@ if __name__ == "__main__":
     ANOTHER_PAGE_TYPE = s.TypeSpec(name="AnotherPage", subtype = None)
 
     PAGE = s.PageSpec(name = "TestPage",
+        package = "",
         superclass = None,
         props = [
             s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", annotations = [

@@ -41,17 +41,17 @@ def main ():
         # get the component of the path relative to the input_dir
         relative_path = path[len(input_dir):].lstrip("/")
         # infer our package from the relative path
-        package = relative_path.replace(".")
+        package = relative_path.replace("/", ".")
         for in_name in [os.path.join(path, candidate) for candidate in files if INPUT_FILE.match(candidate)]:
             print("Processing " + os.path.abspath(in_name) + "...")
             # open the file, parse it, and run it through the generator
             with open(in_name, 'r') as in_file:
                 try:
-                    page_spec = parser.parse(in_file.read())
+                    page_spec = parser.parse_page(in_file.read(), package)
                 except parser.ParseError, e:
                     e.filename = in_name
                     raise
-                generated = generator.generate_page(page_spec, package, header_text)
+                generated = generator.generate_page(page_spec, header_text)
 
             # this can result in multiple generated files (e.g. a .h and .m file for objc)
             # merge each of our generated files

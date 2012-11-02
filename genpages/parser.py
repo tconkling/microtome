@@ -30,9 +30,9 @@ WHITESPACE = re.compile(r'((\s)|(#.*$))+', re.MULTILINE)
 
 LOG = logging.getLogger("parser")
 
-def parse (string):
-    '''parses a page from a string'''
-    return Parser(string).parse()
+def parse_page (string, package):
+    '''parses a page from a string. 'package' is a string containing the page's package '''
+    return Parser(string, package).parse()
 
 class ParseError(Exception):
     '''Problem that occurred during parsing'''
@@ -49,8 +49,9 @@ class ParseError(Exception):
 
 class Parser(object):
     '''parses a page from a string'''
-    def __init__ (self, string):
+    def __init__ (self, string, package):
         self._scanner = StringScanner(string)
+        self._package = package
 
     def parse (self):
         '''parse the page and returns a PageSpec token'''
@@ -108,7 +109,7 @@ class Parser(object):
         self._eat_whitespace()
         self._require_text(CURLY_CLOSE)
 
-        return s.PageSpec(name = page_name, superclass = page_superclass, props = page_props, pos = page_pos)
+        return s.PageSpec(name = page_name, superclass = page_superclass, package = self._package, props = page_props, pos = page_pos)
 
     def _parse_props (self):
         '''parse a list of PropSpecs'''

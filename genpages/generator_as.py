@@ -14,10 +14,10 @@ LIST_NAME = "Array"
 
 TEMPLATES_DIR = util.abspath("templates/as")
 
-def generate_page (page_spec, package, header_text = ""):
+def generate_page (page_spec, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
-    page_view = PageView(page_spec, package, header_text)
+    page_view = PageView(page_spec, header_text)
 
      # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs = TEMPLATES_DIR, escape = lambda u: u)
@@ -80,10 +80,9 @@ class PropView(object):
         return self.prop.name
 
 class PageView(object):
-    def __init__ (self, page, package, header_text):
+    def __init__ (self, page, header_text):
         self.page = page
         self.header = header_text
-        self.package = package
         self.props = [ PropView(prop) for prop in self.page.props ]
 
     def name (self):
@@ -92,6 +91,9 @@ class PageView(object):
     def superclass (self):
         return self.page.superclass or BASE_PAGE_CLASS
 
+    def package (self):
+        return self.page.package
+
     def class_filename (self):
         return self.name() + ".as"
 
@@ -99,6 +101,7 @@ if __name__ == "__main__":
     ANOTHER_PAGE_TYPE = s.TypeSpec(name="AnotherPage", subtype = None)
 
     PAGE = s.PageSpec(name = "TestPage",
+        package = "com.microtome.test",
         superclass = None,
         props = [
             s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", annotations = [
@@ -108,8 +111,6 @@ if __name__ == "__main__":
         ],
         pos = 0)
 
-    PACKAGE = "com.microtome.test"
-
-    for filename, file_contents in generate_page(PAGE, PACKAGE):
+    for filename, file_contents in generate_page(PAGE):
         print filename + ":\n"
         print file_contents

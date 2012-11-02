@@ -9,12 +9,13 @@ import re
 
 import parser
 import generator_objc
+import generator_as
 
 import sourcemerger
 
 INPUT_FILE = re.compile(r'.*\.mt')
 
-GENERATORS = { "objc": generator_objc }
+GENERATORS = { "objc": generator_objc, "as": generator_as }
 
 MERGER = sourcemerger.GeneratedSourceMerger()
 
@@ -103,5 +104,5 @@ if __name__ == "__main__":
     sys.argv.append("// It's a header!")
     sys.argv.append("test")
     sys.argv.append("test-out")
-    sys.argv.append("objc")
+    sys.argv.append("as")
     main()

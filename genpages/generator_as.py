@@ -12,7 +12,22 @@ FLOAT_NAME = "Number"
 STRING_NAME = "String"
 LIST_NAME = "Array"
 
+LIBRARY_CLASS = "MicrotomePages.as"
+
 TEMPLATES_DIR = util.abspath("templates/as")
+
+def generate_library (page_names, header_text = ""):
+    '''Returns a list of (filename, filecontents) tuples representing the generated files to
+    be written to disk'''
+
+    # "escape" param disables html-escaping
+    stache = pystache.Renderer(search_dirs = TEMPLATES_DIR, escape = lambda u: u)
+
+    library_view = { "page_names": sorted(page_names), "header": header_text }
+
+    class_contents = stache.render(stache.load_template(LIBRARY_CLASS), library_view)
+
+    return [ (LIBRARY_CLASS, class_contents) ]
 
 def generate_page (page_spec, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to

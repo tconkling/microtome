@@ -101,6 +101,9 @@ class TypeView(object):
     def is_primitive (self):
         return self.type.name in s.PRIMITIVE_TYPES
 
+    def is_pageref (self):
+        return self.type.name == s.PageRefType
+
     def name (self):
         return self._get_name(True)
 

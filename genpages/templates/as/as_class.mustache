@@ -8,7 +8,12 @@ import {{.}};
 public class {{name}} extends {{superclass}}
 {
     {{#props}}
+{{#value_type.is_pageref}}
+    public function get {{name}} () :{{value_type.name}} { return PageRef(_{{name}}.value).page; }
+{{/value_type.is_pageref}}
+{{^value_type.is_pageref}}
     public function get {{name}} () :{{value_type.name}} { return _{{name}}.value; }
+{{/value_type.is_pageref}}
     {{/props}}
 
     override public function get props () :Array { return super.props.concat([ {{#props}}_{{name}}, {{/props}}]); }

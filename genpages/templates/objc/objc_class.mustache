@@ -15,7 +15,12 @@ static MTPropSpec* s_{{name}}Spec = nil;
 }
 
 {{#props}}
+{{#value_type.is_pageref}}
+- ({{value_type.name}}){{name}} { return ((MTPageRef*) _{{name}}.value).page; }
+{{/value_type.is_pageref}}
+{{^value_type.is_pageref}}
 - ({{value_type.name}}){{name}} { return _{{name}}.value; }
+{{/value_type.is_pageref}}
 {{/props}}
 
 - (NSArray*)props { return MT_PROPS({{#props}}_{{name}}, {{/props}}); }

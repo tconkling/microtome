@@ -14,7 +14,9 @@ OBJC_TYPENAMES = {
     s.IntType: "int",
     s.FloatType: "float",
     s.StringType: "NSString",
-    s.ListType: "NSArray"
+    s.ListType: "NSArray",
+    s.PageRefType: "MTPageRef",
+    s.TomeType: "MTMutableTome"
 }
 
 PRIMITIVE_PROPNAMES = {
@@ -30,8 +32,8 @@ LIBRARY_CLASS = "MicrotomePages.m"
 
 TEMPLATES_DIR = util.abspath("templates/objc")
 
-# stuff we don't need to import/forward-declare
-DISCARD_IMPORTS = set(OBJC_TYPENAMES.itervalues())
+# stuff we don't need to import/forward-declare (built-in types)
+DISCARD_IMPORTS = set([ name for name in OBJC_TYPENAMES.values() if not name.startswith("MT") ])
 
 def generate_library (page_names, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to

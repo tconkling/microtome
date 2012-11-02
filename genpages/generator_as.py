@@ -2,10 +2,11 @@
 # microtome - Tim Conkling, 2012
 
 import pystache
+import itertools
 import util
 import spec as s
 
-BASE_PAGE_CLASS = "MutablePage"
+BASE_PAGE_CLASS = "microtome.MutablePage"
 
 AS3_TYPENAMES = {
     s.BoolType: "Boolean",
@@ -16,15 +17,20 @@ AS3_TYPENAMES = {
 }
 
 PRIMITIVE_PROPNAMES = {
-    s.BoolType: "BoolProp",
-    s.IntType: "IntProp",
-    s.FloatType: "NumberProp"
+    s.BoolType: "microtome.BoolProp",
+    s.IntType: "microtome.IntProp",
+    s.FloatType: "microtome.NumberProp"
 }
 
-OBJECT_PROPNAME = "ObjectProp"
+OBJECT_PROPNAME = "microtome.ObjectProp"
 
 LIBRARY_CLASS = "MicrotomePages.as"
 TEMPLATES_DIR = util.abspath("templates/as")
+
+# stuff we always import
+BASE_IMPORTS = set(["microtome.PropSpec"])
+# stuff we never import
+DISCARD_IMPORTS = set(AS3_TYPENAMES.itervalues())
 
 def generate_library (page_names, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
@@ -66,6 +72,16 @@ def get_prop_typename (the_type):
     else:
         return OBJECT_PROPNAME
 
+def strip_package (typename):
+    '''com.microtome.Foo -> Foo'''
+    idx = typename.rfind(".")
+    return typename[idx+1:] if idx >= 0 else typename
+
+def get_package (typename):
+    '''com.microtome.Foo -> com.microtome'''
+    idx = typename.rfind(".")
+    return typename[:idx] if idx >= 0 else ""
+
 class TypeView(object):
     def __init__ (self, type):
         self.type = type;
@@ -74,6 +90,9 @@ class TypeView(object):
         return self.type.name in s.PRIMITIVE_TYPES
 
     def name (self):
+        return strip_package(self.qualified_name())
+
+    def qualified_name (self):
         if self.type.name == s.PageRefType:
             return get_as3_typename(self.type.subtype.name)
         else:
@@ -87,6 +106,9 @@ class PropView(object):
         self.annotations = None
 
     def typename (self):
+        return strip_package(self.qualified_typename())
+
+    def qualified_typename (self):
         return get_prop_typename(self.prop.type.name)
 
     def name (self):
@@ -102,6 +124,9 @@ class PageView(object):
         return self.page.name
 
     def superclass (self):
+        return strip_package(self.qualified_superclass())
+
+    def qualified_superclass (self):
         return self.page.superclass or BASE_PAGE_CLASS
 
     def namespace (self):
@@ -110,8 +135,31 @@ class PageView(object):
     def class_filename (self):
         return self.name() + ".as"
 
+    def same_namespace (self, typename):
+        return self.namespace() == get_package(typename)
+
+    def imports (self):
+        # prop classes
+        imp_list = [ prop.qualified_typename() for prop in self.props ]
+        # prop value classes
+        imp_list += [ prop.value_type.qualified_name() for prop in self.props ]
+        # our own superclass
+        imp_list.append(self.qualified_superclass())
+
+        # strip out anything in our namespace
+        imp_list = [ imp for imp in imp_list if not self.same_namespace(imp) ]
+
+        # remove the imports we never want; add the imports we always want
+        imports = set(imp_list) - DISCARD_IMPORTS
+        imports |= BASE_IMPORTS
+
+
+        print("imports: " + str(imports))
+
+        return sorted(imports)
+
 if __name__ == "__main__":
-    ANOTHER_PAGE_TYPE = s.TypeSpec(name="AnotherPage", subtype = None)
+    ANOTHER_PAGE_TYPE = s.TypeSpec(name="com.microtome.test.AnotherPage", subtype = None)
 
     PAGE = s.PageSpec(name = "TestPage",
         namespace = "com.microtome.test",

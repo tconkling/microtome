@@ -35,7 +35,7 @@ def main ():
 
     # select our generator
     generator = GENERATORS[args.language];
-    page_names = []
+    page_specs = []
 
     # process files in our input dir
     for (path, dirs, files) in os.walk(input_dir):
@@ -58,11 +58,11 @@ def main ():
                 out_name = os.path.join(output_dir, relative_path, out_name)
                 merge_and_write(out_name, out_contents)
 
-            # save all our page names
-            page_names.append(page_spec.name)
+            # save all our pages
+            page_specs.append(page_spec)
 
     # now generate and save the library file
-    generated = generator.generate_library(page_names, header_text)
+    generated = generator.generate_library(page_specs, header_text)
     for out_name, out_contents in generated:
         out_name = os.path.join(output_dir, out_name)
         merge_and_write(out_name, out_contents)

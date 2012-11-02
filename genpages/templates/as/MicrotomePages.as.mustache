@@ -1,11 +1,17 @@
 {{header}}
-
 package {
+
+{{#page_types}}
+import {{.}};
+{{/page_types}}
 
 public class MicrotomePages {
     public static function get () :Array { return PAGES; }
 
     protected static const PAGES :Array = [
+    {{#page_types}}
+        {{.}},
+    {{/page_types}}
     ];
 }
 

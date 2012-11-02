@@ -34,14 +34,16 @@ BASE_IMPORTS = set(["microtome.PropSpec"])
 # stuff we never import (packageless typenames: Boolean, int, etc)
 DISCARD_IMPORTS = set([ name for name in AS3_TYPENAMES.values() if util.get_package(name) == ""])
 
-def generate_library (page_names, header_text = ""):
+def generate_library (page_specs, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
 
     # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs = TEMPLATES_DIR, escape = lambda u: u)
 
-    library_view = { "page_names": sorted(page_names), "header": header_text }
+    library_view = {
+        "page_types": sorted(set([ util.qualified_name(spec.namespace, spec.name) for spec in page_specs ])),
+        "header": header_text }
 
     class_contents = stache.render(stache.load_template(LIBRARY_CLASS), library_view)
 

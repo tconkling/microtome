@@ -3,7 +3,7 @@
 
 package microtome.test {
 
-import microtome.Page
+import microtome.Page;
 import microtome.ObjectProp;
 import microtome.PageRef;
 import microtome.PropSpec;

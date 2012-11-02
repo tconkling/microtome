@@ -37,3 +37,8 @@ def get_package (typename):
     '''com.microtome.Foo -> com.microtome'''
     idx = typename.rfind(".")
     return typename[:idx] if idx >= 0 else ""
+
+def qualified_name (namespace, typename):
+    '''appends a namespace to a typename'''
+    return namespace + "." + typename if len(namespace) > 0 else typename
+

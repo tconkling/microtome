@@ -103,6 +103,6 @@ if __name__ == "__main__":
     sys.argv.append("--header")
     sys.argv.append("// It's a header!")
     sys.argv.append("test")
-    sys.argv.append("test-out")
+    sys.argv.append("../dist")
     sys.argv.append("as")
     main()

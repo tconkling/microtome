@@ -8,11 +8,22 @@ import spec as s
 import util
 
 BASE_PAGE_CLASS = "MTMutablePage"
-BOOL_NAME = "BOOL"
-INT_NAME = "int"
-FLOAT_NAME = "float"
-STRING_NAME = "NSString"
-LIST_NAME = "NSArray"
+
+OBJC_TYPENAMES = {
+    s.BoolType: "BOOL",
+    s.IntType: "int",
+    s.FloatType: "float",
+    s.StringType: "NSString",
+    s.ListType: "NSArray"
+}
+
+PRIMITIVE_PROPNAMES = {
+    s.BoolType: "MTBoolProp",
+    s.IntType: "MTIntProp",
+    s.FloatType: "MTFloatProp"
+}
+
+OBJECT_PROPNAME = "MTObjectProp"
 
 LIBRARY_HEADER = "MicrotomePages.h"
 LIBRARY_CLASS = "MicrotomePages.m"
@@ -20,7 +31,7 @@ LIBRARY_CLASS = "MicrotomePages.m"
 TEMPLATES_DIR = util.abspath("templates/objc")
 
 # stuff we don't need to import/forward-declare
-DISCARD_IMPORTS = set([ BOOL_NAME, INT_NAME, FLOAT_NAME, STRING_NAME, LIST_NAME ])
+DISCARD_IMPORTS = set(OBJC_TYPENAMES.itervalues())
 
 def generate_library (page_names, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
@@ -58,12 +69,8 @@ def capitalize (string):
 
 def get_objc_typename (the_type, pointer_type = True):
     '''converts a microtome typename to an objective-c typename'''
-    if the_type == s.BoolType:
-        typename = BOOL_NAME
-    elif the_type == s.StringType:
-        typename = STRING_NAME
-    elif the_type == s.ListType:
-        typename = LIST_NAME
+    if the_type in OBJC_TYPENAMES:
+        typename = OBJC_TYPENAMES[the_type]
     else:
         typename = the_type
 
@@ -129,13 +136,14 @@ class PropView(object):
         self.annotations = [ AnnotationView(a) for a in prop.annotations ]
 
     def typename (self):
-        if self.value_type.is_primitive():
-            return "MT" + capitalize(self.prop.type.name) + "Prop"
+        if self.prop.type.name in PRIMITIVE_PROPNAMES:
+            return PRIMITIVE_PROPNAMES[self.prop.type.name]
         else:
-            return "MTObjectProp"
+            return OBJECT_PROPNAME
 
     def name (self):
         return self.prop.name
+
     def has_annos (self):
         return len(self.annotations) > 0
 

@@ -6,14 +6,24 @@ import util
 import spec as s
 
 BASE_PAGE_CLASS = "MutablePage"
-BOOL_NAME = "Boolean"
-INT_NAME = "int"
-FLOAT_NAME = "Number"
-STRING_NAME = "String"
-LIST_NAME = "Array"
+
+AS3_TYPENAMES = {
+    s.BoolType: "Boolean",
+    s.IntType: "int",
+    s.FloatType: "Number",
+    s.StringType: "String",
+    s.ListType: "Array"
+}
+
+PRIMITIVE_PROPNAMES = {
+    s.BoolType: "BoolProp",
+    s.IntType: "IntProp",
+    s.FloatType: "NumberProp"
+}
+
+OBJECT_PROPNAME = "ObjectProp"
 
 LIBRARY_CLASS = "MicrotomePages.as"
-
 TEMPLATES_DIR = util.abspath("templates/as")
 
 def generate_library (page_names, header_text = ""):
@@ -44,29 +54,17 @@ def generate_page (page_spec, header_text = ""):
 
 def get_as3_typename (the_type):
     '''converts a microtome typename to an actionscript typename'''
-    if the_type == s.BoolType:
-        return BOOL_NAME
-    elif the_type == s.IntType:
-        return INT_NAME
-    elif the_type == s.FloatType:
-        return FLOAT_NAME
-    elif the_type == s.StringType:
-        return STRING_NAME
-    elif the_type == s.ListType:
-        return LIST_NAME
+    if the_type in AS3_TYPENAMES:
+        return AS3_TYPENAMES[the_type]
     else:
         return the_type
 
 def get_prop_typename (the_type):
     '''returns the prop typename for the given typename'''
-    if the_type == s.BoolType:
-        return "BoolProp"
-    elif the_type == s.IntType:
-        return "IntProp"
-    elif the_type == s.FloatType:
-        return "NumberProp"
+    if the_type in PRIMITIVE_PROPNAMES:
+        return PRIMITIVE_PROPNAMES[the_type]
     else:
-        return "ObjectProp"
+        return OBJECT_PROPNAME
 
 class TypeView(object):
     def __init__ (self, type):

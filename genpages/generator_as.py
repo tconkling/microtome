@@ -13,7 +13,9 @@ AS3_TYPENAMES = {
     s.IntType: "int",
     s.FloatType: "Number",
     s.StringType: "String",
-    s.ListType: "Array"
+    s.ListType: "Array",
+    s.PageRefType: "microtome.PageRef",
+    s.TomeType: "microtome.MutableTome"
 }
 
 PRIMITIVE_PROPNAMES = {
@@ -30,7 +32,7 @@ TEMPLATES_DIR = util.abspath("templates/as")
 # stuff we always import
 BASE_IMPORTS = set(["microtome.PropSpec"])
 # stuff we never import
-DISCARD_IMPORTS = set(AS3_TYPENAMES.itervalues())
+DISCARD_IMPORTS = set([ "Boolean", "int", "Number", "String", "Array" ])
 
 def generate_library (page_names, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
@@ -101,6 +103,12 @@ class TypeView(object):
         else:
             return get_as3_typename(self.type.name)
 
+    def typenames_with_package (self):
+        return [ get_as3_typename(name) for name in s.type_spec_to_list(self.type) ]
+
+    def typenames (self):
+        return [ strip_package(name) for name in self.typenames_with_package() ]
+
 class AnnotationView(object):
     def __init__ (self, annotation):
         self.annotation = annotation
@@ -166,6 +174,9 @@ class PageView(object):
         imp_list += [ prop.value_type.qualified_name() for prop in self.props ]
         # our own superclass
         imp_list.append(self.qualified_superclass())
+        # prop value typenames
+        for prop in self.props:
+            imp_list += prop.value_type.typenames_with_package()
 
         # strip out anything in our namespace
         imp_list = [ imp for imp in imp_list if not self.same_namespace(imp) ]

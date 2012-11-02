@@ -19,7 +19,7 @@ public class {{name}} extends {{superclass}}
     {{/props}}
 
     {{#props}}
-    protected static const s_{{name}}Spec :PropSpec = new PropSpec("{{name}}");
+    protected static const s_{{name}}Spec :PropSpec = new PropSpec("{{name}}", {{^has_annos}}null{{/has_annos}}{{#has_annos}}{ {{#annotations}}"{{name}}":{{value}},{{/annotations}} }{{/has_annos}});
     {{/props}}
 }
 

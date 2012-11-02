@@ -124,7 +124,7 @@ class AnnotationView(object):
         # bools are Numbers, so do the bool check first
         if isinstance(self.annotation.value, bool):
             return to_boxed(to_bool(self.annotation.value))
-        if isinstance(self.annotation.value, numbers.Number):
+        elif isinstance(self.annotation.value, numbers.Number):
             return to_boxed(self.annotation.value)
         else:
             return to_nsstring(self.annotation.value)

@@ -2,7 +2,7 @@
 # microtome - Tim Conkling, 2012
 
 import pystache
-import itertools
+import numbers
 import util
 import spec as s
 
@@ -82,6 +82,9 @@ def get_package (typename):
     idx = typename.rfind(".")
     return typename[:idx] if idx >= 0 else ""
 
+def to_bool (val):
+    return "true" if val else "false"
+
 class TypeView(object):
     def __init__ (self, type):
         self.type = type;
@@ -98,12 +101,27 @@ class TypeView(object):
         else:
             return get_as3_typename(self.type.name)
 
+class AnnotationView(object):
+    def __init__ (self, annotation):
+        self.annotation = annotation
+
+    def name (self):
+        return self.annotation.name
+
+    def value (self):
+        # bools are Numbers, so do the bool check first
+        if isinstance(self.annotation.value, bool):
+            return to_bool(self.annotation.value)
+        elif isinstance(self.annotation.value, numbers.Number):
+            return self.annotation.value
+        else:
+            return '"' + self.annotation.value + '"'
 
 class PropView(object):
     def __init__ (self, prop):
         self.prop = prop;
         self.value_type = TypeView(prop.type)
-        self.annotations = None
+        self.annotations = [ AnnotationView(a) for a in prop.annotations ]
 
     def typename (self):
         return strip_package(self.qualified_typename())
@@ -113,6 +131,9 @@ class PropView(object):
 
     def name (self):
         return self.prop.name
+
+    def has_annos (self):
+        return len(self.annotations) > 0
 
 class PageView(object):
     def __init__ (self, page, header_text):
@@ -162,7 +183,8 @@ if __name__ == "__main__":
         superclass = None,
         props = [
             s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", annotations = [
-                s.AnnotationSpec(name="default", value="test", pos=0)
+                s.AnnotationSpec(name="default", value="test", pos=0),
+                s.AnnotationSpec(name="nullable", value=True, pos=0)
             ], pos = 0),
             s.PropSpec(type = s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name = "bar", annotations = [], pos = 0)
         ],

@@ -6,7 +6,7 @@
 #import "MTDefs.h"
 #import "MTDataElement.h"
 #import "MTPage.h"
-#import "MTMutablePageRef.h"
+#import "MTPageRef.h"
 #import "MTMutableTome.h"
 #import "MTLibrary+Internal.h"
 #import "MTTypeInfo.h"
@@ -114,14 +114,14 @@
 
 @implementation MTPageRefMarshaller
 
-- (Class)valueClass { return [MTMutablePageRef class]; }
+- (Class)valueClass { return [MTPageRef class]; }
 
 - (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
-    return [[MTMutablePageRef alloc] initWithPageClass:type.subtype.clazz pageName:data.value];
+    return [[MTPageRef alloc] initWithPageClass:type.subtype.clazz pageName:data.value];
 }
 
 - (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {
-    MTMutablePageRef* ref = (MTMutablePageRef*)value;
+    MTPageRef* ref = (MTPageRef*)value;
     ref.page = [library requirePageWithQualifiedName:ref.pageName pageClass:ref.pageClass];
 }
 

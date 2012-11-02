@@ -11,7 +11,7 @@
 #import "MTObjectMarshaller.h"
 #import "MTPrimitiveMarshaller.h"
 #import "MTMutableTome.h"
-#import "MTMutablePageRef.h"
+#import "MTPageRef.h"
 #import "MTProp.h"
 #import "MTLoadTask.h"
 #import "MTLoadException.h"

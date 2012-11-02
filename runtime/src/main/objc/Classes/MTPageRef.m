@@ -1,9 +1,9 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTMutablePageRef.h"
+#import "MTPageRef.h"
 
-@implementation MTMutablePageRef
+@implementation MTPageRef
 
 @synthesize pageClass = _pageClass;
 @synthesize pageName = _pageName;

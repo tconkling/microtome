@@ -15,7 +15,6 @@
     <classEntry path="microtome.Tome"/>
     <classEntry path="microtome.MutableTome"/>
     <classEntry path="microtome.PageRef"/>
-    <classEntry path="microtome.MutablePageRef"/>
     <classEntry path="microtome.Library"/>
     <classEntry path="microtome.PrimitiveMarshaller"/>
     <classEntry path="microtome.DefaultPrimitiveMarshaller"/>

@@ -11,7 +11,7 @@ static MTPropSpec* _nestedSpec = nil;
     MTObjectProp* _nested;
 }
 
-- (MTMutablePageRef*)nestedRef { return _nested.value; }
+- (MTPageRef*)nestedRef { return _nested.value; }
 - (PrimitivePage*)nested { return self.nestedRef.page; }
 
 - (id)init {
@@ -27,7 +27,7 @@ static MTPropSpec* _nestedSpec = nil;
 
 + (void)initialize {
     if (self == [RefPage class]) {
-        _nestedSpec = [[MTPropSpec alloc] initWithName:@"nested" annotations:nil valueClasses:@[ [MTMutablePageRef class], [PrimitivePage class] ]];
+        _nestedSpec = [[MTPropSpec alloc] initWithName:@"nested" annotations:nil valueClasses:@[ [MTPageRef class], [PrimitivePage class] ]];
     }
 }
 

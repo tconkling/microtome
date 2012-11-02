@@ -4,10 +4,10 @@
 #import "MTLibrary.h"
 
 @protocol MTDataElement;
-@protocol MTPage;
+@class MTPage;
 @class MTLoadTask;
 @class MTMutableTome;
-@class MTMutablePage;
+@class MTPage;
 
 @interface MTLibrary (MTInternal)
 
@@ -21,10 +21,10 @@
 - (Class)requirePageClassWithName:(NSString*)name;
 - (Class)requirePageClassWithName:(NSString*)name superClass:(Class)superClass;
 
-- (id<MTPage>)pageWithQualifiedName:(NSString*)qualifiedName;
-- (id<MTPage>)requirePageWithQualifiedName:(NSString*)qualifiedName pageClass:(Class)pageClass;
+- (MTPage*)pageWithQualifiedName:(NSString*)qualifiedName;
+- (MTPage*)requirePageWithQualifiedName:(NSString*)qualifiedName pageClass:(Class)pageClass;
 
 - (MTMutableTome*)loadTome:(id<MTDataElement>)data pageClass:(__unsafe_unretained Class)pageClass;
-- (MTMutablePage*)loadPage:(id<MTDataElement>)data superclass:(Class)superclass;
+- (MTPage*)loadPage:(id<MTDataElement>)data superclass:(Class)superclass;
 
 @end

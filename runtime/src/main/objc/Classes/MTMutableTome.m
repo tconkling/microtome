@@ -37,19 +37,19 @@
     return [self pageNamed:name];
 }
 
-- (id<MTPage>)pageNamed:(NSString*)name {
+- (MTPage*)pageNamed:(NSString*)name {
     return _pages[name];
 }
 
-- (id<MTPage>)requirePageNamed:(NSString*)name {
-    id<MTPage> page = [self pageNamed:name];
+- (MTPage*)requirePageNamed:(NSString*)name {
+    MTPage* page = [self pageNamed:name];
     if (page == nil) {
         [NSException raise:NSGenericException format:@"Missing required page [name=%@]", name];
     }
     return page;
 }
 
-- (void)addPage:(id<MTPage>)page {
+- (void)addPage:(MTPage*)page {
     if (page == nil) {
         [NSException raise:NSGenericException format:@"Can't add nil page"];
     } else if (![page isKindOfClass:self.pageClass]) {

@@ -6,7 +6,7 @@ import numbers
 import util
 import spec as s
 
-BASE_PAGE_CLASS = "microtome.MutablePage"
+BASE_PAGE_CLASS = "microtome.Page"
 
 AS3_TYPENAMES = {
     s.BoolType: "Boolean",
@@ -31,8 +31,8 @@ TEMPLATES_DIR = util.abspath("templates/as")
 
 # stuff we always import
 BASE_IMPORTS = set(["microtome.PropSpec"])
-# stuff we never import
-DISCARD_IMPORTS = set([ "Boolean", "int", "Number", "String", "Array" ])
+# stuff we never import (packageless typenames: Boolean, int, etc)
+DISCARD_IMPORTS = set([ name for name in AS3_TYPENAMES.values() if util.get_package(name) == ""])
 
 def generate_library (page_names, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
@@ -74,16 +74,6 @@ def get_prop_typename (the_type):
     else:
         return OBJECT_PROPNAME
 
-def strip_package (typename):
-    '''com.microtome.Foo -> Foo'''
-    idx = typename.rfind(".")
-    return typename[idx+1:] if idx >= 0 else typename
-
-def get_package (typename):
-    '''com.microtome.Foo -> com.microtome'''
-    idx = typename.rfind(".")
-    return typename[:idx] if idx >= 0 else ""
-
 def to_bool (val):
     return "true" if val else "false"
 
@@ -95,7 +85,7 @@ class TypeView(object):
         return self.type.name in s.PRIMITIVE_TYPES
 
     def name (self):
-        return strip_package(self.qualified_name())
+        return util.strip_package(self.qualified_name())
 
     def qualified_name (self):
         if self.type.name == s.PageRefType:
@@ -107,7 +97,7 @@ class TypeView(object):
         return [ get_as3_typename(name) for name in s.type_spec_to_list(self.type) ]
 
     def typenames (self):
-        return [ strip_package(name) for name in self.typenames_with_package() ]
+        return [ util.strip_package(name) for name in self.typenames_with_package() ]
 
 class AnnotationView(object):
     def __init__ (self, annotation):
@@ -132,7 +122,7 @@ class PropView(object):
         self.annotations = [ AnnotationView(a) for a in prop.annotations ]
 
     def typename (self):
-        return strip_package(self.qualified_typename())
+        return util.strip_package(self.qualified_typename())
 
     def qualified_typename (self):
         return get_prop_typename(self.prop.type.name)
@@ -153,7 +143,7 @@ class PageView(object):
         return self.page.name
 
     def superclass (self):
-        return strip_package(self.qualified_superclass())
+        return util.strip_package(self.qualified_superclass())
 
     def qualified_superclass (self):
         return self.page.superclass or BASE_PAGE_CLASS
@@ -165,7 +155,7 @@ class PageView(object):
         return self.name() + ".as"
 
     def same_namespace (self, typename):
-        return self.namespace() == get_package(typename)
+        return self.namespace() == util.get_package(typename)
 
     def imports (self):
         # prop classes
@@ -202,5 +192,5 @@ if __name__ == "__main__":
         pos = 0)
 
     for filename, file_contents in generate_page(PAGE):
-        print filename + ":\n"
+        print filename + ":"
         print file_contents

@@ -4,7 +4,7 @@
 #import "MTDataElement.h"
 #import "MTLibrary.h"
 #import "MTLoadException.h"
-#import "MTMutablePage.h"
+#import "MTPage.h"
 #import "MTMutablePageRef.h"
 #import "MTMutableTome.h"
 #import "MTObjectMarshaller.h"

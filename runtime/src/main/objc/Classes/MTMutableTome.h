@@ -12,6 +12,6 @@
 
 - (id)initWithName:(NSString*)name pageClass:(Class)pageClass;
 
-- (void)addPage:(id<MTPage>)page;
+- (void)addPage:(MTPage*)page;
 
 @end

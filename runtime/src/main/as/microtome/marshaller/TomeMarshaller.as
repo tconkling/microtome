@@ -5,7 +5,6 @@ package microtome.marshaller {
 
 import microtome.DataElement;
 import microtome.Library;
-import microtome.MutablePage;
 import microtome.MutableTome;
 import microtome.ObjectMarshaller;
 import microtome.Page;
@@ -25,7 +24,7 @@ public class TomeMarshaller extends ObjectMarshallerBase
         var tome :MutableTome = MutableTome(obj);
         var pageMarshaller :ObjectMarshaller =
             library.requireObjectMarshallerForClass(tome.pageClass);
-        tome.forEach(function (page :MutablePage) :void {
+        tome.forEach(function (page :Page) :void {
             pageMarshaller.resolveRefs(page, type.subtype, library);
         });
     }

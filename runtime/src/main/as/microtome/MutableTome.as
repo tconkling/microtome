@@ -2,6 +2,7 @@
 // microtome
 
 package microtome {
+
 import flash.utils.Dictionary;
 
 public class MutableTome
@@ -34,18 +35,18 @@ public class MutableTome
      * whether to stop the iteration.
      */
     public function forEach (fn :Function) :void {
-        for each (var page :MutablePage in _pages) {
+        for each (var page :Page in _pages) {
             if (fn(page)) {
                 return;
             }
         }
     }
 
-    public function childNamed (name :String) :* {
-        return pageNamed(name);
+    public function pageNamed (name :String) :Page {
+        return _pages[name];
     }
 
-    public function pageNamed (name :String) :Page {
+    public function childNamed (name :String) :* {
         return _pages[name];
     }
 
@@ -66,7 +67,7 @@ public class MutableTome
                 ClassUtil.getClassName(page) + "']");
         } else if (page.name == null) {
             throw new Error("Page is missing name [type='" + ClassUtil.getClassName(page) + "']");
-        } else if (pageNamed(page.name) != null) {
+        } else if (_pages[page.name] != null) {
             throw new Error("Duplicate page name '" + page.name + "'");
         }
         _pages[page.name] = page;

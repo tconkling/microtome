@@ -2,10 +2,10 @@
 // microtome - Copyright 2012 Three Rings Design
 
 @class MTProp;
-@protocol MTPage;
+@class MTPage;
 
 BOOL MTValidLibraryItemName (NSString* name);
-MTProp* MTGetProp (id<MTPage> page, NSString* name);
+MTProp* MTGetProp (MTPage* page, NSString* name);
 
 /// Returns the float represented by the string.
 /// Throws an exception if the string cannot be converted to a float, or contains extra characters.

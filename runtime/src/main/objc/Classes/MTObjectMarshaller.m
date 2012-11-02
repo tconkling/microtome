@@ -5,7 +5,7 @@
 
 #import "MTDefs.h"
 #import "MTDataElement.h"
-#import "MTMutablePage.h"
+#import "MTPage.h"
 #import "MTMutablePageRef.h"
 #import "MTMutableTome.h"
 #import "MTLibrary+Internal.h"
@@ -90,7 +90,7 @@
 
 @implementation MTPageMarshaller
 
-- (Class)valueClass { return [MTMutablePage class]; }
+- (Class)valueClass { return [MTPage class]; }
 - (BOOL)handlesSubclasses { return YES; }
 
 - (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
@@ -98,7 +98,7 @@
 }
 
 - (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {
-    MTMutablePage* page = (MTMutablePage*)value;
+    MTPage* page = (MTPage*)value;
     for (MTProp* prop in page.props) {
         if ([prop isKindOfClass:[MTObjectProp class]]) {
             MTObjectProp* objectProp = (MTObjectProp*)prop;
@@ -138,7 +138,7 @@
 - (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {
     MTMutableTome* tome = (MTMutableTome*)value;
     id<MTObjectMarshaller> pageMarshaller = [library requireMarshallerForClass:tome.pageClass];
-    for (id<MTPage> page in tome.pages) {
+    for (MTPage* page in tome.pages) {
         [pageMarshaller withLibrary:library type:type.subtype resolveRefs:page];
     }
 }

@@ -1,15 +1,20 @@
 //
 // microtome - Copyright 2012 Three Rings Design
 
-#import "MTMutablePage.h"
+#import "MTPage.h"
+#import "MTPage+Internal.h"
 
 #import "MTTypeInfo.h"
 #import "MTProp.h"
 #import "MTUtils.h"
 
-@implementation MTMutablePage
+@implementation MTPage
 
 @synthesize name = _name;
+
+- (void)setName:(NSString*)name {
+    _name = name;
+}
 
 - (MTTypeInfo*)type {
     return [[MTTypeInfo alloc] initWithClass:[self class] subtype:nil];

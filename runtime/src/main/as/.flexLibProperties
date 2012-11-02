@@ -11,7 +11,6 @@
     <classEntry path="microtome.IntProp"/>
     <classEntry path="microtome.NumberProp"/>
     <classEntry path="microtome.LibraryItem"/>
-    <classEntry path="microtome.MutablePage"/>
     <classEntry path="microtome.Util"/>
     <classEntry path="microtome.Tome"/>
     <classEntry path="microtome.MutableTome"/>

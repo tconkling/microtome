@@ -5,16 +5,16 @@ package microtome.marshaller {
 
 import microtome.DataElement;
 import microtome.Library;
-import microtome.MutablePage;
 import microtome.ObjectMarshaller;
 import microtome.ObjectProp;
+import microtome.Page;
 import microtome.Prop;
 import microtome.TypeInfo;
 
 public class PageMarshaller extends ObjectMarshallerBase
 {
     override public function get valueClass () :Class {
-        return MutablePage;
+        return Page;
     }
 
     override public function get handlesSubclasses () :Boolean {
@@ -26,7 +26,7 @@ public class PageMarshaller extends ObjectMarshallerBase
     }
 
     override public function resolveRefs (obj :*, type :TypeInfo, library :Library) :void {
-        var page :MutablePage = MutablePage(obj);
+        var page :Page = Page(obj);
         for each (var prop :Prop in page.props) {
             var objectProp :ObjectProp = (prop as ObjectProp);
             if (objectProp != null && objectProp.value != null) {

@@ -7,7 +7,7 @@ import numbers
 import spec as s
 import util
 
-BASE_PAGE_CLASS = "MTMutablePage"
+BASE_PAGE_CLASS = "MTPage"
 
 OBJC_TYPENAMES = {
     s.BoolType: "BOOL",
@@ -182,7 +182,7 @@ if __name__ == "__main__":
     ANOTHER_PAGE_TYPE = s.TypeSpec(name="AnotherPage", subtype = None)
 
     PAGE = s.PageSpec(name = "TestPage",
-        package = "",
+        namespace = "",
         superclass = None,
         props = [
             s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", annotations = [

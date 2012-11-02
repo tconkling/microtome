@@ -150,7 +150,7 @@ public dynamic class Library extends Proxy
         return tome;
     }
 
-    public function loadPage (pageData :DataElement, superclass :Class = null) :MutablePage {
+    public function loadPage (pageData :DataElement, superclass :Class = null) :Page {
         var name :String = pageData.name;
         if (!Util.validLibraryItemName(name)) {
             throw new LoadError("Page name '" + name + "' is invalid", pageData);
@@ -160,7 +160,7 @@ public dynamic class Library extends Proxy
         var typename :String = reader.requireAttribute(TYPE_ATTR);
         var pageClass :Class = requirePageClass(typename, superclass);
 
-        var page :MutablePage = new pageClass();
+        var page :Page = new pageClass();
         page.setName(name);
 
         if (reader.hasAttribute(TEMPLATE_ATTR)) {
@@ -194,7 +194,7 @@ public dynamic class Library extends Proxy
         return marshaller;
     }
 
-    protected function loadPageProps (page :MutablePage, pageData :DataElement, tmpl :Page = null) :void {
+    protected function loadPageProps (page :Page, pageData :DataElement, tmpl :Page = null) :void {
         // template's class must be equal to (or a subclass of) page's class
         if (tmpl != null && !(tmpl is ClassUtil.getClass(page))) {
             throw new LoadError("Incompatible template [pageName='" + page.name +
@@ -387,15 +387,15 @@ const TEMPLATE_ATTR :String = "template";
 
 import microtome.DataElement;
 import microtome.DataReader;
-import microtome.MutablePage;
+import microtome.Page;
 
 class TemplatedPage {
-    public function TemplatedPage (page :MutablePage, data :DataElement) {
+    public function TemplatedPage (page :Page, data :DataElement) {
         _page = page;
         _data = DataReader.withData(data);
     }
 
-    public function get page () :MutablePage {
+    public function get page () :Page {
         return _page;
     }
 
@@ -407,6 +407,6 @@ class TemplatedPage {
         return _data.requireAttribute(TEMPLATE_ATTR);
     }
 
-    protected var _page :MutablePage;
+    protected var _page :Page;
     protected var _data :DataReader;
 }

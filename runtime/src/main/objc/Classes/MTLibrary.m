@@ -4,13 +4,13 @@
 #import "MTLibrary+Internal.h"
 
 #import "MTDataElement.h"
+#import "MTPage+Internal.h"
 #import "MTDefs.h"
 #import "MTUtils.h"
 #import "MTTypeInfo.h"
 #import "MTObjectMarshaller.h"
 #import "MTPrimitiveMarshaller.h"
 #import "MTMutableTome.h"
-#import "MTMutablePage.h"
 #import "MTMutablePageRef.h"
 #import "MTProp.h"
 #import "MTLoadTask.h"
@@ -23,14 +23,14 @@ static NSString* const TYPE_ATTR = @"type";
 
 @interface MTTemplatedPage : NSObject {
 @protected
-    MTMutablePage* _page;
+    MTPage* _page;
     MTDataReader* _data;
 }
-@property (nonatomic,readonly) MTMutablePage* page;
+@property (nonatomic,readonly) MTPage* page;
 @property (nonatomic,readonly) id<MTDataElement> data;
 @property (nonatomic,readonly) NSString* templateName;
 
-- (id)initWithPage:(MTMutablePage*)page data:(id<MTDataElement>)data;
+- (id)initWithPage:(MTPage*)page data:(id<MTDataElement>)data;
 @end
 
 @implementation MTLibrary
@@ -76,7 +76,7 @@ static NSString* const TYPE_ATTR = @"type";
             foundTemplate = NO;
             for (int ii = 0; ii < _loadTask.pendingTemplatedPages.count; ++ii) {
                 MTTemplatedPage* tpage = _loadTask.pendingTemplatedPages[ii];
-                id<MTPage> tmpl = [self pageWithQualifiedName:tpage.templateName];
+                MTPage* tmpl = [self pageWithQualifiedName:tpage.templateName];
                 if (tmpl == nil) {
                     continue;
                 }
@@ -129,14 +129,14 @@ static NSString* const TYPE_ATTR = @"type";
 
     MTMutableTome* tome = [[MTMutableTome alloc] initWithName:name pageClass:pageClass];
     for (id<MTDataElement> pageData in [MTDataReader withData:tomeData].children) {
-        id<MTPage> page = [self loadPage:pageData superclass:pageClass];
+        MTPage* page = [self loadPage:pageData superclass:pageClass];
         [tome addPage:page];
     }
 
     return tome;
 }
 
-- (MTMutablePage*)loadPage:(id<MTDataElement>)pageData superclass:(__unsafe_unretained Class)superclass {
+- (MTPage*)loadPage:(id<MTDataElement>)pageData superclass:(__unsafe_unretained Class)superclass {
     NSString* name = pageData.name;
     if (!MTValidLibraryItemName(name)) {
         @throw [MTLoadException withData:pageData reason:@"page name '%@' is invalid", name];
@@ -149,8 +149,8 @@ static NSString* const TYPE_ATTR = @"type";
                        [self requirePageClassWithName:typeName superClass:superclass] :
                        [self requirePageClassWithName:typeName]);
 
-    MTMutablePage* page = [[pageClass alloc] init];
-    page.name = name;
+    MTPage* page = [[pageClass alloc] init];
+    [page setName:name];
 
     if ([reader hasAttribute:TEMPLATE_ATTR]) {
         // if this page has a template, we defer its loading until the end
@@ -163,7 +163,7 @@ static NSString* const TYPE_ATTR = @"type";
     return page;
 }
 
-- (void)loadPageProps:(MTMutablePage*)page data:(id<MTDataElement>)pageData template:(id<MTPage>)tmpl {
+- (void)loadPageProps:(MTPage*)page data:(id<MTDataElement>)pageData template:(MTPage*)tmpl {
     if (tmpl != nil && ![[tmpl class] isSubclassOfClass:[page class]]) {
         @throw [MTLoadException withData:pageData reason:
                 @"Incompatible template [pageName=%@ pageClass=%@ templateName=%@ templateClass=%@]",
@@ -296,9 +296,9 @@ static NSString* const TYPE_ATTR = @"type";
 
 - (void)registerPageClasses:(NSArray*)classes {
     for (Class pageClass in classes) {
-        if (![pageClass conformsToProtocol:@protocol(MTPage)]) {
-            [NSException raise:NSGenericException format:@"Class must implement %@ [pageClass=%@]",
-             NSStringFromProtocol(@protocol(MTPage)), NSStringFromClass(pageClass)];
+        if (![pageClass isSubclassOfClass:[MTPage class]]) {
+            [NSException raise:NSGenericException format:@"Class must extend %@ [pageClass=%@]",
+             NSStringFromClass([MTPage class]), NSStringFromClass(pageClass)];
         }
 
         _pageClasses[NSStringFromClass(pageClass)] = pageClass;
@@ -370,7 +370,7 @@ static NSString* const TYPE_ATTR = @"type";
     return clazz;
 }
 
-- (id<MTPage>)pageWithQualifiedName:(NSString*)qualifiedName {
+- (MTPage*)pageWithQualifiedName:(NSString*)qualifiedName {
     // A page's qualifiedName is a series of page and tome names, separated by dots
     // E.g. level1.baddies.big_boss
     
@@ -384,11 +384,11 @@ static NSString* const TYPE_ATTR = @"type";
         item = (id<MTLibraryItem>)child;
     }
 
-    return ([item conformsToProtocol:@protocol(MTPage)] ? (id<MTPage>)item : nil);
+    return ([item isKindOfClass:[MTPage class]] ? (MTPage*)item : nil);
 }
 
-- (id<MTPage>)requirePageWithQualifiedName:(NSString*)qualifiedName pageClass:(Class)pageClass {
-    id<MTPage> page = [self pageWithQualifiedName:qualifiedName];
+- (MTPage*)requirePageWithQualifiedName:(NSString*)qualifiedName pageClass:(Class)pageClass {
+    MTPage* page = [self pageWithQualifiedName:qualifiedName];
     if (page == nil) {
         [NSException raise:NSGenericException format:@"Missing required page [name=%@]", qualifiedName];
     }
@@ -411,7 +411,7 @@ static NSString* const TYPE_ATTR = @"type";
 @synthesize page = _page;
 @synthesize data = _data;
 
-- (id)initWithPage:(MTMutablePage*)page data:(id<MTDataElement>)data {
+- (id)initWithPage:(MTPage*)page data:(id<MTDataElement>)data {
     if ((self = [super init])) {
         _page = page;
         _data = [MTDataReader withData:data];

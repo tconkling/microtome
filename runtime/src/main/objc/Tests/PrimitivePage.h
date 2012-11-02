@@ -3,7 +3,7 @@
 
 #import "microtome.h"
 
-@interface PrimitivePage : MTMutablePage
+@interface PrimitivePage : MTPage
 
 @property (nonatomic,readonly) BOOL foo;
 @property (nonatomic,readonly) int bar;

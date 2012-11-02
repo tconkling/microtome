@@ -3,11 +3,11 @@
 
 package microtome.test {
 
-import microtome.MutablePage;
+import microtome.Page;
 import microtome.ObjectProp;
 import microtome.PropSpec;
 
-public class NestedPage extends MutablePage
+public class NestedPage extends Page
 {
     public function get nested () :PrimitivePage { return _nested.value; }
 

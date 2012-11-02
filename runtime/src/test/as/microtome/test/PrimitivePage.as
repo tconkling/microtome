@@ -5,12 +5,12 @@ package microtome.test {
 
 import microtome.BoolProp;
 import microtome.IntProp;
-import microtome.MutablePage;
+import microtome.Page;
 import microtome.NumberProp;
 import microtome.Prop;
 import microtome.PropSpec;
 
-public class PrimitivePage extends MutablePage
+public class PrimitivePage extends Page
 {
     public function get foo () :Boolean { return _foo.value; }
     public function get bar () :int { return _bar.value; }

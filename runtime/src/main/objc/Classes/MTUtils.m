@@ -13,7 +13,7 @@ BOOL MTValidLibraryItemName (NSString* name) {
     return [name rangeOfString:MT_NAME_SEPARATOR].location == NSNotFound;
 }
 
-MTProp* MTGetProp (id<MTPage> page, NSString* name) {
+MTProp* MTGetProp (MTPage* page, NSString* name) {
     for (MTProp* prop in page.props) {
         if ([prop.name isEqualToString:name]) {
             return prop;

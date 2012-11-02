@@ -27,3 +27,13 @@ def line_data_at_index (str, idx):
 def abspath (path):
     this_dir = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(this_dir, path)
+
+def strip_package (typename):
+    '''com.microtome.Foo -> Foo'''
+    idx = typename.rfind(".")
+    return typename[idx+1:] if idx >= 0 else typename
+
+def get_package (typename):
+    '''com.microtome.Foo -> com.microtome'''
+    idx = typename.rfind(".")
+    return typename[:idx] if idx >= 0 else ""

@@ -5,7 +5,7 @@
 
 @class PrimitivePage;
 
-@interface NestedPage : MTMutablePage
+@interface NestedPage : MTPage
 
 @property (nonatomic,readonly) PrimitivePage* nested;
 

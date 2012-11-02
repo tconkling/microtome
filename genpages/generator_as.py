@@ -150,11 +150,7 @@ class PageView(object):
         imp_list = [ imp for imp in imp_list if not self.same_namespace(imp) ]
 
         # remove the imports we never want; add the imports we always want
-        imports = set(imp_list) - DISCARD_IMPORTS
-        imports |= BASE_IMPORTS
-
-
-        print("imports: " + str(imports))
+        imports = set(imp_list) - DISCARD_IMPORTS | BASE_IMPORTS
 
         return sorted(imports)
 

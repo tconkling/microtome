@@ -6,9 +6,9 @@ import {{.}};
 {{/page_types}}
 
 public class MicrotomePages {
-    public static function pageClasses () :Vector.<Class> { return PAGES; }
+    public static function get pageClasses () :Vector.<Class> { return PAGE_CLASSES; }
 
-    protected static const PAGES :Vector.<Class> = new <Class>[
+    protected static const PAGE_CLASSES :Vector.<Class> = new <Class>[
     {{#page_types}}
         {{.}},
     {{/page_types}}

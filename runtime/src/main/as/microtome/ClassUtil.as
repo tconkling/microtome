@@ -50,7 +50,7 @@ public class ClassUtil
     }
 
     public static function isSameClass (obj1 :Object, obj2 :Object) :Boolean {
-        return (getQualifiedClassName(obj1) == getQualifiedClassName(obj2));
+        return getClass(obj1) === getClass(obj2);
     }
 
     /**
@@ -75,14 +75,15 @@ public class ClassUtil
     }
 
     public static function getClass (obj :Object) :Class {
-        if (obj.constructor is Class) {
-            return Class(obj.constructor);
-        }
-        return getClassByName(getQualifiedClassName(obj));
+        return Class(obj.constructor);
     }
 
     public static function getClassByName (cname :String) :Class {
-        return (getDefinitionByName(cname.replace("::", ".")) as Class);
+        try {
+            return (getDefinitionByName(cname.replace("::", ".")) as Class);
+        } catch (error :ReferenceError) {
+        }
+        return null;
     }
 
     protected static function getMetadata (forClass :Class) :Metadata {
@@ -127,3 +128,4 @@ class Metadata
     protected const extSet :Dictionary = new Dictionary();
     protected const impSet :Dictionary = new Dictionary();
 }
+

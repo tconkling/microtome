@@ -35,7 +35,7 @@ TEMPLATES_DIR = util.abspath("templates/objc")
 # stuff we don't need to import/forward-declare (built-in types)
 DISCARD_IMPORTS = set([ name for name in OBJC_TYPENAMES.values() if not name.startswith("MT") ])
 
-def generate_library (page_specs, header_text = ""):
+def generate_library (page_specs, namespace = "", header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
 

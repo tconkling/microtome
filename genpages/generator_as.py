@@ -32,17 +32,20 @@ TEMPLATES_DIR = util.abspath("templates/as")
 # stuff we always import
 BASE_IMPORTS = set(["microtome.PropSpec"])
 # stuff we never import (packageless typenames: Boolean, int, etc)
-DISCARD_IMPORTS = set([ name for name in AS3_TYPENAMES.values() if util.get_package(name) == ""])
+DISCARD_IMPORTS = set([ name for name in AS3_TYPENAMES.values() if util.get_namespace(name) == ""])
 
-def generate_library (page_specs, header_text = ""):
+def generate_library (page_specs, namespace = "", header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
 
     # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs = TEMPLATES_DIR, escape = lambda u: u)
 
+    page_types = [ util.qualified_name(spec.namespace, spec.name) for spec in page_specs ]
+
     library_view = {
-        "page_types": sorted(set([ util.qualified_name(spec.namespace, spec.name) for spec in page_specs ])),
+        "namespace": namespace,
+        "page_types": sorted(set(page_types)),
         "header": header_text }
 
     class_contents = stache.render(stache.load_template(LIBRARY_CLASS), library_view)
@@ -90,7 +93,7 @@ class TypeView(object):
         return self.type.name == s.PageRefType
 
     def name (self):
-        return util.strip_package(self.qualified_name())
+        return util.strip_namespace(self.qualified_name())
 
     def qualified_name (self):
         if self.type.name == s.PageRefType:
@@ -102,7 +105,7 @@ class TypeView(object):
         return [ get_as3_typename(name) for name in s.type_spec_to_list(self.type) ]
 
     def typenames (self):
-        return [ util.strip_package(name) for name in self.typenames_with_package() ]
+        return [ util.strip_namespace(name) for name in self.typenames_with_package() ]
 
 class AnnotationView(object):
     def __init__ (self, annotation):
@@ -127,7 +130,7 @@ class PropView(object):
         self.annotations = [ AnnotationView(a) for a in prop.annotations ]
 
     def typename (self):
-        return util.strip_package(self.qualified_typename())
+        return util.strip_namespace(self.qualified_typename())
 
     def qualified_typename (self):
         return get_prop_typename(self.prop.type.name)
@@ -148,7 +151,7 @@ class PageView(object):
         return self.page.name
 
     def superclass (self):
-        return util.strip_package(self.qualified_superclass())
+        return util.strip_namespace(self.qualified_superclass())
 
     def qualified_superclass (self):
         return self.page.superclass or BASE_PAGE_CLASS
@@ -160,7 +163,7 @@ class PageView(object):
         return self.name() + ".as"
 
     def same_namespace (self, typename):
-        return self.namespace() == util.get_package(typename)
+        return self.namespace() == util.get_namespace(typename)
 
     def imports (self):
         # prop classes

@@ -10,6 +10,7 @@ import re
 import parser
 import generator_objc
 import generator_as
+import util
 
 import sourcemerger
 
@@ -23,6 +24,7 @@ def main ():
     ap = argparse.ArgumentParser()
     # optional args
     ap.add_argument("--header", help = "header text to include in generated source")
+    ap.add_argument("--library_namespace", help = "namespace that the library file should use")
     # required args
     ap.add_argument("input_dir", type = readable_dir)
     ap.add_argument("output_dir")
@@ -32,6 +34,7 @@ def main ():
     input_dir = os.path.abspath(args.input_dir)
     output_dir = os.path.abspath(args.output_dir)
     header_text = args.header or ""
+    library_namespace = args.library_namespace or ""
 
     # select our generator
     generator = GENERATORS[args.language];
@@ -62,9 +65,10 @@ def main ():
             page_specs.append(page_spec)
 
     # now generate and save the library file
-    generated = generator.generate_library(page_specs, header_text)
+    generated = generator.generate_library(page_specs, library_namespace, header_text)
+    library_dir = os.path.join(output_dir, util.namespace_to_path(library_namespace))
     for out_name, out_contents in generated:
-        out_name = os.path.join(output_dir, out_name)
+        out_name = os.path.join(library_dir, out_name)
         merge_and_write(out_name, out_contents)
 
 def merge_and_write (filename, file_contents):

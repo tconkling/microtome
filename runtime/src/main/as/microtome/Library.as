@@ -111,7 +111,7 @@ public dynamic class Library extends Proxy
         _items = new Dictionary();
     }
 
-    public function registerPageClasses (...classes) :void {
+    public function registerPageClasses (classes :Vector.<Class>) :void {
         for each (var clazz :Class in classes) {
             if (!ClassUtil.isAssignableAs(Page, clazz)) {
                 throw new Error("Class must implement " + ClassUtil.getClassName(Page) +

@@ -12,10 +12,10 @@ import microtome.xml.XmlLibrary;
 public class MicrotomeTest extends Sprite
 {
     public function MicrotomeTest() {
-        _library.registerPageClasses(
+        _library.registerPageClasses(new <Class>[
             PrimitivePage,
             NestedPage,
-            RefPage);
+            RefPage ]);
 
         testPrimitives();
         testTome();

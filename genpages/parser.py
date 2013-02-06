@@ -14,9 +14,10 @@ import spec as s
 from stringscanner import StringScanner
 
 # token types
-IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')    # must start with a letter or _
-ANNOTATION_VALUE = re.compile(r'[\w\"]+')         # can contain " and '
-NAMESPACE = re.compile(r'[a-zA-Z]+(\.[a-zA-Z]+)*') # letters separated by .s
+NAMESPACE = re.compile(r'[a-zA-Z]+(\.[a-zA-Z]+)*')  # letters separated by .s
+TYPENAME = re.compile(r'[a-zA-Z]\w*')               # must start with a letter
+IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')            # must start with a letter or _
+ANNOTATION_VALUE = re.compile(r'[\w\"]+')           # can contain " and '
 CURLY_OPEN = re.compile(r'\{')
 CURLY_CLOSE = re.compile(r'\}')
 PAREN_OPEN = re.compile(r'\(')
@@ -26,6 +27,7 @@ ANGLE_CLOSE = re.compile(r'>')
 SEMICOLON = re.compile(r';')
 EQUALS = re.compile(r'=')
 COMMA = re.compile(r',')
+QUALIFIED_TYPENAME = re.compile("({0})?{1}".format(NAMESPACE.pattern, TYPENAME.pattern))
 
 WHITESPACE = re.compile(r'((\s)|(#.*$))+', re.MULTILINE)
 
@@ -62,6 +64,11 @@ class Parser(object):
         return page
 
     @property
+    def page_namespace (self):
+        '''returns the page's parsed namespace'''
+        return self._page_namespace
+
+    @property
     def string (self):
         '''return the string passed the parser'''
         return self._scanner.string
@@ -89,16 +96,26 @@ class Parser(object):
         self._eat_whitespace()
         if self._get_text("namespace") is not None:
             self._eat_whitespace()
-            page_namespace = self._require_text(NAMESPACE, "Expected namespace")
+            self._page_namespace = self._require_text(NAMESPACE, "Expected namespace")
             self._require_text(SEMICOLON, "invalid namespace (expected ';')")
-            LOG.debug("found namespace: " + page_namespace)
+            LOG.debug("found namespace: " + self._page_namespace)
         else:
-            page_namespace = ""
+            self._page_namespace = ""
+
+        # # optional imports
+        # self.imports = []
+        # self._eat_whitespace()
+        # while self._get_text("import") is not None:
+        #     the_import = self._require_text(QUALIFIED_TYPENAME, "Expected import name")
+        #     self._require_text(SEMICOLON, "invalid import (expected ';')")
+        #     LOG.debug("found import: " + the_import)
+        #     self.imports.append(the_import)
+        #     self._eat_whitespace()
 
         # name
         self._eat_whitespace()
         page_pos = self._scanner.pos
-        page_name = self._require_text(IDENTIFIER, "Expected page name")
+        page_name = self._require_text(TYPENAME, "Expected page name")
         LOG.debug("found page_name: " + page_name)
 
         # superclass
@@ -106,7 +123,7 @@ class Parser(object):
         page_superclass = None
         if self._get_text("extends") is not None:
             self._eat_whitespace()
-            page_superclass = self._require_text(IDENTIFIER, "Expected superclass name")
+            page_superclass = self._parse_qualified_typename("Expected superclass name")
             LOG.debug("found superclass: " + page_superclass)
 
         # open-curly
@@ -119,7 +136,7 @@ class Parser(object):
         self._eat_whitespace()
         self._require_text(CURLY_CLOSE)
 
-        return s.PageSpec(name = page_name, superclass = page_superclass, namespace = page_namespace, props = page_props, pos = page_pos)
+        return s.PageSpec(name = page_name, superclass = page_superclass, namespace = self._page_namespace, props = page_props, pos = page_pos)
 
     def _parse_props (self):
         '''parse a list of PropSpecs'''
@@ -135,11 +152,11 @@ class Parser(object):
         '''parse a single PropSpec'''
         self._eat_whitespace()
         prop_pos = self._scanner.pos
-        if not self._check_text(IDENTIFIER):
+        if not self._check_text(QUALIFIED_TYPENAME):
             return None
 
         # type
-        prop_type = self._parse_type()
+        prop_type = self._parse_prop_type()
         LOG.debug("found prop type: " + prop_type.name)
 
         # name
@@ -159,12 +176,13 @@ class Parser(object):
 
         return s.PropSpec(type = prop_type, name = prop_name, annotations = annotations or [], pos = prop_pos)
 
-    def _parse_type (self, is_subtype = False):
+    def _parse_prop_type (self, is_subtype = False):
         '''parse a TypeSpec'''
         self._eat_whitespace()
-        typename = self._require_text(IDENTIFIER, "Expected type identifier")
+        typename = self._require_text(QUALIFIED_TYPENAME, "Expected type identifier")
 
         if not is_subtype and not typename in s.ALL_TYPES:
+            typename = self._make_qualified_typename(typename)
             LOG.info("Found custom type: '%s'" % typename);
 
         # subtype
@@ -172,7 +190,7 @@ class Parser(object):
         self._eat_whitespace()
         if self._get_text(ANGLE_OPEN):
             self._eat_whitespace()
-            subtype = self._parse_type(True)
+            subtype = self._parse_prop_type(True)
             self._eat_whitespace()
             self._require_text(ANGLE_CLOSE, "Expected '>'")
             LOG.debug("found subtype: " + subtype.name)
@@ -184,6 +202,17 @@ class Parser(object):
                 raise ParseError(self.string, self.pos, "'%s' is not parameterized" % typename)
 
         return s.TypeSpec(name = typename, subtype = subtype)
+
+    def _parse_qualified_typename (self, errText=None):
+        '''Parses a namespace-qualified typename. If the the namespace is omitted, the page's
+        namespace is assumed'''
+        return self._make_qualified_typename(self._require_text(QUALIFIED_TYPENAME, errText))
+
+    def _make_qualified_typename (self, typename):
+        if util.get_namespace(typename) == "":
+            return self.page_namespace + "." + typename
+        else:
+            return typename
 
     def _parse_annotations (self):
         '''parse a list of AnnotationSpecs'''

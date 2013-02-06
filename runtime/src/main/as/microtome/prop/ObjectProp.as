@@ -2,6 +2,7 @@
 // microtome
 
 package microtome.prop {
+
 import microtome.core.Defs;
 import microtome.core.TypeInfo;
 

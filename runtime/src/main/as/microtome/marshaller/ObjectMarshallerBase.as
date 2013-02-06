@@ -3,12 +3,12 @@
 
 package microtome.marshaller {
 
-import microtome.util.ClassUtil;
-import microtome.core.DataElement;
 import microtome.Library;
-import microtome.prop.ObjectProp;
+import microtome.core.DataElement;
 import microtome.core.TypeInfo;
 import microtome.error.ValidationError;
+import microtome.prop.ObjectProp;
+import microtome.util.ClassUtil;
 
 public class ObjectMarshallerBase
     implements ObjectMarshaller

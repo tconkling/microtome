@@ -3,10 +3,10 @@
 
 package microtome.marshaller {
 
-import microtome.core.DataElement;
 import microtome.Library;
 import microtome.MutableTome;
 import microtome.Page;
+import microtome.core.DataElement;
 import microtome.core.TypeInfo;
 
 public class TomeMarshaller extends ObjectMarshallerBase

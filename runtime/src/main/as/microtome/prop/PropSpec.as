@@ -4,6 +4,7 @@
 package microtome.prop {
 
 import flash.utils.Dictionary;
+
 import microtome.core.TypeInfo;
 
 public class PropSpec

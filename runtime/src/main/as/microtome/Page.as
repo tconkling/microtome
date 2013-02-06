@@ -2,12 +2,13 @@
 // microtome
 
 package microtome {
-import microtome.util.ClassUtil;
-import microtome.util.Util;
-import microtome.prop.ObjectProp;
-import microtome.prop.Prop;
+
 import microtome.core.LibraryItem;
 import microtome.core.TypeInfo;
+import microtome.prop.ObjectProp;
+import microtome.prop.Prop;
+import microtome.util.ClassUtil;
+import microtome.util.Util;
 
 public class Page
     implements LibraryItem

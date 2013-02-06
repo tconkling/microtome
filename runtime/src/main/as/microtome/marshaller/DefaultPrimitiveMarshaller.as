@@ -2,10 +2,11 @@
 // microtome
 
 package microtome.marshaller {
-import microtome.prop.BoolProp;
+
 import microtome.core.Defs;
-import microtome.prop.IntProp;
 import microtome.error.ValidationError;
+import microtome.prop.BoolProp;
+import microtome.prop.IntProp;
 import microtome.prop.NumberProp;
 
 public class DefaultPrimitiveMarshaller

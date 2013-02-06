@@ -7,27 +7,27 @@ import flash.utils.Dictionary;
 import flash.utils.Proxy;
 import flash.utils.flash_proxy;
 
-import microtome.marshaller.ListMarshaller;
-import microtome.marshaller.PageMarshaller;
-import microtome.marshaller.PageRefMarshaller;
-import microtome.marshaller.StringMarshaller;
-import microtome.marshaller.TomeMarshaller;
-import microtome.marshaller.DefaultPrimitiveMarshaller;
-import microtome.prop.NumberProp;
-import microtome.marshaller.PrimitiveMarshaller;
-import microtome.marshaller.ObjectMarshaller;
-import microtome.util.ClassUtil;
-import microtome.util.Util;
-import microtome.prop.BoolProp;
-import microtome.prop.IntProp;
-import microtome.prop.ObjectProp;
-import microtome.prop.Prop;
-import microtome.error.LoadError;
 import microtome.core.DataElement;
 import microtome.core.DataReader;
 import microtome.core.Defs;
 import microtome.core.LibraryItem;
 import microtome.core.LoadTask;
+import microtome.error.LoadError;
+import microtome.marshaller.DefaultPrimitiveMarshaller;
+import microtome.marshaller.ListMarshaller;
+import microtome.marshaller.ObjectMarshaller;
+import microtome.marshaller.PageMarshaller;
+import microtome.marshaller.PageRefMarshaller;
+import microtome.marshaller.PrimitiveMarshaller;
+import microtome.marshaller.StringMarshaller;
+import microtome.marshaller.TomeMarshaller;
+import microtome.prop.BoolProp;
+import microtome.prop.IntProp;
+import microtome.prop.NumberProp;
+import microtome.prop.ObjectProp;
+import microtome.prop.Prop;
+import microtome.util.ClassUtil;
+import microtome.util.Util;
 
 public dynamic class Library extends Proxy
 {
@@ -399,10 +399,10 @@ public dynamic class Library extends Proxy
 }
 }
 
+import microtome.Page;
 import microtome.core.DataElement;
 import microtome.core.DataReader;
 import microtome.core.Defs;
-import microtome.Page;
 
 class TemplatedPage {
     public function TemplatedPage (page :Page, data :DataElement) {

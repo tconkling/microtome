@@ -2,8 +2,9 @@
 // microtome
 
 package microtome.util {
-import microtome.core.Defs;
+
 import microtome.Page;
+import microtome.core.Defs;
 import microtome.prop.Prop;
 
 public class Util

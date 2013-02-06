@@ -2,6 +2,7 @@
 // microtome
 
 package microtome.error {
+
 import microtome.core.DataElement;
 
 public class LoadError extends Error

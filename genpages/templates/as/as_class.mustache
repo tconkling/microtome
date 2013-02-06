@@ -16,7 +16,7 @@ public class {{name}} extends {{superclass}}
 {{/value_type.is_pageref}}
     {{/props}}
 
-    override public function get props () :Array { return super.props.concat([ {{#props}}_{{name}}, {{/props}}]); }
+    override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ {{#props}}_{{name}}, {{/props}}]); }
 
     {{#props}}
     protected var _{{name}} :{{typename}} = new {{typename}}(s_{{name}}Spec);

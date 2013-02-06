@@ -22,10 +22,12 @@ public class MicrotomeTest extends Sprite
         testNested();
         testRefs();
         testTemplates();
+
+        trace("All tests passed");
     }
 
     protected function testPrimitives () :void {
-        _library.loadXmlDocs([ newXml(PRIMITIVE_TEST_XML) ]);
+        _library.loadXmlDocs(new <XML>[ newXml(PRIMITIVE_TEST_XML) ]);
 
         var page :PrimitivePage = _library["primitiveTest"];
         assert(page != null);
@@ -36,7 +38,7 @@ public class MicrotomeTest extends Sprite
     }
 
     protected function testTome () :void {
-        _library.loadXmlDocs([ newXml(TOME_TEST_XML) ]);
+        _library.loadXmlDocs(new <XML>[ newXml(TOME_TEST_XML) ]);
 
         var tome :Tome = _library["tomeTest"];
         assertEquals(tome.size, 2);
@@ -44,7 +46,7 @@ public class MicrotomeTest extends Sprite
     }
 
     protected function testNested () :void {
-        _library.loadXmlDocs([ newXml(NESTED_TEST_XML) ]);
+        _library.loadXmlDocs(new <XML>[ newXml(NESTED_TEST_XML) ]);
 
         var page :NestedPage = _library["nestedTest"];
         assertEquals(page.nested.foo, true);
@@ -54,7 +56,7 @@ public class MicrotomeTest extends Sprite
     }
 
     protected function testRefs () :void {
-        _library.loadXmlDocs([ newXml(REF_TEST_XML), newXml(TOME_TEST_XML) ]);
+        _library.loadXmlDocs(new <XML>[ newXml(REF_TEST_XML), newXml(TOME_TEST_XML) ]);
 
         var page :RefPage = _library["refTest"];
         assert(page.nested != null);
@@ -65,7 +67,7 @@ public class MicrotomeTest extends Sprite
     }
 
     protected function testTemplates () :void {
-        _library.loadXmlDocs([ newXml(TEMPLATE_TEST_XML) ]);
+        _library.loadXmlDocs(new <XML>[ newXml(TEMPLATE_TEST_XML) ]);
 
         var page :PrimitivePage = _library["test1"];
         assertEquals(page.foo, true);

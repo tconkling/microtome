@@ -15,7 +15,7 @@ public class DataReader
         return (data is DataReader ? DataReader(data) : new DataReader(data));
     }
 
-    public function get children () :Array {
+    public function get children () :Vector.<DataElement> {
         return getAllChildren();
     }
 
@@ -87,7 +87,7 @@ public class DataReader
         return (childNamed(name) != null);
     }
 
-    public function getAllChildren () :Array {
+    public function getAllChildren () :Vector.<DataElement> {
         if (_children == null) {
             _children = _data.getAllChildren();
         }
@@ -116,7 +116,7 @@ public class DataReader
     }
 
     protected var _data :DataElement;
-    protected var _children :Array;
+    protected var _children :Vector.<DataElement>;
     protected var _childrenByName :Dictionary;
 }
 }

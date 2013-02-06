@@ -7,6 +7,7 @@ import microtome.Page;
 import microtome.prop.BoolProp;
 import microtome.prop.IntProp;
 import microtome.prop.NumberProp;
+import microtome.prop.Prop;
 import microtome.prop.PropSpec;
 
 public class PrimitivePage extends Page
@@ -15,7 +16,7 @@ public class PrimitivePage extends Page
     public function get bar () :int { return _bar.value; }
     public function get baz () :Number { return _baz.value; }
 
-    override public function get props () :Array { return super.props.concat([ _foo, _bar, _baz ]); }
+    override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _foo, _bar, _baz ]); }
 
     protected var _foo :BoolProp = new BoolProp(_fooSpec);
     protected var _bar :IntProp = new IntProp(_barSpec);

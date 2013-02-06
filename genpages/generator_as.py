@@ -30,7 +30,7 @@ LIBRARY_CLASS = "MicrotomePages.as"
 TEMPLATES_DIR = util.abspath("templates/as")
 
 # stuff we always import
-BASE_IMPORTS = set(["microtome.prop.PropSpec"])
+BASE_IMPORTS = set(["microtome.prop.Prop", "microtome.prop.PropSpec"])
 # stuff we never import (packageless typenames: Boolean, int, etc)
 DISCARD_IMPORTS = set([ name for name in AS3_TYPENAMES.values() if util.get_namespace(name) == ""])
 

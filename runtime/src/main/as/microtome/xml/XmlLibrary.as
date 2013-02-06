@@ -4,14 +4,17 @@
 package microtome.xml {
 
 import microtome.Library;
+import microtome.core.DataElement;
 
 public class XmlLibrary extends Library
 {
     /** Loads an array of XML documents into the library */
-    public function loadXmlDocs (xmlDocs :Array) :void {
-        loadData(xmlDocs.map(function (xml :XML, ...ignored) :XmlDataElement {
-            return new XmlDataElement(xml);
-        }));
+    public function loadXmlDocs (xmlDocs :Vector.<XML>) :void {
+        var data :Vector.<DataElement> = new <DataElement>[];
+        for each (var xml :XML in xmlDocs) {
+            data.push(new XmlDataElement(xml));
+        }
+        loadData(data);
     }
 }
 }
@@ -50,8 +53,8 @@ class XmlDataElement
         return toXMLString(_xml);
     }
 
-    public function getAllChildren () :Array {
-        var children :Array = [];
+    public function getAllChildren () :Vector.<DataElement> {
+        var children :Vector.<DataElement> = new <DataElement>[];
         for each (var child :XML in _xml.elements()) {
             children.push(new XmlDataElement(child));
         }

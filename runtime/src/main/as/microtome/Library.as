@@ -12,6 +12,7 @@ import microtome.core.DataReader;
 import microtome.core.Defs;
 import microtome.core.LibraryItem;
 import microtome.core.LoadTask;
+import microtome.core.TemplatedPage;
 import microtome.error.LoadError;
 import microtome.marshaller.DefaultPrimitiveMarshaller;
 import microtome.marshaller.ListMarshaller;
@@ -53,7 +54,7 @@ public dynamic class Library extends Proxy
         throw new Error("Library items cannot be directly added to the Library");
     }
 
-    public function loadData (dataElements :Array) :void {
+    public function loadData (dataElements :Vector.<DataElement>) :void {
         if (_loadTask != null) {
             throw new Error("Load already in progress");
         }
@@ -394,34 +395,5 @@ public dynamic class Library extends Proxy
     protected var _items :Dictionary = new Dictionary();
     protected var _pageClasses :Dictionary = new Dictionary();  // <String, Class>
     protected var _objectMarshallers :Dictionary = new Dictionary(); // <Class, ObjectMarshaller>
-
-
 }
-}
-
-import microtome.Page;
-import microtome.core.DataElement;
-import microtome.core.DataReader;
-import microtome.core.Defs;
-
-class TemplatedPage {
-    public function TemplatedPage (page :Page, data :DataElement) {
-        _page = page;
-        _data = DataReader.withData(data);
-    }
-
-    public function get page () :Page {
-        return _page;
-    }
-
-    public function get data () :DataReader {
-        return _data;
-    }
-
-    public function get templateName () :String {
-        return _data.requireAttribute(Defs.TEMPLATE_ATTR);
-    }
-
-    protected var _page :Page;
-    protected var _data :DataReader;
 }

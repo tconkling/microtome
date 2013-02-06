@@ -11,9 +11,9 @@ public class LoadTask
     public static const ABORTED :int = 3;
 
     public var state :int = LOADING;
-    public var pendingTemplatedPages :Array = [];
+    public var pendingTemplatedPages :Vector.<TemplatedPage> = new <TemplatedPage>[];
 
-    public function get libraryItems () :Array {
+    public function get libraryItems () :Vector.<LibraryItem> {
         return _libraryItems;
     }
 
@@ -24,6 +24,6 @@ public class LoadTask
         _libraryItems.push(item);
     }
 
-    protected var _libraryItems :Array = [];
+    protected var _libraryItems :Vector.<LibraryItem> = new <LibraryItem>[];
 }
 }

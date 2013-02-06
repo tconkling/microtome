@@ -21,8 +21,8 @@ public class Page
         return new TypeInfo(ClassUtil.getClass(this), null);
     }
 
-    public function get props () :Array {
-        return EMPTY_ARRAY;
+    public function get props () :Vector.<Prop> {
+        return EMPTY_VEC;
     }
 
     public function childNamed (name :String) :* {
@@ -36,6 +36,6 @@ public class Page
 
     protected var _name :String;
 
-    protected static var EMPTY_ARRAY :Array = [];
+    protected static const EMPTY_VEC :Vector.<Prop> = new Vector.<Prop>(0, true);
 }
 }

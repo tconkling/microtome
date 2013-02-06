@@ -32,6 +32,7 @@
     <classEntry path="microtome.marshaller.TomeMarshaller"/>
     <classEntry path="microtome.xml.XmlLibrary"/>
     <classEntry path="microtome.util.ClassUtil"/>
+    <classEntry path="microtome.core.TemplatedPage"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

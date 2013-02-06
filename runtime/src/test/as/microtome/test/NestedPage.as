@@ -3,8 +3,8 @@
 
 package microtome.test {
 
-import microtome.Page;
 import microtome.ObjectProp;
+import microtome.Page;
 import microtome.PropSpec;
 
 public class NestedPage extends Page

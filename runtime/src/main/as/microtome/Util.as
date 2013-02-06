@@ -3,9 +3,6 @@
 
 package microtome {
 
-import flash.utils.getDefinitionByName;
-import flash.utils.getQualifiedClassName;
-
 public class Util
 {
     public static function validLibraryItemName (name :String) :Boolean {

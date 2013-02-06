@@ -5,9 +5,8 @@ package microtome.test {
 
 import microtome.BoolProp;
 import microtome.IntProp;
-import microtome.Page;
 import microtome.NumberProp;
-import microtome.Prop;
+import microtome.Page;
 import microtome.PropSpec;
 
 public class PrimitivePage extends Page

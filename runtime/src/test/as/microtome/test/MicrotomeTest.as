@@ -4,7 +4,6 @@
 package microtome.test {
 
 import flash.display.Sprite;
-import flash.events.Event;
 import flash.utils.ByteArray;
 
 import microtome.Tome;

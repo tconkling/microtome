@@ -23,7 +23,7 @@ public class {{name}} extends {{superclass}}
     {{/props}}
 
     {{#props}}
-    protected static const s_{{name}}Spec :PropSpec = new PropSpec("{{name}}", {{^has_annos}}null{{/has_annos}}{{#has_annos}}{ {{#annotations}}"{{name}}":{{value}}, {{/annotations}}}{{/has_annos}}, {{#value_type}}{{#is_primitive}}null{{/is_primitive}}{{^is_primitive}}[ {{#typenames}}{{.}}, {{/typenames}}{{/is_primitive}}{{/value_type}}]);
+    protected static const s_{{name}}Spec :PropSpec = new PropSpec("{{name}}", {{annotation_text}}, {{#value_type}}{{#is_primitive}}null{{/is_primitive}}{{^is_primitive}}[ {{#typenames}}{{.}}, {{/typenames}}]{{/is_primitive}}{{/value_type}});
     {{/props}}
 }
 

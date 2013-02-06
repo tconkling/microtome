@@ -138,6 +138,20 @@ class PropView(object):
     def name (self):
         return self.prop.name
 
+    def annotation_text (self):
+        # avoid obnoxious mustache markup
+        if not self.has_annos():
+            return "null"
+        out = "{ "
+        needs_separator = False
+        for a in self.annotations:
+            if needs_separator:
+                out += ", "
+            out += '"' + a.name() + '"' + ": " + str(a.value())
+            needs_separator = True
+        out += " }"
+        return out
+
     def has_annos (self):
         return len(self.annotations) > 0
 

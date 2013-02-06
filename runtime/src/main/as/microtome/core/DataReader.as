@@ -1,9 +1,11 @@
 //
 // microtome
 
-package microtome {
+package microtome.core {
 
 import flash.utils.Dictionary;
+import microtome.util.Util;
+import microtome.error.LoadError;
 
 public class DataReader
     implements DataElement

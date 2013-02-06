@@ -1,7 +1,10 @@
 //
 // microtome
 
-package microtome {
+package microtome.util {
+import microtome.core.Defs;
+import microtome.Page;
+import microtome.prop.Prop;
 
 public class Util
 {

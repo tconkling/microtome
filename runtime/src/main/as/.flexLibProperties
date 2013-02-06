@@ -2,36 +2,36 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="microtome.Page"/>
-    <classEntry path="microtome.Prop"/>
-    <classEntry path="microtome.PropSpec"/>
-    <classEntry path="microtome.TypeInfo"/>
-    <classEntry path="microtome.Defs"/>
-    <classEntry path="microtome.ObjectProp"/>
-    <classEntry path="microtome.BoolProp"/>
-    <classEntry path="microtome.IntProp"/>
-    <classEntry path="microtome.NumberProp"/>
-    <classEntry path="microtome.LibraryItem"/>
-    <classEntry path="microtome.Util"/>
+    <classEntry path="microtome.prop.Prop"/>
+    <classEntry path="microtome.prop.PropSpec"/>
+    <classEntry path="microtome.core.TypeInfo"/>
+    <classEntry path="microtome.core.Defs"/>
+    <classEntry path="microtome.prop.ObjectProp"/>
+    <classEntry path="microtome.prop.BoolProp"/>
+    <classEntry path="microtome.prop.IntProp"/>
+    <classEntry path="microtome.prop.NumberProp"/>
+    <classEntry path="microtome.core.LibraryItem"/>
+    <classEntry path="microtome.util.Util"/>
     <classEntry path="microtome.Tome"/>
     <classEntry path="microtome.MutableTome"/>
-    <classEntry path="microtome.PageRef"/>
+    <classEntry path="microtome.prop.PageRef"/>
     <classEntry path="microtome.Library"/>
-    <classEntry path="microtome.PrimitiveMarshaller"/>
-    <classEntry path="microtome.DefaultPrimitiveMarshaller"/>
-    <classEntry path="microtome.ValidationError"/>
-    <classEntry path="microtome.ObjectMarshaller"/>
-    <classEntry path="microtome.DataElement"/>
+    <classEntry path="microtome.marshaller.PrimitiveMarshaller"/>
+    <classEntry path="microtome.marshaller.DefaultPrimitiveMarshaller"/>
+    <classEntry path="microtome.error.ValidationError"/>
+    <classEntry path="microtome.marshaller.ObjectMarshaller"/>
+    <classEntry path="microtome.core.DataElement"/>
     <classEntry path="microtome.marshaller.ObjectMarshallerBase"/>
     <classEntry path="microtome.marshaller.StringMarshaller"/>
-    <classEntry path="microtome.LoadTask"/>
-    <classEntry path="microtome.DataReader"/>
-    <classEntry path="microtome.LoadError"/>
+    <classEntry path="microtome.core.LoadTask"/>
+    <classEntry path="microtome.core.DataReader"/>
+    <classEntry path="microtome.error.LoadError"/>
     <classEntry path="microtome.marshaller.ListMarshaller"/>
     <classEntry path="microtome.marshaller.PageMarshaller"/>
     <classEntry path="microtome.marshaller.PageRefMarshaller"/>
     <classEntry path="microtome.marshaller.TomeMarshaller"/>
     <classEntry path="microtome.xml.XmlLibrary"/>
-    <classEntry path="microtome.ClassUtil"/>
+    <classEntry path="microtome.util.ClassUtil"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

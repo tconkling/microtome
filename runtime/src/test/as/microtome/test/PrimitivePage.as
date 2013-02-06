@@ -3,11 +3,11 @@
 
 package microtome.test {
 
-import microtome.BoolProp;
-import microtome.IntProp;
-import microtome.NumberProp;
 import microtome.Page;
-import microtome.PropSpec;
+import microtome.prop.BoolProp;
+import microtome.prop.IntProp;
+import microtome.prop.NumberProp;
+import microtome.prop.PropSpec;
 
 public class PrimitivePage extends Page
 {

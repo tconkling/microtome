@@ -1,7 +1,10 @@
 //
 // microtome
 
-package microtome {
+package microtome.marshaller {
+import microtome.prop.BoolProp;
+import microtome.prop.IntProp;
+import microtome.prop.NumberProp;
 
 public interface PrimitiveMarshaller
 {

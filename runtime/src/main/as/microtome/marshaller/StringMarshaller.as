@@ -3,9 +3,9 @@
 
 package microtome.marshaller {
 
-import microtome.DataElement;
+import microtome.core.DataElement;
 import microtome.Library;
-import microtome.TypeInfo;
+import microtome.core.TypeInfo;
 
 public class StringMarshaller extends ObjectMarshallerBase
 {

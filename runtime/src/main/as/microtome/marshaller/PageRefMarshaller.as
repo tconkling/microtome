@@ -3,10 +3,10 @@
 
 package microtome.marshaller {
 
-import microtome.DataElement;
+import microtome.core.DataElement;
 import microtome.Library;
-import microtome.PageRef;
-import microtome.TypeInfo;
+import microtome.prop.PageRef;
+import microtome.core.TypeInfo;
 
 public class PageRefMarshaller extends ObjectMarshallerBase
 {

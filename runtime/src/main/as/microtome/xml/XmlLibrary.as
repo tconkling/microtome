@@ -16,7 +16,7 @@ public class XmlLibrary extends Library
 }
 }
 
-import microtome.DataElement;
+import microtome.core.DataElement;
 
 class XmlDataElement
     implements DataElement
@@ -75,8 +75,7 @@ class XmlDataElement
      * @see XML#toXMLString()
      * @see XML#setSettings()
      */
-    protected static function toXMLString (xml :XML, settings :Object = null) :String
-    {
+    protected static function toXMLString (xml :XML, settings :Object = null) :String {
         return safeOp(function () :* {
             return xml.toXMLString();
         }, settings) as String;
@@ -94,8 +93,7 @@ class XmlDataElement
      * @see XML#setSettings()
      * @see XML#settings()
      */
-    protected static function safeOp (fn :Function, settings :Object = null) :*
-    {
+    protected static function safeOp (fn :Function, settings :Object = null) :* {
         var oldSettings :Object = XML.settings();
         try {
             XML.setSettings(settings); // setting to null resets to all the defaults

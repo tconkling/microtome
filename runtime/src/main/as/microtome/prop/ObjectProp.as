@@ -1,7 +1,9 @@
 //
 // microtome
 
-package microtome {
+package microtome.prop {
+import microtome.core.Defs;
+import microtome.core.TypeInfo;
 
 public class ObjectProp extends Prop
 {
@@ -16,7 +18,7 @@ public class ObjectProp extends Prop
     }
 
     public function get nullable () :Boolean {
-        return boolAnnotation(Defs.NULLABLE, false);
+        return boolAnnotation(Defs.NULLABLE_ATTR, false);
     }
 }
 }

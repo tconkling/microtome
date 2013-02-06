@@ -1,7 +1,7 @@
 //
 // microtome
 
-package microtome {
+package microtome.core {
 
 public class TypeInfo
 {

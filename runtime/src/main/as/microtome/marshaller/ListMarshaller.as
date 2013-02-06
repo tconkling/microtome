@@ -3,11 +3,10 @@
 
 package microtome.marshaller {
 
-import microtome.DataElement;
-import microtome.DataReader;
+import microtome.core.DataElement;
+import microtome.core.DataReader;
 import microtome.Library;
-import microtome.ObjectMarshaller;
-import microtome.TypeInfo;
+import microtome.core.TypeInfo;
 
 public class ListMarshaller extends ObjectMarshallerBase
 {

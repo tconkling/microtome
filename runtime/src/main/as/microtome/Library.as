@@ -12,6 +12,22 @@ import microtome.marshaller.PageMarshaller;
 import microtome.marshaller.PageRefMarshaller;
 import microtome.marshaller.StringMarshaller;
 import microtome.marshaller.TomeMarshaller;
+import microtome.marshaller.DefaultPrimitiveMarshaller;
+import microtome.prop.NumberProp;
+import microtome.marshaller.PrimitiveMarshaller;
+import microtome.marshaller.ObjectMarshaller;
+import microtome.util.ClassUtil;
+import microtome.util.Util;
+import microtome.prop.BoolProp;
+import microtome.prop.IntProp;
+import microtome.prop.ObjectProp;
+import microtome.prop.Prop;
+import microtome.error.LoadError;
+import microtome.core.DataElement;
+import microtome.core.DataReader;
+import microtome.core.Defs;
+import microtome.core.LibraryItem;
+import microtome.core.LoadTask;
 
 public dynamic class Library extends Proxy
 {
@@ -157,13 +173,13 @@ public dynamic class Library extends Proxy
         }
 
         var reader :DataReader = DataReader.withData(pageData);
-        var typename :String = reader.requireAttribute(TYPE_ATTR);
+        var typename :String = reader.requireAttribute(Defs.TYPE_ATTR);
         var pageClass :Class = requirePageClass(typename, superclass);
 
         var page :Page = new pageClass();
         page.setName(name);
 
-        if (reader.hasAttribute(TEMPLATE_ATTR)) {
+        if (reader.hasAttribute(Defs.TEMPLATE_ATTR)) {
             // if this page has a template, we defer its loading until the end
             _loadTask.pendingTemplatedPages.push(new TemplatedPage(page, pageData));
         } else {
@@ -297,7 +313,7 @@ public dynamic class Library extends Proxy
     protected function loadLibraryItem (data :DataElement) :LibraryItem {
         // a tome or a page
         var reader :DataReader = DataReader.withData(data);
-        var typeName :String = reader.requireAttribute(TYPE_ATTR);
+        var typeName :String = reader.requireAttribute(Defs.TYPE_ATTR);
         if (Util.startsWith(typeName, Defs.TOME_PREFIX)) {
             // it's a tome!
             typeName = typeName.substr(Defs.TOME_PREFIX.length);
@@ -379,14 +395,13 @@ public dynamic class Library extends Proxy
     protected var _pageClasses :Dictionary = new Dictionary();  // <String, Class>
     protected var _objectMarshallers :Dictionary = new Dictionary(); // <Class, ObjectMarshaller>
 
-    protected static const TYPE_ATTR :String = "type";
+
 }
 }
 
-const TEMPLATE_ATTR :String = "template";
-
-import microtome.DataElement;
-import microtome.DataReader;
+import microtome.core.DataElement;
+import microtome.core.DataReader;
+import microtome.core.Defs;
 import microtome.Page;
 
 class TemplatedPage {
@@ -404,7 +419,7 @@ class TemplatedPage {
     }
 
     public function get templateName () :String {
-        return _data.requireAttribute(TEMPLATE_ATTR);
+        return _data.requireAttribute(Defs.TEMPLATE_ATTR);
     }
 
     protected var _page :Page;

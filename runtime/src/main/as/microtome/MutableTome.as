@@ -4,6 +4,8 @@
 package microtome {
 
 import flash.utils.Dictionary;
+import microtome.util.ClassUtil;
+import microtome.core.TypeInfo;
 
 public class MutableTome
     implements Tome

@@ -1,7 +1,11 @@
 //
 // microtome
 
-package microtome {
+package microtome.marshaller {
+import microtome.core.DataElement;
+import microtome.Library;
+import microtome.prop.ObjectProp;
+import microtome.core.TypeInfo;
 
 public interface ObjectMarshaller
 {

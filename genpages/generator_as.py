@@ -19,18 +19,18 @@ AS3_TYPENAMES = {
 }
 
 PRIMITIVE_PROPNAMES = {
-    s.BoolType: "microtome.BoolProp",
-    s.IntType: "microtome.IntProp",
-    s.FloatType: "microtome.NumberProp"
+    s.BoolType: "microtome.prop.BoolProp",
+    s.IntType: "microtome.prop.IntProp",
+    s.FloatType: "microtome.prop.NumberProp"
 }
 
-OBJECT_PROPNAME = "microtome.ObjectProp"
+OBJECT_PROPNAME = "microtome.prop.ObjectProp"
 
 LIBRARY_CLASS = "MicrotomePages.as"
 TEMPLATES_DIR = util.abspath("templates/as")
 
 # stuff we always import
-BASE_IMPORTS = set(["microtome.PropSpec"])
+BASE_IMPORTS = set(["microtome.prop.PropSpec"])
 # stuff we never import (packageless typenames: Boolean, int, etc)
 DISCARD_IMPORTS = set([ name for name in AS3_TYPENAMES.values() if util.get_namespace(name) == ""])
 

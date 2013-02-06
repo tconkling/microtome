@@ -3,10 +3,10 @@
 
 package microtome.test {
 
-import microtome.ObjectProp;
+import microtome.prop.ObjectProp;
 import microtome.Page;
-import microtome.PageRef;
-import microtome.PropSpec;
+import microtome.prop.PageRef;
+import microtome.prop.PropSpec;
 
 public class RefPage extends Page
 {

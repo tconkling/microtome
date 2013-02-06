@@ -1,7 +1,7 @@
 //
 // microtome
 
-package microtome {
+package microtome.util {
 
 import flash.utils.Dictionary;
 import flash.utils.getDefinitionByName;
@@ -101,7 +101,7 @@ public class ClassUtil
 import flash.utils.Dictionary;
 import flash.utils.describeType;
 
-import microtome.ClassUtil;
+import microtome.util.ClassUtil;
 
 class Metadata
 {

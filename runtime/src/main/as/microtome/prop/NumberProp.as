@@ -1,7 +1,7 @@
 //
 // microtome
 
-package microtome {
+package microtome.prop {
 
 public class NumberProp extends Prop
 {

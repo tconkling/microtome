@@ -1,7 +1,9 @@
 //
 // microtome
 
-package microtome {
+package microtome.error {
+
+import microtome.prop.Prop;
 
 public class ValidationError extends Error
 {

@@ -54,54 +54,7 @@ public dynamic class Library extends Proxy
         throw new Error("Library items cannot be directly added to the Library");
     }
 
-    public function removeAllItems () :void {
-        _items = new Dictionary();
-    }
-
-    public function registerPageClasses (classes :Vector.<Class>) :void {
-        for each (var clazz :Class in classes) {
-            if (!ClassUtil.isAssignableAs(Page, clazz)) {
-                throw new Error("Class must implement " + ClassUtil.getClassName(Page) +
-                    " [pageClass=" + ClassUtil.getClassName(clazz) + "]");
-            }
-
-            _pageClasses[ClassUtil.tinyClassName(clazz)] = clazz;
-        }
-    }
-
-    public function registerObjectMarshaller (marshaller :ObjectMarshaller) :void {
-        _objectMarshallers[marshaller.valueClass] = marshaller;
-    }
-
-    protected function pageWithQualifiedName (qualifiedName :String) :Page {
-        // A page's qualifiedName is a series of page and tome names, separated by dots
-        // E.g. level1.baddies.big_boss
-
-        var item :LibraryItem = null;
-        for each (var name :String in qualifiedName.split(Defs.NAME_SEPARATOR)) {
-            var child :* = (item != null ? item.childNamed(name) : _items[name]);
-            if (!(child is LibraryItem)) {
-                return null;
-            }
-            item = LibraryItem(child);
-        }
-
-        return (item as Page);
-    }
-
-    protected function requirePageWithQualifiedName (qualifiedName :String, pageClass :Class) :Page {
-        var page :Page = pageWithQualifiedName(qualifiedName);
-        if (page == null) {
-            throw new Error("Missing required page [name='" + qualifiedName + "']");
-        } else if (!(page is pageClass)) {
-            throw new Error("Wrong type for required page [name='" + qualifiedName +
-                "', expectedType=" + ClassUtil.getClassName(pageClass) +
-                ", actualType=" + ClassUtil.getClassName(page) + "]");
-        }
-        return page;
-    }
-
-    protected function loadData (dataElements :Vector.<DataElement>) :void {
+    public function loadData (dataElements :Vector.<DataElement>) :void {
         if (_loadTask != null) {
             throw new Error("Load already in progress");
         }
@@ -154,7 +107,54 @@ public dynamic class Library extends Proxy
         }
     }
 
-    protected function loadTome (tomeData :DataElement, pageClass :Class) :MutableTome {
+    public function removeAllItems () :void {
+        _items = new Dictionary();
+    }
+
+    public function registerPageClasses (classes :Vector.<Class>) :void {
+        for each (var clazz :Class in classes) {
+            if (!ClassUtil.isAssignableAs(Page, clazz)) {
+                throw new Error("Class must implement " + ClassUtil.getClassName(Page) +
+                    " [pageClass=" + ClassUtil.getClassName(clazz) + "]");
+            }
+
+            _pageClasses[ClassUtil.tinyClassName(clazz)] = clazz;
+        }
+    }
+
+    public function registerObjectMarshaller (marshaller :ObjectMarshaller) :void {
+        _objectMarshallers[marshaller.valueClass] = marshaller;
+    }
+
+    public function pageWithQualifiedName (qualifiedName :String) :Page {
+        // A page's qualifiedName is a series of page and tome names, separated by dots
+        // E.g. level1.baddies.big_boss
+
+        var item :LibraryItem = null;
+        for each (var name :String in qualifiedName.split(Defs.NAME_SEPARATOR)) {
+            var child :* = (item != null ? item.childNamed(name) : _items[name]);
+            if (!(child is LibraryItem)) {
+                return null;
+            }
+            item = LibraryItem(child);
+        }
+
+        return (item as Page);
+    }
+
+    public function requirePageWithQualifiedName (qualifiedName :String, pageClass :Class) :Page {
+        var page :Page = pageWithQualifiedName(qualifiedName);
+        if (page == null) {
+            throw new Error("Missing required page [name='" + qualifiedName + "']");
+        } else if (!(page is pageClass)) {
+            throw new Error("Wrong type for required page [name='" + qualifiedName +
+                "', expectedType=" + ClassUtil.getClassName(pageClass) +
+                ", actualType=" + ClassUtil.getClassName(page) + "]");
+        }
+        return page;
+    }
+
+    public function loadTome (tomeData :DataElement, pageClass :Class) :MutableTome {
         var name :String = tomeData.name;
         if (!Util.validLibraryItemName(name)) {
             throw new LoadError("Tome name '" + name + "' is invalid", tomeData);
@@ -167,7 +167,7 @@ public dynamic class Library extends Proxy
         return tome;
     }
 
-    protected function loadPage (pageData :DataElement, superclass :Class = null) :Page {
+    public function loadPage (pageData :DataElement, superclass :Class = null) :Page {
         var name :String = pageData.name;
         if (!Util.validLibraryItemName(name)) {
             throw new LoadError("Page name '" + name + "' is invalid", pageData);
@@ -190,7 +190,7 @@ public dynamic class Library extends Proxy
         return page;
     }
 
-    protected function requireObjectMarshallerForClass (clazz :Class) :ObjectMarshaller {
+    public function requireObjectMarshallerForClass (clazz :Class) :ObjectMarshaller {
         var marshaller :ObjectMarshaller = _objectMarshallers[clazz];
         if (marshaller == null) {
             // if we can't find an exact match, see if we have a handler for a superclass that

@@ -6,7 +6,7 @@ package microtome.xml {
 import microtome.Library;
 import microtome.core.DataElement;
 
-public dynamic class XmlLibrary extends Library
+public class XmlLibrary extends Library
 {
     /** Loads an array of XML documents into the library */
     public function loadXmlDocs (xmlDocs :Vector.<XML>) :void {

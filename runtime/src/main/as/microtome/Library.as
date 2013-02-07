@@ -5,7 +5,6 @@ package microtome {
 
 import flash.utils.Dictionary;
 import flash.utils.Proxy;
-import flash.utils.flash_proxy;
 
 import microtome.core.DataElement;
 import microtome.core.DataReader;
@@ -30,7 +29,7 @@ import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 import microtome.util.Util;
 
-public dynamic class Library extends Proxy
+public class Library
 {
     public var primitiveMarshaller :PrimitiveMarshaller = new DefaultPrimitiveMarshaller();
 
@@ -42,16 +41,12 @@ public dynamic class Library extends Proxy
         registerObjectMarshaller(new TomeMarshaller());
     }
 
-    flash_proxy override function getProperty (name :*): * {
+    public function getItem (name :String) :* {
         return _items[name];
     }
 
-    flash_proxy override function hasProperty (name :*) :Boolean {
+    public function hasItem (name :String) :Boolean {
         return (name in _items);
-    }
-
-    flash_proxy override function setProperty (name :*, value :*) :void {
-        throw new Error("Library items cannot be directly added to the Library");
     }
 
     public function loadData (dataElements :Vector.<DataElement>) :void {
@@ -347,7 +342,7 @@ public dynamic class Library extends Proxy
         }
 
         for each (var item :LibraryItem in task.libraryItems) {
-            if (_items[item.name] != null) {
+            if (item.name in _items) {
                 task.state = LoadTask.ABORTED;
                 throw new Error("An item named '" + item.name + "' is already loaded");
             }

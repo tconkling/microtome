@@ -6,7 +6,7 @@ package microtome.marshaller {
 import microtome.Library;
 import microtome.core.DataElement;
 import microtome.core.TypeInfo;
-import microtome.prop.PageRef;
+import microtome.core.PageRef;
 
 public class PageRefMarshaller extends ObjectMarshallerBase
 {

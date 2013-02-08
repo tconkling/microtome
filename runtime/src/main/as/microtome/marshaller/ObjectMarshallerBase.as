@@ -30,7 +30,7 @@ public class ObjectMarshallerBase
     }
 
     public function validatePropValue (prop :ObjectProp) :void {
-        if (!prop.nullable && prop.value == null) {
+        if (!prop.spec.nullable && prop.value == null) {
             throw new ValidationError(prop, "null value for non-nullable prop");
         } else if (prop.value != null && !(prop.value is this.valueClass)) {
             throw new ValidationError(prop, "incompatible value type [required=" +

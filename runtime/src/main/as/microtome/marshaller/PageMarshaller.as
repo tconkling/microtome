@@ -30,8 +30,8 @@ public class PageMarshaller extends ObjectMarshallerBase
             var objectProp :ObjectProp = (prop as ObjectProp);
             if (objectProp != null && objectProp.value != null) {
                 var propMarshaller :ObjectMarshaller =
-                    library.requireObjectMarshallerForClass(objectProp.valueType.clazz);
-                propMarshaller.resolveRefs(objectProp.value, objectProp.valueType, library);
+                    library.requireObjectMarshallerForClass(objectProp.spec.valueType.clazz);
+                propMarshaller.resolveRefs(objectProp.value, objectProp.spec.valueType, library);
             }
         }
     }

@@ -12,7 +12,7 @@ public class ValidationError extends Error
     }
 
     protected static function getMessage (prop :Prop, message :String) :String {
-        return "Error validating '" + prop.name + "': " + message;
+        return "Error validating '" + prop.spec.name + "': " + message;
     }
 }
 }

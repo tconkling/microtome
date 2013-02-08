@@ -4,7 +4,6 @@
 package microtome {
 
 import flash.utils.Dictionary;
-import flash.utils.Proxy;
 
 import microtome.core.DataElement;
 import microtome.core.DataReader;
@@ -219,10 +218,10 @@ public class Library
             // if we have a template, get its corresponding template
             var tProp :Prop = null;
             if (tmpl != null) {
-                tProp = Util.getProp(tmpl, prop.name);
+                tProp = Util.getProp(tmpl, prop.spec.name);
                 if (tProp == null) {
                     throw new LoadError("Template '" + tmpl.name + "' missing prop '"
-                        + prop.name + "'", pageData);
+                        + prop.spec.name + "'", pageData);
                 }
             }
 
@@ -232,7 +231,7 @@ public class Library
             } catch (loadErr :LoadError) {
                 throw loadErr;
             } catch (err :Error) {
-                throw new LoadError("Error loading prop '" + prop.name + "': " + err.message,
+                throw new LoadError("Error loading prop '" + prop.spec.name + "': " + err.message,
                     pageData);
             }
         }
@@ -247,14 +246,14 @@ public class Library
         if (isPrimitive) {
             // handle primitive props (read from attributes)
             var useTemplate :Boolean =
-                (tProp != null && !pageReader.hasAttribute(prop.name));
+                (tProp != null && !pageReader.hasAttribute(prop.spec.name));
 
             if (prop is IntProp) {
                 var intProp :IntProp = IntProp(prop);
                 if (useTemplate) {
                     intProp.value = IntProp(tProp).value;
                 } else {
-                    intProp.value = pageReader.requireIntAttribute(prop.name);
+                    intProp.value = pageReader.requireIntAttribute(prop.spec.name);
                     this.primitiveMarshaller.validateInt(intProp);
                 }
             } else if (prop is BoolProp) {
@@ -262,7 +261,7 @@ public class Library
                 if (useTemplate) {
                     boolProp.value = BoolProp(tProp).value;
                 } else {
-                    boolProp.value = pageReader.requireBoolAttribute(prop.name);
+                    boolProp.value = pageReader.requireBoolAttribute(prop.spec.name);
                     this.primitiveMarshaller.validateBool(boolProp);
                 }
             } else if (prop is NumberProp) {
@@ -270,37 +269,37 @@ public class Library
                 if (useTemplate) {
                     numProp.value = NumberProp(tProp).value;
                 } else {
-                    numProp.value = pageReader.requireNumberAttribute(prop.name);
+                    numProp.value = pageReader.requireNumberAttribute(prop.spec.name);
                     this.primitiveMarshaller.validateNumber(numProp);
                 }
             } else {
-                throw new LoadError("Unrecognized primitive prop [name='" + prop.name +
+                throw new LoadError("Unrecognized primitive prop [name='" + prop.spec.name +
                     "', class=" + ClassUtil.getClassName(prop) + "]", pageData);
             }
 
         } else {
             // handle object props (read from child elements)
             var tObjectProp :ObjectProp = (tProp != null ? ObjectProp(tProp) : null);
-            var propData :DataElement = pageReader.childNamed(prop.name);
+            var propData :DataElement = pageReader.childNamed(prop.spec.name);
 
             if (propData == null) {
                 // Handle null object
                 if (tObjectProp != null) {
                     // inherit from template
                     objectProp.value = tObjectProp.value;
-                } else if (objectProp.nullable) {
+                } else if (objectProp.spec.nullable) {
                     // object is nullable
                     objectProp.value = null;
                 } else {
-                    throw new LoadError("Missing required child [name='" + prop.name + "']",
+                    throw new LoadError("Missing required child [name='" + prop.spec.name + "']",
                         pageData);
                 }
 
             } else {
                 // load normally
                 var marshaller :ObjectMarshaller =
-                    requireObjectMarshallerForClass(objectProp.valueType.clazz);
-                objectProp.value = marshaller.loadObject(propData, objectProp.valueType, this);
+                    requireObjectMarshallerForClass(objectProp.spec.valueType.clazz);
+                objectProp.value = marshaller.loadObject(propData, objectProp.spec.valueType, this);
                 marshaller.validatePropValue(objectProp);
             }
         }

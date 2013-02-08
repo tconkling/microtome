@@ -33,6 +33,7 @@
     <classEntry path="microtome.xml.XmlLibrary"/>
     <classEntry path="microtome.util.ClassUtil"/>
     <classEntry path="microtome.core.TemplatedPage"/>
+    <classEntry path="microtome.core.PageSpec"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

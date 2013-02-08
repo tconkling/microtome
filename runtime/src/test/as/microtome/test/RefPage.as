@@ -5,7 +5,7 @@ package microtome.test {
 
 import microtome.Page;
 import microtome.prop.ObjectProp;
-import microtome.prop.PageRef;
+import microtome.core.PageRef;
 import microtome.prop.Prop;
 import microtome.prop.PropSpec;
 

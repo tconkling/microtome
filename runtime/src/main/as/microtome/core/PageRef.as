@@ -1,7 +1,7 @@
 //
 // microtome
 
-package microtome.prop {
+package microtome.core {
 
 import microtome.Page;
 

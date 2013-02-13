@@ -209,7 +209,7 @@ class Parser(object):
         return self._make_qualified_typename(self._require_text(QUALIFIED_TYPENAME, errText))
 
     def _make_qualified_typename (self, typename):
-        if util.get_namespace(typename) == "":
+        if util.get_namespace(typename) == "" and self.page_namespace != "":
             return self.page_namespace + "." + typename
         else:
             return typename

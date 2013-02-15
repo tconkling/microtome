@@ -29,7 +29,7 @@ public class MicrotomeTest extends Sprite
     protected function testPrimitives () :void {
         _library.loadXmlDocs(new <XML>[ newXml(PRIMITIVE_TEST_XML) ]);
 
-        var page :PrimitivePage = _library["primitiveTest"];
+        var page :PrimitivePage = _library.getItem("primitiveTest");
         assert(page != null);
         assertEquals(page.foo, true);
         assertEquals(page.bar, 2);
@@ -40,7 +40,7 @@ public class MicrotomeTest extends Sprite
     protected function testTome () :void {
         _library.loadXmlDocs(new <XML>[ newXml(TOME_TEST_XML) ]);
 
-        var tome :Tome = _library["tomeTest"];
+        var tome :Tome = _library.getItem("tomeTest");
         assertEquals(tome.size, 2);
         _library.removeAllItems();
     }
@@ -48,7 +48,7 @@ public class MicrotomeTest extends Sprite
     protected function testNested () :void {
         _library.loadXmlDocs(new <XML>[ newXml(NESTED_TEST_XML) ]);
 
-        var page :NestedPage = _library["nestedTest"];
+        var page :NestedPage = _library.getItem("nestedTest");
         assertEquals(page.nested.foo, true);
         assertEquals(page.nested.bar, 2);
         assertEqualsWithAccuracy(page.nested.baz, 3.1415, EPSILON);
@@ -58,7 +58,7 @@ public class MicrotomeTest extends Sprite
     protected function testRefs () :void {
         _library.loadXmlDocs(new <XML>[ newXml(REF_TEST_XML), newXml(TOME_TEST_XML) ]);
 
-        var page :RefPage = _library["refTest"];
+        var page :RefPage = _library.getItem("refTest");
         assert(page.nested != null);
         assertEquals(page.nested.foo, true);
         assertEquals(page.nested.bar, 2);
@@ -69,12 +69,12 @@ public class MicrotomeTest extends Sprite
     protected function testTemplates () :void {
         _library.loadXmlDocs(new <XML>[ newXml(TEMPLATE_TEST_XML) ]);
 
-        var page :PrimitivePage = _library["test1"];
+        var page :PrimitivePage = _library.getItem("test1");
         assertEquals(page.foo, true);
         assertEquals(page.bar, 2);
         assertEqualsWithAccuracy(page.baz, 3.1415, EPSILON);
 
-        page = _library["test2"];
+        page = _library.getItem("test2");
         assertEqualsWithAccuracy(page.baz, 666.0, EPSILON);
 
         _library.removeAllItems();

@@ -4,6 +4,7 @@
 package microtome.util {
 
 import flash.utils.Dictionary;
+import flash.utils.Proxy;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 
@@ -75,12 +76,19 @@ public class ClassUtil
     }
 
     public static function getClass (obj :Object) :Class {
-        return Class(obj.constructor);
+        var clazz :Class = (obj.constructor as Class);
+        // Objects that extend Proxy have flash.utils::Dictionary as their constructor object.
+        // We check for 'clazz !== Dictionary' instead of '!(obj is Proxy)' for speed.
+        if (clazz != null && clazz !== Dictionary) {
+            return clazz;
+        } else {
+            return getClassByName(getQualifiedClassName(obj));
+        }
     }
 
     public static function getClassByName (cname :String) :Class {
         try {
-            return (getDefinitionByName(cname.replace("::", ".")) as Class);
+            return (getDefinitionByName(cname) as Class);
         } catch (error :ReferenceError) {
         }
         return null;

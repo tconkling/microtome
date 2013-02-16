@@ -19,7 +19,7 @@ public class ObjectProp extends Prop
     }
 
     public function get nullable () :Boolean {
-        return boolAnnotation(Defs.NULLABLE_ATTR, false);
+        return boolAnnotation(Defs.NULLABLE_ANNOTATION, false);
     }
 }
 }

@@ -4,7 +4,6 @@
 package microtome {
 
 import flash.utils.Dictionary;
-import flash.utils.Proxy;
 
 import microtome.core.DataElement;
 import microtome.core.DataReader;
@@ -169,13 +168,13 @@ public class Library
         }
 
         var reader :DataReader = DataReader.withData(pageData);
-        var typename :String = reader.requireAttribute(Defs.TYPE_ATTR);
+        var typename :String = reader.requireAttribute(Defs.TYPE_ANNOTATION);
         var pageClass :Class = requirePageClass(typename, superclass);
 
         var page :Page = new pageClass();
         page.setName(name);
 
-        if (reader.hasAttribute(Defs.TEMPLATE_ATTR)) {
+        if (reader.hasAttribute(Defs.TEMPLATE_ANNOTATION)) {
             // if this page has a template, we defer its loading until the end
             _loadTask.pendingTemplatedPages.push(new TemplatedPage(page, pageData));
         } else {
@@ -239,69 +238,83 @@ public class Library
     }
 
     protected function loadPageProp (prop :Prop, tProp :Prop, pageData :DataElement) :void {
-        var objectProp :ObjectProp = prop as ObjectProp;
-        var isPrimitive :Boolean = (objectProp == null);
-
         var pageReader :DataReader = DataReader.withData(pageData);
 
+        var objectProp :ObjectProp = prop as ObjectProp;
+
+        const isPrimitive :Boolean = (objectProp == null);
+        const canRead :Boolean =
+            (isPrimitive ? pageReader.hasAttribute(prop.name) : pageReader.hasChild(prop.name));
+        const useTemplate :Boolean = !canRead && (tProp != null);
+
         if (isPrimitive) {
-            // handle primitive props (read from attributes)
-            var useTemplate :Boolean =
-                (tProp != null && !pageReader.hasAttribute(prop.name));
+            // Handle primitive props (read from attributes):
+            // 1. Read the value from the DataReader, if it exists
+            // 2. Else, copy the value from the template, if it exists
+            // 3. Else, set the value to its default, if it has a default
+            // 4. Else, fail.
+
+            const useDefault :Boolean =
+                !canRead && !useTemplate && prop.hasAnnotation(Defs.DEFAULT_ANNOTATION);
 
             if (prop is IntProp) {
                 var intProp :IntProp = IntProp(prop);
-                if (useTemplate) {
+                if (useDefault) {
+                    intProp.value = prop.intAnnotation(Defs.DEFAULT_ANNOTATION, 0);
+                } else if (useTemplate) {
                     intProp.value = IntProp(tProp).value;
                 } else {
                     intProp.value = pageReader.requireIntAttribute(prop.name);
                     this.primitiveMarshaller.validateInt(intProp);
                 }
+
             } else if (prop is BoolProp) {
                 var boolProp :BoolProp = BoolProp(prop);
-                if (useTemplate) {
+                if (useDefault) {
+                    boolProp.value = prop.boolAnnotation(Defs.DEFAULT_ANNOTATION, false);
+                } else if (useTemplate) {
                     boolProp.value = BoolProp(tProp).value;
                 } else {
                     boolProp.value = pageReader.requireBoolAttribute(prop.name);
                     this.primitiveMarshaller.validateBool(boolProp);
                 }
+
             } else if (prop is NumberProp) {
                 var numProp :NumberProp = NumberProp(prop);
-                if (useTemplate) {
+                if (useDefault) {
+                    numProp.value = prop.numberAnnotation(Defs.DEFAULT_ANNOTATION, 0);
+                } else if (useTemplate) {
                     numProp.value = NumberProp(tProp).value;
                 } else {
                     numProp.value = pageReader.requireNumberAttribute(prop.name);
                     this.primitiveMarshaller.validateNumber(numProp);
                 }
+
             } else {
                 throw new LoadError("Unrecognized primitive prop [name='" + prop.name +
                     "', class=" + ClassUtil.getClassName(prop) + "]", pageData);
             }
 
         } else {
-            // handle object props (read from child elements)
-            var tObjectProp :ObjectProp = (tProp != null ? ObjectProp(tProp) : null);
-            var propData :DataElement = pageReader.childNamed(prop.name);
+            // Handle object props (read from child elements):
+            // 1. Read the value from the DataReader, if it exists
+            // 2. Else, copy the value from the template, if it exists
+            // 3. Else, set the value to null if it's nullable
+            // 4. Else, fail.
 
-            if (propData == null) {
-                // Handle null object
-                if (tObjectProp != null) {
-                    // inherit from template
-                    objectProp.value = tObjectProp.value;
-                } else if (objectProp.nullable) {
-                    // object is nullable
-                    objectProp.value = null;
-                } else {
-                    throw new LoadError("Missing required child [name='" + prop.name + "']",
-                        pageData);
-                }
-
-            } else {
-                // load normally
+            if (canRead) {
                 var marshaller :ObjectMarshaller =
                     requireObjectMarshallerForClass(objectProp.valueType.clazz);
+                var propData :DataElement = pageReader.childNamed(prop.name);
                 objectProp.value = marshaller.loadObject(propData, objectProp.valueType, this);
                 marshaller.validatePropValue(objectProp);
+
+            } else if (useTemplate) {
+                objectProp.value = ObjectProp(tProp).value;
+            } else if (objectProp.nullable) {
+                objectProp.value = null;
+            } else {
+                throw new LoadError("Missing required child [name='" + prop.name + "']", pageData);
             }
         }
     }
@@ -309,7 +322,7 @@ public class Library
     protected function loadLibraryItem (data :DataElement) :LibraryItem {
         // a tome or a page
         var reader :DataReader = DataReader.withData(data);
-        var typeName :String = reader.requireAttribute(Defs.TYPE_ATTR);
+        var typeName :String = reader.requireAttribute(Defs.TYPE_ANNOTATION);
         if (Util.startsWith(typeName, Defs.TOME_PREFIX)) {
             // it's a tome!
             typeName = typeName.substr(Defs.TOME_PREFIX.length);

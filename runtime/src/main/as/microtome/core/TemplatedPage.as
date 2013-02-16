@@ -21,7 +21,7 @@ public class TemplatedPage
     }
 
     public function get templateName () :String {
-        return _data.requireAttribute(Defs.TEMPLATE_ATTR);
+        return _data.requireAttribute(Defs.TEMPLATE_ANNOTATION);
     }
 
     protected var _page :Page;

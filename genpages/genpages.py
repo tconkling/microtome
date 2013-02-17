@@ -76,7 +76,7 @@ def merge_and_write (filename, file_contents):
     # merge with existing file?
     if os.path.isfile(filename):
         with open(filename, 'r') as existing_file:
-            MERGER.merge(file_contents, existing_file.read())
+            file_contents = MERGER.merge(file_contents, existing_file.read())
 
     # generate output directories
     full_path = os.path.split(filename)[0]

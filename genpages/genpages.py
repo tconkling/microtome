@@ -6,18 +6,15 @@ import sys
 import os
 import errno
 import re
-
 import parser
 import generator_objc
 import generator_as
-import util
-
+import logging
 import sourcemerger
 
+LOG = logging.getLogger("genpages")
 INPUT_FILE = re.compile(r'.*\.mt')
-
 GENERATORS = { "objc": generator_objc, "as": generator_as }
-
 MERGER = sourcemerger.GeneratedSourceMerger()
 
 def main ():
@@ -40,11 +37,13 @@ def main ():
     generator = GENERATORS[args.language];
     page_specs = []
 
+    logging.basicConfig(level = logging.INFO)
+
     # process files in our input dir
     try:
         for (path, dirs, files) in os.walk(input_dir):
             for in_name in [os.path.join(path, candidate) for candidate in files if INPUT_FILE.match(candidate)]:
-                print("Processing " + os.path.abspath(in_name) + "...")
+                LOG.info("Processing %s..." % os.path.abspath(in_name))
                 # open the file, parse it, and run it through the generator
                 with open(in_name, 'r') as in_file:
                     try:
@@ -64,7 +63,7 @@ def main ():
                 page_specs.append(page_spec)
 
     except parser.ParseError, e:
-        print str(e)
+        LOG.error(str(e))
         return
 
     # now generate and save the library file
@@ -91,7 +90,7 @@ def merge_and_write (filename, file_contents):
 
     # write out
     with open(filename, 'w') as out_file:
-        print("Writing generated file '%s'" % filename)
+        LOG.info("Writing generated file '%s'" % filename)
         out_file.write(file_contents)
 
 

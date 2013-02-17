@@ -184,7 +184,7 @@ class Parser(object):
 
         if not typename in s.ALL_TYPES:
             typename = self._make_qualified_typename(typename)
-            LOG.info("Found custom type: '%s'" % typename);
+            LOG.debug("Found custom type: '%s'" % typename);
 
         # subtype
         subtype = None

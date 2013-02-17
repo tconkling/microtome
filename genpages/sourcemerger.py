@@ -75,7 +75,7 @@ class GeneratedSourceMerger(object):
 
         # Add generated sections that weren't present in the old output before the last
         # non-generated code. It's a 50-50 shot, so warn when this happens
-        for new_section in sections:
+        for new_section in sections.itervalues():
             LOG.warn("Adding previously-missing generated section '%s' before the last non-generated text" % new_section.name)
             merged.append(new_section.contents)
 

@@ -1,12 +1,15 @@
 {{header}}
 package {{namespace}} {
 
+// GENERATED IMPORTS START
 {{#imports}}
 import {{.}};
 {{/imports}}
+// GENERATED IMPORTS END
 
 public class {{name}} extends {{superclass}}
 {
+// GENERATED PROPS START
     {{#props}}
 {{#value_type.is_pageref}}
     public function get {{name}} () :{{value_type.name}} { return PageRef(_{{name}}.value).page; }
@@ -17,14 +20,19 @@ public class {{name}} extends {{superclass}}
     {{/props}}
 
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ {{#props}}_{{name}}, {{/props}}]); }
+// GENERATED PROPS END
 
+// GENERATED IVARS START
     {{#props}}
     protected var _{{name}} :{{typename}} = new {{typename}}(s_{{name}}Spec);
     {{/props}}
+// GENERATED IVARS END
 
+// GENERATED STATICS START
     {{#props}}
     protected static const s_{{name}}Spec :PropSpec = new PropSpec("{{name}}", {{annotation_text}}, {{#value_type}}{{#is_primitive}}null{{/is_primitive}}{{^is_primitive}}[ {{#typenames}}{{.}}, {{/typenames}}]{{/is_primitive}}{{/value_type}});
     {{/props}}
+// GENERATED STATICS END
 }
 
 }

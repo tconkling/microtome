@@ -5,6 +5,7 @@ import pystache
 import numbers
 import util
 import spec as s
+import os
 
 BASE_PAGE_CLASS = "microtome.Page"
 
@@ -26,7 +27,7 @@ PRIMITIVE_PROPNAMES = {
 
 OBJECT_PROPNAME = "microtome.prop.ObjectProp"
 
-LIBRARY_CLASS = "MicrotomePages.as"
+LIBRARY_FILENAME = "MicrotomePages.as"
 TEMPLATES_DIR = util.abspath("templates/as")
 
 # stuff we always import
@@ -48,9 +49,11 @@ def generate_library (page_specs, namespace = "", header_text = ""):
         "page_types": sorted(set(page_types)),
         "header": header_text }
 
-    class_contents = stache.render(stache.load_template(LIBRARY_CLASS), library_view)
+    class_contents = stache.render(stache.load_template(LIBRARY_FILENAME), library_view)
 
-    return [ (LIBRARY_CLASS, class_contents) ]
+    path = util.namespace_to_path(namespace)
+
+    return [ (os.path.join(path, LIBRARY_FILENAME), class_contents) ]
 
 def generate_page (page_spec, header_text = ""):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
@@ -174,7 +177,7 @@ class PageView(object):
         return self.page.namespace
 
     def class_filename (self):
-        return self.name() + ".as"
+        return os.path.join(util.namespace_to_path(self.namespace()), self.name() + ".as")
 
     def same_namespace (self, typename):
         return self.namespace() == util.get_namespace(typename)

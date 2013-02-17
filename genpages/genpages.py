@@ -42,8 +42,6 @@ def main ():
 
     # process files in our input dir
     for (path, dirs, files) in os.walk(input_dir):
-        # get the component of the path relative to the input_dir
-        relative_path = path[len(input_dir):].lstrip("/")
         for in_name in [os.path.join(path, candidate) for candidate in files if INPUT_FILE.match(candidate)]:
             print("Processing " + os.path.abspath(in_name) + "...")
             # open the file, parse it, and run it through the generator
@@ -58,7 +56,7 @@ def main ():
             # this can result in multiple generated files (e.g. a .h and .m file for objc)
             # merge each of our generated files
             for out_name, out_contents in generated:
-                out_name = os.path.join(output_dir, relative_path, out_name)
+                out_name = os.path.join(output_dir, out_name)
                 merge_and_write(out_name, out_contents)
 
             # save all our pages
@@ -66,9 +64,8 @@ def main ():
 
     # now generate and save the library file
     generated = generator.generate_library(page_specs, library_namespace, header_text)
-    library_dir = os.path.join(output_dir, util.namespace_to_path(library_namespace))
     for out_name, out_contents in generated:
-        out_name = os.path.join(library_dir, out_name)
+        out_name = os.path.join(output_dir, out_name)
         merge_and_write(out_name, out_contents)
 
 def merge_and_write (filename, file_contents):

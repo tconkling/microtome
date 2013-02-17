@@ -4,6 +4,7 @@
 import re
 import logging
 from collections import namedtuple
+from collections import OrderedDict
 
 Section = namedtuple("Section", ["name", "contents", "disabled"])
 
@@ -44,7 +45,7 @@ class GeneratedSourceMerger(object):
         "// GENERATED {name} DISABLED", that section will no longer be updated.'''
 
         # Extract the generated section names from the output and make sure they're all matched
-        sections = {}
+        sections = OrderedDict()
         matcher = Matcher(self._section_delimiter, newly_generated)
         for _ in matcher:
             section = self._extract_generated_section(matcher, newly_generated)

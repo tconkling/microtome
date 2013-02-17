@@ -12,16 +12,14 @@ import microtome.xml.XmlLibrary;
 public class MicrotomeTest extends Sprite
 {
     public function MicrotomeTest() {
-        _library.registerPageClasses(new <Class>[
-            PrimitivePage,
-            NestedPage,
-            RefPage ]);
+        _library.registerPageClasses(MicrotomePages.pageClasses);
 
         testPrimitives();
         testTome();
         testNested();
         testRefs();
         testTemplates();
+        testAnnotations();
 
         trace("All tests passed");
     }
@@ -80,6 +78,17 @@ public class MicrotomeTest extends Sprite
         _library.removeAllItems();
     }
 
+    protected function testAnnotations () :void {
+        _library.loadXmlDocs(new <XML>[ newXml(ANNOTATION_TEST_XML) ]);
+
+        var page :AnnotationPage = _library.getItem("test");
+        assertEquals(page.foo, 4);
+        assertEquals(page.bar, 3);
+        assertEquals(page.primitives, null);
+
+        _library.removeAllItems();
+    }
+
     protected static function newXml (clazz :Class) :XML {
         var ba :ByteArray = new clazz;
         return new XML(ba.readUTFBytes(ba.length));
@@ -101,6 +110,9 @@ public class MicrotomeTest extends Sprite
 
     [Embed(source="../../../resources/TemplateTest.xml", mimeType="application/octet-stream")]
     private static const TEMPLATE_TEST_XML :Class;
+
+    [Embed(source="../../../resources/AnnotationTest.xml", mimeType="application/octet-stream")]
+    private static const ANNOTATION_TEST_XML :Class;
 
     protected static const EPSILON :Number = 0.0001;
 }

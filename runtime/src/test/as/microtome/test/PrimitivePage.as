@@ -1,5 +1,3 @@
-//
-// microtome-test
 
 package microtome.test {
 
@@ -16,14 +14,15 @@ public class PrimitivePage extends Page
     public function get bar () :int { return _bar.value; }
     public function get baz () :Number { return _baz.value; }
 
-    override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _foo, _bar, _baz ]); }
+    override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _foo, _bar, _baz, ]); }
 
-    protected var _foo :BoolProp = new BoolProp(_fooSpec);
-    protected var _bar :IntProp = new IntProp(_barSpec);
-    protected var _baz :NumberProp = new NumberProp(_bazSpec);
+    protected var _foo :BoolProp = new BoolProp(s_fooSpec);
+    protected var _bar :IntProp = new IntProp(s_barSpec);
+    protected var _baz :NumberProp = new NumberProp(s_bazSpec);
 
-    private static const _fooSpec :PropSpec = new PropSpec("foo", null, null);
-    private static const _barSpec :PropSpec = new PropSpec("bar", null, null);
-    private static const _bazSpec :PropSpec = new PropSpec("baz", null, null);
+    protected static const s_fooSpec :PropSpec = new PropSpec("foo", null, null);
+    protected static const s_barSpec :PropSpec = new PropSpec("bar", null, null);
+    protected static const s_bazSpec :PropSpec = new PropSpec("baz", null, null);
 }
+
 }

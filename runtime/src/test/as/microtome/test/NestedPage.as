@@ -1,5 +1,3 @@
-//
-// microtome
 
 package microtome.test {
 
@@ -12,10 +10,11 @@ public class NestedPage extends Page
 {
     public function get nested () :PrimitivePage { return _nested.value; }
 
-    override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _nested ]); }
+    override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _nested, ]); }
 
-    protected var _nested :ObjectProp = new ObjectProp(_nestedSpec);
+    protected var _nested :ObjectProp = new ObjectProp(s_nestedSpec);
 
-    private static const _nestedSpec :PropSpec = new PropSpec("nested", null, [ PrimitivePage ]);
+    protected static const s_nestedSpec :PropSpec = new PropSpec("nested", null, [ PrimitivePage, ]);
 }
+
 }

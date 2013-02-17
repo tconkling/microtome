@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Executes genpages on the page definitions in genpages/test for unit testing our runtimes
+
+MY_PATH="`dirname \"$0\"`"
+ROOT="`( cd \"$MY_PATH\"/.. && pwd )`"
+
+"$ROOT/bin/genpages" --library_namespace "microtome.test" "$ROOT/genpages/test" "$ROOT/runtime/src/test/as" as

@@ -43,12 +43,13 @@ class ParseError(Exception):
         line_data = util.line_data_at_index(string, pos)
 
         self.line_number = line_data.line_num
-        self.line = (string.splitlines()[line_data.line_num])[line_data.col:]
+        self.column = line_data.col
+        self.line = string.splitlines()[line_data.line_num]
         self.message = msg
         self.filename = None
 
     def __str__ (self):
-        return 'File "%s", line %d, "%s": %s' % (self.filename, self.line_number, self.line, self.message)
+        return 'File "%s", line %d: %s' % (self.filename, self.line_number, self.message)
 
 class Parser(object):
     '''parses a page from a string'''
@@ -181,7 +182,7 @@ class Parser(object):
         self._eat_whitespace()
         typename = self._require_text(QUALIFIED_TYPENAME, "Expected type identifier")
 
-        if not is_subtype and not typename in s.ALL_TYPES:
+        if not typename in s.ALL_TYPES:
             typename = self._make_qualified_typename(typename)
             LOG.info("Found custom type: '%s'" % typename);
 
@@ -199,7 +200,7 @@ class Parser(object):
             if typename in s.PARAMETERIZED_TYPES and subtype == None:
                 raise ParseError(self.string, self.pos, "Expected parameterized type for '%s'" % typename)
             elif not typename in s.PARAMETERIZED_TYPES and subtype != None:
-                raise ParseError(self.string, self.pos, "'%s' is not parameterized" % typename)
+                raise ParseError(self.string, self.pos, "'%s' is not a parameterized type" % typename)
 
         return s.TypeSpec(name = typename, subtype = subtype)
 

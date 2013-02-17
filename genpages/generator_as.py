@@ -15,7 +15,7 @@ AS3_TYPENAMES = {
     s.FloatType: "Number",
     s.StringType: "String",
     s.ListType: "Array",
-    s.PageRefType: "microtome.PageRef",
+    s.PageRefType: "microtome.core.PageRef",
     s.TomeType: "microtome.MutableTome"
 }
 

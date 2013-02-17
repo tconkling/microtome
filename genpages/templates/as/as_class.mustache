@@ -1,4 +1,5 @@
 {{header}}
+
 package {{namespace}} {
 
 // GENERATED IMPORTS START
@@ -7,9 +8,9 @@ import {{.}};
 {{/imports}}
 // GENERATED IMPORTS END
 
-// GENERATED CLASS_DECLARATION START
+// GENERATED CLASS_INTRO START
 public class {{name}} extends {{superclass}} {
-// GENERATED CLASS_DECLARATION END
+// GENERATED CLASS_INTRO END
 
 // GENERATED PROPS START
     {{#props}}
@@ -35,6 +36,7 @@ public class {{name}} extends {{superclass}} {
     protected static const s_{{name}}Spec :PropSpec = new PropSpec("{{name}}", {{annotation_text}}, {{#value_type}}{{#is_primitive}}null{{/is_primitive}}{{^is_primitive}}[ {{#typenames}}{{.}}, {{/typenames}}]{{/is_primitive}}{{/value_type}});
     {{/props}}
 // GENERATED STATICS END
-}
 
-}
+// GENERATED CLASS_OUTRO START
+}}
+// GENERATED CLASS_OUTRO END

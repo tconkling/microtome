@@ -3,8 +3,7 @@
 
 import re
 import logging
-from collections import namedtuple
-from collections import OrderedDict
+from collections import namedtuple, OrderedDict
 
 Section = namedtuple("Section", ["name", "contents", "disabled"])
 
@@ -30,7 +29,8 @@ class Matcher(object):
 class GeneratedSourceMerger(object):
     '''Merges updates to a generated source file into a previously-generated version of that
     file, while leaving changes outside marked sections alone.
-    Adapted from com.threerings.presents.tools.GeneratedSourceMerger'''
+    Adapted from com.threerings.presents.tools.GeneratedSourceMerger
+    '''
 
     def __init__ (self, comment_str = r'//'):
         self._section_delimiter = re.compile(r'\s*' + comment_str + r' GENERATED (\w+) (START|END|DISABLED)\r?\n')
@@ -42,7 +42,14 @@ class GeneratedSourceMerger(object):
         "// GENERATED {name} START" and ends with "// GENERATED {name} END".
 
         If previously_generated has a generated section replaced with
-        "// GENERATED {name} DISABLED", that section will no longer be updated.'''
+        "// GENERATED {name} DISABLED", that section will no longer be updated.
+        '''
+
+        # If neither file has a GENERATED section, there's nothing for us to merge.
+        if self._section_delimiter.search(newly_generated) is None and \
+            self._section_delimiter.search(previously_generated) is None:
+            LOG.warn("No generated sections found; not merging")
+            return newly_generated
 
         # Extract the generated section names from the output and make sure they're all matched
         sections = OrderedDict()

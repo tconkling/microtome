@@ -5,8 +5,10 @@ package microtome.marshaller {
 
 import microtome.Library;
 import microtome.core.DataElement;
-import microtome.core.TypeInfo;
+import microtome.core.DataReader;
 import microtome.core.PageRef;
+import microtome.core.TypeInfo;
+import microtome.error.LoadError;
 
 public class PageRefMarshaller extends ObjectMarshallerBase
 {
@@ -15,7 +17,11 @@ public class PageRefMarshaller extends ObjectMarshallerBase
     }
 
     override public function loadObject (data :DataElement, type :TypeInfo, library :Library):* {
-        return new PageRef(type.subtype.clazz, data.value);
+        var pageName :String = DataReader.withData(data).requireValue();
+        if (pageName.length == 0) {
+            throw new LoadError(data, "invalid PageRef", "pageName", pageName);
+        }
+        return new PageRef(type.subtype.clazz, pageName);
     }
 
     override public function resolveRefs (obj :*, type :TypeInfo, library :Library) :void {

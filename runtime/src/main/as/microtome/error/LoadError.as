@@ -5,17 +5,17 @@ package microtome.error {
 
 import microtome.core.DataElement;
 
-public class LoadError extends Error
+public class LoadError extends MicrotomeError
 {
-    public function LoadError (message :String, badElement :DataElement = null) {
-        super(createMessage(message, badElement), 0);
+    public function LoadError (badElement :DataElement, message :String, ...args) {
+        super(message, addDataToArgs(badElement, args));
     }
 
-    protected static function createMessage (message :String, badElement :DataElement) :String {
+    protected function addDataToArgs (badElement :DataElement, args :Array) :Array {
         if (badElement != null) {
-            message += " data:\n" + badElement.description;
+            args.push("data", badElement.description);
         }
-        return message;
+        return args;
     }
 }
 }

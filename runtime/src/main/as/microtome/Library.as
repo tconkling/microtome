@@ -12,6 +12,8 @@ import microtome.core.LibraryItem;
 import microtome.core.LoadTask;
 import microtome.core.TemplatedPage;
 import microtome.error.LoadError;
+import microtome.error.RequirePageError;
+import microtome.error.ResolveRefError;
 import microtome.marshaller.DefaultPrimitiveMarshaller;
 import microtome.marshaller.ListMarshaller;
 import microtome.marshaller.ObjectMarshaller;
@@ -85,8 +87,7 @@ public class Library
             // throw an error if we're missing a template
             if (_loadTask.pendingTemplatedPages.length > 0) {
                 var missing :TemplatedPage = _loadTask.pendingTemplatedPages[0];
-                throw new LoadError("Missing template '" + missing.templateName + "'",
-                    missing.data);
+                throw new LoadError(missing.data, "Missing template", "name", missing.templateName);
             }
 
             // finalize the load, which resolves all PageRefs
@@ -139,11 +140,11 @@ public class Library
     public function requirePageWithQualifiedName (qualifiedName :String, pageClass :Class) :Page {
         var page :Page = pageWithQualifiedName(qualifiedName);
         if (page == null) {
-            throw new Error("Missing required page [name='" + qualifiedName + "']");
+            throw new RequirePageError("No such page", "name", qualifiedName);
         } else if (!(page is pageClass)) {
-            throw new Error("Wrong type for required page [name='" + qualifiedName +
-                "', expectedType=" + ClassUtil.getClassName(pageClass) +
-                ", actualType=" + ClassUtil.getClassName(page) + "]");
+            throw new RequirePageError("Wrong page type", "name", qualifiedName,
+                "expectedType", ClassUtil.getClassName(pageClass),
+                "actualType", ClassUtil.getClassName(page));
         }
         return page;
     }
@@ -151,7 +152,7 @@ public class Library
     public function loadTome (tomeData :DataElement, pageClass :Class) :MutableTome {
         var name :String = tomeData.name;
         if (!Util.validLibraryItemName(name)) {
-            throw new LoadError("Tome name '" + name + "' is invalid", tomeData);
+            throw new LoadError(tomeData, "Invalid tome name", "name", name);
         }
 
         var tome :MutableTome = new MutableTome(name, pageClass);
@@ -164,7 +165,7 @@ public class Library
     public function loadPage (pageData :DataElement, superclass :Class = null) :Page {
         var name :String = pageData.name;
         if (!Util.validLibraryItemName(name)) {
-            throw new LoadError("Page name '" + name + "' is invalid", pageData);
+            throw new LoadError(pageData, "Invalid page name", "name", name);
         }
 
         var reader :DataReader = DataReader.withData(pageData);
@@ -208,10 +209,9 @@ public class Library
     protected function loadPageProps (page :Page, pageData :DataElement, tmpl :Page = null) :void {
         // template's class must be equal to (or a subclass of) page's class
         if (tmpl != null && !(tmpl is ClassUtil.getClass(page))) {
-            throw new LoadError("Incompatible template [pageName='" + page.name +
-                "', pageClass=" + ClassUtil.getClassName(page) +
-                ", templateName='" + tmpl.name +
-                "', templateClass=" + ClassUtil.getClassName(tmpl), pageData);
+            throw new LoadError(pageData, "Incompatible template", "pageName", page.name,
+                "pageClass", ClassUtil.getClassName(page), "templateName", tmpl.name,
+                "templateClass", ClassUtil.getClassName(tmpl));
         }
 
         for each (var prop :Prop in page.props) {
@@ -220,8 +220,8 @@ public class Library
             if (tmpl != null) {
                 tProp = Util.getProp(tmpl, prop.name);
                 if (tProp == null) {
-                    throw new LoadError("Template '" + tmpl.name + "' missing prop '"
-                        + prop.name + "'", pageData);
+                    throw new LoadError(pageData, "Missing prop in template",
+                        "template", tmpl.name, "prop", prop.name);
                 }
             }
 
@@ -231,8 +231,7 @@ public class Library
             } catch (loadErr :LoadError) {
                 throw loadErr;
             } catch (err :Error) {
-                throw new LoadError("Error loading prop '" + prop.name + "': " + err.message,
-                    pageData);
+                throw new LoadError(pageData, "Error loading prop", "name", prop.name, err);
             }
         }
     }
@@ -291,8 +290,8 @@ public class Library
                 }
 
             } else {
-                throw new LoadError("Unrecognized primitive prop [name='" + prop.name +
-                    "', class=" + ClassUtil.getClassName(prop) + "]", pageData);
+                throw new LoadError(pageData, "Unrecognized primitive prop", "name", prop.name,
+                    "class", ClassUtil.getClassName(prop));
             }
 
         } else {
@@ -314,7 +313,7 @@ public class Library
             } else if (objectProp.nullable) {
                 objectProp.value = null;
             } else {
-                throw new LoadError("Missing required child [name='" + prop.name + "']", pageData);
+                throw new LoadError(pageData, "Missing required child", "name", prop.name);
             }
         }
     }
@@ -341,10 +340,11 @@ public class Library
     protected function requirePageClass (name :String, requiredSuperclass :Class = null) :Class {
         var clazz :Class = getPageClass(name);
         if (clazz == null) {
-            throw new LoadError("No page class for name '" + name + "'");
+            throw new LoadError(null, "No such page class", "name", name);
         } else if (requiredSuperclass != null && !ClassUtil.isAssignableAs(requiredSuperclass, clazz)) {
-            throw new LoadError("Unexpected page class [required=" +
-                ClassUtil.getClassName(requiredSuperclass) + ", got=" + ClassUtil.getClassName(clazz));
+            throw new LoadError(null, "Unexpected page class",
+                "required", ClassUtil.getClassName(requiredSuperclass),
+                "got", ClassUtil.getClassName(clazz));
         }
         return clazz;
     }
@@ -377,7 +377,12 @@ public class Library
             for each (var item :LibraryItem in task.libraryItems) {
                 var marshaller :ObjectMarshaller =
                     requireObjectMarshallerForClass(ClassUtil.getClass(item));
-                marshaller.resolveRefs(item, item.type, this);
+                try {
+                    marshaller.resolveRefs(item, item.type, this);
+                } catch (e :Error) {
+                    throw new ResolveRefError("Failed to resolve ref", "item", item.name,
+                        "err", e.message);
+                }
             }
         } catch (e :Error) {
             abortLoad(task);

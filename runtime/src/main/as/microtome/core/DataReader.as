@@ -32,7 +32,7 @@ public class DataReader
     public function requireValue () :String {
         var val :String = _data.value;
         if (val == null) {
-            throw new LoadError("Element is empty", _data);
+            throw new LoadError(_data, "Element is empty");
         }
         return val;
     }
@@ -40,7 +40,7 @@ public class DataReader
     public function requireAttribute (name :String) :String {
         var attr :String = attributeNamed(name);
         if (attr == null) {
-            throw new LoadError("Missing required attribute '" + name + "'", _data);
+            throw new LoadError(_data, "Missing required attribute", "name", name);
         }
         return attr;
     }
@@ -53,8 +53,8 @@ public class DataReader
             return false;
         }
 
-        throw new LoadError("attribute is not a boolean [name=" + name +
-            ", value=" + requireAttribute(name) + "]", _data);
+        throw new LoadError(_data, "attribute is not a boolean", "name", name,
+            "value", requireAttribute(name));
     }
 
     public function requireIntAttribute (name :String) :int {
@@ -62,8 +62,7 @@ public class DataReader
         try {
             return Util.parseInteger(attr);
         } catch (e :Error) {
-            throw new LoadError("attribute is not an int [name=" + name +
-                ", value=" + attr + "]", _data);
+            throw new LoadError(_data, "attribute is not an int", "name", name, "value", attr);
         }
         return 0;
     }
@@ -73,8 +72,7 @@ public class DataReader
         try {
             return Util.parseNumber(attr);
         } catch (e :Error) {
-            throw new LoadError("attribute is not a Number [name=" + name +
-                ", value=" + attr + "]", _data);
+            throw new LoadError(_data, "attribute is not a Number", "name", name, "value", attr);
         }
         return 0;
     }

@@ -17,7 +17,7 @@ public class PageRefMarshaller extends ObjectMarshallerBase
     }
 
     override public function loadObject (data :DataElement, type :TypeInfo, library :Library):* {
-        var pageName :String = DataReader.withData(data).requireValue();
+        var pageName :String = DataReader.withData(data).requireAttribute("ref");
         if (pageName.length == 0) {
             throw new LoadError(data, "invalid PageRef", "pageName", pageName);
         }

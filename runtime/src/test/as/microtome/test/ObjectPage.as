@@ -10,21 +10,21 @@ import microtome.prop.PropSpec;
 // GENERATED IMPORTS END
 
 // GENERATED CLASS_INTRO START
-public class ListPage extends Page {
+public class ObjectPage extends Page {
 // GENERATED CLASS_INTRO END
 
 // GENERATED PROPS START
-    public function get list () :Array { return _list.value; }
+    public function get foo () :String { return _foo.value; }
 
-    override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _list, ]); }
+    override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _foo, ]); }
 // GENERATED PROPS END
 
 // GENERATED IVARS START
-    protected var _list :ObjectProp = new ObjectProp(s_listSpec);
+    protected var _foo :ObjectProp = new ObjectProp(s_fooSpec);
 // GENERATED IVARS END
 
 // GENERATED STATICS START
-    protected static const s_listSpec :PropSpec = new PropSpec("list", null, [ Array, PrimitivePage, ]);
+    protected static const s_fooSpec :PropSpec = new PropSpec("foo", null, [ String, ]);
 // GENERATED STATICS END
 
 // GENERATED CLASS_OUTRO START

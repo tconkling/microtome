@@ -9,6 +9,10 @@ PrimitivePage {
     float baz;
 }
 
+ObjectPage {
+    string foo;
+}
+
 AnnotationPage {
     int foo (min=3, max=5);
     int bar (default=3);

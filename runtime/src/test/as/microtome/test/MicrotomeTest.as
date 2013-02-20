@@ -15,6 +15,7 @@ public class MicrotomeTest extends Sprite
         _library.registerPageClasses(MicrotomePages.pageClasses);
 
         testPrimitives();
+        testObjects();
         testTome();
         testNested();
         testRefs();
@@ -32,6 +33,14 @@ public class MicrotomeTest extends Sprite
         assertEquals(page.foo, true);
         assertEquals(page.bar, 2);
         assertEqualsWithAccuracy(page.baz, 3.1415, EPSILON);
+        _library.removeAllItems();
+    }
+
+    protected function testObjects () :void {
+        _library.loadXmlDocs(new <XML>[ newXml(OBJECT_TEST_XML) ]);
+
+        var page :ObjectPage = _library.getItem("objectTest");
+        assertEquals(page.foo, "foo");
         _library.removeAllItems();
     }
 
@@ -98,6 +107,9 @@ public class MicrotomeTest extends Sprite
 
     [Embed(source="../../../resources/PrimitiveTest.xml", mimeType="application/octet-stream")]
     private static const PRIMITIVE_TEST_XML :Class;
+
+    [Embed(source="../../../resources/ObjectTest.xml", mimeType="application/octet-stream")]
+    private static const OBJECT_TEST_XML :Class;
 
     [Embed(source="../../../resources/TomeTest.xml", mimeType="application/octet-stream")]
     private static const TOME_TEST_XML :Class;

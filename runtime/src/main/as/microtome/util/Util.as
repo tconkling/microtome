@@ -61,27 +61,15 @@ public class Util
             return NaN;
         }
 
-        const originalString :String = str;
-        str = str.replace(",", "");
-        const noCommas :String = str;
+        const noCommas :String = str.replace(",", "");
 
-        // validate all characters before the "e"
-        str = validateDecimal(str, true, true);
-
-        // validate all characters after the "e"
-        if (null != str && str.charAt(0) == "e") {
-            str = str.substring(1);
-            validateDecimal(str, false, false);
-        }
-
-        if (null == str) {
-            throw new ArgumentError("Could not convert to Number: '" + originalString + "'");
+        if (DECIMAL_REGEXP.exec(noCommas) == null) {
+            throw new ArgumentError("Could not convert to Number: '" + str + "'");
         }
 
         // let Flash do the actual conversion
         return parseFloat(noCommas);
     }
-
 
     /**
      * Does the specified string start with any of the specified substrings.
@@ -96,49 +84,6 @@ public class Util
             }
         }
         return false;
-    }
-
-    /**
-     * Internal helper function for parseNumber.
-     */
-    protected static function validateDecimal (
-        str :String, allowDot :Boolean, allowTrailingE :Boolean) :String {
-        // skip the leading minus
-        if (str.charAt(0) == "-") {
-            str = str.substring(1);
-        }
-
-        // validate that the characters in the string are all integers,
-        // with at most one '.'
-        var seenDot :Boolean;
-        var seenDigit :Boolean;
-        while (str.length > 0) {
-            var char :String = str.charAt(0);
-            if (char == ".") {
-                if (!allowDot || seenDot) {
-                    return null;
-                }
-                seenDot = true;
-            } else if (char == "e") {
-                if (!allowTrailingE) {
-                    return null;
-                }
-                break;
-            } else if (DECIMAL.indexOf(char) >= 0) {
-                seenDigit = true;
-            } else {
-                return null;
-            }
-
-            str = str.substring(1);
-        }
-
-        // ensure we've seen at least one digit so far
-        if (!seenDigit) {
-            return null;
-        }
-
-        return str;
     }
 
     /**
@@ -204,7 +149,6 @@ public class Util
     protected static const HEX :Array = [ "0", "1", "2", "3", "4",
         "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" ];
 
-    /** Decimal digits. */
-    protected static const DECIMAL :Array = HEX.slice(0, 10);
+    protected static const DECIMAL_REGEXP :RegExp = /^-?[0-9]*\.?[0-9]+(e-?[0-9]+)?$/;
 }
 }

@@ -192,19 +192,29 @@ static NSString* const TYPE_ATTR = @"type";
 }
 
 - (void)loadPageProp:(MTProp*)prop templateProp:(MTProp*)tProp pageData:(id<MTDataElement>)pageData {
+    MTDataReader* pageReader = [MTDataReader withData:pageData];
+
     MTObjectProp* objectProp =
         ([prop isKindOfClass:[MTObjectProp class]] ? (MTObjectProp*)prop : nil);
-    BOOL isPrimitive = (objectProp == nil);
 
-    MTDataReader* pageReader = [MTDataReader withData:pageData];
+    BOOL isPrimitive = (objectProp == nil);
+    BOOL canRead = (isPrimitive ? [pageReader hasAttribute:prop.name] : [pageReader hasChild:prop.name]);
+    BOOL useTemplate = !canRead && (tProp != nil);
 
     if (isPrimitive) {
         // Handle primitive props (read from attributes)
-        BOOL useTemplate = (tProp != nil && ![pageReader hasAttribute:prop.name]);
+        // 1. Read the value from the DataReader, if it exists
+        // 2. Else, copy the value from the template, if it exists
+        // 3. Else, set the value to its default, if it has a default
+        // 4. Else, fail.
+
+        BOOL useDefault = !canRead && !useTemplate && [prop hasAnnotation:MT_DEFAULT_ANNOTATION];
 
         if ([prop isKindOfClass:[MTIntProp class]]) {
             MTIntProp* intProp = (MTIntProp*)prop;
-            if (useTemplate) {
+            if (useDefault) {
+                intProp.value = [prop intAnnotation:MT_DEFAULT_ANNOTATION default:0];
+            } else if (useTemplate) {
                 intProp.value = ((MTIntProp*)tProp).value;
             } else {
                 intProp.value = [pageReader requireIntAttribute:prop.name];
@@ -212,7 +222,9 @@ static NSString* const TYPE_ATTR = @"type";
             }
         } else if ([prop isKindOfClass:[MTBoolProp class]]) {
             MTBoolProp* boolProp = (MTBoolProp*)prop;
-            if (useTemplate) {
+            if (useDefault) {
+                boolProp.value = [prop boolAnnotation:MT_DEFAULT_ANNOTATION default:NO];
+            } else if (useTemplate) {
                 boolProp.value = ((MTBoolProp*)tProp).value;
             } else {
                 boolProp.value = [pageReader requireBoolAttribute:prop.name];
@@ -220,7 +232,9 @@ static NSString* const TYPE_ATTR = @"type";
             }
         } else if ([prop isKindOfClass:[MTFloatProp class]]) {
             MTFloatProp* floatProp = (MTFloatProp*)prop;
-            if (useTemplate) {
+            if (useDefault) {
+                floatProp.value = [prop floatAnnotation:MT_DEFAULT_ANNOTATION default:0.0f];
+            } else if (useTemplate) {
                 floatProp.value = ((MTFloatProp*)tProp).value;
             } else {
                 floatProp.value = [pageReader requireFloatAttribute:prop.name];
@@ -234,28 +248,26 @@ static NSString* const TYPE_ATTR = @"type";
 
     } else {
         // Handle object props (read from child elements)
-        MTObjectProp* tObjectProp = (tProp != nil ? (MTObjectProp*)tProp : nil);
-        MTDataReader* propReader = [pageReader childNamed:prop.name];
-        
-        if (propReader == nil) {
-            // Handle null object
-            if (tObjectProp != nil) {
-                // inherit from template
-                objectProp.value = tObjectProp.value;
-            } else if (objectProp.nullable) {
-                // Object is nullable.
-                objectProp.value = nil;
-            } else {
-                @throw [MTLoadException withData:pageData
-                                          reason:@"Missing required child [name=%@]", prop.name];
-            }
-            
-        } else {
+        // 1. Read the value from the DataReader, if it exists
+        // 2. Else, copy the the value from the template, if it exists
+        // 3. Else, set the value to null if it's nullable
+        // 4. Else, fail.
+
+        if (canRead) {
             // load normally
+            MTDataReader* propReader = [pageReader childNamed:prop.name];
             id<MTObjectMarshaller> marshaller = [self requireMarshallerForClass:objectProp.valueType.clazz];
             id value = [marshaller withLibrary:self type:objectProp.valueType loadObject:propReader];
             objectProp.value = value;
             [marshaller validatePropValue:objectProp];
+
+        } else if (useTemplate) {
+            objectProp.value = ((MTObjectProp*)tProp).value;
+        } else if (objectProp.nullable) {
+            objectProp.value = nil;
+        } else {
+            @throw [MTLoadException withData:pageData
+                                      reason:@"Missing required child [name=%@]", prop.name];
         }
     }
 }

@@ -1,2 +1,2 @@
-{{header}}
+
 NSArray* GetMicrotomePageClasses (void);

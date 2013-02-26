@@ -53,12 +53,7 @@
 - (Class)valueClass { return [NSString class]; }
 
 - (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
-    NSString* val = data.value;
-    // handle the empty string (<myStringProp></myStringProp>)
-    if (val == nil) {
-        val = @"";
-    }
-    return val;
+    return [[MTDataReader withData:data] requireAttribute:@"value"];
 }
 
 @end
@@ -117,7 +112,8 @@
 - (Class)valueClass { return [MTPageRef class]; }
 
 - (id)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type loadObject:(id<MTDataElement>)data {
-    return [[MTPageRef alloc] initWithPageClass:type.subtype.clazz pageName:data.value];
+    return [[MTPageRef alloc] initWithPageClass:type.subtype.clazz
+                                       pageName:[[MTDataReader withData:data] requireAttribute:@"ref"]];
 }
 
 - (void)withLibrary:(MTLibrary*)library type:(MTTypeInfo*)type resolveRefs:(id)value {

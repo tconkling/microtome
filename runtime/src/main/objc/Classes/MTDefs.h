@@ -24,3 +24,4 @@
 #define MT_NULLABLE @"nullable"
 #define MT_MIN @"min"
 #define MT_MAX @"max"
+#define MT_DEFAULT_ANNOTATION @"default"

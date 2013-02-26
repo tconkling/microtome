@@ -4,7 +4,7 @@
 #import "{{.}}.h"
 {{/page_names}}
 
-NSArray* MicrotomePages (void) {
+NSArray* GetMicrotomePageClasses (void) {
     return @[{{#page_names}}
         [{{.}} class],{{/page_names}}
     ];

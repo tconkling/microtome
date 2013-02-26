@@ -1,10 +1,10 @@
-//
-// microtome - Copyright 2012 Three Rings Design
 
 #import "RefPage.h"
+#import "MTPageRef.h"
 #import "PrimitivePage.h"
+#import "microtome.h"
 
-static MTPropSpec* _nestedSpec = nil;
+static MTPropSpec* s_nestedSpec = nil;
 
 @implementation RefPage {
 @protected
@@ -13,20 +13,20 @@ static MTPropSpec* _nestedSpec = nil;
 
 - (PrimitivePage*)nested { return ((MTPageRef*) _nested.value).page; }
 
+- (NSArray*)props { return MT_PROPS(_nested, ); }
+
 - (id)init {
     if ((self = [super init])) {
-        _nested = [[MTObjectProp alloc] initWithPropSpec:_nestedSpec];
+        _nested = [[MTObjectProp alloc] initWithPropSpec:s_nestedSpec];
     }
     return self;
 }
 
-- (NSArray*)props {
-    return MT_PROPS(_nested);
-}
-
 + (void)initialize {
     if (self == [RefPage class]) {
-        _nestedSpec = [[MTPropSpec alloc] initWithName:@"nested" annotations:nil valueClasses:@[ [MTPageRef class], [PrimitivePage class] ]];
+        s_nestedSpec = [[MTPropSpec alloc] initWithName:@"nested"
+            annotations:nil
+            valueClasses:@[ [MTPageRef class],[PrimitivePage class], ] ];
     }
 }
 

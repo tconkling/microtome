@@ -3,9 +3,12 @@
 
 #import "microtomeTests.h"
 
+#import "MicrotomePages.h"
+#import "ObjectPage.h"
 #import "PrimitivePage.h"
 #import "NestedPage.h"
 #import "RefPage.h"
+#import "AnnotationPage.h"
 
 static const float EPSILON = 0.0001f;
 
@@ -21,11 +24,7 @@ static const float EPSILON = 0.0001f;
 - (void)setUp {
     [super setUp];
     _library = [[MTXmlLibrary alloc] init];
-    [_library registerPageClasses:@[
-        [PrimitivePage class],
-        [NestedPage class],
-        [RefPage class],
-    ]];
+    [_library registerPageClasses:GetMicrotomePageClasses()];
 }
 
 - (void)tearDown {
@@ -39,6 +38,13 @@ static const float EPSILON = 0.0001f;
     STAssertEquals(page.foo, YES, @"");
     STAssertEquals(page.bar, 2, @"");
     STAssertEqualsWithAccuracy(page.baz, 3.1415f, EPSILON, @"");
+    [_library removeAllItems];
+}
+
+- (void)testObjects {
+    [_library loadFiles:@[ [self pathFor:@"ObjectTest.xml"] ]];
+    ObjectPage* page = _library[@"objectTest"];
+    STAssertEqualObjects(page.foo, @"foo", @"");
     [_library removeAllItems];
 }
 
@@ -80,6 +86,15 @@ static const float EPSILON = 0.0001f;
     STAssertEqualsWithAccuracy(page.baz, 666.0f, EPSILON, @"");
     
     [_library removeAllItems];
+}
+
+- (void)testAnnotations {
+    [_library loadFiles:@[ [self pathFor:@"AnnotationTest.xml"] ]];
+
+    AnnotationPage* page = _library[@"test"];
+    STAssertEquals(page.foo, 4, @"");
+    STAssertEquals(page.bar, 3, @"");
+    STAssertNil(page.primitives, @"");
 }
 
 @end

@@ -32,6 +32,8 @@ LIBRARY_CLASS = "MicrotomePages.m"
 
 TEMPLATES_DIR = util.abspath("templates/objc")
 
+# stuff we always import
+BASE_IMPORTS = set(["microtome"])
 # stuff we don't need to import/forward-declare (built-in types)
 DISCARD_IMPORTS = set([ name for name in OBJC_TYPENAMES.values() if not name.startswith("MT") ])
 
@@ -79,7 +81,7 @@ def get_objc_typename (the_type, pointer_type = True):
     if not the_type in s.PRIMITIVE_TYPES and pointer_type:
         typename += "*"
 
-    return typename
+    return util.strip_namespace(typename)
 
 def to_boxed (val):
     return "@%s" % val
@@ -160,11 +162,11 @@ class PageView(object):
 
     def class_imports (self):
         # generate our list of external classnames referenced by this page:
-        # create a set of all types used by our props, and then
-        # remove stuff
+        # create a set of all types used by our props, and then remove stuff
         typename_lists = [ p.value_type.all_typenames() for p in self.props ]
-        # stuff we don't need to import/forward-declare
-        all_typenames = set(itertools.chain.from_iterable(typename_lists)) - DISCARD_IMPORTS
+
+        # remove the imports we never want; add the imports we always want
+        all_typenames = set(itertools.chain.from_iterable(typename_lists)) - DISCARD_IMPORTS | BASE_IMPORTS
         return [ self.name() ] + sorted(all_typenames)
 
     def forward_decls (self):
@@ -187,7 +189,7 @@ if __name__ == "__main__":
     ANOTHER_PAGE_TYPE = s.TypeSpec(name="AnotherPage", subtype = None)
 
     PAGE = s.PageSpec(name = "TestPage",
-        namespace = "",
+        namespace = "com.microtome.test",
         superclass = None,
         props = [
             s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", annotations = [

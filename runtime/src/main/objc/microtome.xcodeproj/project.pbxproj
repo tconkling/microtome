@@ -27,6 +27,17 @@
 		22031F8516374B7E0093E61E /* GDataXMLElement+MTExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F8316374B7E0093E61E /* GDataXMLElement+MTExtensions.h */; };
 		22031F9A163763DD0093E61E /* MTXmlLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F98163763DD0093E61E /* MTXmlLibrary.h */; };
 		22031F9E16376A800093E61E /* GDataXMLNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 22031F9C16376A800093E61E /* GDataXMLNode.h */; };
+		221A379F16DD777B00845F3E /* AnnotationPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221A379E16DD777B00845F3E /* AnnotationPage.m */; };
+		221A37A216DD778600845F3E /* ListPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221A37A116DD778600845F3E /* ListPage.m */; };
+		221A37A516DD779300845F3E /* MicrotomePages.m in Sources */ = {isa = PBXBuildFile; fileRef = 221A37A416DD779300845F3E /* MicrotomePages.m */; };
+		221A37A816DD779F00845F3E /* ObjectPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 221A37A716DD779F00845F3E /* ObjectPage.m */; };
+		221A37B016DD7FAE00845F3E /* AnnotationTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 221A37A916DD7FAE00845F3E /* AnnotationTest.xml */; };
+		221A37B116DD7FAE00845F3E /* NestedTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 221A37AA16DD7FAE00845F3E /* NestedTest.xml */; };
+		221A37B216DD7FAE00845F3E /* ObjectTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 221A37AB16DD7FAE00845F3E /* ObjectTest.xml */; };
+		221A37B316DD7FAE00845F3E /* PrimitiveTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 221A37AC16DD7FAE00845F3E /* PrimitiveTest.xml */; };
+		221A37B416DD7FAE00845F3E /* RefTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 221A37AD16DD7FAE00845F3E /* RefTest.xml */; };
+		221A37B516DD7FAE00845F3E /* TemplateTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 221A37AE16DD7FAE00845F3E /* TemplateTest.xml */; };
+		221A37B616DD7FAE00845F3E /* TomeTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 221A37AF16DD7FAE00845F3E /* TomeTest.xml */; };
 		221A685116376BE0008B4AD2 /* MTProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E43A6E1559B847003A43B8 /* MTProp.m */; };
 		221A685216376BE0008B4AD2 /* MTLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F58161CDE60001B98AA /* MTLibrary.m */; };
 		221A685316376BE0008B4AD2 /* MTLoadException.m in Sources */ = {isa = PBXBuildFile; fileRef = 221B2F7A161CE727001B98AA /* MTLoadException.m */; };
@@ -116,11 +127,6 @@
 		225041E91558ACB50014FA5D /* microtomeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 225041E81558ACB50014FA5D /* microtomeTests.m */; };
 		225041F81558AD200014FA5D /* microtome.h in Headers */ = {isa = PBXBuildFile; fileRef = 225041F71558AD200014FA5D /* microtome.h */; };
 		226BAA41161F946900133173 /* RefPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 226BAA40161F946900133173 /* RefPage.m */; };
-		2290322A1642FFE10006344E /* NestedTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 229032251642FFE10006344E /* NestedTest.xml */; };
-		2290322B1642FFE10006344E /* PrimitiveTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 229032261642FFE10006344E /* PrimitiveTest.xml */; };
-		2290322C1642FFE10006344E /* RefTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 229032271642FFE10006344E /* RefTest.xml */; };
-		2290322D1642FFE10006344E /* TemplateTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 229032281642FFE10006344E /* TemplateTest.xml */; };
-		2290322E1642FFE10006344E /* TomeTest.xml in Resources */ = {isa = PBXBuildFile; fileRef = 229032291642FFE10006344E /* TomeTest.xml */; };
 		22E43A701559B847003A43B8 /* MTProp.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E43A6E1559B847003A43B8 /* MTProp.m */; };
 /* End PBXBuildFile section */
 
@@ -159,6 +165,21 @@
 		22031F99163763DD0093E61E /* MTXmlLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTXmlLibrary.m; sourceTree = "<group>"; };
 		22031F9C16376A800093E61E /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
 		22031F9D16376A800093E61E /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
+		221A379D16DD777B00845F3E /* AnnotationPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationPage.h; sourceTree = "<group>"; };
+		221A379E16DD777B00845F3E /* AnnotationPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationPage.m; sourceTree = "<group>"; };
+		221A37A016DD778600845F3E /* ListPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListPage.h; sourceTree = "<group>"; };
+		221A37A116DD778600845F3E /* ListPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListPage.m; sourceTree = "<group>"; };
+		221A37A316DD779300845F3E /* MicrotomePages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MicrotomePages.h; sourceTree = "<group>"; };
+		221A37A416DD779300845F3E /* MicrotomePages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MicrotomePages.m; sourceTree = "<group>"; };
+		221A37A616DD779F00845F3E /* ObjectPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectPage.h; sourceTree = "<group>"; };
+		221A37A716DD779F00845F3E /* ObjectPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectPage.m; sourceTree = "<group>"; };
+		221A37A916DD7FAE00845F3E /* AnnotationTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = AnnotationTest.xml; path = ../../../test/resources/AnnotationTest.xml; sourceTree = "<group>"; };
+		221A37AA16DD7FAE00845F3E /* NestedTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = NestedTest.xml; path = ../../../test/resources/NestedTest.xml; sourceTree = "<group>"; };
+		221A37AB16DD7FAE00845F3E /* ObjectTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = ObjectTest.xml; path = ../../../test/resources/ObjectTest.xml; sourceTree = "<group>"; };
+		221A37AC16DD7FAE00845F3E /* PrimitiveTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = PrimitiveTest.xml; path = ../../../test/resources/PrimitiveTest.xml; sourceTree = "<group>"; };
+		221A37AD16DD7FAE00845F3E /* RefTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = RefTest.xml; path = ../../../test/resources/RefTest.xml; sourceTree = "<group>"; };
+		221A37AE16DD7FAE00845F3E /* TemplateTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TemplateTest.xml; path = ../../../test/resources/TemplateTest.xml; sourceTree = "<group>"; };
+		221A37AF16DD7FAE00845F3E /* TomeTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TomeTest.xml; path = ../../../test/resources/TomeTest.xml; sourceTree = "<group>"; };
 		221A687B16376BE0008B4AD2 /* libmicrotome-include-gdataxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmicrotome-include-gdataxml.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		221A688016376CCE008B4AD2 /* microtome-include-gdataxml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "microtome-include-gdataxml.h"; sourceTree = "<group>"; };
 		221A691E16388EA9008B4AD2 /* libmicrotome-use-gdataxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libmicrotome-use-gdataxml.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,11 +213,6 @@
 		225042451558B19F0014FA5D /* MTProp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTProp.h; sourceTree = "<group>"; };
 		226BAA3F161F946900133173 /* RefPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefPage.h; sourceTree = "<group>"; };
 		226BAA40161F946900133173 /* RefPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefPage.m; sourceTree = "<group>"; };
-		229032251642FFE10006344E /* NestedTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = NestedTest.xml; path = ../../../test/resources/NestedTest.xml; sourceTree = "<group>"; };
-		229032261642FFE10006344E /* PrimitiveTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = PrimitiveTest.xml; path = ../../../test/resources/PrimitiveTest.xml; sourceTree = "<group>"; };
-		229032271642FFE10006344E /* RefTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = RefTest.xml; path = ../../../test/resources/RefTest.xml; sourceTree = "<group>"; };
-		229032281642FFE10006344E /* TemplateTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TemplateTest.xml; path = ../../../test/resources/TemplateTest.xml; sourceTree = "<group>"; };
-		229032291642FFE10006344E /* TomeTest.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = TomeTest.xml; path = ../../../test/resources/TomeTest.xml; sourceTree = "<group>"; };
 		22E43A6E1559B847003A43B8 /* MTProp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTProp.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -306,8 +322,16 @@
 			children = (
 				225041E71558ACB50014FA5D /* microtomeTests.h */,
 				225041E81558ACB50014FA5D /* microtomeTests.m */,
+				221A379D16DD777B00845F3E /* AnnotationPage.h */,
+				221A379E16DD777B00845F3E /* AnnotationPage.m */,
+				221A37A016DD778600845F3E /* ListPage.h */,
+				221A37A116DD778600845F3E /* ListPage.m */,
+				221A37A316DD779300845F3E /* MicrotomePages.h */,
+				221A37A416DD779300845F3E /* MicrotomePages.m */,
 				221B3043161E61F3001B98AA /* NestedPage.h */,
 				221B3044161E61F3001B98AA /* NestedPage.m */,
+				221A37A616DD779F00845F3E /* ObjectPage.h */,
+				221A37A716DD779F00845F3E /* ObjectPage.m */,
 				221B2FCF161D0AE8001B98AA /* PrimitivePage.h */,
 				221B2FD0161D0AE8001B98AA /* PrimitivePage.m */,
 				226BAA3F161F946900133173 /* RefPage.h */,
@@ -320,11 +344,13 @@
 		225041E21558ACB50014FA5D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				229032251642FFE10006344E /* NestedTest.xml */,
-				229032261642FFE10006344E /* PrimitiveTest.xml */,
-				229032271642FFE10006344E /* RefTest.xml */,
-				229032281642FFE10006344E /* TemplateTest.xml */,
-				229032291642FFE10006344E /* TomeTest.xml */,
+				221A37A916DD7FAE00845F3E /* AnnotationTest.xml */,
+				221A37AA16DD7FAE00845F3E /* NestedTest.xml */,
+				221A37AB16DD7FAE00845F3E /* ObjectTest.xml */,
+				221A37AC16DD7FAE00845F3E /* PrimitiveTest.xml */,
+				221A37AD16DD7FAE00845F3E /* RefTest.xml */,
+				221A37AE16DD7FAE00845F3E /* TemplateTest.xml */,
+				221A37AF16DD7FAE00845F3E /* TomeTest.xml */,
 				225041E31558ACB50014FA5D /* microtomeTests-Info.plist */,
 				225041E41558ACB50014FA5D /* InfoPlist.strings */,
 			);
@@ -530,7 +556,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MT;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Three Rings Design";
 			};
 			buildConfigurationList = 225041C21558ACB50014FA5D /* Build configuration list for PBXProject "microtome" */;
@@ -559,11 +585,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				225041E61558ACB50014FA5D /* InfoPlist.strings in Resources */,
-				2290322A1642FFE10006344E /* NestedTest.xml in Resources */,
-				2290322B1642FFE10006344E /* PrimitiveTest.xml in Resources */,
-				2290322C1642FFE10006344E /* RefTest.xml in Resources */,
-				2290322D1642FFE10006344E /* TemplateTest.xml in Resources */,
-				2290322E1642FFE10006344E /* TomeTest.xml in Resources */,
+				221A37B016DD7FAE00845F3E /* AnnotationTest.xml in Resources */,
+				221A37B116DD7FAE00845F3E /* NestedTest.xml in Resources */,
+				221A37B216DD7FAE00845F3E /* ObjectTest.xml in Resources */,
+				221A37B316DD7FAE00845F3E /* PrimitiveTest.xml in Resources */,
+				221A37B416DD7FAE00845F3E /* RefTest.xml in Resources */,
+				221A37B516DD7FAE00845F3E /* TemplateTest.xml in Resources */,
+				221A37B616DD7FAE00845F3E /* TomeTest.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,6 +687,10 @@
 				221B2FD1161D0AE8001B98AA /* PrimitivePage.m in Sources */,
 				221B3045161E61F3001B98AA /* NestedPage.m in Sources */,
 				226BAA41161F946900133173 /* RefPage.m in Sources */,
+				221A379F16DD777B00845F3E /* AnnotationPage.m in Sources */,
+				221A37A216DD778600845F3E /* ListPage.m in Sources */,
+				221A37A516DD779300845F3E /* MicrotomePages.m in Sources */,
+				221A37A816DD779F00845F3E /* ObjectPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -742,6 +774,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -770,6 +806,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";

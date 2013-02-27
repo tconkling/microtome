@@ -14,10 +14,11 @@ import spec as s
 from stringscanner import StringScanner
 
 # token types
+QUOTED_STRING = re.compile(r'"([^"\\]*(\\.[^"\\]*)*)"')
 NAMESPACE = re.compile(r'[a-zA-Z]+(\.[a-zA-Z]+)*')  # letters separated by .s
 TYPENAME = re.compile(r'[a-zA-Z]\w*')               # must start with a letter
 IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')            # must start with a letter or _
-ANNOTATION_VALUE = re.compile(r'[\w\"]+')           # can contain " and '
+ANNOTATION_VALUE = re.compile("([\w\.\-]+|{0})".format(QUOTED_STRING.pattern))
 CURLY_OPEN = re.compile(r'\{')
 CURLY_CLOSE = re.compile(r'\}')
 PAREN_OPEN = re.compile(r'\(')
@@ -136,13 +137,13 @@ class Parser(object):
 
         # open-curly
         self.eat_whitespace()
-        self.require_text(CURLY_OPEN)
+        self.require_text(CURLY_OPEN, "expected '{'")
 
         page_props = self.parse_props()
 
         # close-curly
         self.eat_whitespace()
-        self.require_text(CURLY_CLOSE)
+        self.require_text(CURLY_CLOSE, "expected '}'")
 
         return s.PageSpec(name = page_name,
             superclass = page_superclass,
@@ -182,7 +183,7 @@ class Parser(object):
         if self.get_text(PAREN_OPEN):
             annotations = self.parse_annotations()
             self.eat_whitespace()
-            self.require_text(PAREN_CLOSE)
+            self.require_text(PAREN_CLOSE, "expected ')'")
 
         self.require_text(SEMICOLON, "expected semicolon")
 
@@ -306,7 +307,7 @@ def get_bool (s):
 def get_quoted_string (s):
     '''returns the quoted string represented by the string, or None if the string can't be
     converted'''
-    if (s.startswith('"') and s.endswith('"')) or (s.startswith("'") and s.endswith("'")):
+    if QUOTED_STRING.match(s) is not None:
         return s[1:len(s) - 1]
     else:
         return None
@@ -319,8 +320,8 @@ if __name__ == "__main__":
         MyPage extends AnotherPage {
             bool foo;   # comment 2
             int bar;
-            float baz (min = 3);
-            string str (nullable, text="asdf");
+            float baz (min = -3.0);
+            string str (nullable, text="as df");
 
             Tome<AnotherPage> theTome;
             PageRef<ThirdPage> theRef;

@@ -49,7 +49,7 @@ class ParseError(Exception):
         self.filename = None
 
     def __str__ (self):
-        return 'File "%s", line %d: %s' % (self.filename, self.line_number, self.message)
+        return 'File "%s", line %d: %s' % (self.filename, self.line_number + 1, self.message)
 
 class Parser(object):
     '''parses a microtome document from a string'''

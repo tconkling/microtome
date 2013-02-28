@@ -1,5 +1,5 @@
-#
-# microtome - Tim Conkling, 2012
+//
+// microtome - Tim Conkling, 2012
 
 namespace microtome.test;
 

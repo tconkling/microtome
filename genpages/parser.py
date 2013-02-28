@@ -30,7 +30,7 @@ EQUALS = re.compile(r'=')
 COMMA = re.compile(r',')
 QUALIFIED_TYPENAME = re.compile("({0})?{1}".format(NAMESPACE.pattern, TYPENAME.pattern))
 
-WHITESPACE = re.compile(r'((\s)|(#.*$))+', re.MULTILINE)
+WHITESPACE_AND_COMMENTS = re.compile(r'(\s*(//.*$)?)+', re.MULTILINE)
 
 LOG = logging.getLogger("parser")
 
@@ -286,7 +286,7 @@ class Parser(object):
 
     def eat_whitespace (self):
         '''advances the stream to the first non-whitespace character'''
-        self._scanner.scan(WHITESPACE)
+        self._scanner.scan(WHITESPACE_AND_COMMENTS)
 
 def get_number (s):
     '''returns the float represented by the string, or None if the string can't be converted'''
@@ -316,9 +316,9 @@ if __name__ == "__main__":
     logging.basicConfig(level = logging.INFO)
     TEST_STR = '''
         namespace com.test;
-        # comment 1
+        // comment 1
         MyPage extends AnotherPage {
-            bool foo;   # comment 2
+            bool foo;   // comment 2
             int bar;
             float baz (min = -3.0);
             string str (nullable, text="as df");

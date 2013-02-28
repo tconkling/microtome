@@ -17,7 +17,7 @@ public class Page
         return _name;
     }
 
-    public function get type () :TypeInfo {
+    public function get typeInfo () :TypeInfo {
         return new TypeInfo(ClassUtil.getClass(this), null);
     }
 

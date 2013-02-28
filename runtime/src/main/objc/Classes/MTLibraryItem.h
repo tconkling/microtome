@@ -5,6 +5,6 @@
 
 @protocol MTLibraryItem <NSObject>
 @property (nonatomic,readonly) NSString* name;
-@property (nonatomic,readonly) MTTypeInfo* type;
+@property (nonatomic,readonly) MTTypeInfo* typeInfo;
 - (id)childNamed:(NSString*)name;
 @end

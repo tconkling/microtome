@@ -334,7 +334,7 @@
     @try {
         for (id<MTLibraryItem> item in task.libraryItems) {
             id<MTObjectMarshaller> handler = [self requireMarshallerForClass:[item class]];
-            [handler withLibrary:self type:item.type resolveRefs:item];
+            [handler withLibrary:self type:item.typeInfo resolveRefs:item];
         }
     }
     @catch (NSException* exception) {

@@ -16,7 +16,7 @@
     _name = name;
 }
 
-- (MTTypeInfo*)type {
+- (MTTypeInfo*)typeInfo {
     return [[MTTypeInfo alloc] initWithClass:[self class] subtype:nil];
 }
 

@@ -9,19 +9,19 @@
 @implementation MTMutableTome
 
 @synthesize name = _name;
-@synthesize type = _type;
+@synthesize typeInfo = _typeInfo;
 
 - (id)initWithName:(NSString*)name pageClass:(Class)pageClass {
     if ((self = [super init])) {
         _name = name;
-        _type = MTBuildTypeInfo(@[[self class], pageClass]);
+        _typeInfo = MTBuildTypeInfo(@[[self class], pageClass]);
         _pages = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
 - (Class)pageClass {
-    return _type.subtype.clazz;
+    return _typeInfo.subtype.clazz;
 }
 
 - (int)pageCount {

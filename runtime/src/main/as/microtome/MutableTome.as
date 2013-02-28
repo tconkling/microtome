@@ -22,7 +22,7 @@ public final class MutableTome extends Proxy
         return _name;
     }
 
-    public function get type () :TypeInfo {
+    public function get typeInfo () :TypeInfo {
         return _type;
     }
 

@@ -376,7 +376,7 @@ public class Library
                 var marshaller :ObjectMarshaller =
                     requireObjectMarshallerForClass(ClassUtil.getClass(item));
                 try {
-                    marshaller.resolveRefs(item, item.type, this);
+                    marshaller.resolveRefs(item, item.typeInfo, this);
                 } catch (e :Error) {
                     throw new ResolveRefError("Failed to resolve ref", "item", item.name,
                         "err", e.message);

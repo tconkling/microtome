@@ -24,7 +24,7 @@ PARAMETERIZED_TYPES = set([ ListType, PageRefType, TomeType ])
 ALL_TYPES = set([ BoolType, IntType, FloatType, StringType, ListType, PageRefType, TomeType ])
 
 # cannot be used as variable names
-RESERVED_NAMES = set(["type", "name"])
+RESERVED_NAMES = set(["pageType", "isTome", "props", "name"])
 
 def type_spec_to_list (type_spec):
     '''returns a flat list of the types in a TypeSpec's type chain'''

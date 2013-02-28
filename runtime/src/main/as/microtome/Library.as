@@ -169,13 +169,13 @@ public class Library
         }
 
         var reader :DataReader = DataReader.withData(pageData);
-        var typename :String = reader.requireAttribute(Defs.TYPE_ANNOTATION);
+        var typename :String = reader.requireAttribute(Defs.PAGE_TYPE_ATTR);
         var pageClass :Class = requirePageClass(typename, superclass);
 
         var page :Page = new pageClass();
         page.setName(name);
 
-        if (reader.hasAttribute(Defs.TEMPLATE_ANNOTATION)) {
+        if (reader.hasAttribute(Defs.TEMPLATE_ATTR)) {
             // if this page has a template, we defer its loading until the end
             _loadTask.pendingTemplatedPages.push(new TemplatedPage(page, pageData));
         } else {
@@ -321,12 +321,10 @@ public class Library
     protected function loadLibraryItem (data :DataElement) :LibraryItem {
         // a tome or a page
         var reader :DataReader = DataReader.withData(data);
-        var typeName :String = reader.requireAttribute(Defs.TYPE_ANNOTATION);
-        if (Util.startsWith(typeName, Defs.TOME_PREFIX)) {
+        var pageType :String = reader.requireAttribute(Defs.PAGE_TYPE_ATTR);
+        if (reader.getBoolAttribute(Defs.IS_TOME_ATTR, false)) {
             // it's a tome!
-            typeName = typeName.substr(Defs.TOME_PREFIX.length);
-            var pageClass :Class = requirePageClass(typeName);
-            return loadTome(reader, pageClass);
+            return loadTome(reader, requirePageClass(pageType));
         } else {
             // it's a page!
             return loadPage(reader);

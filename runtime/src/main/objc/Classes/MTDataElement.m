@@ -83,6 +83,23 @@
     return [_data attributeNamed:name] != nil;
 }
 
+- (NSString*)getAttribute:(NSString*)name default:(NSString*)defaultVal {
+    NSString* attr = [_data attributeNamed:name];
+    return (attr != nil ? attr : defaultVal);
+}
+
+- (BOOL)getBoolAttribute:(NSString*)name default:(BOOL)defaultVal {
+    return ([self hasAttribute:name] ? [self requireBoolAttribute:name] : defaultVal);
+}
+
+- (int)getIntAttribute:(NSString*)name default:(int)defaultVal {
+    return ([self hasAttribute:name] ? [self requireIntAttribute:name] : defaultVal);
+}
+
+- (float)getFloatAttribute:(NSString*)name default:(float)defaultVal {
+    return ([self hasAttribute:name] ? [self requireFloatAttribute:name] : defaultVal);
+}
+
 - (NSString*)requireAttribute:(NSString*)name {
     NSString* attr = [_data attributeNamed:name];
     if (attr == nil) {

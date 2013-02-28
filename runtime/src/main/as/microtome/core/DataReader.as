@@ -37,6 +37,23 @@ public class DataReader
         return val;
     }
 
+    public function getAttribute (name :String, defaultVal :String = null) :String {
+        var attr :String = attributeNamed(name);
+        return (attr != null ? attr : defaultVal);
+    }
+
+    public function getBoolAttribute (name :String, defaultVal :Boolean = false) :Boolean {
+        return (hasAttribute(name) ? requireBoolAttribute(name) : defaultVal);
+    }
+
+    public function getIntAttribute (name :String, defaultVal :int = 0) :int {
+        return (hasAttribute(name) ? requireIntAttribute(name) : defaultVal);
+    }
+
+    public function getNumberAttribute (name :String, defaultVal :Number = 0) :Number {
+        return (hasAttribute(name) ? requireNumberAttribute(name) : defaultVal);
+    }
+
     public function requireAttribute (name :String) :String {
         var attr :String = attributeNamed(name);
         if (attr == null) {

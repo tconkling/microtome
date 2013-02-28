@@ -16,9 +16,6 @@
 #import "MTLoadTask.h"
 #import "MTLoadException.h"
 
-static NSString* const TEMPLATE_ATTR = @"template";
-static NSString* const TYPE_ATTR = @"type";
-
 /// TemplatedPage
 
 @interface MTTemplatedPage : NSObject {
@@ -108,12 +105,10 @@ static NSString* const TYPE_ATTR = @"type";
 - (id<MTLibraryItem>)loadLibraryItem:(id<MTDataElement>)data {
     // a tome or a page
     MTDataReader* reader = [MTDataReader withData:data];
-    NSString* typeName = [reader requireAttribute:TYPE_ATTR];
-    NSRange range = [typeName rangeOfString:MT_TOME_PREFIX];
-    if (range.location == 0) {
+    NSString* pageTypeName = [reader requireAttribute:MT_PAGE_TYPE_ATTR];
+    if ([reader getBoolAttribute:MT_IS_TOME_ATTR default:NO]) {
         // it's a tome!
-        typeName = [typeName substringFromIndex:range.length];
-        Class pageClass = [self requirePageClassWithName:typeName];
+        Class pageClass = [self requirePageClassWithName:pageTypeName];
         return [self loadTome:data pageClass:pageClass];
     } else {
         // it's a page!
@@ -144,7 +139,7 @@ static NSString* const TYPE_ATTR = @"type";
 
     MTDataReader* reader = [MTDataReader withData:pageData];
 
-    NSString* typeName = [reader requireAttribute:TYPE_ATTR];
+    NSString* typeName = [reader requireAttribute:MT_PAGE_TYPE_ATTR];
     Class pageClass = (superclass != nil ?
                        [self requirePageClassWithName:typeName superClass:superclass] :
                        [self requirePageClassWithName:typeName]);
@@ -152,7 +147,7 @@ static NSString* const TYPE_ATTR = @"type";
     MTPage* page = [[pageClass alloc] init];
     [page setName:name];
 
-    if ([reader hasAttribute:TEMPLATE_ATTR]) {
+    if ([reader hasAttribute:MT_TEMPLATE_ATTR]) {
         // if this page has a template, we defer its loading until the end
         [_loadTask.pendingTemplatedPages addObject:
          [[MTTemplatedPage alloc] initWithPage:page data:pageData]];
@@ -432,7 +427,7 @@ static NSString* const TYPE_ATTR = @"type";
 }
 
 - (NSString*)templateName {
-    return [_data requireAttribute:TEMPLATE_ATTR];
+    return [_data requireAttribute:MT_TEMPLATE_ATTR];
 }
 
 @end

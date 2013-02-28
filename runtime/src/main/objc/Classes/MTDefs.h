@@ -19,9 +19,12 @@
 
 
 #define MT_NAME_SEPARATOR @"."
-#define MT_TOME_PREFIX @"Tome:"
 
-#define MT_NULLABLE @"nullable"
-#define MT_MIN @"min"
-#define MT_MAX @"max"
+#define MT_PAGE_TYPE_ATTR @"pageType"
+#define MT_IS_TOME_ATTR @"isTome"
+#define MT_TEMPLATE_ATTR @"template"
+
+#define MT_NULLABLE_ANNOTATION @"nullable"
+#define MT_MIN_ANNOTATION @"min"
+#define MT_MAX_ANNOTATION @"max"
 #define MT_DEFAULT_ANNOTATION @"default"

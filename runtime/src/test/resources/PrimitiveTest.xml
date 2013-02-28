@@ -1,3 +1,3 @@
 <microtome>
-    <primitiveTest type='PrimitivePage' foo='true' bar='2' baz='3.1415'/>
+    <primitiveTest pageType='PrimitivePage' foo='true' bar='2' baz='3.1415'/>
 </microtome>

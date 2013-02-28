@@ -87,7 +87,7 @@
 }
 
 - (BOOL)nullable {
-    return [self boolAnnotation:MT_NULLABLE default:NO];
+    return [self boolAnnotation:MT_NULLABLE_ANNOTATION default:NO];
 }
 
 @end

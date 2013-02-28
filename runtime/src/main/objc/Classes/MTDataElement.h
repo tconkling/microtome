@@ -26,6 +26,11 @@
 
 - (BOOL)hasAttribute:(NSString*)name;
 
+- (NSString*)getAttribute:(NSString*)name default:(NSString*)defaultVal;
+- (BOOL)getBoolAttribute:(NSString*)name default:(BOOL)defaultVal;
+- (int)getIntAttribute:(NSString*)name default:(int)defaultVal;
+- (float)getFloatAttribute:(NSString*)name default:(float)defaultVal;
+
 - (NSString*)requireAttribute:(NSString*)name;
 - (BOOL)requireBoolAttribute:(NSString*)name;
 - (int)requireIntAttribute:(NSString*)name;

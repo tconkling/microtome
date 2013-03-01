@@ -30,6 +30,10 @@ public class Page
         return (prop != null && prop is ObjectProp ? ObjectProp(prop).value : null);
     }
 
+    public function toString () :String {
+        return ClassUtil.tinyClassName(this) + ":'" + _name + "'";
+    }
+
     internal function setName (name :String) :void {
         _name = name;
     }

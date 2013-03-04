@@ -34,15 +34,15 @@ public final class MutableTome extends Proxy
         return _size;
     }
 
-    public function pageNamed (name :String) :Page {
-        return _pages[name];
-    }
-
     public function childNamed (name :String) :* {
+        return this.pageNamed(name);
+    }
+
+    public function pageNamed (name :String) :* {
         return _pages[name];
     }
 
-    public function requirePageNamed (name :String) :Page {
+    public function requirePageNamed (name :String) :* {
         var page :Page = _pages[name];
         if (page == null) {
             throw new Error("Missing required page [name='" + name + "']");

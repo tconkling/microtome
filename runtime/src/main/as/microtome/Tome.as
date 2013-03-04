@@ -17,7 +17,7 @@ public interface Tome extends LibraryItem
     function get pageClass () :Class;
     function get size () :int;
 
-    function pageNamed (name :String) :Page;
-    function requirePageNamed (name :String) :Page;
+    function pageNamed (name :String) :*;
+    function requirePageNamed (name :String) :*;
 }
 }

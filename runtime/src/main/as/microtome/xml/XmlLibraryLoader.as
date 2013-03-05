@@ -13,7 +13,12 @@ public class XmlLibraryLoader extends LibraryLoader
         super(library);
     }
 
-    /** Loads an array of XML documents into the library */
+    /** Loads a single XML document into the library */
+    public function loadXmlDoc (xml :XML) :void {
+        loadXmlDocs(new <XML>[ xml ]);
+    }
+
+    /** Loads a Vector of XML documents into the library */
     public function loadXmlDocs (xmlDocs :Vector.<XML>) :void {
         var data :Vector.<DataElement> = new <DataElement>[];
         for each (var xml :XML in xmlDocs) {

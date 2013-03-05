@@ -10,8 +10,10 @@ import microtome.core.DataReader;
 import microtome.core.Defs;
 import microtome.core.LibraryItem;
 import microtome.core.LoadTask;
+import microtome.core.MicrotomeItem;
 import microtome.core.TemplatedPage;
 import microtome.error.LoadError;
+import microtome.error.MicrotomeError;
 import microtome.error.RequirePageError;
 import microtome.error.ResolveRefError;
 import microtome.marshaller.DefaultPrimitiveMarshaller;
@@ -31,6 +33,7 @@ import microtome.util.ClassUtil;
 import microtome.util.Util;
 
 public class Library
+    implements MicrotomeItem
 {
     public var primitiveMarshaller :PrimitiveMarshaller = new DefaultPrimitiveMarshaller();
 
@@ -40,6 +43,18 @@ public class Library
         registerObjectMarshaller(new PageRefMarshaller());
         registerObjectMarshaller(new StringMarshaller());
         registerObjectMarshaller(new TomeMarshaller());
+    }
+
+    public final function get library () :Library {
+        return this;
+    }
+
+    public final function get parent () :MicrotomeItem {
+        return null;
+    }
+
+    public final function get name () :String {
+        return null;
     }
 
     public function getItem (name :String) :* {
@@ -59,7 +74,7 @@ public class Library
         try {
             for each (var doc :DataElement in dataElements) {
                 for each (var itemData :DataElement in DataReader.withData(doc).children) {
-                    _loadTask.addItem(loadLibraryItem(null, itemData));
+                    _loadTask.addItem(loadLibraryItem(this, itemData));
                 }
             }
 
@@ -103,6 +118,15 @@ public class Library
     }
 
     public function removeAllItems () :void {
+        for each (var item :LibraryItem in _items) {
+            if (item is Page) {
+                Page(item)._parent = null;
+            } else if (item is MutableTome) {
+                MutableTome(item)._parent = null;
+            } else {
+                throw new MicrotomeError("Unrecognized LibraryItem", "item", item);
+            }
+        }
         _items = new Dictionary();
     }
 
@@ -149,7 +173,7 @@ public class Library
         return page;
     }
 
-    public function loadTome (parent :LibraryItem, tomeData :DataElement, pageClass :Class) :MutableTome {
+    public function loadTome (parent :MicrotomeItem, tomeData :DataElement, pageClass :Class) :MutableTome {
         var name :String = tomeData.name;
         if (!Util.validLibraryItemName(name)) {
             throw new LoadError(tomeData, "Invalid tome name", "name", name);
@@ -157,12 +181,15 @@ public class Library
 
         var tome :MutableTome = new MutableTome(parent, name, pageClass);
         for each (var pageData :DataElement in DataReader.withData(tomeData).children) {
-            tome.addPage(loadPage(tome, pageData, pageClass));
+            var page :Page = loadPage(tome, pageData, pageClass);
+            // MutableTome.addPage sets the page's parent, and requires that it's null
+            page._parent = null;
+            tome.addPage(page);
         }
         return tome;
     }
 
-    public function loadPage (parent :LibraryItem, pageData :DataElement, requiredSuperclass :Class = null) :Page {
+    public function loadPage (parent :MicrotomeItem, pageData :DataElement, requiredSuperclass :Class = null) :Page {
         var name :String = pageData.name;
         if (!Util.validLibraryItemName(name)) {
             throw new LoadError(pageData, "Invalid page name", "name", name);
@@ -319,7 +346,7 @@ public class Library
         }
     }
 
-    protected function loadLibraryItem (parent :LibraryItem, data :DataElement) :LibraryItem {
+    protected function loadLibraryItem (parent :MicrotomeItem, data :DataElement) :LibraryItem {
         // a tome or a page
         var reader :DataReader = DataReader.withData(data);
         var pageType :String = reader.requireAttribute(Defs.PAGE_TYPE_ATTR);

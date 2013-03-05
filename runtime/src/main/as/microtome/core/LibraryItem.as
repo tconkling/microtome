@@ -3,12 +3,9 @@
 
 package microtome.core {
 
-public interface LibraryItem
+public interface LibraryItem extends MicrotomeItem
 {
-    function get name () :String;
     function get typeInfo () :TypeInfo;
-
-    function get parent () :LibraryItem;
     function childNamed (name :String) :*;
 }
 }

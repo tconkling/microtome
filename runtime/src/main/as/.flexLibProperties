@@ -34,8 +34,10 @@
     <classEntry path="microtome.util.ClassUtil"/>
     <classEntry path="microtome.core.TemplatedPage"/>
     <classEntry path="microtome.error.RequirePageError"/>
-    <classEntry path="microtome.error.MicrotomeError"/>
+    <classEntry path="microtome.error.MicrotomeErrorBase"/>
     <classEntry path="microtome.error.ResolveRefError"/>
+    <classEntry path="microtome.core.MicrotomeItem"/>
+    <classEntry path="microtome.error.MicrotomeError"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

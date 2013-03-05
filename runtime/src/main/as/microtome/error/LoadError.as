@@ -5,7 +5,7 @@ package microtome.error {
 
 import microtome.core.DataElement;
 
-public class LoadError extends MicrotomeError
+public class LoadError extends MicrotomeErrorBase
 {
     public function LoadError (badElement :DataElement, message :String, ...args) {
         super(message, addDataToArgs(badElement, args));

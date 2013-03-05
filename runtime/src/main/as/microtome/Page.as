@@ -5,6 +5,7 @@ package microtome {
 
 import microtome.core.Defs;
 import microtome.core.LibraryItem;
+import microtome.core.MicrotomeItem;
 import microtome.core.TypeInfo;
 import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
@@ -21,15 +22,19 @@ public class Page
     /** The page's fully qualified name, used during PageRef resolution */
     public final function get fullyQualifiedName () :String {
         var out :String = _name;
-        var curItem :LibraryItem = _parent;
-        while (curItem != null) {
+        var curItem :MicrotomeItem = _parent;
+        while (curItem != null && curItem.library != curItem) {
             out = curItem.name + Defs.NAME_SEPARATOR + out;
             curItem = curItem.parent;
         }
         return out;
     }
 
-    public final function get parent () :LibraryItem {
+    public final function get library () :Library {
+        return (_parent != null ? _parent.library : null);
+    }
+
+    public final function get parent () :MicrotomeItem {
         return _parent;
     }
 
@@ -51,7 +56,7 @@ public class Page
     }
 
     internal var _name :String;
-    internal var _parent :LibraryItem;
+    internal var _parent :MicrotomeItem;
 
     protected static const EMPTY_VEC :Vector.<Prop> = new Vector.<Prop>(0, true);
 }

@@ -21,7 +21,7 @@ public class PageRef
     }
 
     public function get page () :* {
-        return _page;
+        return (_page != null && _page.library != null ? _page : null);
     }
 
     public function set page (page :Page) :void {

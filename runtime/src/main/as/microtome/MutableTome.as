@@ -7,14 +7,15 @@ import flash.utils.Dictionary;
 import flash.utils.Proxy;
 import flash.utils.flash_proxy;
 
-import microtome.core.LibraryItem;
+import microtome.core.MicrotomeItem;
 import microtome.core.TypeInfo;
+import microtome.error.MicrotomeError;
 import microtome.util.ClassUtil;
 
 public final class MutableTome extends Proxy
     implements Tome
 {
-    public function MutableTome (parent :LibraryItem, name :String, pageClass :Class) {
+    public function MutableTome (parent :MicrotomeItem, name :String, pageClass :Class) {
         _name = name;
         _parent = parent;
         _type = TypeInfo.fromClasses([ MutableTome, pageClass ]);
@@ -24,7 +25,11 @@ public final class MutableTome extends Proxy
         return _name;
     }
 
-    public final function get parent () :LibraryItem {
+    public final function get library () :Library {
+        return (_parent != null ? _parent.library : null);
+    }
+
+    public final function get parent () :MicrotomeItem {
         return _parent;
     }
 
@@ -70,20 +75,32 @@ public final class MutableTome extends Proxy
     }
 
     public function addPage (page :Page) :void {
-        if (page == null) {
-            throw new Error("Can't add null page");
-        } else if (!(page is this.pageClass)) {
-            throw new Error("Incorrect page type [required='" +
-                ClassUtil.getClassName(this.pageClass) + "', got='" +
-                ClassUtil.getClassName(page) + "']");
+        if (!(page is this.pageClass)) {
+            throw new MicrotomeError("Incorrect page type",
+                "required", ClassUtil.getClassName(this.pageClass),
+                "got", ClassUtil.getClassName(page));
         } else if (page.name == null) {
-            throw new Error("Page is missing name [type='" + ClassUtil.getClassName(page) + "']");
+            throw new MicrotomeError("Page is missing name", "type", ClassUtil.getClassName(page));
         } else if (_pages[page.name] != null) {
-            throw new Error("Duplicate page name '" + page.name + "'");
+            throw new MicrotomeError("Duplicate page name '" + page.name + "'");
+        } else if (page._parent != null) {
+            throw new MicrotomeError("Page is already parented", "parent", page._parent);
         }
+
+        page._parent = this;
         _pages[page.name] = page;
         _pageList = null;
         _size++;
+    }
+
+    public function removePage (page :Page) :void {
+        if (page._parent != this) {
+            throw new MicrotomeError("Page is not in this tome", "page", page);
+        }
+        page._parent = null;
+        delete _pages[page.name];
+        _pageList = null;
+        _size--;
     }
 
     override flash_proxy function getProperty (name :*) :* {
@@ -128,7 +145,7 @@ public final class MutableTome extends Proxy
     }
 
     protected var _name :String;
-    protected var _parent :LibraryItem;
+    internal var _parent :MicrotomeItem;
     protected var _type :TypeInfo;
     protected var _pages :Dictionary = new Dictionary();
     protected var _size :int;

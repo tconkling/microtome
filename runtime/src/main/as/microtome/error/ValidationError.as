@@ -5,7 +5,7 @@ package microtome.error {
 
 import microtome.prop.Prop;
 
-public class ValidationError extends MicrotomeError
+public class ValidationError extends MicrotomeErrorBase
 {
     public function ValidationError (prop :Prop, message :String) {
         super(getMessage(prop, message));

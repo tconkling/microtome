@@ -3,9 +3,10 @@
 
 package microtome.marshaller {
 
+import microtome.Library;
 import microtome.core.DataElement;
 import microtome.core.DataReader;
-import microtome.Library;
+import microtome.core.LibraryItem;
 import microtome.core.TypeInfo;
 
 public class ListMarshaller extends ObjectMarshallerBase
@@ -14,12 +15,12 @@ public class ListMarshaller extends ObjectMarshallerBase
         return Array;
     }
 
-    override public function loadObject (data :DataElement, type :TypeInfo, library :Library):* {
+    override public function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, library :Library):* {
         var list :Array = [];
         var childMarshaller :ObjectMarshaller =
             library.requireObjectMarshallerForClass(type.subtype.clazz);
         for each (var childData :DataElement in DataReader.withData(data).children) {
-            var child :* = childMarshaller.loadObject(childData, type.subtype, library);
+            var child :* = childMarshaller.loadObject(null, childData, type.subtype, library);
             list.push(child);
         }
 

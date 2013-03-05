@@ -7,38 +7,44 @@ import flash.utils.Dictionary;
 import flash.utils.Proxy;
 import flash.utils.flash_proxy;
 
+import microtome.core.LibraryItem;
 import microtome.core.TypeInfo;
 import microtome.util.ClassUtil;
 
 public final class MutableTome extends Proxy
     implements Tome
 {
-    public function MutableTome (name :String, pageClass :Class) {
+    public function MutableTome (parent :LibraryItem, name :String, pageClass :Class) {
         _name = name;
+        _parent = parent;
         _type = TypeInfo.fromClasses([ MutableTome, pageClass ]);
     }
 
-    public function get name () :String {
+    public final function get name () :String {
         return _name;
     }
 
-    public function get typeInfo () :TypeInfo {
+    public final function get parent () :LibraryItem {
+        return _parent;
+    }
+
+    public final function get typeInfo () :TypeInfo {
         return _type;
     }
 
-    public function get pageClass () :Class {
+    public final function get pageClass () :Class {
         return _type.subtype.clazz;
     }
 
-    public function get size () :int {
+    public final function get size () :int {
         return _size;
     }
 
-    public function childNamed (name :String) :* {
+    public final function childNamed (name :String) :* {
         return this.pageNamed(name);
     }
 
-    public function pageNamed (name :String) :* {
+    public final function pageNamed (name :String) :* {
         return _pages[name];
     }
 
@@ -122,6 +128,7 @@ public final class MutableTome extends Proxy
     }
 
     protected var _name :String;
+    protected var _parent :LibraryItem;
     protected var _type :TypeInfo;
     protected var _pages :Dictionary = new Dictionary();
     protected var _size :int;

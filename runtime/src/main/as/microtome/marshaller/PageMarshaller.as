@@ -6,6 +6,7 @@ package microtome.marshaller {
 import microtome.Library;
 import microtome.Page;
 import microtome.core.DataElement;
+import microtome.core.LibraryItem;
 import microtome.core.TypeInfo;
 import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
@@ -20,8 +21,8 @@ public class PageMarshaller extends ObjectMarshallerBase
         return true;
     }
 
-    override public function loadObject (data :DataElement, type :TypeInfo, library :Library):* {
-        return library.loadPage(data, type.clazz);
+    override public function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, library :Library):* {
+        return library.loadPage(parent, data, type.clazz);
     }
 
     override public function resolveRefs (obj :*, type :TypeInfo, library :Library) :void {

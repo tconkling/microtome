@@ -7,6 +7,7 @@ import microtome.Library;
 import microtome.MutableTome;
 import microtome.Page;
 import microtome.core.DataElement;
+import microtome.core.LibraryItem;
 import microtome.core.TypeInfo;
 
 public class TomeMarshaller extends ObjectMarshallerBase
@@ -15,8 +16,8 @@ public class TomeMarshaller extends ObjectMarshallerBase
         return MutableTome;
     }
 
-    override public function loadObject (data :DataElement, type :TypeInfo, library :Library) :* {
-        return library.loadTome(data, type.subtype.clazz);
+    override public function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, library :Library) :* {
+        return library.loadTome(parent, data, type.subtype.clazz);
     }
 
     override public function resolveRefs (obj :*, type :TypeInfo, library :Library) :void {

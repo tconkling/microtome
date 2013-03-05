@@ -6,6 +6,7 @@ package microtome.marshaller {
 import microtome.Library;
 import microtome.core.DataElement;
 import microtome.core.DataReader;
+import microtome.core.LibraryItem;
 import microtome.core.PageRef;
 import microtome.core.TypeInfo;
 import microtome.error.LoadError;
@@ -16,7 +17,7 @@ public class PageRefMarshaller extends ObjectMarshallerBase
         return PageRef;
     }
 
-    override public function loadObject (data :DataElement, type :TypeInfo, library :Library):* {
+    override public function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, library :Library):* {
         var pageName :String = DataReader.withData(data).requireAttribute("ref");
         if (pageName.length == 0) {
             throw new LoadError(data, "invalid PageRef", "pageName", pageName);

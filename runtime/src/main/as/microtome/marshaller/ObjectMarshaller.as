@@ -3,10 +3,11 @@
 
 package microtome.marshaller {
 
-import microtome.core.DataElement;
 import microtome.Library;
-import microtome.prop.ObjectProp;
+import microtome.core.DataElement;
+import microtome.core.LibraryItem;
 import microtome.core.TypeInfo;
+import microtome.prop.ObjectProp;
 
 public interface ObjectMarshaller
 {
@@ -14,7 +15,7 @@ public interface ObjectMarshaller
     function get handlesSubclasses () :Boolean;
 
     /** loads an object from a data element */
-    function loadObject (data :DataElement, type :TypeInfo, library :Library) :*;
+    function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, library :Library) :*;
 
     /** resolves PageRefs contained within an object */
     function resolveRefs (obj :*, type :TypeInfo, library :Library) :void;

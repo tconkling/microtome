@@ -59,7 +59,7 @@ public class Library
         try {
             for each (var doc :DataElement in dataElements) {
                 for each (var itemData :DataElement in DataReader.withData(doc).children) {
-                    _loadTask.addItem(loadLibraryItem(itemData));
+                    _loadTask.addItem(loadLibraryItem(null, itemData));
                 }
             }
 
@@ -149,20 +149,20 @@ public class Library
         return page;
     }
 
-    public function loadTome (tomeData :DataElement, pageClass :Class) :MutableTome {
+    public function loadTome (parent :LibraryItem, tomeData :DataElement, pageClass :Class) :MutableTome {
         var name :String = tomeData.name;
         if (!Util.validLibraryItemName(name)) {
             throw new LoadError(tomeData, "Invalid tome name", "name", name);
         }
 
-        var tome :MutableTome = new MutableTome(name, pageClass);
+        var tome :MutableTome = new MutableTome(parent, name, pageClass);
         for each (var pageData :DataElement in DataReader.withData(tomeData).children) {
-            tome.addPage(loadPage(pageData, pageClass));
+            tome.addPage(loadPage(tome, pageData, pageClass));
         }
         return tome;
     }
 
-    public function loadPage (pageData :DataElement, superclass :Class = null) :Page {
+    public function loadPage (parent :LibraryItem, pageData :DataElement, requiredSuperclass :Class = null) :Page {
         var name :String = pageData.name;
         if (!Util.validLibraryItemName(name)) {
             throw new LoadError(pageData, "Invalid page name", "name", name);
@@ -170,10 +170,11 @@ public class Library
 
         var reader :DataReader = DataReader.withData(pageData);
         var typename :String = reader.requireAttribute(Defs.PAGE_TYPE_ATTR);
-        var pageClass :Class = requirePageClass(typename, superclass);
+        var pageClass :Class = requirePageClass(typename, requiredSuperclass);
 
         var page :Page = new pageClass();
-        page.setName(name);
+        page._name = name;
+        page._parent = parent;
 
         if (reader.hasAttribute(Defs.TEMPLATE_ATTR)) {
             // if this page has a template, we defer its loading until the end
@@ -227,7 +228,7 @@ public class Library
 
             // load the prop
             try {
-                loadPageProp(prop, tProp, pageData);
+                loadPageProp(page, prop, tProp, pageData);
             } catch (loadErr :LoadError) {
                 throw loadErr;
             } catch (err :Error) {
@@ -236,7 +237,7 @@ public class Library
         }
     }
 
-    protected function loadPageProp (prop :Prop, tProp :Prop, pageData :DataElement) :void {
+    protected function loadPageProp (page :Page, prop :Prop, tProp :Prop, pageData :DataElement) :void {
         var pageReader :DataReader = DataReader.withData(pageData);
 
         var objectProp :ObjectProp = prop as ObjectProp;
@@ -305,7 +306,7 @@ public class Library
                 var marshaller :ObjectMarshaller =
                     requireObjectMarshallerForClass(objectProp.valueType.clazz);
                 var propData :DataElement = pageReader.childNamed(prop.name);
-                objectProp.value = marshaller.loadObject(propData, objectProp.valueType, this);
+                objectProp.value = marshaller.loadObject(page, propData, objectProp.valueType, this);
                 marshaller.validatePropValue(objectProp);
 
             } else if (useTemplate) {
@@ -318,16 +319,16 @@ public class Library
         }
     }
 
-    protected function loadLibraryItem (data :DataElement) :LibraryItem {
+    protected function loadLibraryItem (parent :LibraryItem, data :DataElement) :LibraryItem {
         // a tome or a page
         var reader :DataReader = DataReader.withData(data);
         var pageType :String = reader.requireAttribute(Defs.PAGE_TYPE_ATTR);
         if (reader.getBoolAttribute(Defs.IS_TOME_ATTR, false)) {
             // it's a tome!
-            return loadTome(reader, requirePageClass(pageType));
+            return loadTome(parent, reader, requirePageClass(pageType));
         } else {
             // it's a page!
-            return loadPage(reader);
+            return loadPage(parent, reader);
         }
     }
 

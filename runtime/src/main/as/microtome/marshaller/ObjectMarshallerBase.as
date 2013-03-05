@@ -5,6 +5,7 @@ package microtome.marshaller {
 
 import microtome.Library;
 import microtome.core.DataElement;
+import microtome.core.LibraryItem;
 import microtome.core.TypeInfo;
 import microtome.error.ValidationError;
 import microtome.prop.ObjectProp;
@@ -21,7 +22,7 @@ public class ObjectMarshallerBase
         return false;
     }
 
-    public function loadObject (data :DataElement, type :TypeInfo, library :Library) :* {
+    public function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, library :Library) :* {
         throw new Error("abstract");
     }
 

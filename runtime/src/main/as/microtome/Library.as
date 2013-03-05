@@ -35,15 +35,28 @@ public final class Library
         return (name in _items);
     }
 
+    public function addItem (item :LibraryItem) :void {
+        if (hasItem(item.name)) {
+            throw new MicrotomeError("An item with that name already exists", "name", name);
+        } else if (item.parent != null) {
+            throw new MicrotomeError("Item is already in a library", "item", item);
+        }
+
+        setLibrary(item, this);
+        _items[name] = item;
+    }
+
+    public function removeItem (item :LibraryItem) :void {
+        if (item.parent != this) {
+            throw new MicrotomeError("Item is not in this library", "item", item);
+        }
+        setLibrary(item, null);
+        delete _items[name];
+    }
+
     public function removeAllItems () :void {
         for each (var item :LibraryItem in _items) {
-            if (item is Page) {
-                Page(item)._parent = null;
-            } else if (item is MutableTome) {
-                MutableTome(item)._parent = null;
-            } else {
-                throw new MicrotomeError("Unrecognized LibraryItem", "item", item);
-            }
+            setLibrary(item, null);
         }
         _items = new Dictionary();
     }
@@ -74,6 +87,16 @@ public final class Library
                 "actualType", ClassUtil.getClassName(page));
         }
         return page;
+    }
+
+    protected function setLibrary (item :LibraryItem, library :Library) :void {
+        if (item is Page) {
+            Page(item)._parent = library;
+        } else if (item is MutableTome) {
+            MutableTome(item)._parent = library;
+        } else {
+            throw new MicrotomeError("Unrecognized LibraryItem", "item", item);
+        }
     }
 
     internal var _items :Dictionary = new Dictionary();

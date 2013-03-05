@@ -4,10 +4,15 @@
 package microtome.xml {
 
 import microtome.Library;
+import microtome.LibraryLoader;
 import microtome.core.DataElement;
 
-public class XmlLibrary extends Library
+public class XmlLibraryLoader extends LibraryLoader
 {
+    public function XmlLibraryLoader (library :Library) {
+        super(library);
+    }
+
     /** Loads an array of XML documents into the library */
     public function loadXmlDocs (xmlDocs :Vector.<XML>) :void {
         var data :Vector.<DataElement> = new <DataElement>[];

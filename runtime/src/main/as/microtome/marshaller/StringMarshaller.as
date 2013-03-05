@@ -3,7 +3,7 @@
 
 package microtome.marshaller {
 
-import microtome.Library;
+import microtome.LibraryLoader;
 import microtome.core.DataElement;
 import microtome.core.DataReader;
 import microtome.core.LibraryItem;
@@ -16,7 +16,7 @@ public class StringMarshaller extends ObjectMarshallerBase
     }
 
     override public function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo,
-        library :Library) :* {
+        loader :LibraryLoader) :* {
 
         return DataReader.withData(data).requireAttribute("value");
     }

@@ -3,7 +3,7 @@
 
 package microtome.marshaller {
 
-import microtome.Library;
+import microtome.LibraryLoader;
 import microtome.core.DataElement;
 import microtome.core.DataReader;
 import microtome.core.LibraryItem;
@@ -17,7 +17,7 @@ public class PageRefMarshaller extends ObjectMarshallerBase
         return PageRef;
     }
 
-    override public function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, library :Library):* {
+    override public function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, loader :LibraryLoader):* {
         var pageName :String = DataReader.withData(data).requireAttribute("ref");
         if (pageName.length == 0) {
             throw new LoadError(data, "invalid PageRef", "pageName", pageName);
@@ -25,9 +25,9 @@ public class PageRefMarshaller extends ObjectMarshallerBase
         return new PageRef(type.subtype.clazz, pageName);
     }
 
-    override public function resolveRefs (obj :*, type :TypeInfo, library :Library) :void {
+    override public function resolveRefs (obj :*, type :TypeInfo, loader :LibraryLoader) :void {
         var ref :PageRef = PageRef(obj);
-        ref.page = library.requirePageWithQualifiedName(ref.pageName, ref.pageClass);
+        ref.page = loader.library.requirePageWithQualifiedName(ref.pageName, ref.pageClass);
     }
 }
 }

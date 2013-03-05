@@ -3,7 +3,7 @@
 
 package microtome.marshaller {
 
-import microtome.Library;
+import microtome.LibraryLoader;
 import microtome.core.DataElement;
 import microtome.core.LibraryItem;
 import microtome.core.TypeInfo;
@@ -15,10 +15,10 @@ public interface ObjectMarshaller
     function get handlesSubclasses () :Boolean;
 
     /** loads an object from a data element */
-    function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, library :Library) :*;
+    function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, loader :LibraryLoader) :*;
 
     /** resolves PageRefs contained within an object */
-    function resolveRefs (obj :*, type :TypeInfo, library :Library) :void;
+    function resolveRefs (obj :*, type :TypeInfo, loader :LibraryLoader) :void;
 
     /**
      * Validates an object's value.

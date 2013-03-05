@@ -3,7 +3,7 @@
 
 package microtome.marshaller {
 
-import microtome.Library;
+import microtome.LibraryLoader;
 import microtome.core.DataElement;
 import microtome.core.LibraryItem;
 import microtome.core.TypeInfo;
@@ -22,11 +22,11 @@ public class ObjectMarshallerBase
         return false;
     }
 
-    public function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, library :Library) :* {
+    public function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, loader :LibraryLoader) :* {
         throw new Error("abstract");
     }
 
-    public function resolveRefs (obj :*, type :TypeInfo, library :Library) :void {
+    public function resolveRefs (obj :*, type :TypeInfo, loader :LibraryLoader) :void {
         // do nothing by default
     }
 

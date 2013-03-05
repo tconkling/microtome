@@ -30,7 +30,7 @@
     <classEntry path="microtome.marshaller.PageMarshaller"/>
     <classEntry path="microtome.marshaller.PageRefMarshaller"/>
     <classEntry path="microtome.marshaller.TomeMarshaller"/>
-    <classEntry path="microtome.xml.XmlLibrary"/>
+    <classEntry path="microtome.xml.XmlLibraryLoader"/>
     <classEntry path="microtome.util.ClassUtil"/>
     <classEntry path="microtome.core.TemplatedPage"/>
     <classEntry path="microtome.error.RequirePageError"/>
@@ -38,6 +38,7 @@
     <classEntry path="microtome.error.ResolveRefError"/>
     <classEntry path="microtome.core.MicrotomeItem"/>
     <classEntry path="microtome.error.MicrotomeError"/>
+    <classEntry path="microtome.LibraryLoader"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

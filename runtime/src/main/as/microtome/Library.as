@@ -43,7 +43,7 @@ public final class Library
         }
 
         setLibrary(item, this);
-        _items[name] = item;
+        _items[item.name] = item;
     }
 
     public function removeItem (item :LibraryItem) :void {
@@ -51,7 +51,7 @@ public final class Library
             throw new MicrotomeError("Item is not in this library", "item", item);
         }
         setLibrary(item, null);
-        delete _items[name];
+        delete _items[item.name];
     }
 
     public function removeAllItems () :void {

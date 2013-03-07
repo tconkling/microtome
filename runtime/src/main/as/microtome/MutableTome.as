@@ -45,15 +45,12 @@ public final class MutableTome extends Proxy
         return _size;
     }
 
-    public function getAllPages (out :Vector.<Page> = null) :Vector.<Page> {
-        const pages :Vector.<Page> = getAllPages();
-        if (out == null) {
-            out = pages.concat();
-        } else {
-            out.length = 0;
-            for (var ii :int = 0; ii < _size; ++ii) {
-                out.push(pages[ii]);
-            }
+    public function getAllPages (out :Array = null) :Array {
+        const pages :Vector.<Page> = getPageList();
+        out = (out || []);
+        out.length = 0;
+        for (var ii :int = 0; ii < _size; ++ii) {
+            out.push(pages[ii]);
         }
         return out;
     }

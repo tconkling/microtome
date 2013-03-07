@@ -21,39 +21,52 @@ public final class MutableTome extends Proxy
         _type = TypeInfo.fromClasses([ MutableTome, pageClass ]);
     }
 
-    public final function get name () :String {
+    public function get name () :String {
         return _name;
     }
 
-    public final function get library () :Library {
+    public function get library () :Library {
         return (_parent != null ? _parent.library : null);
     }
 
-    public final function get parent () :MicrotomeItem {
+    public function get parent () :MicrotomeItem {
         return _parent;
     }
 
-    public final function get typeInfo () :TypeInfo {
+    public function get typeInfo () :TypeInfo {
         return _type;
     }
 
-    public final function get pageClass () :Class {
+    public function get pageClass () :Class {
         return _type.subtype.clazz;
     }
 
-    public final function get size () :int {
+    public function get size () :int {
         return _size;
     }
 
-    public final function childNamed (name :String) :* {
-        return this.pageNamed(name);
+    public function getAllPages (out :Vector.<Page> = null) :Vector.<Page> {
+        const pages :Vector.<Page> = getAllPages();
+        if (out == null) {
+            out = pages.concat();
+        } else {
+            out.length = 0;
+            for (var ii :int = 0; ii < _size; ++ii) {
+                out.push(pages[ii]);
+            }
+        }
+        return out;
     }
 
-    public final function pageNamed (name :String) :* {
+    public function childNamed (name :String) :* {
+        return this.getPage(name);
+    }
+
+    public function getPage (name :String) :* {
         return _pages[name];
     }
 
-    public function requirePageNamed (name :String) :* {
+    public function requirePage (name :String) :* {
         var page :Page = _pages[name];
         if (page == null) {
             throw new Error("Missing required page [name='" + name + "']");

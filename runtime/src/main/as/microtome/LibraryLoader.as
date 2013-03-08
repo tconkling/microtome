@@ -347,12 +347,7 @@ public class LibraryLoader
             for each (var item :LibraryItem in task.libraryItems) {
                 var marshaller :ObjectMarshaller =
                     requireObjectMarshallerForClass(ClassUtil.getClass(item));
-                try {
-                    marshaller.resolveRefs(item, item.typeInfo, this);
-                } catch (e :Error) {
-                    throw new ResolveRefError("Failed to resolve ref", "item", item.name,
-                        "err", e.message);
-                }
+                marshaller.resolveRefs(item, item.typeInfo, this);
             }
         } catch (e :Error) {
             abortLoad(task);

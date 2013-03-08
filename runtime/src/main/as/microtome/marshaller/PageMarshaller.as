@@ -8,6 +8,7 @@ import microtome.Page;
 import microtome.core.DataElement;
 import microtome.core.LibraryItem;
 import microtome.core.TypeInfo;
+import microtome.error.ResolveRefError;
 import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
 
@@ -30,9 +31,16 @@ public class PageMarshaller extends ObjectMarshallerBase
         for each (var prop :Prop in page.props) {
             var objectProp :ObjectProp = (prop as ObjectProp);
             if (objectProp != null && objectProp.value != null) {
-                var propMarshaller :ObjectMarshaller =
-                    loader.requireObjectMarshallerForClass(objectProp.valueType.clazz);
-                propMarshaller.resolveRefs(objectProp.value, objectProp.valueType, loader);
+                try {
+                    var propMarshaller :ObjectMarshaller =
+                        loader.requireObjectMarshallerForClass(objectProp.valueType.clazz);
+                    propMarshaller.resolveRefs(objectProp.value, objectProp.valueType, loader);
+                } catch (rre :ResolveRefError) {
+                    throw rre;
+                } catch (e :Error) {
+                    throw new ResolveRefError("Failed to resolve ref",
+                        "page", page.fullyQualifiedName, "err", e.message);
+                }
             }
         }
     }

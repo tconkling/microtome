@@ -61,7 +61,7 @@ public final class Library
         _items = new Dictionary();
     }
 
-    public function pageWithQualifiedName (qualifiedName :String) :Page {
+    public function pageWithQualifiedName (qualifiedName :String, pageClass :Class = null) :Page {
         // A page's qualifiedName is a series of page and tome names, separated by dots
         // E.g. level1.baddies.big_boss
 
@@ -74,17 +74,19 @@ public final class Library
             item = LibraryItem(child);
         }
 
+        if (pageClass != null && !(item is pageClass)) {
+            throw new MicrotomeError("Wrong page type", "name", qualifiedName,
+                "expectedType", ClassUtil.getClassName(pageClass),
+                "actualType", ClassUtil.getClassName(item));
+        }
+
         return (item as Page);
     }
 
     public function requirePageWithQualifiedName (qualifiedName :String, pageClass :Class) :Page {
-        var page :Page = pageWithQualifiedName(qualifiedName);
+        var page :Page = pageWithQualifiedName(qualifiedName, pageClass);
         if (page == null) {
             throw new RequirePageError("No such page", "name", qualifiedName);
-        } else if (!(page is pageClass)) {
-            throw new RequirePageError("Wrong page type", "name", qualifiedName,
-                "expectedType", ClassUtil.getClassName(pageClass),
-                "actualType", ClassUtil.getClassName(page));
         }
         return page;
     }

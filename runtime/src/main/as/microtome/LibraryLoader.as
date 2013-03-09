@@ -14,7 +14,6 @@ import microtome.core.MicrotomeItem;
 import microtome.core.TemplatedPage;
 import microtome.error.LoadError;
 import microtome.error.MicrotomeError;
-import microtome.error.ResolveRefError;
 import microtome.marshaller.DefaultPrimitiveMarshaller;
 import microtome.marshaller.ListMarshaller;
 import microtome.marshaller.ObjectMarshaller;

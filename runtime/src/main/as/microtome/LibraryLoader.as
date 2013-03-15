@@ -50,12 +50,12 @@ public class LibraryLoader
 
     public function registerPageClasses (classes :Vector.<Class>) :void {
         for each (var clazz :Class in classes) {
-            if (!ClassUtil.isAssignableAs(Page, clazz)) {
-                throw new Error("Class must implement " + ClassUtil.getClassName(Page) +
+            if (!ClassUtil.isAssignableAs(MutablePage, clazz)) {
+                throw new Error("Class must extend " + ClassUtil.getClassName(MutablePage) +
                     " [pageClass=" + ClassUtil.getClassName(clazz) + "]");
             }
 
-            _pageClasses[ClassUtil.tinyClassName(clazz)] = clazz;
+            _pageClasses[Util.pageTypeName(clazz)] = clazz;
         }
     }
 
@@ -124,7 +124,7 @@ public class LibraryLoader
                 foundTemplate = false;
                 for (var ii :int = 0; ii < _loadTask.pendingTemplatedPages.length; ++ii) {
                     var tPage :TemplatedPage = _loadTask.pendingTemplatedPages[ii];
-                    var tmpl :Page = _library.pageWithQualifiedName(tPage.templateName);
+                    var tmpl :MutablePage = _library.pageWithQualifiedName(tPage.templateName);
                     if (tmpl == null) {
                         continue;
                     }
@@ -160,7 +160,7 @@ public class LibraryLoader
 
         var tome :MutableTome = new MutableTome(parent, name, pageClass);
         for each (var pageData :DataElement in DataReader.withData(tomeData).children) {
-            var page :Page = loadPage(tome, pageData, pageClass);
+            var page :MutablePage = loadPage(tome, pageData, pageClass);
             // MutableTome.addPage sets the page's parent, and requires that it's null
             page._parent = null;
             tome.addPage(page);
@@ -168,7 +168,7 @@ public class LibraryLoader
         return tome;
     }
 
-    public function loadPage (parent :MicrotomeItem, pageData :DataElement, requiredSuperclass :Class = null) :Page {
+    public function loadPage (parent :MicrotomeItem, pageData :DataElement, requiredSuperclass :Class = null) :MutablePage {
         var name :String = pageData.name;
         if (!Util.validLibraryItemName(name)) {
             throw new LoadError(pageData, "Invalid page name", "name", name);
@@ -178,7 +178,7 @@ public class LibraryLoader
         var typename :String = reader.requireAttribute(Defs.PAGE_TYPE_ATTR);
         var pageClass :Class = requirePageClass(typename, requiredSuperclass);
 
-        var page :Page = new pageClass();
+        var page :MutablePage = new pageClass();
         page._name = name;
         page._parent = parent;
 
@@ -192,7 +192,7 @@ public class LibraryLoader
         return page;
     }
 
-    protected function loadPageProps (page :Page, pageData :DataElement, tmpl :Page = null) :void {
+    protected function loadPageProps (page :MutablePage, pageData :DataElement, tmpl :MutablePage = null) :void {
         // template's class must be equal to (or a subclass of) page's class
         if (tmpl != null && !(tmpl is ClassUtil.getClass(page))) {
             throw new LoadError(pageData, "Incompatible template", "pageName", page.name,

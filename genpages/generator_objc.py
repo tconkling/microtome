@@ -37,24 +37,24 @@ BASE_IMPORTS = set(["microtome"])
 # stuff we don't need to import/forward-declare (built-in types)
 DISCARD_IMPORTS = set([ name for name in OBJC_TYPENAMES.values() if not name.startswith("MT") ])
 
-def generate_library (page_specs, namespace = "", header_text = ""):
+def generate_library (lib):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
 
     # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs = TEMPLATES_DIR, escape = lambda u: u)
 
-    library_view = { "page_names": sorted(set([ spec.name for spec in page_specs ])), "header": header_text }
+    library_view = { "page_names": sorted(set([ spec.name for spec in lib.pages ])), "header": lib.header_text }
 
     header_contents = stache.render(stache.load_template(LIBRARY_HEADER), library_view)
     class_contents = stache.render(stache.load_template(LIBRARY_CLASS), library_view)
 
     return [ (LIBRARY_HEADER, header_contents), (LIBRARY_CLASS, class_contents) ]
 
-def generate_page (page_spec, header_text = ""):
+def generate_page (lib, page_spec):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
-    page_view = PageView(page_spec, header_text)
+    page_view = PageView(page_spec, lib.header_text)
 
     # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs = TEMPLATES_DIR, escape = lambda u: u)
@@ -185,21 +185,22 @@ class PageView(object):
         return self.name() + ".m"
 
 if __name__ == "__main__":
-
-    ANOTHER_PAGE_TYPE = s.TypeSpec(name="AnotherPage", subtype = None)
-
+    ANOTHER_PAGE_TYPE = s.TypeSpec(name="com.microtome.test.AnotherPage", subtype = None)
+    NAMESPACE = "com.microtome.test"
     PAGE = s.PageSpec(name = "TestPage",
-        namespace = "com.microtome.test",
+        namespace = NAMESPACE,
         superclass = None,
         props = [
             s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", annotations = [
-                s.AnnotationSpec(name="default", value="test", pos=0)
+                s.AnnotationSpec(name="default", value="test", pos=0),
+                s.AnnotationSpec(name="nullable", value=True, pos=0)
             ], pos = 0),
             s.PropSpec(type = s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name = "bar", annotations = [], pos = 0)
         ],
         pos = 0)
 
-    for filename, file_contents in generate_page(PAGE):
-        print filename + ":\n"
+    LIB = s.LibrarySpec(namespace = NAMESPACE, header_text="", pages = [ PAGE ])
+    for filename, file_contents in generate_page(LIB, PAGE):
+        print filename + ":"
         print file_contents
 

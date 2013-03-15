@@ -3,22 +3,30 @@
 package {{namespace}} {
 
 // GENERATED IMPORTS START
-{{#imports}}
+{{#class_imports}}
 import {{.}};
-{{/imports}}
+{{/class_imports}}
 // GENERATED IMPORTS END
 
 // GENERATED CLASS_INTRO START
-public class {{name}} extends {{superclass}} {
+public class {{class_name}} extends {{superclass}}
+    implements {{interface_name}}
+{
 // GENERATED CLASS_INTRO END
 
 // GENERATED PROPS START
     {{#props}}
 {{#value_type.is_pageref}}
+    public function get {{mutable_name}} () :{{value_type.mutable_name}} { return PageRef(_{{name}}.value).page; }
     public function get {{name}} () :{{value_type.name}} { return PageRef(_{{name}}.value).page; }
+    public function set {{name}} (val :{{value_type.name}}) :void { PageRef(_{{name}}.value).page = val; }
 {{/value_type.is_pageref}}
 {{^value_type.is_pageref}}
+{{#value_type.is_mutable}}
+    public function get {{mutable_name}} () :{{value_type.mutable_name}} { return _{{name}}.value; }
+{{/value_type.is_mutable}}
     public function get {{name}} () :{{value_type.name}} { return _{{name}}.value; }
+    public function set {{name}} (val :{{value_type.name}}) :void { _{{name}}.value = val; }
 {{/value_type.is_pageref}}
     {{/props}}
 
@@ -38,5 +46,6 @@ public class {{name}} extends {{superclass}} {
 // GENERATED STATICS END
 
 // GENERATED CLASS_OUTRO START
-}}
+}
+}
 // GENERATED CLASS_OUTRO END

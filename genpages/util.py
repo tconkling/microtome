@@ -7,6 +7,14 @@ import os
 
 LineData = namedtuple("LineData", ["line_num", "col"])
 
+def uppercase_first (str):
+    '''returns a copy of the string with the first letter capitalized and the rest untouched'''
+    return _modify_first_char(str, lambda char: char.upper())
+
+def lowercase_first (str):
+    '''returns a copy of the string with the first letter capitalized and the rest untouched'''
+    return _modify_first_char(str, lambda char: char.lower())
+
 def line_data_at_index (str, idx):
     '''returns the string's line number and line column number at the given index'''
     # count the number of newlines up to idx
@@ -69,7 +77,17 @@ def get_common_namespace (typenames):
 
     return ".".join(common)
 
+def _modify_first_char (str, f):
+    if len(str) > 0:
+        first = f(str[0])
+        if len(str) > 1:
+            return first + str[1:]
+        else:
+            return first
+    else:
+        return str
 
 if __name__ == '__main__':
-    print get_common_namespace(["com.foo.qwert.Bar", "com.foo.Asdf"])
+    print uppercase_first("asdfasdfWEr")
+    #print get_common_namespace(["com.foo.qwert.Bar", "com.foo.Asdf"])
 

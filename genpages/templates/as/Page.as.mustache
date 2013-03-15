@@ -1,0 +1,25 @@
+{{header}}
+
+package {{namespace}} {
+
+// GENERATED IMPORTS START
+{{#interface_imports}}
+import {{.}};
+{{/interface_imports}}
+// GENERATED IMPORTS END
+
+// GENERATED CLASS_INTRO START
+public interface {{interface_name}} extends {{parent_interface}}
+{
+// GENERATED CLASS_INTRO END
+
+// GENERATED PROPS START
+    {{#props}}
+    function get {{name}} () :{{value_type.name}};
+    {{/props}}
+// GENERATED PROPS END
+
+// GENERATED CLASS_OUTRO START
+}
+}
+// GENERATED CLASS_OUTRO END

@@ -84,7 +84,7 @@ public final class MutableTome extends Proxy
         }
     }
 
-    public function addPage (page :Page) :void {
+    public function addPage (page :MutablePage) :void {
         if (!(page is this.pageClass)) {
             throw new MicrotomeError("Incorrect page type",
                 "required", ClassUtil.getClassName(this.pageClass),
@@ -103,7 +103,7 @@ public final class MutableTome extends Proxy
         _size++;
     }
 
-    public function removePage (page :Page) :void {
+    public function removePage (page :MutablePage) :void {
         if (page._parent != this) {
             throw new MicrotomeError("Page is not in this tome", "page", page);
         }

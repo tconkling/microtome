@@ -11,6 +11,7 @@ import generator_objc
 import generator_as
 import logging
 import sourcemerger
+import spec as s
 
 LOG = logging.getLogger("genpages")
 INPUT_FILE = re.compile(r'.*\.mt')
@@ -53,15 +54,16 @@ def main ():
                     return
 
     # generate page files
+    library = s.LibrarySpec(namespace=library_namespace, header_text=header_text, pages=page_specs)
     for page_spec in page_specs:
         # this can result in multiple generated files (e.g. a .h and .m file for objc)
         # merge each of our generated files
-        for out_name, out_contents in generator.generate_page(page_spec, header_text):
+        for out_name, out_contents in generator.generate_page(library, page_spec):
             out_name = os.path.join(output_dir, out_name)
             merge_and_write(out_name, out_contents)
 
     # now generate and save the library file
-    for out_name, out_contents in generator.generate_library(page_specs, library_namespace, header_text):
+    for out_name, out_contents in generator.generate_library(library):
         out_name = os.path.join(output_dir, out_name)
         merge_and_write(out_name, out_contents)
 

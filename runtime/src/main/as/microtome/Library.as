@@ -61,7 +61,7 @@ public final class Library
         _items = new Dictionary();
     }
 
-    public function pageWithQualifiedName (qualifiedName :String, pageClass :Class = null) :Page {
+    public function pageWithQualifiedName (qualifiedName :String, pageClass :Class = null) :MutablePage {
         // A page's qualifiedName is a series of page and tome names, separated by dots
         // E.g. level1.baddies.big_boss
 
@@ -80,11 +80,11 @@ public final class Library
                 "actualType", ClassUtil.getClassName(item));
         }
 
-        return (item as Page);
+        return (item as MutablePage);
     }
 
-    public function requirePageWithQualifiedName (qualifiedName :String, pageClass :Class) :Page {
-        var page :Page = pageWithQualifiedName(qualifiedName, pageClass);
+    public function requirePageWithQualifiedName (qualifiedName :String, pageClass :Class) :MutablePage {
+        var page :MutablePage = pageWithQualifiedName(qualifiedName, pageClass);
         if (page == null) {
             throw new RequirePageError("No such page", "name", qualifiedName);
         }
@@ -92,8 +92,8 @@ public final class Library
     }
 
     protected function setLibrary (item :LibraryItem, library :Library) :void {
-        if (item is Page) {
-            Page(item)._parent = library;
+        if (item is MutablePage) {
+            MutablePage(item)._parent = library;
         } else if (item is MutableTome) {
             MutableTome(item)._parent = library;
         } else {

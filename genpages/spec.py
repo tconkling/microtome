@@ -6,6 +6,7 @@
 
 from collections import namedtuple
 
+LibrarySpec =       namedtuple("LibrarySpec", ["namespace", "header_text", "pages"])
 PageSpec =          namedtuple("PageSpec", ["name", "superclass", "namespace", "props", "pos"])
 PropSpec =          namedtuple("PropSpec", ["type", "name", "annotations", "pos"])
 AnnotationSpec =    namedtuple("AnnotationSpec", ["name", "value", "pos"])

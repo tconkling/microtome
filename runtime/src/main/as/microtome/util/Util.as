@@ -3,18 +3,24 @@
 
 package microtome.util {
 
-import microtome.Page;
+import microtome.MutablePage;
 import microtome.core.Defs;
 import microtome.prop.Prop;
 
 public class Util
 {
+    /** @return the page typename for the given page Class */
+    public static function pageTypeName (pageClazz :Class) :String {
+        var name :String = ClassUtil.tinyClassName(pageClazz);
+        return (startsWith(name, MUTABLE_PREFIX) ? name.substr(MUTABLE_PREFIX.length) : name);
+    }
+
     public static function validLibraryItemName (name :String) :Boolean {
         // library items cannot have '.' in the name
         return name.indexOf(Defs.NAME_SEPARATOR) < 0;
     }
 
-    public static function getProp (page :Page, name :String) :Prop {
+    public static function getProp (page :MutablePage, name :String) :Prop {
         for each (var prop :Prop in page.props) {
             if (prop.name == name) {
                 return prop;
@@ -71,19 +77,9 @@ public class Util
         return parseFloat(noCommas);
     }
 
-    /**
-     * Does the specified string start with any of the specified substrings.
-     */
-    public static function startsWith (str :String, substr :String, ... additionalSubstrs) :Boolean  {
-        if (str.lastIndexOf(substr, 0) == 0) {
-            return true;
-        }
-        for each (var additional :String in additionalSubstrs) {
-            if (str.lastIndexOf(additional, 0) == 0) {
-                return true;
-            }
-        }
-        return false;
+    /** @return true if the specified string start the specified substring */
+    public static function startsWith (str :String, substr :String) :Boolean {
+        return (str.lastIndexOf(substr, 0) == 0);
     }
 
     /**
@@ -150,5 +146,7 @@ public class Util
         "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" ];
 
     protected static const DECIMAL_REGEXP :RegExp = /^-?[0-9]*\.?[0-9]+(e-?[0-9]+)?$/;
+
+    protected static const MUTABLE_PREFIX :String = "Mutable";
 }
 }

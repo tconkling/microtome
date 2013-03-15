@@ -39,6 +39,7 @@
     <classEntry path="microtome.core.MicrotomeItem"/>
     <classEntry path="microtome.error.MicrotomeError"/>
     <classEntry path="microtome.LibraryLoader"/>
+    <classEntry path="microtome.MutablePage"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

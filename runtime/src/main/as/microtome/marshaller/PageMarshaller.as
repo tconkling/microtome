@@ -4,6 +4,7 @@
 package microtome.marshaller {
 
 import microtome.LibraryLoader;
+import microtome.MutablePage;
 import microtome.Page;
 import microtome.core.DataElement;
 import microtome.core.LibraryItem;
@@ -27,7 +28,7 @@ public class PageMarshaller extends ObjectMarshallerBase
     }
 
     override public function resolveRefs (obj :*, type :TypeInfo, loader :LibraryLoader) :void {
-        var page :Page = Page(obj);
+        var page :MutablePage = MutablePage(obj);
         for each (var prop :Prop in page.props) {
             var objectProp :ObjectProp = (prop as ObjectProp);
             if (objectProp != null && objectProp.value != null) {

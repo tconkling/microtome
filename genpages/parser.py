@@ -34,13 +34,15 @@ WHITESPACE_AND_COMMENTS = re.compile(r'(\s*(//.*$)?)+', re.MULTILINE)
 
 LOG = logging.getLogger("parser")
 
-def parse_document (string):
+
+def parse_document(string):
     '''parses a microtome document from a string'''
     return Parser(string).parse()
 
+
 class ParseError(Exception):
     '''Problem that occurred during parsing'''
-    def __init__ (self, string, pos, msg):
+    def __init__(self, string, pos, msg):
         line_data = util.line_data_at_index(string, pos)
 
         self.line_number = line_data.line_num
@@ -49,15 +51,16 @@ class ParseError(Exception):
         self.message = msg
         self.filename = None
 
-    def __str__ (self):
+    def __str__(self):
         return 'File "%s", line %d: %s' % (self.filename, self.line_number + 1, self.message)
+
 
 class Parser(object):
     '''parses a microtome document from a string'''
-    def __init__ (self, string):
+    def __init__(self, string):
         self._scanner = StringScanner(string)
 
-    def parse (self):
+    def parse(self):
         '''parse the document and return a list of PageSpec tokens'''
         # parse
         self._namespace = self.parse_namespace()
@@ -68,21 +71,21 @@ class Parser(object):
         return pages
 
     @property
-    def namespace (self):
+    def namespace(self):
         '''returns the documents's parsed namespace'''
         return self._namespace
 
     @property
-    def string (self):
+    def string(self):
         '''return the string passed the parser'''
         return self._scanner.string
 
     @property
-    def pos (self):
+    def pos(self):
         '''return the current scan position in the string'''
-        return  self._scanner.pos
+        return self._scanner.pos
 
-    def validate_page (self, page):
+    def validate_page(self, page):
         '''perform semantic validation on a PageSpec'''
         # check for duplicate property names
         prop_names = set()
@@ -94,7 +97,7 @@ class Parser(object):
                 raise ParseError(self.string, prop.pos, "Duplicate property name '%s'" % prop.name)
             prop_names.add(lc_name)
 
-    def parse_namespace (self):
+    def parse_namespace(self):
         # namespace is optional
         namespace = ""
         self.eat_whitespace()
@@ -105,7 +108,7 @@ class Parser(object):
             LOG.debug("found namespace: %s" % namespace)
         return namespace
 
-    def parse_pages (self):
+    def parse_pages(self):
         pages = []
         while True:
             self.eat_whitespace()
@@ -115,7 +118,7 @@ class Parser(object):
             pages.append(page)
         return pages
 
-    def parse_page (self):
+    def parse_page(self):
         '''parse a PageSpec'''
 
         # name
@@ -145,13 +148,13 @@ class Parser(object):
         self.eat_whitespace()
         self.require_text(CURLY_CLOSE, "expected '}'")
 
-        return s.PageSpec(name = page_name,
-            superclass = page_superclass,
-            namespace = self.namespace,
-            props = page_props,
-            pos = page_pos)
+        return s.PageSpec(name=page_name,
+                          superclass=page_superclass,
+                          namespace=self.namespace,
+                          props=page_props,
+                          pos=page_pos)
 
-    def parse_props (self):
+    def parse_props(self):
         '''parse a list of PropSpecs'''
         props = []
         while True:
@@ -161,7 +164,7 @@ class Parser(object):
             props.append(prop)
         return props
 
-    def parse_prop (self):
+    def parse_prop(self):
         '''parse a single PropSpec'''
         self.eat_whitespace()
         prop_pos = self._scanner.pos
@@ -187,16 +190,16 @@ class Parser(object):
 
         self.require_text(SEMICOLON, "expected semicolon")
 
-        return s.PropSpec(type = prop_type, name = prop_name, annotations = annotations or [], pos = prop_pos)
+        return s.PropSpec(type=prop_type, name=prop_name, annotations=annotations or [], pos=prop_pos)
 
-    def parse_prop_type (self, is_subtype = False):
+    def parse_prop_type(self, is_subtype=False):
         '''parse a TypeSpec'''
         self.eat_whitespace()
         typename = self.require_text(QUALIFIED_TYPENAME, "Expected type identifier")
 
         if not typename in s.ALL_TYPES:
             typename = self.make_qualified_typename(typename)
-            LOG.debug("Found custom type: '%s'" % typename);
+            LOG.debug("Found custom type: '%s'" % typename)
 
         # subtype
         subtype = None
@@ -209,25 +212,25 @@ class Parser(object):
             LOG.debug("found subtype: " + subtype.name)
 
         if not is_subtype:
-            if typename in s.PARAMETERIZED_TYPES and subtype == None:
+            if typename in s.PARAMETERIZED_TYPES and subtype is None:
                 raise ParseError(self.string, self.pos, "Expected parameterized type for '%s'" % typename)
-            elif not typename in s.PARAMETERIZED_TYPES and subtype != None:
+            elif not typename in s.PARAMETERIZED_TYPES and subtype is not None:
                 raise ParseError(self.string, self.pos, "'%s' is not a parameterized type" % typename)
 
-        return s.TypeSpec(name = typename, subtype = subtype)
+        return s.TypeSpec(name=typename, subtype=subtype)
 
-    def parse_qualified_typename (self, errText=None):
+    def parse_qualified_typename(self, errText=None):
         '''Parses a namespace-qualified typename. If the the namespace is omitted, the page's
         namespace is assumed'''
         return self.make_qualified_typename(self.require_text(QUALIFIED_TYPENAME, errText))
 
-    def make_qualified_typename (self, typename):
+    def make_qualified_typename(self, typename):
         if util.get_namespace(typename) == "" and self.namespace != "":
             return self.namespace + "." + typename
         else:
             return typename
 
-    def parse_annotations (self):
+    def parse_annotations(self):
         '''parse a list of AnnotationSpecs'''
         annotations = []
         while True:
@@ -237,7 +240,7 @@ class Parser(object):
                 break
         return annotations
 
-    def parse_annotation (self):
+    def parse_annotation(self):
         '''parse a single AnnotationSpec'''
         # name
         self.eat_whitespace()
@@ -253,30 +256,30 @@ class Parser(object):
             # determine the type. annotations can be bools, floats, or strings
             text = self.get_text(ANNOTATION_VALUE)
             anno_value = get_number(text)
-            if anno_value == None:
+            if anno_value is None:
                 anno_value = get_bool(text)
-            if anno_value == None:
+            if anno_value is None:
                 anno_value = get_quoted_string(text)
-            if anno_value == None:
+            if anno_value is None:
                 raise ParseError(self.string, self.pos, "Expected a bool, a number, or a quoted string")
         else:
             # if no value is specified, we default to True (this is for flag-like annotations,
             # like 'nullable')
             anno_value = True
 
-        return s.AnnotationSpec(name = anno_name, value = anno_value, pos = anno_pos)
+        return s.AnnotationSpec(name=anno_name, value=anno_value, pos=anno_pos)
 
-    def check_text (self, pattern):
+    def check_text(self, pattern):
         '''Returns the text that matches the given pattern if it exists at the current point
         in the stream, or None if it does not. Does not advance the stream pointer.'''
         return self._scanner.check(pattern)
 
-    def get_text (self, pattern):
+    def get_text(self, pattern):
         '''Returns the text that matches the given pattern if it exists at the current point
         in the stream, or None if it does not.'''
         return self._scanner.scan(pattern)
 
-    def require_text (self, pattern, msg = None):
+    def require_text(self, pattern, msg=None):
         '''Returns the text that matches the given pattern if it exists at the current point
         in the stream, or raises a ParseError if it does not.'''
         value = self.get_text(pattern)
@@ -284,18 +287,20 @@ class Parser(object):
             raise ParseError(self.string, self.pos, msg or "Expected " + str(pattern.pattern))
         return value
 
-    def eat_whitespace (self):
+    def eat_whitespace(self):
         '''advances the stream to the first non-whitespace character'''
         self._scanner.scan(WHITESPACE_AND_COMMENTS)
 
-def get_number (s):
+
+def get_number(s):
     '''returns the float represented by the string, or None if the string can't be converted'''
     try:
         return float(s)
     except ValueError:
         return None
 
-def get_bool (s):
+
+def get_bool(s):
     '''returns the bool represented by the string, or None if the string can't be converted'''
     if s == "true":
         return True
@@ -304,7 +309,8 @@ def get_bool (s):
     else:
         return None
 
-def get_quoted_string (s):
+
+def get_quoted_string(s):
     '''returns the quoted string represented by the string, or None if the string can't be
     converted'''
     if QUOTED_STRING.match(s) is not None:
@@ -312,8 +318,9 @@ def get_quoted_string (s):
     else:
         return None
 
+
 if __name__ == "__main__":
-    logging.basicConfig(level = logging.INFO)
+    logging.basicConfig(level=logging.INFO)
     TEST_STR = '''
         namespace com.test;
         // comment 1
@@ -328,4 +335,3 @@ if __name__ == "__main__":
         }
         '''
     print Parser(TEST_STR).parse()
-

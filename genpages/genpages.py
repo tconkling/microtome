@@ -15,18 +15,19 @@ import spec as s
 
 LOG = logging.getLogger("genpages")
 INPUT_FILE = re.compile(r'.*\.mt')
-GENERATORS = { "objc": generator_objc, "as": generator_as }
+GENERATORS = {"objc": generator_objc, "as": generator_as}
 MERGER = sourcemerger.GeneratedSourceMerger()
 
-def main ():
+
+def main():
     ap = argparse.ArgumentParser()
     # optional args
-    ap.add_argument("--header", help = "header text to include in generated source")
-    ap.add_argument("--library_namespace", help = "namespace that the library file should use")
+    ap.add_argument("--header", help="header text to include in generated source")
+    ap.add_argument("--library_namespace", help="namespace that the library file should use")
     # required args
-    ap.add_argument("input_dir", type = readable_dir)
+    ap.add_argument("input_dir", type=readable_dir)
     ap.add_argument("output_dir")
-    ap.add_argument("language", help = "generated source language", choices = GENERATORS.keys())
+    ap.add_argument("language", help="generated source language", choices=GENERATORS.keys())
     args = ap.parse_args()
 
     input_dir = os.path.abspath(args.input_dir)
@@ -35,10 +36,10 @@ def main ():
     library_namespace = args.library_namespace or ""
 
     # select our generator
-    generator = GENERATORS[args.language];
+    generator = GENERATORS[args.language]
     page_specs = []
 
-    logging.basicConfig(level = logging.INFO)
+    logging.basicConfig(level=logging.INFO)
 
     # parse files in our input dir
     for (path, dirs, files) in os.walk(input_dir):
@@ -67,7 +68,8 @@ def main ():
         out_name = os.path.join(output_dir, out_name)
         merge_and_write(out_name, out_contents)
 
-def merge_and_write (filename, file_contents):
+
+def merge_and_write(filename, file_contents):
     # merge with existing file?
     if os.path.isfile(filename):
         with open(filename, 'r') as existing_file:
@@ -89,13 +91,14 @@ def merge_and_write (filename, file_contents):
         out_file.write(file_contents)
 
 
-def readable_dir (d):
+def readable_dir(d):
     if not os.path.isdir(d):
         raise argparse.ArgumentTypeError("'%s' is not a valid path" % d)
     elif not os.access(d, os.R_OK):
         raise argparse.ArgumentTypeError("'%s' is not a readable directory" % d)
     else:
         return d
+
 
 if __name__ == "__main__":
     sys.argv.append("--header")

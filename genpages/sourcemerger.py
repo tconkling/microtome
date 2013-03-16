@@ -9,6 +9,7 @@ Section = namedtuple("Section", ["name", "contents", "disabled"])
 
 LOG = logging.getLogger("sourcemerger")
 
+
 class Matcher(object):
     '''Analog to java.util.regex.Matcher. Iterates over a string with the given pattern,
     and delegates all method calls to the most recent MatchObject iteration result.'''
@@ -16,15 +17,16 @@ class Matcher(object):
         self._finditer = pattern.finditer(string)
         self._last_match = None
 
-    def __iter__ (self):
+    def __iter__(self):
         return self
 
-    def next (self):
+    def next(self):
         self._last_match = self._finditer.next()
         return self._last_match
 
-    def __getattr__ (self, name):
+    def __getattr__(self, name):
         return getattr(self._last_match, name)
+
 
 class GeneratedSourceMerger(object):
     '''Merges updates to a generated source file into a previously-generated version of that
@@ -32,10 +34,10 @@ class GeneratedSourceMerger(object):
     Adapted from com.threerings.presents.tools.GeneratedSourceMerger
     '''
 
-    def __init__ (self, comment_str = r'//'):
+    def __init__(self, comment_str=r'//'):
         self._section_delimiter = re.compile(r'\s*' + comment_str + r' GENERATED (\w+) (START|END|DISABLED)\r?\n')
 
-    def merge (self, newly_generated, previously_generated):
+    def merge(self, newly_generated, previously_generated):
         '''returns previously_generated with marked sections updated from the same
         marked sections in newly_generated. Everything outside these sections in
         previously_generated is returned as-is. A marked section starts with
@@ -47,7 +49,7 @@ class GeneratedSourceMerger(object):
 
         # If neither file has a GENERATED section, there's nothing for us to merge.
         if self._section_delimiter.search(newly_generated) is None and \
-            self._section_delimiter.search(previously_generated) is None:
+                self._section_delimiter.search(previously_generated) is None:
             LOG.warn("No generated sections found; not merging")
             return newly_generated
 
@@ -92,7 +94,7 @@ class GeneratedSourceMerger(object):
 
         return ''.join(merged)
 
-    def _extract_generated_section (self, matcher, string):
+    def _extract_generated_section(self, matcher, string):
         '''Returns a section name and its contents from the given match pointing to the start
         of a section. matcher is at the end of the section when this returns.'''
         start_idx = matcher.start()

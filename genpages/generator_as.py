@@ -150,6 +150,10 @@ class TypeView(object):
     def mutable_name(self):
         return util.strip_namespace(self.get_qualified_name(True))
 
+    @property
+    def all_typenames (self):
+        return [ util.strip_namespace(name) for name in self.qualified_typenames(True) ]
+
     def get_qualified_name (self, mutable):
         if self.type.name == s.PageRefType:
             return get_as3_typename(self.lib, self.type.subtype.name, mutable)

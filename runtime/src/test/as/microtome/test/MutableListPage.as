@@ -27,7 +27,7 @@ public class MutableListPage extends MutablePage
 // GENERATED IVARS END
 
 // GENERATED STATICS START
-    protected static const s_listSpec :PropSpec = new PropSpec("list", null, [ ]);
+    protected static const s_listSpec :PropSpec = new PropSpec("list", null, [ Array, MutablePrimitivePage, ]);
 // GENERATED STATICS END
 
 // GENERATED CLASS_OUTRO START

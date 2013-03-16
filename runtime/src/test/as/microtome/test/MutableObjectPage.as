@@ -27,7 +27,7 @@ public class MutableObjectPage extends MutablePage
 // GENERATED IVARS END
 
 // GENERATED STATICS START
-    protected static const s_fooSpec :PropSpec = new PropSpec("foo", null, [ ]);
+    protected static const s_fooSpec :PropSpec = new PropSpec("foo", null, [ String, ]);
 // GENERATED STATICS END
 
 // GENERATED CLASS_OUTRO START

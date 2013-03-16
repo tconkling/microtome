@@ -28,7 +28,7 @@ public class MutableNestedPage extends MutablePage
 // GENERATED IVARS END
 
 // GENERATED STATICS START
-    protected static const s_nestedSpec :PropSpec = new PropSpec("nested", null, [ ]);
+    protected static const s_nestedSpec :PropSpec = new PropSpec("nested", null, [ MutablePrimitivePage, ]);
 // GENERATED STATICS END
 
 // GENERATED CLASS_OUTRO START

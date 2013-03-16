@@ -16,6 +16,7 @@ public class MutableNestedPage extends MutablePage
 // GENERATED CLASS_INTRO END
 
 // GENERATED PROPS START
+    public function get mutableNested () :MutablePrimitivePage { return _nested.value; }
     public function get nested () :PrimitivePage { return _nested.value; }
     public function set nested (val :PrimitivePage) :void { _nested.value = val; }
 

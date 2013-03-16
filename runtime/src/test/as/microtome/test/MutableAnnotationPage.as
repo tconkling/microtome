@@ -21,6 +21,7 @@ public class MutableAnnotationPage extends MutablePage
     public function set foo (val :int) :void { _foo.value = val; }
     public function get bar () :int { return _bar.value; }
     public function set bar (val :int) :void { _bar.value = val; }
+    public function get mutablePrimitives () :MutablePrimitivePage { return _primitives.value; }
     public function get primitives () :PrimitivePage { return _primitives.value; }
     public function set primitives (val :PrimitivePage) :void { _primitives.value = val; }
 

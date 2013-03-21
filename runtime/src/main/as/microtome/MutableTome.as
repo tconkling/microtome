@@ -4,13 +4,12 @@
 package microtome {
 
 import flash.utils.Dictionary;
-import flash.utils.flash_proxy;
 
-import microtome.error.MicrotomeError;
-import microtome.util.ClassUtil;
 import microtome.core.LibraryItemImpl;
 import microtome.core.TypeInfo;
 import microtome.core.microtome_internal;
+import microtome.error.MicrotomeError;
+import microtome.util.ClassUtil;
 
 public final class MutableTome extends LibraryItemImpl
     implements Tome
@@ -98,28 +97,6 @@ public final class MutableTome extends LibraryItemImpl
         delete _pages[page.name];
         _pageList = null;
         _size--;
-    }
-
-    flash_proxy function getProperty (name :*) :* {
-        return _pages[name];
-    }
-
-    flash_proxy function hasProperty (name :*) :Boolean {
-        return name in _pages;
-    }
-
-    flash_proxy function nextNameIndex (index :int) :int {
-        // iteration stops when nextNameIndex returns 0, so we return
-        // index + 1 here, and use index - 1 in nextName/nextValue
-        return (index < _size ? index + 1 : 0);
-    }
-
-    flash_proxy function nextName (index :int) :String {
-        return getPageList()[index - 1].name;
-    }
-
-    flash_proxy function nextValue (index :int) :* {
-        return getPageList()[index - 1];
     }
 
     protected function getPageList () :Vector.<Page> {

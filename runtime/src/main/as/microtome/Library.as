@@ -7,7 +7,9 @@ import flash.utils.Dictionary;
 
 import microtome.core.Defs;
 import microtome.core.LibraryItem;
+import microtome.core.LibraryItemImpl;
 import microtome.core.MicrotomeItem;
+import microtome.core.microtome_internal;
 import microtome.error.MicrotomeError;
 import microtome.error.RequirePageError;
 import microtome.util.ClassUtil;
@@ -15,15 +17,15 @@ import microtome.util.ClassUtil;
 public final class Library
     implements MicrotomeItem
 {
-    public final function get library () :Library {
+    public function get library () :Library {
         return this;
     }
 
-    public final function get parent () :MicrotomeItem {
+    public function get parent () :MicrotomeItem {
         return null;
     }
 
-    public final function get name () :String {
+    public function get name () :String {
         return null;
     }
 
@@ -42,7 +44,7 @@ public final class Library
             throw new MicrotomeError("Item is already in a library", "item", item);
         }
 
-        setLibrary(item, this);
+        setItemParent(item, this);
         _items[item.name] = item;
     }
 
@@ -50,13 +52,13 @@ public final class Library
         if (item.parent != this) {
             throw new MicrotomeError("Item is not in this library", "item", item);
         }
-        setLibrary(item, null);
+        setItemParent(item, null);
         delete _items[item.name];
     }
 
     public function removeAllItems () :void {
         for each (var item :LibraryItem in _items) {
-            setLibrary(item, null);
+            setItemParent(item, null);
         }
         _items = new Dictionary();
     }
@@ -91,14 +93,8 @@ public final class Library
         return page;
     }
 
-    protected function setLibrary (item :LibraryItem, library :Library) :void {
-        if (item is MutablePage) {
-            MutablePage(item)._parent = library;
-        } else if (item is MutableTome) {
-            MutableTome(item)._parent = library;
-        } else {
-            throw new MicrotomeError("Unrecognized LibraryItem", "item", item);
-        }
+    protected function setItemParent (item :LibraryItem, library :Library) :void {
+        LibraryItemImpl(item).microtome_internal::setParent(library);
     }
 
     internal var _items :Dictionary = new Dictionary();

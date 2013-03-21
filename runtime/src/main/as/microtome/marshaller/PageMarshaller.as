@@ -3,15 +3,15 @@
 
 package microtome.marshaller {
 
-import microtome.LibraryLoader;
-import microtome.MutablePage;
 import microtome.Page;
 import microtome.core.DataElement;
-import microtome.core.LibraryItem;
+import microtome.core.LibraryManager;
+import microtome.MutablePage;
 import microtome.core.TypeInfo;
 import microtome.error.ResolveRefError;
 import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
+import microtome.util.ClassUtil;
 
 public class PageMarshaller extends ObjectMarshallerBase
 {
@@ -23,19 +23,19 @@ public class PageMarshaller extends ObjectMarshallerBase
         return true;
     }
 
-    override public function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, loader :LibraryLoader):* {
-        return loader.loadPage(parent, data, type.clazz);
+    override public function loadObject (data :DataElement, type :TypeInfo, loader :LibraryManager) :* {
+        return loader.loadPage(data, type.clazz);
     }
 
-    override public function resolveRefs (obj :*, type :TypeInfo, loader :LibraryLoader) :void {
+    override public function resolveRefs (obj :*, type :TypeInfo, mgr :LibraryManager) :void {
         var page :MutablePage = MutablePage(obj);
         for each (var prop :Prop in page.props) {
             var objectProp :ObjectProp = (prop as ObjectProp);
             if (objectProp != null && objectProp.value != null) {
                 try {
-                    var propMarshaller :ObjectMarshaller =
-                        loader.requireObjectMarshallerForClass(objectProp.valueType.clazz);
-                    propMarshaller.resolveRefs(objectProp.value, objectProp.valueType, loader);
+                    var marshaller :ObjectMarshaller = mgr.requireObjectMarshallerForClass(
+                        objectProp.valueType.clazz);
+                    marshaller.resolveRefs(objectProp.value, objectProp.valueType, mgr);
                 } catch (rre :ResolveRefError) {
                     throw rre;
                 } catch (e :Error) {
@@ -44,6 +44,23 @@ public class PageMarshaller extends ObjectMarshallerBase
                 }
             }
         }
+    }
+
+    override public function cloneObject (data :Object, mgr :LibraryManager) :Object {
+        const page :MutablePage = MutablePage(data);
+        const clazz :Class = ClassUtil.getClass(page);
+        const clone :MutablePage = new clazz();
+
+        for (var ii :int = 0; ii < page.props.length; ++ii) {
+            var prop :Prop = page.props[ii];
+            var cloneProp :Prop = clone.props[ii];
+            var marshaller :DataMarshaller = (prop is ObjectProp ?
+                mgr.requireObjectMarshallerForClass(prop.valueType.clazz) :
+                mgr.primitiveMarshaller);
+            cloneProp.value = (marshaller.cloneData(prop.value, mgr));
+        }
+
+        return clone;
     }
 }
 }

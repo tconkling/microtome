@@ -3,12 +3,13 @@
 
 package microtome.marshaller {
 
-import microtome.LibraryLoader;
+import microtome.core.LibraryManager;
 import microtome.core.DataElement;
 import microtome.core.LibraryItem;
 import microtome.core.TypeInfo;
 import microtome.error.ValidationError;
 import microtome.prop.ObjectProp;
+import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 
 public class ObjectMarshallerBase
@@ -22,15 +23,26 @@ public class ObjectMarshallerBase
         return false;
     }
 
-    public function loadObject (parent :LibraryItem, data :DataElement, type :TypeInfo, loader :LibraryLoader) :* {
+    public function loadObject (data :DataElement, type :TypeInfo, loader :LibraryManager) :* {
         throw new Error("abstract");
     }
 
-    public function resolveRefs (obj :*, type :TypeInfo, loader :LibraryLoader) :void {
+    public function resolveRefs (obj :*, type :TypeInfo, mgr :LibraryManager) :void {
         // do nothing by default
     }
 
-    public function validatePropValue (prop :ObjectProp) :void {
+    public function cloneObject (data :Object, mgr :LibraryManager) :Object {
+        throw new Error("abstract");
+    }
+
+    public function cloneData (data :Object, mgr :LibraryManager) :* {
+        // handle null data
+        return (data == null ? null : cloneObject(data, mgr));
+    }
+
+    public function validateProp (p :Prop) :void {
+        var prop :ObjectProp = ObjectProp(p);
+
         if (!prop.nullable && prop.value == null) {
             throw new ValidationError(prop, "null value for non-nullable prop");
         } else if (prop.value != null && !(prop.value is this.valueClass)) {

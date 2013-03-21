@@ -16,6 +16,12 @@ public class MutableAnnotationPage extends MutablePage
 {
 // GENERATED CLASS_INTRO END
 
+// GENERATED CONSTRUCTOR START
+    public function MutableAnnotationPage () {
+        initProps();
+    }
+// GENERATED CONSTRUCTOR END
+
 // GENERATED PROPS START
     public function get foo () :int { return _foo.value; }
     public function set foo (val :int) :void { _foo.value = val; }
@@ -26,12 +32,18 @@ public class MutableAnnotationPage extends MutablePage
     public function set primitives (val :PrimitivePage) :void { _primitives.value = val; }
 
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _foo, _bar, _primitives, ]); }
+
+    private function initProps () :void {
+        _foo = new IntProp(this, s_fooSpec);
+        _bar = new IntProp(this, s_barSpec);
+        _primitives = new ObjectProp(this, s_primitivesSpec);
+    }
 // GENERATED PROPS END
 
 // GENERATED IVARS START
-    protected var _foo :IntProp = new IntProp(s_fooSpec);
-    protected var _bar :IntProp = new IntProp(s_barSpec);
-    protected var _primitives :ObjectProp = new ObjectProp(s_primitivesSpec);
+    protected var _foo :IntProp;
+    protected var _bar :IntProp;
+    protected var _primitives :ObjectProp;
 // GENERATED IVARS END
 
 // GENERATED STATICS START

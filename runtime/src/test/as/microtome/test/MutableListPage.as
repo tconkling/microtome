@@ -15,15 +15,25 @@ public class MutableListPage extends MutablePage
 {
 // GENERATED CLASS_INTRO END
 
+// GENERATED CONSTRUCTOR START
+    public function MutableListPage () {
+        initProps();
+    }
+// GENERATED CONSTRUCTOR END
+
 // GENERATED PROPS START
     public function get list () :Array { return _list.value; }
     public function set list (val :Array) :void { _list.value = val; }
 
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _list, ]); }
+
+    private function initProps () :void {
+        _list = new ObjectProp(this, s_listSpec);
+    }
 // GENERATED PROPS END
 
 // GENERATED IVARS START
-    protected var _list :ObjectProp = new ObjectProp(s_listSpec);
+    protected var _list :ObjectProp;
 // GENERATED IVARS END
 
 // GENERATED STATICS START

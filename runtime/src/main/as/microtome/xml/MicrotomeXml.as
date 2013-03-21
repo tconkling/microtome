@@ -3,28 +3,23 @@
 
 package microtome.xml {
 
-import microtome.Library;
-import microtome.LibraryLoader;
+import microtome.MicrotomeCtx;
 import microtome.core.DataElement;
 
-public class XmlLibraryLoader extends LibraryLoader
+public class MicrotomeXml
 {
-    public function XmlLibraryLoader (library :Library) {
-        super(library);
+    /** Loads a single XML document into the given MicrotomeCtx */
+    public static function loadXmlDoc (ctx :MicrotomeCtx, xml :XML) :void {
+        loadXmlDocs(ctx, new <XML>[ xml ]);
     }
 
-    /** Loads a single XML document into the library */
-    public function loadXmlDoc (xml :XML) :void {
-        loadXmlDocs(new <XML>[ xml ]);
-    }
-
-    /** Loads a Vector of XML documents into the library */
-    public function loadXmlDocs (xmlDocs :Vector.<XML>) :void {
+    /** Loads a Vector of XML documents into the given MicrotomeCtx */
+    public static function loadXmlDocs (ctx :MicrotomeCtx, xmlDocs :Vector.<XML>) :void {
         var data :Vector.<DataElement> = new <DataElement>[];
         for each (var xml :XML in xmlDocs) {
             data.push(new XmlDataElement(xml));
         }
-        loadData(data);
+        ctx.loadData(data);
     }
 }
 }

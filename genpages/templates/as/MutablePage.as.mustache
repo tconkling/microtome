@@ -14,6 +14,12 @@ public class {{class_name}} extends {{superclass}}
 {
 // GENERATED CLASS_INTRO END
 
+// GENERATED CONSTRUCTOR START
+    public function {{class_name}} () {
+        initProps();
+    }
+// GENERATED CONSTRUCTOR END
+
 // GENERATED PROPS START
     {{#props}}
 {{#value_type.is_pageref}}
@@ -31,11 +37,17 @@ public class {{class_name}} extends {{superclass}}
     {{/props}}
 
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ {{#props}}_{{name}}, {{/props}}]); }
+
+    private function initProps () :void {
+        {{#props}}
+        _{{name}} = new {{typename}}(this, s_{{name}}Spec);
+        {{/props}}
+    }
 // GENERATED PROPS END
 
 // GENERATED IVARS START
     {{#props}}
-    protected var _{{name}} :{{typename}} = new {{typename}}(s_{{name}}Spec);
+    protected var _{{name}} :{{typename}};
     {{/props}}
 // GENERATED IVARS END
 

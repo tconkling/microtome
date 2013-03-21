@@ -2,8 +2,8 @@
 // microtome
 
 package microtome.core {
-
 import microtome.MutablePage;
+
 
 public class TemplatedPage
 {

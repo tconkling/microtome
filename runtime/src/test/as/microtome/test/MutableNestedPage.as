@@ -15,16 +15,26 @@ public class MutableNestedPage extends MutablePage
 {
 // GENERATED CLASS_INTRO END
 
+// GENERATED CONSTRUCTOR START
+    public function MutableNestedPage () {
+        initProps();
+    }
+// GENERATED CONSTRUCTOR END
+
 // GENERATED PROPS START
     public function get mutableNested () :MutablePrimitivePage { return _nested.value; }
     public function get nested () :PrimitivePage { return _nested.value; }
     public function set nested (val :PrimitivePage) :void { _nested.value = val; }
 
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _nested, ]); }
+
+    private function initProps () :void {
+        _nested = new ObjectProp(this, s_nestedSpec);
+    }
 // GENERATED PROPS END
 
 // GENERATED IVARS START
-    protected var _nested :ObjectProp = new ObjectProp(s_nestedSpec);
+    protected var _nested :ObjectProp;
 // GENERATED IVARS END
 
 // GENERATED STATICS START

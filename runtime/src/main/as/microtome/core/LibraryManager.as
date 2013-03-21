@@ -1,20 +1,16 @@
 //
 // microtome
 
-package microtome {
+package microtome.core {
 
 import flash.utils.Dictionary;
 
-import microtome.core.DataElement;
-import microtome.core.DataReader;
-import microtome.core.Defs;
-import microtome.core.LibraryItem;
-import microtome.core.LoadTask;
-import microtome.core.MicrotomeItem;
-import microtome.core.TemplatedPage;
+import microtome.Library;
+import microtome.MicrotomeCtx;
+import microtome.Page;
+import microtome.core.microtome_internal;
 import microtome.error.LoadError;
 import microtome.error.MicrotomeError;
-import microtome.marshaller.DefaultPrimitiveMarshaller;
 import microtome.marshaller.ListMarshaller;
 import microtome.marshaller.ObjectMarshaller;
 import microtome.marshaller.PageMarshaller;
@@ -29,12 +25,13 @@ import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 import microtome.util.Util;
+import microtome.MutablePage;
+import microtome.MutableTome;
 
-public class LibraryLoader
+public final class LibraryManager
+    implements MicrotomeCtx
 {
-    public var primitiveMarshaller :PrimitiveMarshaller = new DefaultPrimitiveMarshaller();
-
-    public function LibraryLoader (library :Library) {
+    public function LibraryManager (library :Library) {
         _library = library;
 
         registerObjectMarshaller(new ListMarshaller());
@@ -46,6 +43,14 @@ public class LibraryLoader
 
     public final function get library () :Library {
         return _library;
+    }
+
+    public function get primitiveMarshaller () :PrimitiveMarshaller {
+        return _primitiveMarshaller;
+    }
+
+    public function set primitiveMarshaller (val :PrimitiveMarshaller) :void {
+        _primitiveMarshaller = val;
     }
 
     public function registerPageClasses (classes :Vector.<Class>) :void {
@@ -109,7 +114,7 @@ public class LibraryLoader
         try {
             for each (var doc :DataElement in dataElements) {
                 for each (var itemData :DataElement in DataReader.withData(doc).children) {
-                    _loadTask.addItem(loadLibraryItem(_library, itemData));
+                    _loadTask.addItem(loadLibraryItem(itemData));
                 }
             }
 
@@ -152,23 +157,20 @@ public class LibraryLoader
         }
     }
 
-    public function loadTome (parent :MicrotomeItem, tomeData :DataElement, pageClass :Class) :MutableTome {
-        var name :String = tomeData.name;
+    public function loadTome (tomeData :DataElement, pageClass :Class) :MutableTome {
+        const name :String = tomeData.name;
         if (!Util.validLibraryItemName(name)) {
             throw new LoadError(tomeData, "Invalid tome name", "name", name);
         }
 
-        var tome :MutableTome = new MutableTome(parent, name, pageClass);
+        const tome :MutableTome = new MutableTome(name, pageClass);
         for each (var pageData :DataElement in DataReader.withData(tomeData).children) {
-            var page :MutablePage = loadPage(tome, pageData, pageClass);
-            // MutableTome.addPage sets the page's parent, and requires that it's null
-            page._parent = null;
-            tome.addPage(page);
+            tome.addPage(loadPage(pageData, pageClass));
         }
         return tome;
     }
 
-    public function loadPage (parent :MicrotomeItem, pageData :DataElement, requiredSuperclass :Class = null) :MutablePage {
+    public function loadPage (pageData :DataElement, requiredSuperclass :Class = null) :MutablePage {
         var name :String = pageData.name;
         if (!Util.validLibraryItemName(name)) {
             throw new LoadError(pageData, "Invalid page name", "name", name);
@@ -179,8 +181,7 @@ public class LibraryLoader
         var pageClass :Class = requirePageClass(typename, requiredSuperclass);
 
         var page :MutablePage = new pageClass();
-        page._name = name;
-        page._parent = parent;
+        page.microtome_internal::setName(name);
 
         if (reader.hasAttribute(Defs.TEMPLATE_ATTR)) {
             // if this page has a template, we defer its loading until the end
@@ -250,7 +251,6 @@ public class LibraryLoader
                     intProp.value = IntProp(tProp).value;
                 } else {
                     intProp.value = pageReader.requireIntAttribute(prop.name);
-                    this.primitiveMarshaller.validateInt(intProp);
                 }
 
             } else if (prop is BoolProp) {
@@ -261,7 +261,6 @@ public class LibraryLoader
                     boolProp.value = BoolProp(tProp).value;
                 } else {
                     boolProp.value = pageReader.requireBoolAttribute(prop.name);
-                    this.primitiveMarshaller.validateBool(boolProp);
                 }
 
             } else if (prop is NumberProp) {
@@ -272,13 +271,14 @@ public class LibraryLoader
                     numProp.value = NumberProp(tProp).value;
                 } else {
                     numProp.value = pageReader.requireNumberAttribute(prop.name);
-                    this.primitiveMarshaller.validateNumber(numProp);
                 }
 
             } else {
                 throw new LoadError(pageData, "Unrecognized primitive prop", "name", prop.name,
                     "class", ClassUtil.getClassName(prop));
             }
+
+            this._primitiveMarshaller.validateProp(prop);
 
         } else {
             // Handle object props (read from child elements):
@@ -291,9 +291,8 @@ public class LibraryLoader
                 var marshaller :ObjectMarshaller =
                     requireObjectMarshallerForClass(objectProp.valueType.clazz);
                 var propData :DataElement = pageReader.childNamed(prop.name);
-                objectProp.value =
-                    marshaller.loadObject(page, propData, objectProp.valueType, this);
-                marshaller.validatePropValue(objectProp);
+                objectProp.value = marshaller.loadObject(propData, objectProp.valueType, this);
+                marshaller.validateProp(objectProp);
 
             } else if (useTemplate) {
                 objectProp.value = ObjectProp(tProp).value;
@@ -305,16 +304,16 @@ public class LibraryLoader
         }
     }
 
-    protected function loadLibraryItem (parent :MicrotomeItem, data :DataElement) :LibraryItem {
+    protected function loadLibraryItem (data :DataElement) :LibraryItem {
         // a tome or a page
         var reader :DataReader = DataReader.withData(data);
         var pageType :String = reader.requireAttribute(Defs.PAGE_TYPE_ATTR);
         if (reader.getBoolAttribute(Defs.IS_TOME_ATTR, false)) {
             // it's a tome!
-            return loadTome(parent, reader, requirePageClass(pageType));
+            return loadTome(reader, requirePageClass(pageType));
         } else {
             // it's a page!
-            return loadPage(parent, reader);
+            return loadPage(reader);
         }
     }
 
@@ -331,7 +330,7 @@ public class LibraryLoader
         }
 
         for each (item in task.libraryItems) {
-            _library._items[item.name] = item;
+            _library.addItem(item);
         }
 
         task.state = LoadTask.ADDED_ITEMS;
@@ -362,7 +361,7 @@ public class LibraryLoader
         }
 
         for each (var item :LibraryItem in task.libraryItems) {
-            delete _library._items[item.name];
+            _library.removeItem(item);
         }
         task.state = LoadTask.ABORTED;
     }
@@ -370,6 +369,7 @@ public class LibraryLoader
     protected var _library :Library;
     protected var _pageClasses :Dictionary = new Dictionary();  // <String, Class>
     protected var _objectMarshallers :Dictionary = new Dictionary(); // <Class, ObjectMarshaller>
+    protected var _primitiveMarshaller :PrimitiveMarshaller = new PrimitiveMarshaller();
 
     protected var _loadTask :LoadTask;
 }

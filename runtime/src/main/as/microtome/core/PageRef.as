@@ -5,7 +5,7 @@ package microtome.core {
 
 import microtome.Page;
 
-public class PageRef
+public final class PageRef
 {
     public function PageRef (pageClass :Class, pageName :String) {
         _pageClass = pageClass;
@@ -26,6 +26,10 @@ public class PageRef
 
     public function set page (page :Page) :void {
         _page = page;
+    }
+
+    public function clone () :PageRef {
+        return new PageRef(_pageClass, _pageName);
     }
 
     protected var _pageClass :Class;

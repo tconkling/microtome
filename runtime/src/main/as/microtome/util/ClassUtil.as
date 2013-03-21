@@ -4,7 +4,6 @@
 package microtome.util {
 
 import flash.utils.Dictionary;
-import flash.utils.Proxy;
 import flash.utils.getDefinitionByName;
 import flash.utils.getQualifiedClassName;
 

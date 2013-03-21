@@ -15,15 +15,25 @@ public class MutableObjectPage extends MutablePage
 {
 // GENERATED CLASS_INTRO END
 
+// GENERATED CONSTRUCTOR START
+    public function MutableObjectPage () {
+        initProps();
+    }
+// GENERATED CONSTRUCTOR END
+
 // GENERATED PROPS START
     public function get foo () :String { return _foo.value; }
     public function set foo (val :String) :void { _foo.value = val; }
 
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _foo, ]); }
+
+    private function initProps () :void {
+        _foo = new ObjectProp(this, s_fooSpec);
+    }
 // GENERATED PROPS END
 
 // GENERATED IVARS START
-    protected var _foo :ObjectProp = new ObjectProp(s_fooSpec);
+    protected var _foo :ObjectProp;
 // GENERATED IVARS END
 
 // GENERATED STATICS START

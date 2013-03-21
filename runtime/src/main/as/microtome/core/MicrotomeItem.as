@@ -2,6 +2,7 @@
 // microtome
 
 package microtome.core {
+
 import microtome.Library;
 
 /** The common interface for LibraryItems and the Library itself */

@@ -17,6 +17,12 @@ public class MutablePrimitivePage extends MutablePage
 {
 // GENERATED CLASS_INTRO END
 
+// GENERATED CONSTRUCTOR START
+    public function MutablePrimitivePage () {
+        initProps();
+    }
+// GENERATED CONSTRUCTOR END
+
 // GENERATED PROPS START
     public function get foo () :Boolean { return _foo.value; }
     public function set foo (val :Boolean) :void { _foo.value = val; }
@@ -26,12 +32,18 @@ public class MutablePrimitivePage extends MutablePage
     public function set baz (val :Number) :void { _baz.value = val; }
 
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _foo, _bar, _baz, ]); }
+
+    private function initProps () :void {
+        _foo = new BoolProp(this, s_fooSpec);
+        _bar = new IntProp(this, s_barSpec);
+        _baz = new NumberProp(this, s_bazSpec);
+    }
 // GENERATED PROPS END
 
 // GENERATED IVARS START
-    protected var _foo :BoolProp = new BoolProp(s_fooSpec);
-    protected var _bar :IntProp = new IntProp(s_barSpec);
-    protected var _baz :NumberProp = new NumberProp(s_bazSpec);
+    protected var _foo :BoolProp;
+    protected var _bar :IntProp;
+    protected var _baz :NumberProp;
 // GENERATED IVARS END
 
 // GENERATED STATICS START

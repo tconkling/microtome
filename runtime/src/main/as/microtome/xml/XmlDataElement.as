@@ -3,30 +3,9 @@
 
 package microtome.xml {
 
-import microtome.MicrotomeCtx;
 import microtome.core.DataElement;
 
-public class MicrotomeXml
-{
-    /** Loads a single XML document into the given MicrotomeCtx */
-    public static function loadXmlDoc (ctx :MicrotomeCtx, xml :XML) :void {
-        loadXmlDocs(ctx, new <XML>[ xml ]);
-    }
-
-    /** Loads a Vector of XML documents into the given MicrotomeCtx */
-    public static function loadXmlDocs (ctx :MicrotomeCtx, xmlDocs :Vector.<XML>) :void {
-        var data :Vector.<DataElement> = new <DataElement>[];
-        for each (var xml :XML in xmlDocs) {
-            data.push(new XmlDataElement(xml));
-        }
-        ctx.loadData(data);
-    }
-}
-}
-
-import microtome.core.DataElement;
-
-class XmlDataElement
+internal class XmlDataElement
     implements DataElement
 {
     public function XmlDataElement (xml :XML) {
@@ -37,28 +16,11 @@ class XmlDataElement
         return _xml.localName();
     }
 
-    /**
-     * Returns the concatenation of all text children of the given node.
-     * E.g.:
-     * getText(<text/>) -> ""
-     * getText(<text>some text</text>) -> "some text"
-     * getText(<text>some <asdf/>more<asdf/> text</text>) -> "some more text"
-     */
-    public function get value () :String {
-        if (_value == null) {
-            _value = "";
-            for each (var textNode :XML in _xml.text()) {
-                _value += textNode.toString();
-            }
-        }
-        return _value;
-    }
-
-    public function get description () :String {
+    public function get debugDescription () :String {
         return toXMLString(_xml);
     }
 
-    public function getAllChildren () :Vector.<DataElement> {
+    public function get children () :Vector.<DataElement> {
         var children :Vector.<DataElement> = new <DataElement>[];
         for each (var child :XML in _xml.elements()) {
             children.push(new XmlDataElement(child));
@@ -66,7 +28,7 @@ class XmlDataElement
         return children;
     }
 
-    public function attributeNamed (name :String) :String {
+    public function getAttribute (name :String) :String {
         return _xml.attribute(name)[0];
     }
 
@@ -114,4 +76,5 @@ class XmlDataElement
     protected var _xml :XML;
     protected var _value :String;
     protected var _children :Array;
+}
 }

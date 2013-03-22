@@ -6,12 +6,9 @@ package microtome.core {
 public interface DataElement
 {
     function get name () :String;
-    function get value () :String;
-    function get description () :String;
+    function get children () :Vector.<DataElement>;
+    function getAttribute (name :String) :String;
 
-    function getAllChildren () :Vector.<DataElement>;
-
-    function attributeNamed (name :String) :String;
-
+    function get debugDescription () :String;
 }
 }

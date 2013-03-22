@@ -40,10 +40,12 @@
     <classEntry path="microtome.core.LibraryManager"/>
     <classEntry path="microtome.MutablePage"/>
     <classEntry path="microtome.MicrotomeCtx"/>
-    <classEntry path="microtome.xml.MicrotomeXml"/>
+    <classEntry path="microtome.xml.XmlReader"/>
     <classEntry path="microtome.Microtome"/>
     <classEntry path="microtome.core.microtome_internal"/>
     <classEntry path="microtome.core.LibraryItemImpl"/>
+    <classEntry path="microtome.xml.XmlDataElement"/>
+    <classEntry path="microtome.core.DataWriter"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

@@ -13,7 +13,7 @@ public class LoadError extends MicrotomeErrorBase
 
     protected function addDataToArgs (badElement :DataElement, args :Array) :Array {
         if (badElement != null) {
-            args.push("data", badElement.description);
+            args.push("data", badElement.debugDescription);
         }
         return args;
     }

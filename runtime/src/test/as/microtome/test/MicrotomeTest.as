@@ -10,7 +10,7 @@ import microtome.Library;
 import microtome.Microtome;
 import microtome.MicrotomeCtx;
 import microtome.Tome;
-import microtome.xml.MicrotomeXml;
+import microtome.xml.XmlReader;
 
 public class MicrotomeTest extends Sprite
 {
@@ -28,8 +28,18 @@ public class MicrotomeTest extends Sprite
         trace("All tests passed");
     }
 
+    protected function loadXml (...classes) :void {
+        const xmlDocs :Vector.<XML> = new <XML>[];
+        for each (var clazz :Class in classes) {
+            var ba :ByteArray = new clazz();
+            xmlDocs.push(new XML(ba.readUTFBytes(ba.length)));
+        }
+
+        _ctx.load(_library, XmlReader.xmlToDataElements(xmlDocs));
+    }
+
     protected function testPrimitives () :void {
-        MicrotomeXml.loadXmlDocs(_ctx, new <XML>[ newXml(PRIMITIVE_TEST_XML) ]);
+        loadXml(PRIMITIVE_TEST_XML);
 
         var page :PrimitivePage = _library.getItem("primitiveTest");
         assert(page != null);
@@ -40,7 +50,7 @@ public class MicrotomeTest extends Sprite
     }
 
     protected function testObjects () :void {
-        MicrotomeXml.loadXmlDocs(_ctx, new <XML>[ newXml(OBJECT_TEST_XML) ]);
+        loadXml(OBJECT_TEST_XML);
 
         var page :ObjectPage = _library.getItem("objectTest");
         assertEquals(page.foo, "foo");
@@ -48,7 +58,7 @@ public class MicrotomeTest extends Sprite
     }
 
     protected function testTome () :void {
-        MicrotomeXml.loadXmlDocs(_ctx, new <XML>[ newXml(TOME_TEST_XML) ]);
+        loadXml(TOME_TEST_XML);
 
         var tome :Tome = _library.getItem("tomeTest");
         assertEquals(tome.size, 2);
@@ -56,7 +66,7 @@ public class MicrotomeTest extends Sprite
     }
 
     protected function testNested () :void {
-        MicrotomeXml.loadXmlDocs(_ctx, new <XML>[ newXml(NESTED_TEST_XML) ]);
+        loadXml(NESTED_TEST_XML);
 
         var page :NestedPage = _library.getItem("nestedTest");
         assertEquals(page.nested.foo, true);
@@ -66,7 +76,7 @@ public class MicrotomeTest extends Sprite
     }
 
     protected function testRefs () :void {
-        MicrotomeXml.loadXmlDocs(_ctx, new <XML>[ newXml(REF_TEST_XML), newXml(TOME_TEST_XML) ]);
+        loadXml(REF_TEST_XML, TOME_TEST_XML);
 
         var page :RefPage = _library.getItem("refTest");
         assert(page.nested != null);
@@ -77,7 +87,7 @@ public class MicrotomeTest extends Sprite
     }
 
     protected function testTemplates () :void {
-        MicrotomeXml.loadXmlDocs(_ctx, new <XML>[ newXml(TEMPLATE_TEST_XML) ]);
+        loadXml(TEMPLATE_TEST_XML);
 
         var page :PrimitivePage = _library.getItem("test1");
         assertEquals(page.foo, true);
@@ -91,7 +101,7 @@ public class MicrotomeTest extends Sprite
     }
 
     protected function testAnnotations () :void {
-        MicrotomeXml.loadXmlDocs(_ctx, new <XML>[ newXml(ANNOTATION_TEST_XML) ]);
+        loadXml(ANNOTATION_TEST_XML);
 
         var page :AnnotationPage = _library.getItem("test");
         assertEquals(page.foo, 4);
@@ -101,13 +111,8 @@ public class MicrotomeTest extends Sprite
         _library.removeAllItems();
     }
 
-    protected static function newXml (clazz :Class) :XML {
-        var ba :ByteArray = new clazz;
-        return new XML(ba.readUTFBytes(ba.length));
-    }
-
-    protected var _library :Library = new Library();
-    protected var _ctx :MicrotomeCtx = Microtome.createCtx(_library);
+    protected const _library :Library = new Library();
+    protected const _ctx :MicrotomeCtx = Microtome.createCtx();
 
     [Embed(source="../../../resources/PrimitiveTest.xml", mimeType="application/octet-stream")]
     private static const PRIMITIVE_TEST_XML :Class;

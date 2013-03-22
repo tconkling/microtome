@@ -10,7 +10,6 @@ import microtome.MicrotomeCtx;
 import microtome.MutablePage;
 import microtome.MutableTome;
 import microtome.Page;
-import microtome.core.microtome_internal;
 import microtome.error.LoadError;
 import microtome.error.MicrotomeError;
 import microtome.marshaller.ListMarshaller;
@@ -31,9 +30,7 @@ import microtome.util.Util;
 public final class LibraryManager
     implements MicrotomeCtx
 {
-    public function LibraryManager (library :Library) {
-        _library = library;
-
+    public function LibraryManager () {
         registerObjectMarshaller(new ListMarshaller());
         registerObjectMarshaller(new PageMarshaller());
         registerObjectMarshaller(new PageRefMarshaller());
@@ -42,15 +39,15 @@ public final class LibraryManager
     }
 
     public final function get library () :Library {
-        return _library;
+        return _loadTask.library;
+    }
+
+    public function registerPrimitiveMarshaller (val :PrimitiveMarshaller) :void {
+        _primitiveMarshaller = val;
     }
 
     public function get primitiveMarshaller () :PrimitiveMarshaller {
         return _primitiveMarshaller;
-    }
-
-    public function set primitiveMarshaller (val :PrimitiveMarshaller) :void {
-        _primitiveMarshaller = val;
     }
 
     public function registerPageClasses (classes :Vector.<Class>) :void {
@@ -105,11 +102,15 @@ public final class LibraryManager
         return clazz;
     }
 
-    public function loadData (dataElements :Vector.<DataElement>) :void {
+    public function save (item :LibraryItem, writer :DataWriter) :DataElement {
+        return null;
+    }
+
+    public function load (library :Library, dataElements :Vector.<DataElement>) :void {
         if (_loadTask != null) {
             throw new Error("Load already in progress");
         }
-        _loadTask = new LoadTask();
+        _loadTask = new LoadTask(library);
 
         try {
             for each (var doc :DataElement in dataElements) {
@@ -129,7 +130,7 @@ public final class LibraryManager
                 foundTemplate = false;
                 for (var ii :int = 0; ii < _loadTask.pendingTemplatedPages.length; ++ii) {
                     var tPage :TemplatedPage = _loadTask.pendingTemplatedPages[ii];
-                    var tmpl :MutablePage = _library.pageWithQualifiedName(tPage.templateName);
+                    var tmpl :MutablePage = _loadTask.library.pageWithQualifiedName(tPage.templateName);
                     if (tmpl == null) {
                         continue;
                     }
@@ -192,7 +193,7 @@ public final class LibraryManager
         return page;
     }
 
-    public function cloneItem (item :LibraryItem) :* {
+    public function clone (item :LibraryItem) :* {
         const clazz :Class = ClassUtil.getClass(item);
         const marshaller :ObjectMarshaller = requireObjectMarshallerForClass(clazz);
         return marshaller.cloneData(item, item.typeInfo, this);
@@ -295,7 +296,7 @@ public final class LibraryManager
             if (canRead) {
                 var marshaller :ObjectMarshaller =
                     requireObjectMarshallerForClass(objectProp.valueType.clazz);
-                var propData :DataElement = pageReader.childNamed(prop.name);
+                var propData :DataElement = pageReader.getChild(prop.name);
                 objectProp.value = marshaller.readObject(propData, objectProp.valueType, this);
                 marshaller.validateProp(objectProp);
 
@@ -328,14 +329,14 @@ public final class LibraryManager
         }
 
         for each (var item :LibraryItem in task.libraryItems) {
-            if (_library.hasItem(item.name)) {
+            if (task.library.hasItem(item.name)) {
                 task.state = LoadTask.ABORTED;
                 throw new LoadError(null, "An item named '" + item.name + "' is already loaded");
             }
         }
 
         for each (item in task.libraryItems) {
-            _library.addItem(item);
+            task.library.addItem(item);
         }
 
         task.state = LoadTask.ADDED_ITEMS;
@@ -366,12 +367,11 @@ public final class LibraryManager
         }
 
         for each (var item :LibraryItem in task.libraryItems) {
-            _library.removeItem(item);
+            task.library.removeItem(item);
         }
         task.state = LoadTask.ABORTED;
     }
 
-    protected var _library :Library;
     protected var _pageClasses :Dictionary = new Dictionary();  // <String, Class>
     protected var _objectMarshallers :Dictionary = new Dictionary(); // <Class, ObjectMarshaller>
     protected var _primitiveMarshaller :PrimitiveMarshaller = new PrimitiveMarshaller();

@@ -15,11 +15,7 @@ public class DataReader
         return (data is DataReader ? DataReader(data) : new DataReader(data));
     }
 
-    public function get children () :Vector.<DataElement> {
-        return getAllChildren();
-    }
-
-    public function childNamed (name :String) :DataElement {
+    public function getChild (name :String) :DataElement {
         if (_childrenByName == null) {
             _childrenByName = new Dictionary();
             for each (var child :DataElement in this.children) {
@@ -29,16 +25,8 @@ public class DataReader
         return _childrenByName[name];
     }
 
-    public function requireValue () :String {
-        var val :String = _data.value;
-        if (val == null) {
-            throw new LoadError(_data, "Element is empty");
-        }
-        return val;
-    }
-
-    public function getAttribute (name :String, defaultVal :String = null) :String {
-        var attr :String = attributeNamed(name);
+    public function getStringAttribute (name :String, defaultVal :String = null) :String {
+        var attr :String = getAttribute(name);
         return (attr != null ? attr : defaultVal);
     }
 
@@ -55,7 +43,7 @@ public class DataReader
     }
 
     public function requireAttribute (name :String) :String {
-        var attr :String = attributeNamed(name);
+        var attr :String = getAttribute(name);
         if (attr == null) {
             throw new LoadError(_data, "Missing required attribute", "name", name);
         }
@@ -95,16 +83,16 @@ public class DataReader
     }
 
     public function hasAttribute (name :String) :Boolean {
-        return (attributeNamed(name) != null);
+        return (getAttribute(name) != null);
     }
 
     public function hasChild (name :String) :Boolean {
-        return (childNamed(name) != null);
+        return (getChild(name) != null);
     }
 
-    public function getAllChildren () :Vector.<DataElement> {
+    public function get children () :Vector.<DataElement> {
         if (_children == null) {
-            _children = _data.getAllChildren();
+            _children = _data.children;
         }
         return _children;
     }
@@ -113,16 +101,12 @@ public class DataReader
         return _data.name;
     }
 
-    public function get value () :String {
-        return _data.value;
+    public function get debugDescription () :String {
+        return _data.debugDescription;
     }
 
-    public function get description () :String {
-        return _data.description;
-    }
-
-    public function attributeNamed (name :String) :String {
-        return _data.attributeNamed(name);
+    public function getAttribute (name :String) :String {
+        return _data.getAttribute(name);
     }
 
     // private

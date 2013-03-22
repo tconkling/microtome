@@ -17,7 +17,8 @@ public class MutableRefPage extends MutablePage
 // GENERATED CLASS_INTRO END
 
 // GENERATED CONSTRUCTOR START
-    public function MutableRefPage () {
+    public function MutableRefPage (name :String) {
+        super(name);
         initProps();
     }
 // GENERATED CONSTRUCTOR END

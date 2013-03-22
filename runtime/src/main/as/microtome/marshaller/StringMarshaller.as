@@ -14,11 +14,11 @@ public class StringMarshaller extends ObjectMarshallerBase
         return String;
     }
 
-    override public function loadObject (data :DataElement, type :TypeInfo, mgr :LibraryManager) :* {
+    override public function readObject (data :DataElement, type :TypeInfo, mgr :LibraryManager) :* {
         return DataReader.withData(data).requireAttribute("value");
     }
 
-    override public function cloneObject (data :Object, mgr :LibraryManager) :Object {
+    override public function cloneObject (data :Object, type :TypeInfo, mgr :LibraryManager) :Object {
         // Strings don't need cloning
         return data;
     }

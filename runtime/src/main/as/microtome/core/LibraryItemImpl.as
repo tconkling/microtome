@@ -8,6 +8,10 @@ import microtome.Library;
 public class LibraryItemImpl
     implements MicrotomeItem
 {
+    public function LibraryItemImpl (name :String) {
+        _name = name;
+    }
+
     public final function get name () :String {
         return _name;
     }

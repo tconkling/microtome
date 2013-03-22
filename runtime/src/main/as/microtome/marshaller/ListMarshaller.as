@@ -14,12 +14,12 @@ public class ListMarshaller extends ObjectMarshallerBase
         return Array;
     }
 
-    override public function loadObject (data :DataElement, type :TypeInfo, loader :LibraryManager):* {
+    override public function readObject (data :DataElement, type :TypeInfo, loader :LibraryManager):* {
         const list :Array = [];
         const childMarshaller :ObjectMarshaller =
             loader.requireObjectMarshallerForClass(type.subtype.clazz);
         for each (var childData :DataElement in DataReader.withData(data).children) {
-            var child :* = childMarshaller.loadObject(childData, type.subtype, loader);
+            var child :* = childMarshaller.readObject(childData, type.subtype, loader);
             list.push(child);
         }
 
@@ -27,12 +27,18 @@ public class ListMarshaller extends ObjectMarshallerBase
     }
 
     override public function resolveRefs (obj :*, type :TypeInfo, loader :LibraryManager) :void {
-        var list :Array = obj as Array;
-        var childMarshaller :ObjectMarshaller =
+        const list :Array = obj as Array;
+        const childMarshaller :ObjectMarshaller =
             loader.requireObjectMarshallerForClass(type.subtype.clazz);
         for each (var child :* in list) {
             childMarshaller.resolveRefs(child, type.subtype, loader);
         }
+    }
+
+    override public function cloneObject (data :Object, type :TypeInfo, mgr :LibraryManager) :Object {
+        const list :Array = (data as Array);
+        const clone :Array = [];
+        return clone;
     }
 }
 }

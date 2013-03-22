@@ -3,19 +3,22 @@
 
 package microtome {
 
-import microtome.prop.ObjectProp;
-import microtome.prop.Prop;
-import microtome.util.ClassUtil;
-import microtome.util.Util;
 import microtome.core.Defs;
 import microtome.core.LibraryItemImpl;
 import microtome.core.MicrotomeItem;
 import microtome.core.TypeInfo;
-import microtome.core.microtome_internal;
+import microtome.prop.ObjectProp;
+import microtome.prop.Prop;
+import microtome.util.ClassUtil;
+import microtome.util.Util;
 
 public class MutablePage extends LibraryItemImpl
     implements Page
 {
+    public function MutablePage (name :String) {
+        super(name);
+    }
+
     /** The page's fully qualified name, used during PageRef resolution */
     public final function get fullyQualifiedName () :String {
         var out :String = _name;
@@ -45,10 +48,6 @@ public class MutablePage extends LibraryItemImpl
 
     public function toString () :String {
         return ClassUtil.tinyClassName(this) + ":'" + _name + "'";
-    }
-
-    microtome_internal function setName (name :String) :void {
-        _name = name;
     }
 
     private var _typeInfo :TypeInfo;

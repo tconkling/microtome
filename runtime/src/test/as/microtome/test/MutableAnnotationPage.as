@@ -17,7 +17,8 @@ public class MutableAnnotationPage extends MutablePage
 // GENERATED CLASS_INTRO END
 
 // GENERATED CONSTRUCTOR START
-    public function MutableAnnotationPage () {
+    public function MutableAnnotationPage (name :String) {
+        super(name);
         initProps();
     }
 // GENERATED CONSTRUCTOR END

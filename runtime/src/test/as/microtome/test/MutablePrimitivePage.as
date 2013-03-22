@@ -18,7 +18,8 @@ public class MutablePrimitivePage extends MutablePage
 // GENERATED CLASS_INTRO END
 
 // GENERATED CONSTRUCTOR START
-    public function MutablePrimitivePage () {
+    public function MutablePrimitivePage (name :String) {
+        super(name);
         initProps();
     }
 // GENERATED CONSTRUCTOR END

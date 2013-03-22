@@ -7,6 +7,8 @@ import flash.utils.Dictionary;
 
 import microtome.Library;
 import microtome.MicrotomeCtx;
+import microtome.MutablePage;
+import microtome.MutableTome;
 import microtome.Page;
 import microtome.core.microtome_internal;
 import microtome.error.LoadError;
@@ -25,8 +27,6 @@ import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 import microtome.util.Util;
-import microtome.MutablePage;
-import microtome.MutableTome;
 
 public final class LibraryManager
     implements MicrotomeCtx
@@ -180,8 +180,7 @@ public final class LibraryManager
         var typename :String = reader.requireAttribute(Defs.PAGE_TYPE_ATTR);
         var pageClass :Class = requirePageClass(typename, requiredSuperclass);
 
-        var page :MutablePage = new pageClass();
-        page.microtome_internal::setName(name);
+        var page :MutablePage = new pageClass(name);
 
         if (reader.hasAttribute(Defs.TEMPLATE_ATTR)) {
             // if this page has a template, we defer its loading until the end
@@ -191,6 +190,12 @@ public final class LibraryManager
         }
 
         return page;
+    }
+
+    public function cloneItem (item :LibraryItem) :* {
+        const clazz :Class = ClassUtil.getClass(item);
+        const marshaller :ObjectMarshaller = requireObjectMarshallerForClass(clazz);
+        return marshaller.cloneData(item, item.typeInfo, this);
     }
 
     protected function loadPageProps (page :MutablePage, pageData :DataElement, tmpl :MutablePage = null) :void {
@@ -291,7 +296,7 @@ public final class LibraryManager
                 var marshaller :ObjectMarshaller =
                     requireObjectMarshallerForClass(objectProp.valueType.clazz);
                 var propData :DataElement = pageReader.childNamed(prop.name);
-                objectProp.value = marshaller.loadObject(propData, objectProp.valueType, this);
+                objectProp.value = marshaller.readObject(propData, objectProp.valueType, this);
                 marshaller.validateProp(objectProp);
 
             } else if (useTemplate) {

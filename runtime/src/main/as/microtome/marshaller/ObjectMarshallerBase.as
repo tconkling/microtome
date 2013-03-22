@@ -3,9 +3,8 @@
 
 package microtome.marshaller {
 
-import microtome.core.LibraryManager;
 import microtome.core.DataElement;
-import microtome.core.LibraryItem;
+import microtome.core.LibraryManager;
 import microtome.core.TypeInfo;
 import microtome.error.ValidationError;
 import microtome.prop.ObjectProp;
@@ -23,7 +22,7 @@ public class ObjectMarshallerBase
         return false;
     }
 
-    public function loadObject (data :DataElement, type :TypeInfo, loader :LibraryManager) :* {
+    public function readObject (data :DataElement, type :TypeInfo, loader :LibraryManager) :* {
         throw new Error("abstract");
     }
 
@@ -31,13 +30,13 @@ public class ObjectMarshallerBase
         // do nothing by default
     }
 
-    public function cloneObject (data :Object, mgr :LibraryManager) :Object {
+    public function cloneObject (data :Object, type :TypeInfo, mgr :LibraryManager) :Object {
         throw new Error("abstract");
     }
 
-    public function cloneData (data :Object, mgr :LibraryManager) :* {
+    public function cloneData (data :Object, type :TypeInfo, mgr :LibraryManager) :* {
         // handle null data
-        return (data == null ? null : cloneObject(data, mgr));
+        return (data == null ? null : cloneObject(data, type, mgr));
     }
 
     public function validateProp (p :Prop) :void {

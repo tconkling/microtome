@@ -15,7 +15,7 @@ public final class MutableTome extends LibraryItemImpl
     implements Tome
 {
     public function MutableTome (name :String, pageClass :Class) {
-        _name = name;
+        super(name);
         _type = TypeInfo.fromClasses([ MutableTome, pageClass ]);
     }
 

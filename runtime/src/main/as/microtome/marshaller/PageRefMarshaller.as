@@ -16,7 +16,7 @@ public class PageRefMarshaller extends ObjectMarshallerBase
         return PageRef;
     }
 
-    override public function loadObject (data :DataElement, type :TypeInfo, mgr :LibraryManager) :* {
+    override public function readObject (data :DataElement, type :TypeInfo, mgr :LibraryManager) :* {
         const pageName :String = DataReader.withData(data).requireAttribute("ref");
         if (pageName.length == 0) {
             throw new LoadError(data, "invalid PageRef", "pageName", pageName);
@@ -29,7 +29,7 @@ public class PageRefMarshaller extends ObjectMarshallerBase
         ref.page = loader.library.requirePageWithQualifiedName(ref.pageName, ref.pageClass);
     }
 
-    override public function cloneObject (data :Object, mgr :LibraryManager) :Object {
+    override public function cloneObject (data :Object, type :TypeInfo, mgr :LibraryManager) :Object {
         return PageRef(data).clone();
     }
 }

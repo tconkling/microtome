@@ -13,7 +13,7 @@ public interface ObjectMarshaller extends DataMarshaller
     function get handlesSubclasses () :Boolean;
 
     /** loads an object from a data element */
-    function loadObject (data :DataElement, type :TypeInfo, mgr :LibraryManager) :*;
+    function readObject (data :DataElement, type :TypeInfo, mgr :LibraryManager) :*;
 
     /** resolves PageRefs contained within an object */
     function resolveRefs (obj :*, type :TypeInfo, mgr :LibraryManager) :void;

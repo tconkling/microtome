@@ -16,7 +16,8 @@ public class MutableListPage extends MutablePage
 // GENERATED CLASS_INTRO END
 
 // GENERATED CONSTRUCTOR START
-    public function MutableListPage () {
+    public function MutableListPage (name :String) {
+        super(name);
         initProps();
     }
 // GENERATED CONSTRUCTOR END

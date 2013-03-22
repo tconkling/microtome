@@ -16,7 +16,8 @@ public class MutableNestedPage extends MutablePage
 // GENERATED CLASS_INTRO END
 
 // GENERATED CONSTRUCTOR START
-    public function MutableNestedPage () {
+    public function MutableNestedPage (name :String) {
+        super(name);
         initProps();
     }
 // GENERATED CONSTRUCTOR END

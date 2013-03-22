@@ -20,7 +20,7 @@
     <classEntry path="microtome.marshaller.PrimitiveMarshaller"/>
     <classEntry path="microtome.error.ValidationError"/>
     <classEntry path="microtome.marshaller.ObjectMarshaller"/>
-    <classEntry path="microtome.core.DataElement"/>
+    <classEntry path="microtome.core.ReadableObject"/>
     <classEntry path="microtome.marshaller.ObjectMarshallerBase"/>
     <classEntry path="microtome.marshaller.StringMarshaller"/>
     <classEntry path="microtome.core.LoadTask"/>
@@ -37,15 +37,14 @@
     <classEntry path="microtome.error.ResolveRefError"/>
     <classEntry path="microtome.core.MicrotomeItem"/>
     <classEntry path="microtome.error.MicrotomeError"/>
-    <classEntry path="microtome.core.LibraryManager"/>
     <classEntry path="microtome.MutablePage"/>
     <classEntry path="microtome.MicrotomeCtx"/>
-    <classEntry path="microtome.xml.XmlReader"/>
+    <classEntry path="microtome.xml.XmlUtil"/>
     <classEntry path="microtome.Microtome"/>
     <classEntry path="microtome.core.microtome_internal"/>
     <classEntry path="microtome.core.LibraryItemImpl"/>
-    <classEntry path="microtome.xml.XmlDataElement"/>
-    <classEntry path="microtome.core.DataWriter"/>
+    <classEntry path="microtome.xml.XmlElement"/>
+    <classEntry path="microtome.core.WritableObject"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

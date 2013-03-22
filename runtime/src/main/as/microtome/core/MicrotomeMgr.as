@@ -27,10 +27,10 @@ import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 import microtome.util.Util;
 
-public final class LibraryManager
+public final class MicrotomeMgr
     implements MicrotomeCtx
 {
-    public function LibraryManager () {
+    public function MicrotomeMgr () {
         registerObjectMarshaller(new ListMarshaller());
         registerObjectMarshaller(new PageMarshaller());
         registerObjectMarshaller(new PageRefMarshaller());
@@ -102,20 +102,20 @@ public final class LibraryManager
         return clazz;
     }
 
-    public function save (item :LibraryItem, writer :DataWriter) :DataElement {
+    public function save (item :LibraryItem, writer :WritableObject) :ReadableObject {
         return null;
     }
 
-    public function load (library :Library, dataElements :Vector.<DataElement>) :void {
+    public function load (library :Library, dataElements :Vector.<ReadableObject>) :void {
         if (_loadTask != null) {
             throw new Error("Load already in progress");
         }
         _loadTask = new LoadTask(library);
 
         try {
-            for each (var doc :DataElement in dataElements) {
-                for each (var itemData :DataElement in DataReader.withData(doc).children) {
-                    _loadTask.addItem(loadLibraryItem(itemData));
+            for each (var elt :ReadableObject in dataElements) {
+                for each (var itemReader :DataReader in new DataReader(elt).children) {
+                    _loadTask.addItem(loadLibraryItem(itemReader));
                 }
             }
 
@@ -134,7 +134,7 @@ public final class LibraryManager
                     if (tmpl == null) {
                         continue;
                     }
-                    loadPageProps(tPage.page, tPage.data, tmpl);
+                    loadPageProps(tPage.page, tPage.reader, tmpl);
                     _loadTask.pendingTemplatedPages.splice(ii--, 1);
                     foundTemplate = true;
                 }
@@ -142,8 +142,9 @@ public final class LibraryManager
 
             // throw an error if we're missing a template
             if (_loadTask.pendingTemplatedPages.length > 0) {
-                var missing :TemplatedPage = _loadTask.pendingTemplatedPages[0];
-                throw new LoadError(missing.data, "Missing template", "name", missing.templateName);
+                const missing :TemplatedPage = _loadTask.pendingTemplatedPages[0];
+                throw new LoadError(missing.reader.data, "Missing template",
+                    "name", missing.templateName);
             }
 
             // finalize the load, which resolves all PageRefs
@@ -158,34 +159,33 @@ public final class LibraryManager
         }
     }
 
-    public function loadTome (tomeData :DataElement, pageClass :Class) :MutableTome {
-        const name :String = tomeData.name;
+    public function loadTome (reader :DataReader, pageClass :Class) :MutableTome {
+        const name :String = reader.name;
         if (!Util.validLibraryItemName(name)) {
-            throw new LoadError(tomeData, "Invalid tome name", "name", name);
+            throw new LoadError(reader.data, "Invalid tome name", "name", name);
         }
 
         const tome :MutableTome = new MutableTome(name, pageClass);
-        for each (var pageData :DataElement in DataReader.withData(tomeData).children) {
-            tome.addPage(loadPage(pageData, pageClass));
+        for each (var pageReader :DataReader in reader.children) {
+            tome.addPage(loadPage(pageReader, pageClass));
         }
         return tome;
     }
 
-    public function loadPage (pageData :DataElement, requiredSuperclass :Class = null) :MutablePage {
-        var name :String = pageData.name;
+    public function loadPage (reader :DataReader, requiredSuperclass :Class = null) :MutablePage {
+        const name :String = reader.name;
         if (!Util.validLibraryItemName(name)) {
-            throw new LoadError(pageData, "Invalid page name", "name", name);
+            throw new LoadError(reader.data, "Invalid page name", "name", name);
         }
 
-        var reader :DataReader = DataReader.withData(pageData);
-        var typename :String = reader.requireAttribute(Defs.PAGE_TYPE_ATTR);
-        var pageClass :Class = requirePageClass(typename, requiredSuperclass);
+        const typename :String = reader.requireString(Defs.PAGE_TYPE_ATTR);
+        const pageClass :Class = requirePageClass(typename, requiredSuperclass);
 
-        var page :MutablePage = new pageClass(name);
+        const page :MutablePage = new pageClass(name);
 
-        if (reader.hasAttribute(Defs.TEMPLATE_ATTR)) {
+        if (reader.hasValue(Defs.TEMPLATE_ATTR)) {
             // if this page has a template, we defer its loading until the end
-            _loadTask.pendingTemplatedPages.push(new TemplatedPage(page, pageData));
+            _loadTask.pendingTemplatedPages.push(new TemplatedPage(page, reader));
         } else {
             loadPageProps(page, reader);
         }
@@ -196,13 +196,13 @@ public final class LibraryManager
     public function clone (item :LibraryItem) :* {
         const clazz :Class = ClassUtil.getClass(item);
         const marshaller :ObjectMarshaller = requireObjectMarshallerForClass(clazz);
-        return marshaller.cloneData(item, item.typeInfo, this);
+        return marshaller.cloneData(this, item, item.typeInfo);
     }
 
-    protected function loadPageProps (page :MutablePage, pageData :DataElement, tmpl :MutablePage = null) :void {
+    protected function loadPageProps (page :MutablePage, reader :DataReader, tmpl :MutablePage = null) :void {
         // template's class must be equal to (or a subclass of) page's class
         if (tmpl != null && !(tmpl is ClassUtil.getClass(page))) {
-            throw new LoadError(pageData, "Incompatible template", "pageName", page.name,
+            throw new LoadError(reader.data, "Incompatible template", "pageName", page.name,
                 "pageClass", ClassUtil.getClassName(page), "templateName", tmpl.name,
                 "templateClass", ClassUtil.getClassName(tmpl));
         }
@@ -213,30 +213,28 @@ public final class LibraryManager
             if (tmpl != null) {
                 tProp = Util.getProp(tmpl, prop.name);
                 if (tProp == null) {
-                    throw new LoadError(pageData, "Missing prop in template",
+                    throw new LoadError(reader.data, "Missing prop in template",
                         "template", tmpl.name, "prop", prop.name);
                 }
             }
 
             // load the prop
             try {
-                loadPageProp(page, prop, tProp, pageData);
+                loadPageProp(page, prop, tProp, reader);
             } catch (loadErr :LoadError) {
                 throw loadErr;
             } catch (err :Error) {
-                throw new LoadError(pageData, "Error loading prop", "name", prop.name, err);
+                throw new LoadError(reader.data, "Error loading prop", "name", prop.name, err);
             }
         }
     }
 
-    protected function loadPageProp (page :Page, prop :Prop, tProp :Prop, pageData :DataElement) :void {
-        var pageReader :DataReader = DataReader.withData(pageData);
-
-        var objectProp :ObjectProp = prop as ObjectProp;
+    protected function loadPageProp (page :Page, prop :Prop, tProp :Prop, pageReader :DataReader) :void {
+        const objectProp :ObjectProp = prop as ObjectProp;
 
         const isPrimitive :Boolean = (objectProp == null);
         const canRead :Boolean =
-            (isPrimitive ? pageReader.hasAttribute(prop.name) : pageReader.hasChild(prop.name));
+            (isPrimitive ? pageReader.hasValue(prop.name) : pageReader.hasChild(prop.name));
         const useTemplate :Boolean = !canRead && (tProp != null);
 
         if (isPrimitive) {
@@ -250,37 +248,37 @@ public final class LibraryManager
                 !canRead && !useTemplate && prop.hasAnnotation(Defs.DEFAULT_ANNOTATION);
 
             if (prop is IntProp) {
-                var intProp :IntProp = IntProp(prop);
+                const intProp :IntProp = IntProp(prop);
                 if (useDefault) {
                     intProp.value = prop.intAnnotation(Defs.DEFAULT_ANNOTATION, 0);
                 } else if (useTemplate) {
                     intProp.value = IntProp(tProp).value;
                 } else {
-                    intProp.value = pageReader.requireIntAttribute(prop.name);
+                    intProp.value = pageReader.requireInt(prop.name);
                 }
 
             } else if (prop is BoolProp) {
-                var boolProp :BoolProp = BoolProp(prop);
+                const boolProp :BoolProp = BoolProp(prop);
                 if (useDefault) {
                     boolProp.value = prop.boolAnnotation(Defs.DEFAULT_ANNOTATION, false);
                 } else if (useTemplate) {
                     boolProp.value = BoolProp(tProp).value;
                 } else {
-                    boolProp.value = pageReader.requireBoolAttribute(prop.name);
+                    boolProp.value = pageReader.requireBool(prop.name);
                 }
 
             } else if (prop is NumberProp) {
-                var numProp :NumberProp = NumberProp(prop);
+                const numProp :NumberProp = NumberProp(prop);
                 if (useDefault) {
                     numProp.value = prop.numberAnnotation(Defs.DEFAULT_ANNOTATION, 0);
                 } else if (useTemplate) {
                     numProp.value = NumberProp(tProp).value;
                 } else {
-                    numProp.value = pageReader.requireNumberAttribute(prop.name);
+                    numProp.value = pageReader.requireNumber(prop.name);
                 }
 
             } else {
-                throw new LoadError(pageData, "Unrecognized primitive prop", "name", prop.name,
+                throw new LoadError(pageReader.data, "Unrecognized primitive prop", "name", prop.name,
                     "class", ClassUtil.getClassName(prop));
             }
 
@@ -294,10 +292,10 @@ public final class LibraryManager
             // 4. Else, fail.
 
             if (canRead) {
-                var marshaller :ObjectMarshaller =
+                const marshaller :ObjectMarshaller =
                     requireObjectMarshallerForClass(objectProp.valueType.clazz);
-                var propData :DataElement = pageReader.getChild(prop.name);
-                objectProp.value = marshaller.readObject(propData, objectProp.valueType, this);
+                const propReader :DataReader = pageReader.getChild(prop.name);
+                objectProp.value = marshaller.readObject(this, propReader, objectProp.valueType);
                 marshaller.validateProp(objectProp);
 
             } else if (useTemplate) {
@@ -305,16 +303,15 @@ public final class LibraryManager
             } else if (objectProp.nullable) {
                 objectProp.value = null;
             } else {
-                throw new LoadError(pageData, "Missing required child", "name", prop.name);
+                throw new LoadError(pageReader.data, "Missing required child", "name", prop.name);
             }
         }
     }
 
-    protected function loadLibraryItem (data :DataElement) :LibraryItem {
+    protected function loadLibraryItem (reader :DataReader) :LibraryItem {
         // a tome or a page
-        var reader :DataReader = DataReader.withData(data);
-        var pageType :String = reader.requireAttribute(Defs.PAGE_TYPE_ATTR);
-        if (reader.getBoolAttribute(Defs.IS_TOME_ATTR, false)) {
+        const pageType :String = reader.requireString(Defs.PAGE_TYPE_ATTR);
+        if (reader.getBool(Defs.IS_TOME_ATTR, false)) {
             // it's a tome!
             return loadTome(reader, requirePageClass(pageType));
         } else {
@@ -351,7 +348,7 @@ public final class LibraryManager
             for each (var item :LibraryItem in task.libraryItems) {
                 var marshaller :ObjectMarshaller =
                     requireObjectMarshallerForClass(ClassUtil.getClass(item));
-                marshaller.resolveRefs(item, item.typeInfo, this);
+                marshaller.resolveRefs(this, item, item.typeInfo);
             }
         } catch (e :Error) {
             abortLoad(task);

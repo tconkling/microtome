@@ -3,7 +3,7 @@
 
 package microtome.marshaller {
 
-import microtome.core.LibraryManager;
+import microtome.core.MicrotomeMgr;
 import microtome.core.TypeInfo;
 import microtome.prop.Prop;
 
@@ -16,6 +16,6 @@ public interface DataMarshaller
     function validateProp (prop :Prop) :void;
 
     /** @return a clone of the given data */
-    function cloneData (data :Object, type :TypeInfo, mgr :LibraryManager) :*;
+    function cloneData (mgr :MicrotomeMgr, data :Object, type :TypeInfo) :*;
 }
 }

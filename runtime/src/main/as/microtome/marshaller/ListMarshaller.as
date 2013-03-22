@@ -3,9 +3,8 @@
 
 package microtome.marshaller {
 
-import microtome.core.DataElement;
 import microtome.core.DataReader;
-import microtome.core.LibraryManager;
+import microtome.core.MicrotomeMgr;
 import microtome.core.TypeInfo;
 
 public class ListMarshaller extends ObjectMarshallerBase
@@ -14,28 +13,28 @@ public class ListMarshaller extends ObjectMarshallerBase
         return Array;
     }
 
-    override public function readObject (data :DataElement, type :TypeInfo, loader :LibraryManager):* {
+    override public function readObject (mgr :MicrotomeMgr, reader :DataReader, type :TypeInfo) :* {
         const list :Array = [];
         const childMarshaller :ObjectMarshaller =
-            loader.requireObjectMarshallerForClass(type.subtype.clazz);
-        for each (var childData :DataElement in DataReader.withData(data).children) {
-            var child :* = childMarshaller.readObject(childData, type.subtype, loader);
+            mgr.requireObjectMarshallerForClass(type.subtype.clazz);
+        for each (var childReader :DataReader in reader.children) {
+            var child :* = childMarshaller.readObject(mgr, childReader, type.subtype);
             list.push(child);
         }
 
         return list;
     }
 
-    override public function resolveRefs (obj :*, type :TypeInfo, loader :LibraryManager) :void {
+    override public function resolveRefs (mgr :MicrotomeMgr, obj :*, type :TypeInfo) :void {
         const list :Array = obj as Array;
         const childMarshaller :ObjectMarshaller =
-            loader.requireObjectMarshallerForClass(type.subtype.clazz);
+            mgr.requireObjectMarshallerForClass(type.subtype.clazz);
         for each (var child :* in list) {
-            childMarshaller.resolveRefs(child, type.subtype, loader);
+            childMarshaller.resolveRefs(mgr, child, type.subtype);
         }
     }
 
-    override public function cloneObject (data :Object, type :TypeInfo, mgr :LibraryManager) :Object {
+    override public function cloneObject (mgr :MicrotomeMgr, data :Object, type :TypeInfo) :Object {
         const list :Array = (data as Array);
         const clone :Array = [];
         return clone;

@@ -3,9 +3,8 @@
 
 package microtome.marshaller {
 
-import microtome.core.DataElement;
 import microtome.core.DataReader;
-import microtome.core.LibraryManager;
+import microtome.core.MicrotomeMgr;
 import microtome.core.PageRef;
 import microtome.core.TypeInfo;
 import microtome.error.LoadError;
@@ -16,20 +15,20 @@ public class PageRefMarshaller extends ObjectMarshallerBase
         return PageRef;
     }
 
-    override public function readObject (data :DataElement, type :TypeInfo, mgr :LibraryManager) :* {
-        const pageName :String = DataReader.withData(data).requireAttribute("ref");
+    override public function readObject (mgr :MicrotomeMgr, reader :DataReader, type :TypeInfo) :* {
+        const pageName :String = reader.requireString("ref");
         if (pageName.length == 0) {
-            throw new LoadError(data, "invalid PageRef", "pageName", pageName);
+            throw new LoadError(reader.data, "invalid PageRef", "pageName", pageName);
         }
         return new PageRef(type.subtype.clazz, pageName);
     }
 
-    override public function resolveRefs (obj :*, type :TypeInfo, loader :LibraryManager) :void {
+    override public function resolveRefs (mgr :MicrotomeMgr, obj :*, type :TypeInfo) :void {
         const ref :PageRef = PageRef(obj);
-        ref.page = loader.library.requirePageWithQualifiedName(ref.pageName, ref.pageClass);
+        ref.page = mgr.library.requirePageWithQualifiedName(ref.pageName, ref.pageClass);
     }
 
-    override public function cloneObject (data :Object, type :TypeInfo, mgr :LibraryManager) :Object {
+    override public function cloneObject (mgr :MicrotomeMgr, data :Object, type :TypeInfo) :Object {
         return PageRef(data).clone();
     }
 }

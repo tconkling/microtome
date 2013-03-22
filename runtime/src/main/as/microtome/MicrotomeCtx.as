@@ -3,8 +3,8 @@
 
 package microtome {
 
-import microtome.core.DataElement;
-import microtome.core.DataWriter;
+import microtome.core.ReadableObject;
+import microtome.core.WritableObject;
 import microtome.core.LibraryItem;
 import microtome.marshaller.ObjectMarshaller;
 import microtome.marshaller.PrimitiveMarshaller;
@@ -16,8 +16,8 @@ public interface MicrotomeCtx
     function registerObjectMarshaller (marshaller :ObjectMarshaller) :void;
     function registerPrimitiveMarshaller (marshaller :PrimitiveMarshaller) :void;
 
-    function load (library :Library, data :Vector.<DataElement>) :void;
-    function save (item :LibraryItem, writer :DataWriter) :DataElement;
+    function load (library :Library, data :Vector.<ReadableObject>) :void;
+    function save (item :LibraryItem, writer :WritableObject) :ReadableObject;
     function clone (item :LibraryItem) :*;
 }
 }

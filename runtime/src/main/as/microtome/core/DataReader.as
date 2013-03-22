@@ -5,117 +5,83 @@ package microtome.core {
 
 import flash.utils.Dictionary;
 
-import microtome.error.LoadError;
-import microtome.util.Util;
-
+/** Wraps a ReadableElement and provides additional convenience functions */
 public class DataReader
-    implements DataElement
 {
-    public static function withData (data :DataElement) :DataReader {
-        return (data is DataReader ? DataReader(data) : new DataReader(data));
+    public function DataReader (data :ReadableObject) {
+        _data = data;
     }
 
-    public function getChild (name :String) :DataElement {
-        if (_childrenByName == null) {
-            _childrenByName = new Dictionary();
-            for each (var child :DataElement in this.children) {
-                _childrenByName[child.name] = child;
-            }
-        }
-        return _childrenByName[name];
-    }
-
-    public function getStringAttribute (name :String, defaultVal :String = null) :String {
-        var attr :String = getAttribute(name);
-        return (attr != null ? attr : defaultVal);
-    }
-
-    public function getBoolAttribute (name :String, defaultVal :Boolean = false) :Boolean {
-        return (hasAttribute(name) ? requireBoolAttribute(name) : defaultVal);
-    }
-
-    public function getIntAttribute (name :String, defaultVal :int = 0) :int {
-        return (hasAttribute(name) ? requireIntAttribute(name) : defaultVal);
-    }
-
-    public function getNumberAttribute (name :String, defaultVal :Number = 0) :Number {
-        return (hasAttribute(name) ? requireNumberAttribute(name) : defaultVal);
-    }
-
-    public function requireAttribute (name :String) :String {
-        var attr :String = getAttribute(name);
-        if (attr == null) {
-            throw new LoadError(_data, "Missing required attribute", "name", name);
-        }
-        return attr;
-    }
-
-    public function requireBoolAttribute (name :String) :Boolean {
-        var attr :String = requireAttribute(name).toLowerCase();
-        if (attr == "true" || attr == "yes") {
-            return true;
-        } else if (attr == "false" || attr == "no") {
-            return false;
-        }
-
-        throw new LoadError(_data, "attribute is not a boolean", "name", name,
-            "value", requireAttribute(name));
-    }
-
-    public function requireIntAttribute (name :String) :int {
-        var attr :String = requireAttribute(name);
-        try {
-            return Util.parseInteger(attr);
-        } catch (e :Error) {
-            throw new LoadError(_data, "attribute is not an int", "name", name, "value", attr);
-        }
-        return 0;
-    }
-
-    public function requireNumberAttribute (name :String) :Number {
-        var attr :String = requireAttribute(name);
-        try {
-            return Util.parseNumber(attr);
-        } catch (e :Error) {
-            throw new LoadError(_data, "attribute is not a Number", "name", name, "value", attr);
-        }
-        return 0;
-    }
-
-    public function hasAttribute (name :String) :Boolean {
-        return (getAttribute(name) != null);
-    }
-
-    public function hasChild (name :String) :Boolean {
-        return (getChild(name) != null);
-    }
-
-    public function get children () :Vector.<DataElement> {
-        if (_children == null) {
-            _children = _data.children;
-        }
-        return _children;
+    public function get data () :ReadableObject {
+        return _data;
     }
 
     public function get name () :String {
         return _data.name;
     }
 
-    public function get debugDescription () :String {
-        return _data.debugDescription;
+    public function hasValue (name :String) :Boolean {
+        return _data.hasValue(name);
     }
 
-    public function getAttribute (name :String) :String {
-        return _data.getAttribute(name);
+    public function get children () :Vector.<DataReader> {
+        if (_children == null) {
+            _children = new <DataReader>[];
+            for each (var element :ReadableObject in _data.children) {
+                _children.push(new DataReader(element));
+            }
+        }
+        return _children;
     }
 
-    // private
-    public function DataReader (data :DataElement) {
-        _data = data;
+    public function hasChild (name :String) :Boolean {
+        return (getChild(name) != null);
     }
 
-    protected var _data :DataElement;
-    protected var _children :Vector.<DataElement>;
+    public function getChild (name :String) :DataReader {
+        if (_childrenByName == null) {
+            _childrenByName = new Dictionary();
+            for each (var child :DataReader in this.children) {
+                _childrenByName[child.name] = child;
+            }
+        }
+        return _childrenByName[name];
+    }
+
+    public function getString (name :String, defaultVal :String = null) :String {
+        return (hasValue(name) ? _data.getString(name) : defaultVal);
+    }
+
+    public function getBool (name :String, defaultVal :Boolean = false) :Boolean {
+        return (hasValue(name) ? requireBool(name) : defaultVal);
+    }
+
+    public function getInt (name :String, defaultVal :int = 0) :int {
+        return (hasValue(name) ? requireInt(name) : defaultVal);
+    }
+
+    public function getNumber (name :String, defaultVal :Number = 0) :Number {
+        return (hasValue(name) ? requireNumber(name) : defaultVal);
+    }
+
+    public function requireString (name :String) :String {
+        return _data.getString(name);
+    }
+
+    public function requireBool (name :String) :Boolean {
+        return _data.getBool(name);
+    }
+
+    public function requireInt (name :String) :int {
+        return _data.getInt(name);
+    }
+
+    public function requireNumber (name :String) :Number {
+        return _data.getNumber(name);
+    }
+
+    protected var _data :ReadableObject;
+    protected var _children :Vector.<DataReader>;
     protected var _childrenByName :Dictionary;
 }
 }

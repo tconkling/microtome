@@ -4,7 +4,7 @@
 package microtome.marshaller {
 
 import microtome.core.Defs;
-import microtome.core.LibraryManager;
+import microtome.core.MicrotomeMgr;
 import microtome.core.TypeInfo;
 import microtome.error.ValidationError;
 import microtome.prop.BoolProp;
@@ -27,7 +27,7 @@ public class PrimitiveMarshaller
         }
     }
 
-    public function cloneData (data :Object, type :TypeInfo, mgr :LibraryManager) :* {
+    public function cloneData (mgr :MicrotomeMgr, data :Object, type :TypeInfo) :* {
         // primitives don't need cloning
         return data;
     }

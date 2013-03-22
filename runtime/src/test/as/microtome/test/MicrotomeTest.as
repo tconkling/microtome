@@ -10,7 +10,7 @@ import microtome.Library;
 import microtome.Microtome;
 import microtome.MicrotomeCtx;
 import microtome.Tome;
-import microtome.xml.XmlReader;
+import microtome.xml.XmlUtil;
 
 public class MicrotomeTest extends Sprite
 {
@@ -35,7 +35,7 @@ public class MicrotomeTest extends Sprite
             xmlDocs.push(new XML(ba.readUTFBytes(ba.length)));
         }
 
-        _ctx.load(_library, XmlReader.xmlToDataElements(xmlDocs));
+        _ctx.load(_library, XmlUtil.createReaders(xmlDocs));
     }
 
     protected function testPrimitives () :void {

@@ -3,12 +3,14 @@
 
 package microtome.xml {
 
-import microtome.core.DataElement;
+import microtome.core.ReadableObject;
+import microtome.error.LoadError;
+import microtome.util.Util;
 
-internal class XmlDataElement
-    implements DataElement
+internal class XmlElement
+    implements ReadableObject
 {
-    public function XmlDataElement (xml :XML) {
+    public function XmlElement (xml :XML) {
         _xml = xml;
     }
 
@@ -20,16 +22,55 @@ internal class XmlDataElement
         return toXMLString(_xml);
     }
 
-    public function get children () :Vector.<DataElement> {
-        var children :Vector.<DataElement> = new <DataElement>[];
+    public function get children () :Vector.<ReadableObject> {
+        var children :Vector.<ReadableObject> = new <ReadableObject>[];
         for each (var child :XML in _xml.elements()) {
-            children.push(new XmlDataElement(child));
+            children.push(new XmlElement(child));
         }
         return children;
     }
 
-    public function getAttribute (name :String) :String {
-        return _xml.attribute(name)[0];
+    public function hasValue (name :String) :Boolean {
+        return _xml.attribute(name)[0] != null;
+    }
+
+    public function getString (name :String) :String {
+        const out :String = _xml.attribute(name)[0];
+        if (out == null) {
+            throw new LoadError(this, "Missing required attribute", "name", name);
+        }
+        return out;
+    }
+
+    public function getBool (name :String) :Boolean {
+        const attr :String = getString(name).toLowerCase();
+        if (attr == "true" || attr == "yes") {
+            return true;
+        } else if (attr == "false" || attr == "no") {
+            return false;
+        }
+
+        throw new LoadError(this, "attribute is not a boolean", "name", name, "value", attr);
+    }
+
+    public function getInt (name :String) :int {
+        const attr :String = getString(name);
+        try {
+            return Util.parseInteger(attr);
+        } catch (e :Error) {
+            throw new LoadError(this, "attribute is not an int", "name", name, "value", attr);
+        }
+        return 0;
+    }
+
+    public function getNumber (name :String) :Number {
+        const attr :String = getString(name);
+        try {
+            return Util.parseNumber(attr);
+        } catch (e :Error) {
+            throw new LoadError(this, "attribute is not a Number", "name", name, "value", attr);
+        }
+        return 0;
     }
 
     /**

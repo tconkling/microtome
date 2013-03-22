@@ -2,30 +2,30 @@
 // microtome
 
 package microtome.core {
-import microtome.MutablePage;
 
+import microtome.MutablePage;
 
 public class TemplatedPage
 {
-    public function TemplatedPage (page :MutablePage, data :DataElement) {
+    public function TemplatedPage (page :MutablePage, reader :DataReader) {
         _page = page;
-        _data = DataReader.withData(data);
+        _reader = reader;
     }
 
     public function get page () :MutablePage {
         return _page;
     }
 
-    public function get data () :DataReader {
-        return _data;
+    public function get reader () :DataReader {
+        return _reader;
     }
 
     public function get templateName () :String {
-        return _data.requireAttribute(Defs.TEMPLATE_ATTR);
+        return _reader.requireString(Defs.TEMPLATE_ATTR);
     }
 
     protected var _page :MutablePage;
-    protected var _data :DataReader;
+    protected var _reader :DataReader;
 }
 
 }

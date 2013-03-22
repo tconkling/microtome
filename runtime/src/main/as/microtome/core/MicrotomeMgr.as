@@ -100,10 +100,6 @@ public final class MicrotomeMgr
         return clazz;
     }
 
-    public function save (item :LibraryItem, writer :WritableObject) :ReadableObject {
-        return null;
-    }
-
     public function load (library :Library, dataElements :Vector.<ReadableObject>) :void {
         if (_loadTask != null) {
             throw new Error("Load already in progress");
@@ -189,6 +185,44 @@ public final class MicrotomeMgr
         }
 
         return page;
+    }
+
+    public function save (item :LibraryItem, writer :WritableObject) :void {
+        const itemWriter :WritableObject = writer.addChild(item.name);
+        if (item is MutablePage) {
+            savePage(itemWriter, MutablePage(item));
+        } else if (item is MutableTome) {
+            saveTome(itemWriter, MutableTome(item));
+        } else {
+            throw new MicrotomeError("Unrecognized LibraryItem", "item", item);
+        }
+    }
+
+    public function savePage (writer :WritableObject, page :MutablePage) :void {
+        writer.writeString(Defs.PAGE_TYPE_ATTR, Util.pageTypeName(ClassUtil.getClass(page)));
+
+        // TODO: template suppport...
+        for each (var prop :Prop in page.props) {
+            if (prop is PrimitiveProp) {
+                PrimitiveProp(prop).writeValue(writer);
+            } else {
+                var objectProp :ObjectProp = ObjectProp(prop);
+                if (objectProp.value != null) {
+                    var marshaller :ObjectMarshaller =
+                        requireObjectMarshallerForClass(objectProp.valueType.clazz);
+                    marshaller.writeObject(this, writer.addChild(prop.name), objectProp.value,
+                        objectProp.valueType);
+                }
+            }
+        }
+    }
+
+    public function saveTome (writer :WritableObject, tome :MutableTome) :void {
+        writer.writeString(Defs.PAGE_TYPE_ATTR, Util.pageTypeName(tome.pageClass));
+        writer.writeBool(Defs.IS_TOME_ATTR, true);
+        tome.forEach(function (page :MutablePage) :void {
+            savePage(writer.addChild(page.name), page);
+        });
     }
 
     public function clone (item :LibraryItem) :* {

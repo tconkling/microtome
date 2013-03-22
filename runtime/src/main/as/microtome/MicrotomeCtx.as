@@ -17,7 +17,7 @@ public interface MicrotomeCtx
     function registerPrimitiveMarshaller (marshaller :PrimitiveMarshaller) :void;
 
     function load (library :Library, data :Vector.<ReadableObject>) :void;
-    function save (item :LibraryItem, writer :WritableObject) :ReadableObject;
+    function save (item :LibraryItem, writer :WritableObject) :void;
     function clone (item :LibraryItem) :*;
 }
 }

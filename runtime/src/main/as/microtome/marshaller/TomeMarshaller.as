@@ -9,6 +9,7 @@ import microtome.Page;
 import microtome.core.DataReader;
 import microtome.core.MicrotomeMgr;
 import microtome.core.TypeInfo;
+import microtome.core.WritableObject;
 
 public class TomeMarshaller extends ObjectMarshallerBase
 {
@@ -18,6 +19,10 @@ public class TomeMarshaller extends ObjectMarshallerBase
 
     override public function readObject (mgr :MicrotomeMgr, reader :DataReader, type :TypeInfo) :* {
         return mgr.loadTome(reader, type.subtype.clazz);
+    }
+
+    override public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, type :TypeInfo) :void {
+        mgr.saveTome(writer, MutableTome(obj));
     }
 
     override public function resolveRefs (mgr :MicrotomeMgr, obj :*, type :TypeInfo) :void {

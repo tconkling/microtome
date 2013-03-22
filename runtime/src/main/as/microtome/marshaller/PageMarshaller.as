@@ -8,6 +8,7 @@ import microtome.Page;
 import microtome.core.DataReader;
 import microtome.core.MicrotomeMgr;
 import microtome.core.TypeInfo;
+import microtome.core.WritableObject;
 import microtome.error.ResolveRefError;
 import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
@@ -25,6 +26,10 @@ public class PageMarshaller extends ObjectMarshallerBase
 
     override public function readObject (mgr :MicrotomeMgr, reader :DataReader, type :TypeInfo) :* {
         return mgr.loadPage(reader, type.clazz);
+    }
+
+    override public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, type :TypeInfo) :void {
+        mgr.savePage(writer, MutablePage(obj));
     }
 
     override public function resolveRefs (mgr :MicrotomeMgr, obj :*, type :TypeInfo) :void {

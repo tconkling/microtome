@@ -4,6 +4,7 @@
 package microtome.xml {
 
 import microtome.core.ReadableObject;
+import microtome.core.WritableObject;
 
 public class XmlUtil
 {
@@ -14,6 +15,11 @@ public class XmlUtil
             data.push(new XmlElement(xml));
         }
         return data;
+    }
+
+    /** Creates a WritableObject that will write to the given XML object */
+    public static function createWriter (xml :XML) :WritableObject {
+        return new XmlElement(xml);
     }
 }
 }

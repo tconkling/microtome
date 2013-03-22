@@ -7,6 +7,7 @@ import microtome.MutablePage;
 import microtome.core.DataReader;
 import microtome.core.Defs;
 import microtome.core.TypeInfo;
+import microtome.core.WritableObject;
 
 public final class NumberProp extends PrimitiveProp
 {
@@ -24,6 +25,10 @@ public final class NumberProp extends PrimitiveProp
 
     override public function get valueType () :TypeInfo {
         return VALUE_TYPE;
+    }
+
+    override public function writeValue (writer :WritableObject) :void {
+        writer.writeNumber(this.name, _value);
     }
 
     override protected function readValue (reader :DataReader) :* {

@@ -5,6 +5,7 @@ package microtome.prop {
 import microtome.MutablePage;
 import microtome.core.DataReader;
 import microtome.core.Defs;
+import microtome.core.WritableObject;
 
 public class PrimitiveProp extends Prop
 {
@@ -25,6 +26,10 @@ public class PrimitiveProp extends Prop
         } else {
             this.value = readValue(reader);
         }
+    }
+
+    public function writeValue (writer :WritableObject) :void {
+        throw new Error("abstract");
     }
 
     protected function readValue (reader :DataReader) :* {

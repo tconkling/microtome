@@ -4,11 +4,12 @@
 package microtome.xml {
 
 import microtome.core.ReadableObject;
+import microtome.core.WritableObject;
 import microtome.error.LoadError;
 import microtome.util.Util;
 
 internal class XmlElement
-    implements ReadableObject
+    implements ReadableObject, WritableObject
 {
     public function XmlElement (xml :XML) {
         _xml = xml;
@@ -71,6 +72,28 @@ internal class XmlElement
             throw new LoadError(this, "attribute is not a Number", "name", name, "value", attr);
         }
         return 0;
+    }
+
+    public function addChild (name :String) :WritableObject {
+        const child :XML = <{name}/>;
+        _xml.appendChild(child);
+        return new XmlElement(child);
+    }
+
+    public function writeString (name :String, val :String) :void {
+        _xml.@[name] = val;
+    }
+
+    public function writeBool (name :String, val :Boolean) :void {
+        writeString(name, (val ? "true" : "false"));
+    }
+
+    public function writeNumber (name :String, val :Number) :void {
+        writeString(name, "" + val);
+    }
+
+    public function writeInt (name :String, val :int) :void {
+        writeString(name, "" + val);
     }
 
     /**

@@ -6,6 +6,7 @@ package microtome.marshaller {
 import microtome.core.DataReader;
 import microtome.core.MicrotomeMgr;
 import microtome.core.TypeInfo;
+import microtome.core.WritableObject;
 import microtome.error.ValidationError;
 import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
@@ -23,6 +24,10 @@ public class ObjectMarshallerBase
     }
 
     public function readObject (mgr :MicrotomeMgr, reader :DataReader, type :TypeInfo) :* {
+        throw new Error("abstract");
+    }
+
+    public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, type :TypeInfo) :void {
         throw new Error("abstract");
     }
 

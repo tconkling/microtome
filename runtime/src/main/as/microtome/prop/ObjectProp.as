@@ -3,9 +3,9 @@
 
 package microtome.prop {
 
+import microtome.MutablePage;
 import microtome.core.Defs;
 import microtome.core.LibraryItemImpl;
-import microtome.MutablePage;
 import microtome.core.TypeInfo;
 import microtome.core.microtome_internal;
 
@@ -17,6 +17,10 @@ public final class ObjectProp extends Prop
 
     public function get nullable () :Boolean {
         return boolAnnotation(Defs.NULLABLE_ANNOTATION, false);
+    }
+
+    override public function get value () :* {
+        return _value;
     }
 
     override public function set value (val :*) :void {
@@ -36,5 +40,7 @@ public final class ObjectProp extends Prop
     override public function get valueType () :TypeInfo {
         return _spec.valueType;
     }
+
+    protected var _value :Object;
 }
 }

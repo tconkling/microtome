@@ -2,6 +2,7 @@
 // microtome
 
 package microtome.prop {
+
 import microtome.MutablePage;
 import microtome.core.TypeInfo;
 
@@ -13,11 +14,11 @@ public /*abstract*/ class Prop
     }
 
     public function get value () :* {
-        return _value;
+        throw new Error("abstract");
     }
 
     public function set value (val :*) :void {
-        _value = val;
+        throw new Error("abstract");
     }
 
     public function get valueType () :TypeInfo {
@@ -51,9 +52,6 @@ public /*abstract*/ class Prop
         var val :* = _spec.annotations[name];
         return (val is String ? val : defaultVal);
     }
-
-
-    protected var _value :Object;
 
     protected var _page :MutablePage;
     protected var _spec :PropSpec;

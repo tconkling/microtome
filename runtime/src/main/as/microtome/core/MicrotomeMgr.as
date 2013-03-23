@@ -19,10 +19,8 @@ import microtome.marshaller.PageRefMarshaller;
 import microtome.marshaller.PrimitiveMarshaller;
 import microtome.marshaller.StringMarshaller;
 import microtome.marshaller.TomeMarshaller;
-import microtome.prop.BoolProp;
-import microtome.prop.IntProp;
-import microtome.prop.NumberProp;
 import microtome.prop.ObjectProp;
+import microtome.prop.PrimitiveProp;
 import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 import microtome.util.Util;
@@ -230,66 +228,20 @@ public final class MicrotomeMgr
     }
 
     protected function loadPageProp (page :Page, prop :Prop, tProp :Prop, pageReader :DataReader) :void {
-        const objectProp :ObjectProp = prop as ObjectProp;
-
-        const isPrimitive :Boolean = (objectProp == null);
-        const canRead :Boolean =
-            (isPrimitive ? pageReader.hasValue(prop.name) : pageReader.hasChild(prop.name));
-        const useTemplate :Boolean = !canRead && (tProp != null);
-
-        if (isPrimitive) {
-            // Handle primitive props (read from attributes):
-            // 1. Read the value from the DataReader, if it exists
-            // 2. Else, copy the value from the template, if it exists
-            // 3. Else, set the value to its default, if it has a default
-            // 4. Else, fail.
-
-            const useDefault :Boolean =
-                !canRead && !useTemplate && prop.hasAnnotation(Defs.DEFAULT_ANNOTATION);
-
-            if (prop is IntProp) {
-                const intProp :IntProp = IntProp(prop);
-                if (useDefault) {
-                    intProp.value = prop.intAnnotation(Defs.DEFAULT_ANNOTATION, 0);
-                } else if (useTemplate) {
-                    intProp.value = IntProp(tProp).value;
-                } else {
-                    intProp.value = pageReader.requireInt(prop.name);
-                }
-
-            } else if (prop is BoolProp) {
-                const boolProp :BoolProp = BoolProp(prop);
-                if (useDefault) {
-                    boolProp.value = prop.boolAnnotation(Defs.DEFAULT_ANNOTATION, false);
-                } else if (useTemplate) {
-                    boolProp.value = BoolProp(tProp).value;
-                } else {
-                    boolProp.value = pageReader.requireBool(prop.name);
-                }
-
-            } else if (prop is NumberProp) {
-                const numProp :NumberProp = NumberProp(prop);
-                if (useDefault) {
-                    numProp.value = prop.numberAnnotation(Defs.DEFAULT_ANNOTATION, 0);
-                } else if (useTemplate) {
-                    numProp.value = NumberProp(tProp).value;
-                } else {
-                    numProp.value = pageReader.requireNumber(prop.name);
-                }
-
-            } else {
-                throw new LoadError(pageReader.data, "Unrecognized primitive prop", "name", prop.name,
-                    "class", ClassUtil.getClassName(prop));
-            }
-
-            this._primitiveMarshaller.validateProp(prop);
+        if (prop is PrimitiveProp) {
+            PrimitiveProp(prop).load(pageReader, tProp);
+            _primitiveMarshaller.validateProp(prop);
 
         } else {
-            // Handle object props (read from child elements):
+            // Handle object props:
             // 1. Read the value from the DataReader, if it exists
             // 2. Else, copy the value from the template, if it exists
             // 3. Else, set the value to null if it's nullable
             // 4. Else, fail.
+
+            const objectProp :ObjectProp = prop as ObjectProp;
+            const canRead :Boolean = pageReader.hasChild(prop.name);
+            const useTemplate :Boolean = !canRead && (tProp != null);
 
             if (canRead) {
                 const marshaller :ObjectMarshaller =

@@ -45,6 +45,7 @@
     <classEntry path="microtome.core.LibraryItemImpl"/>
     <classEntry path="microtome.xml.XmlElement"/>
     <classEntry path="microtome.core.WritableObject"/>
+    <classEntry path="microtome.prop.PrimitiveProp"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

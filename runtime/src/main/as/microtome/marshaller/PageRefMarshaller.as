@@ -21,7 +21,7 @@ public class PageRefMarshaller extends ObjectMarshallerBase
         if (pageName.length == 0) {
             throw new LoadError(reader.data, "invalid PageRef", "pageName", pageName);
         }
-        return new PageRef(type.subtype.clazz, pageName);
+        return new PageRef(pageName);
     }
 
     override public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, type :TypeInfo) :void {
@@ -29,8 +29,7 @@ public class PageRefMarshaller extends ObjectMarshallerBase
     }
 
     override public function resolveRefs (mgr :MicrotomeMgr, obj :*, type :TypeInfo) :void {
-        const ref :PageRef = PageRef(obj);
-        ref.page = mgr.library.requirePageWithQualifiedName(ref.pageName, ref.pageClass);
+        PageRef(obj).resolve(mgr.library, type.subtype.clazz);
     }
 
     override public function cloneObject (mgr :MicrotomeMgr, data :Object, type :TypeInfo) :Object {

@@ -24,9 +24,9 @@ public class MutableRefPage extends MutablePage
 // GENERATED CONSTRUCTOR END
 
 // GENERATED PROPS START
-    public function get mutableNested () :MutablePrimitivePage { return PageRef(_nested.value).page; }
-    public function get nested () :PrimitivePage { return PageRef(_nested.value).page; }
-    public function set nested (val :PrimitivePage) :void { PageRef(_nested.value).page = val; }
+    public function get mutableNested () :MutablePrimitivePage { const ref :PageRef = _nested.value; return (ref != null ? ref.page : null); }
+    public function get nested () :PrimitivePage { return this.mutableNested; }
+    public function set nested (val :PrimitivePage) :void { _nested.value = (val != null ? PageRef.fromPage(val) : null); }
 
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _nested, ]); }
 

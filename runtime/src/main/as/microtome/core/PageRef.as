@@ -3,17 +3,19 @@
 
 package microtome.core {
 
+import microtome.Library;
 import microtome.Page;
 
 public final class PageRef
 {
-    public function PageRef (pageClass :Class, pageName :String) {
-        _pageClass = pageClass;
-        _pageName = pageName;
+    public static function fromPage (page :Page) :PageRef {
+        const ref :PageRef = new PageRef(page.fullyQualifiedName);
+        ref._page = page;
+        return ref;
     }
 
-    public function get pageClass () :Class {
-        return _pageClass;
+    public function PageRef (pageName :String) {
+        _pageName = pageName;
     }
 
     public function get pageName () :String {
@@ -24,15 +26,14 @@ public final class PageRef
         return (_page != null && _page.library != null ? _page : null);
     }
 
-    public function set page (page :Page) :void {
-        _page = page;
+    public function resolve (lib :Library, pageClass :Class) :void {
+        _page = lib.requirePageWithQualifiedName(_pageName, pageClass);
     }
 
     public function clone () :PageRef {
-        return new PageRef(_pageClass, _pageName);
+        return new PageRef(_pageName);
     }
 
-    protected var _pageClass :Class;
     protected var _pageName :String;
     protected var _page :Page;
 }

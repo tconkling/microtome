@@ -5,11 +5,13 @@ package microtome.core {
 
 import microtome.Library;
 import microtome.Page;
+import microtome.error.ResolveRefError;
+import microtome.util.ClassUtil;
 
 public final class PageRef
 {
     public static function fromPage (page :Page) :PageRef {
-        const ref :PageRef = new PageRef(page.fullyQualifiedName);
+        const ref :PageRef = new PageRef(page.qualifiedName);
         ref._page = page;
         return ref;
     }
@@ -27,7 +29,15 @@ public final class PageRef
     }
 
     public function resolve (lib :Library, pageClass :Class) :void {
-        _page = lib.requirePageWithQualifiedName(_pageName, pageClass);
+        const item :* = lib.getItemWithQualifiedName(_pageName);
+        if (item == null) {
+            throw new ResolveRefError("No such item", "name", _pageName);
+        } else if (!(item is pageClass)) {
+            throw new ResolveRefError("Wrong page type", "name", _pageName,
+                "expectedType", ClassUtil.getClassName(pageClass),
+                "actualType", ClassUtil.getClassName(item));
+        }
+        _page = item;
     }
 
     public function clone () :PageRef {

@@ -5,7 +5,7 @@ package microtome.prop {
 
 import microtome.MutablePage;
 import microtome.core.Defs;
-import microtome.core.LibraryItemImpl;
+import microtome.core.LibraryItemBase;
 import microtome.core.TypeInfo;
 import microtome.core.microtome_internal;
 
@@ -28,12 +28,12 @@ public final class ObjectProp extends Prop
             return;
         }
 
-        if (_value is LibraryItemImpl) {
-            LibraryItemImpl(_value).microtome_internal::setParent(null);
+        if (_value is LibraryItemBase) {
+            LibraryItemBase(_value).microtome_internal::setParent(null);
         }
         _value = val;
-        if (_value is LibraryItemImpl) {
-            LibraryItemImpl(_value).microtome_internal::setParent(_page);
+        if (_value is LibraryItemBase) {
+            LibraryItemBase(_value).microtome_internal::setParent(_page);
         }
     }
 

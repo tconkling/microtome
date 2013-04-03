@@ -7,12 +7,10 @@ import flash.utils.Dictionary;
 
 import microtome.core.Defs;
 import microtome.core.LibraryItem;
-import microtome.core.LibraryItemImpl;
+import microtome.core.LibraryItemBase;
 import microtome.core.MicrotomeItem;
 import microtome.core.microtome_internal;
 import microtome.error.MicrotomeError;
-import microtome.error.RequirePageError;
-import microtome.util.ClassUtil;
 
 public final class Library
     implements MicrotomeItem
@@ -27,6 +25,22 @@ public final class Library
 
     public function get name () :String {
         return null;
+    }
+
+    public function getItemWithQualifiedName (qualifiedName :String) :* {
+        // A qualifiedName is a series of page and tome names, separated by dots
+        // E.g. level1.baddies.big_boss
+
+        var item :LibraryItem = null;
+        for each (var name :String in qualifiedName.split(Defs.NAME_SEPARATOR)) {
+            var child :* = (item != null ? item.childNamed(name) : _items[name]);
+            if (!(child is LibraryItem)) {
+                return null;
+            }
+            item = LibraryItem(child);
+        }
+
+        return item;
     }
 
     public function getItem (name :String) :* {
@@ -63,38 +77,8 @@ public final class Library
         _items = new Dictionary();
     }
 
-    public function pageWithQualifiedName (qualifiedName :String, pageClass :Class = null) :MutablePage {
-        // A page's qualifiedName is a series of page and tome names, separated by dots
-        // E.g. level1.baddies.big_boss
-
-        var item :LibraryItem = null;
-        for each (var name :String in qualifiedName.split(Defs.NAME_SEPARATOR)) {
-            var child :* = (item != null ? item.childNamed(name) : _items[name]);
-            if (!(child is LibraryItem)) {
-                return null;
-            }
-            item = LibraryItem(child);
-        }
-
-        if (pageClass != null && !(item is pageClass)) {
-            throw new MicrotomeError("Wrong page type", "name", qualifiedName,
-                "expectedType", ClassUtil.getClassName(pageClass),
-                "actualType", ClassUtil.getClassName(item));
-        }
-
-        return (item as MutablePage);
-    }
-
-    public function requirePageWithQualifiedName (qualifiedName :String, pageClass :Class) :MutablePage {
-        var page :MutablePage = pageWithQualifiedName(qualifiedName, pageClass);
-        if (page == null) {
-            throw new RequirePageError("No such page", "name", qualifiedName);
-        }
-        return page;
-    }
-
     protected function setItemParent (item :LibraryItem, library :Library) :void {
-        LibraryItemImpl(item).microtome_internal::setParent(library);
+        LibraryItemBase(item).microtome_internal::setParent(library);
     }
 
     internal var _items :Dictionary = new Dictionary();

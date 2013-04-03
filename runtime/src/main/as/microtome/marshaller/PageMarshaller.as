@@ -45,7 +45,7 @@ public class PageMarshaller extends ObjectMarshallerBase
                     throw rre;
                 } catch (e :Error) {
                     throw new ResolveRefError("Failed to resolve ref",
-                        "page", page.fullyQualifiedName, "err", e.message);
+                        "page", page.qualifiedName, "err", e.message);
                 }
             }
         }

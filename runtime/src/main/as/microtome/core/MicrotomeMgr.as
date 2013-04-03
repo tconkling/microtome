@@ -124,7 +124,7 @@ public final class MicrotomeMgr
                 foundTemplate = false;
                 for (var ii :int = 0; ii < _loadTask.pendingTemplatedPages.length; ++ii) {
                     var tPage :TemplatedPage = _loadTask.pendingTemplatedPages[ii];
-                    var tmpl :MutablePage = _loadTask.library.pageWithQualifiedName(tPage.templateName);
+                    var tmpl :MutablePage = _loadTask.library.getItemWithQualifiedName(tPage.templateName);
                     if (tmpl == null) {
                         continue;
                     }

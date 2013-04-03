@@ -3,37 +3,18 @@
 
 package microtome {
 
-import microtome.core.Defs;
-import microtome.core.LibraryItemImpl;
-import microtome.core.MicrotomeItem;
+import microtome.core.LibraryItemBase;
 import microtome.core.TypeInfo;
-import microtome.error.MicrotomeError;
 import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 import microtome.util.Util;
 
-public class MutablePage extends LibraryItemImpl
+public class MutablePage extends LibraryItemBase
     implements Page
 {
     public function MutablePage (name :String) {
         super(name);
-    }
-
-    /** The page's fully qualified name, used during PageRef resolution */
-    public final function get fullyQualifiedName () :String {
-        if (this.library == null) {
-            throw new MicrotomeError("Page must be in a library to have a fullyQualifiedName",
-                "page", this);
-        }
-
-        var out :String = _name;
-        var curItem :MicrotomeItem = _parent;
-        while (curItem != null && curItem.library != curItem) {
-            out = curItem.name + Defs.NAME_SEPARATOR + out;
-            curItem = curItem.parent;
-        }
-        return out;
     }
 
     override public final function get typeInfo () :TypeInfo {

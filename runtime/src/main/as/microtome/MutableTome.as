@@ -5,13 +5,13 @@ package microtome {
 
 import flash.utils.Dictionary;
 
-import microtome.core.LibraryItemImpl;
+import microtome.core.LibraryItemBase;
 import microtome.core.TypeInfo;
 import microtome.core.microtome_internal;
 import microtome.error.MicrotomeError;
 import microtome.util.ClassUtil;
 
-public final class MutableTome extends LibraryItemImpl
+public final class MutableTome extends LibraryItemBase
     implements Tome
 {
     public function MutableTome (name :String, pageClass :Class) {
@@ -50,7 +50,7 @@ public final class MutableTome extends LibraryItemImpl
     }
 
     public function requirePage (name :String) :* {
-        var page :Page = _pages[name];
+        const page :Page = _pages[name];
         if (page == null) {
             throw new Error("Missing required page [name='" + name + "']");
         }

@@ -29,6 +29,10 @@ public class Util
         return null;
     }
 
+    public static function compareStrings (s1 :String, s2 :String, ... ignored) :int {
+        return (s1 == s2) ? 0 : ((s1 > s2) ? 1 : -1);
+    }
+
     /**
      * Parse an integer more anally than the built-in parseInt() function,
      * throwing an ArgumentError if there are any invalid characters.
@@ -40,8 +44,7 @@ public class Util
      *        unless the String begins with "0x" in which case it will be 16,
      *        or the String begins with "0" in which case it will be 8.
      */
-    public static function parseInteger (str :String, radix :uint = 0) :int
-    {
+    public static function parseInteger (str :String, radix :uint = 0) :int {
         return int(parseInt0(str, radix, true));
     }
 

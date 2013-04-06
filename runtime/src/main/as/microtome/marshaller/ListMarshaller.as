@@ -11,29 +11,33 @@ import microtome.core.WritableObject;
 
 public class ListMarshaller extends ObjectMarshallerBase
 {
+    public function ListMarshaller () {
+        super(false);
+    }
+
     override public function get valueClass () :Class {
         return Array;
     }
 
-    override public function readObject (mgr :MicrotomeMgr, reader :DataReader, type :TypeInfo) :* {
+    override public function readObject (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {
         const list :Array = [];
         const childMarshaller :ObjectMarshaller =
             mgr.requireObjectMarshallerForClass(type.subtype.clazz);
         for each (var childReader :DataReader in reader.children) {
-            var child :* = childMarshaller.readObject(mgr, childReader, type.subtype);
+            var child :* = childMarshaller.readObject(mgr, childReader, childReader.name, type.subtype);
             list.push(child);
         }
 
         return list;
     }
 
-    override public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, type :TypeInfo) :void {
+    override public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {
         const list :Array = obj as Array;
         const childMarshaller :ObjectMarshaller =
             mgr.requireObjectMarshallerForClass(type.subtype.clazz);
         for each (var child :Object in list) {
             var name :String = (child is MicrotomeItem ? MicrotomeItem(child).name : "item");
-            childMarshaller.writeObject(mgr, writer.addChild(name), child, type.subtype);
+            childMarshaller.writeObject(mgr, writer.addChild(name), child, name, type.subtype);
         }
     }
 

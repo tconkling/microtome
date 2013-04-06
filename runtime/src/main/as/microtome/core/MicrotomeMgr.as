@@ -210,7 +210,10 @@ public final class MicrotomeMgr
                 if (objectProp.value != null) {
                     var marshaller :ObjectMarshaller =
                         requireObjectMarshallerForClass(objectProp.valueType.clazz);
-                    marshaller.writeObject(this, writer.addChild(prop.name), objectProp.value,
+
+                    var childWriter :WritableObject =
+                        (marshaller.isSimple ? writer : writer.addChild(objectProp.name));
+                    marshaller.writeObject(this, childWriter, objectProp.value, objectProp.name,
                         objectProp.valueType);
                 }
             }
@@ -273,23 +276,23 @@ public final class MicrotomeMgr
             // 3. Else, set the value to null if it's nullable
             // 4. Else, fail.
 
+            const name :String = prop.name;
             const objectProp :ObjectProp = prop as ObjectProp;
-            const canRead :Boolean = pageReader.hasChild(prop.name);
+            const marshaller :ObjectMarshaller = requireObjectMarshallerForClass(objectProp.valueType.clazz);
+
+            const canRead :Boolean = (marshaller.isSimple ? pageReader.hasValue(name) : pageReader.hasChild(name));
             const useTemplate :Boolean = !canRead && (tProp != null);
 
             if (canRead) {
-                const marshaller :ObjectMarshaller =
-                    requireObjectMarshallerForClass(objectProp.valueType.clazz);
-                const propReader :DataReader = pageReader.getChild(prop.name);
-                objectProp.value = marshaller.readObject(this, propReader, objectProp.valueType);
+                const reader :DataReader = (marshaller.isSimple ? pageReader : pageReader.requireChild(name));
+                objectProp.value = marshaller.readObject(this, reader, name, objectProp.valueType);
                 marshaller.validateProp(objectProp);
-
             } else if (useTemplate) {
                 objectProp.value = ObjectProp(tProp).value;
             } else if (objectProp.nullable) {
                 objectProp.value = null;
             } else {
-                throw new LoadError(pageReader.data, "Missing required child", "name", prop.name);
+                throw new LoadError(pageReader.data, "Missing required value or child", "name", name);
             }
         }
     }

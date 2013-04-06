@@ -5,6 +5,8 @@ package microtome.core {
 
 import flash.utils.Dictionary;
 
+import microtome.error.LoadError;
+
 /** Wraps a ReadableElement and provides additional convenience functions */
 public class DataReader
 {
@@ -46,6 +48,14 @@ public class DataReader
             }
         }
         return _childrenByName[name];
+    }
+
+    public function requireChild (name :String) :DataReader {
+        var child :DataReader = getChild(name);
+        if (child == null) {
+            throw new LoadError(_data, "Missing required child", "name", name);
+        }
+        return child;
     }
 
     public function getString (name :String, defaultVal :String = null) :String {

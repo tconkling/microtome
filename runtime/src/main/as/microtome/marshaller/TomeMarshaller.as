@@ -13,15 +13,19 @@ import microtome.core.WritableObject;
 
 public class TomeMarshaller extends ObjectMarshallerBase
 {
+    public function TomeMarshaller () {
+        super(false);
+    }
+
     override public function get valueClass () :Class {
         return MutableTome;
     }
 
-    override public function readObject (mgr :MicrotomeMgr, reader :DataReader, type :TypeInfo) :* {
+    override public function readObject (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {
         return mgr.loadTome(reader, type.subtype.clazz);
     }
 
-    override public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, type :TypeInfo) :void {
+    override public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {
         mgr.saveTome(writer, MutableTome(obj));
     }
 

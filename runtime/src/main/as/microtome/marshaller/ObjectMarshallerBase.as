@@ -15,6 +15,20 @@ import microtome.util.ClassUtil;
 public class ObjectMarshallerBase
     implements ObjectMarshaller
 {
+    /**
+     * @param isSimple true if this marshaller represents a "simple" data type.
+     * A simple type is one that can be parsed from a single value.
+     * Generally, composite objects are likely to be non-simple (though, for example, a Tuple
+     * object could be made simple if you were to parse it from a comma-delimited string).
+     */
+    public function ObjectMarshallerBase (isSimple :Boolean) {
+        _isSimple = isSimple;
+    }
+
+    public final function get isSimple () :Boolean {
+        return _isSimple;
+    }
+
     public function get valueClass () :Class {
         throw new Error("abstract");
     }
@@ -23,11 +37,11 @@ public class ObjectMarshallerBase
         return false;
     }
 
-    public function readObject (mgr :MicrotomeMgr, reader :DataReader, type :TypeInfo) :* {
+    public function readObject (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {
         throw new Error("abstract");
     }
 
-    public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, type :TypeInfo) :void {
+    public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {
         throw new Error("abstract");
     }
 
@@ -55,5 +69,7 @@ public class ObjectMarshallerBase
                 ClassUtil.getClassName(prop.value) + "]");
         }
     }
+
+    protected var _isSimple :Boolean;
 }
 }

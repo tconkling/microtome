@@ -1,5 +1,3 @@
 <microtome>
-    <refTest pageType='RefPage'>
-        <nested ref="tomeTest.test1"/>
-    </refTest>
+    <refTest pageType='RefPage' nested="tomeTest.test1"/>
 </microtome>

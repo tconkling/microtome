@@ -12,15 +12,15 @@ import microtome.MutableTome;
 import microtome.Page;
 import microtome.error.LoadError;
 import microtome.error.MicrotomeError;
+import microtome.marshaller.BoolMarshaller;
+import microtome.marshaller.DataMarshaller;
+import microtome.marshaller.IntMarshaller;
 import microtome.marshaller.ListMarshaller;
-import microtome.marshaller.ObjectMarshaller;
+import microtome.marshaller.NumberMarshaller;
 import microtome.marshaller.PageMarshaller;
 import microtome.marshaller.PageRefMarshaller;
-import microtome.marshaller.PrimitiveMarshaller;
 import microtome.marshaller.StringMarshaller;
 import microtome.marshaller.TomeMarshaller;
-import microtome.prop.ObjectProp;
-import microtome.prop.PrimitiveProp;
 import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 import microtome.util.Util;
@@ -29,23 +29,18 @@ public final class MicrotomeMgr
     implements MicrotomeCtx
 {
     public function MicrotomeMgr () {
-        registerObjectMarshaller(new ListMarshaller());
-        registerObjectMarshaller(new PageMarshaller());
-        registerObjectMarshaller(new PageRefMarshaller());
-        registerObjectMarshaller(new StringMarshaller());
-        registerObjectMarshaller(new TomeMarshaller());
+        registerDataMarshaller(new BoolMarshaller());
+        registerDataMarshaller(new IntMarshaller());
+        registerDataMarshaller(new NumberMarshaller());
+        registerDataMarshaller(new ListMarshaller());
+        registerDataMarshaller(new PageMarshaller());
+        registerDataMarshaller(new PageRefMarshaller());
+        registerDataMarshaller(new StringMarshaller());
+        registerDataMarshaller(new TomeMarshaller());
     }
 
     public final function get library () :Library {
         return _loadTask.library;
-    }
-
-    public function registerPrimitiveMarshaller (val :PrimitiveMarshaller) :void {
-        _primitiveMarshaller = val;
-    }
-
-    public function get primitiveMarshaller () :PrimitiveMarshaller {
-        return _primitiveMarshaller;
     }
 
     public function registerPageClasses (classes :Vector.<Class>) :void {
@@ -59,18 +54,18 @@ public final class MicrotomeMgr
         }
     }
 
-    public function registerObjectMarshaller (marshaller :ObjectMarshaller) :void {
-        _objectMarshallers[marshaller.valueClass] = marshaller;
+    public function registerDataMarshaller (marshaller :DataMarshaller) :void {
+        _dataMarshallers[marshaller.valueClass] = marshaller;
     }
 
-    public function requireObjectMarshallerForClass (clazz :Class) :ObjectMarshaller {
-        var marshaller :ObjectMarshaller = _objectMarshallers[clazz];
+    public function requireDataMarshaller (clazz :Class) :DataMarshaller {
+        var marshaller :DataMarshaller = _dataMarshallers[clazz];
         if (marshaller == null) {
             // if we can't find an exact match, see if we have a handler for a superclass that
             // can take subclasses
-            for each (var candidate :ObjectMarshaller in _objectMarshallers) {
+            for each (var candidate :DataMarshaller in _dataMarshallers) {
                 if (candidate.handlesSubclasses && ClassUtil.isAssignableAs(candidate.valueClass, clazz)) {
-                    _objectMarshallers[clazz] = candidate;
+                    _dataMarshallers[clazz] = candidate;
                     marshaller = candidate;
                     break;
                 }
@@ -78,7 +73,7 @@ public final class MicrotomeMgr
         }
 
         if (marshaller == null) {
-            throw new Error("No ObjectMarshaller for '" + ClassUtil.getClassName(clazz) + "'");
+            throw new Error("No DataMarshaller for '" + ClassUtil.getClassName(clazz) + "'");
         }
 
         return marshaller;
@@ -203,20 +198,13 @@ public final class MicrotomeMgr
 
         // TODO: template suppport...
         for each (var prop :Prop in page.props) {
-            if (prop is PrimitiveProp) {
-                PrimitiveProp(prop).writeValue(writer);
-            } else {
-                var objectProp :ObjectProp = ObjectProp(prop);
-                if (objectProp.value != null) {
-                    var marshaller :ObjectMarshaller =
-                        requireObjectMarshallerForClass(objectProp.valueType.clazz);
-
-                    var childWriter :WritableObject =
-                        (marshaller.isSimple ? writer : writer.addChild(objectProp.name));
-                    marshaller.writeObject(this, childWriter, objectProp.value, objectProp.name,
-                        objectProp.valueType);
-                }
+            if (prop.value === null) {
+                continue;
             }
+            var marshaller :DataMarshaller = requireDataMarshaller(prop.valueType.clazz);
+            var childWriter :WritableObject =
+                (marshaller.isSimple ? writer : writer.addChild(prop.name));
+            marshaller.writeValue(this, childWriter, prop.value, prop.name, prop.valueType);
         }
     }
 
@@ -230,7 +218,7 @@ public final class MicrotomeMgr
 
     public function clone (item :LibraryItem) :* {
         const clazz :Class = ClassUtil.getClass(item);
-        const marshaller :ObjectMarshaller = requireObjectMarshallerForClass(clazz);
+        const marshaller :DataMarshaller = requireDataMarshaller(clazz);
         return marshaller.cloneData(this, item, item.typeInfo);
     }
 
@@ -265,35 +253,32 @@ public final class MicrotomeMgr
     }
 
     protected function loadPageProp (page :Page, prop :Prop, tProp :Prop, pageReader :DataReader) :void {
-        if (prop is PrimitiveProp) {
-            PrimitiveProp(prop).load(pageReader, tProp);
-            _primitiveMarshaller.validateProp(prop);
+        // 1. Read the value from the DataReader, if it exists
+        // 2. Else, copy the value from the template, if it exists
+        // 3. Else, read the value from its 'default' annotation, if it exists
+        // 3. Else, set the value to null if it's nullable
+        // 4. Else, fail.
 
+        const name :String = prop.name;
+        const marshaller :DataMarshaller = requireDataMarshaller(prop.valueType.clazz);
+
+        const canRead :Boolean =
+            (marshaller.isSimple ? pageReader.hasValue(name) : pageReader.hasChild(name));
+        const useTemplate :Boolean = !canRead && (tProp != null);
+
+        if (canRead) {
+            const reader :DataReader =
+                (marshaller.isSimple ? pageReader : pageReader.requireChild(name));
+            prop.value = marshaller.readValue(this, reader, name, prop.valueType);
+            marshaller.validateProp(prop);
+        } else if (useTemplate) {
+            prop.value = tProp.value;
+        } else if (prop.hasDefault) {
+            prop.value = marshaller.readDefault(this, prop.valueType, prop);
+        } else if (prop.nullable) {
+            prop.value = null;
         } else {
-            // Handle object props:
-            // 1. Read the value from the DataReader, if it exists
-            // 2. Else, copy the value from the template, if it exists
-            // 3. Else, set the value to null if it's nullable
-            // 4. Else, fail.
-
-            const name :String = prop.name;
-            const objectProp :ObjectProp = prop as ObjectProp;
-            const marshaller :ObjectMarshaller = requireObjectMarshallerForClass(objectProp.valueType.clazz);
-
-            const canRead :Boolean = (marshaller.isSimple ? pageReader.hasValue(name) : pageReader.hasChild(name));
-            const useTemplate :Boolean = !canRead && (tProp != null);
-
-            if (canRead) {
-                const reader :DataReader = (marshaller.isSimple ? pageReader : pageReader.requireChild(name));
-                objectProp.value = marshaller.readObject(this, reader, name, objectProp.valueType);
-                marshaller.validateProp(objectProp);
-            } else if (useTemplate) {
-                objectProp.value = ObjectProp(tProp).value;
-            } else if (objectProp.nullable) {
-                objectProp.value = null;
-            } else {
-                throw new LoadError(pageReader.data, "Missing required value or child", "name", name);
-            }
+            throw new LoadError(pageReader.data, "Missing required value or child", "name", name);
         }
     }
 
@@ -335,8 +320,7 @@ public final class MicrotomeMgr
 
         try {
             for each (var item :LibraryItem in task.libraryItems) {
-                var marshaller :ObjectMarshaller =
-                    requireObjectMarshallerForClass(ClassUtil.getClass(item));
+                var marshaller :DataMarshaller = requireDataMarshaller(ClassUtil.getClass(item));
                 marshaller.resolveRefs(this, item, item.typeInfo);
             }
         } catch (e :Error) {
@@ -359,8 +343,7 @@ public final class MicrotomeMgr
     }
 
     protected var _pageClasses :Dictionary = new Dictionary();  // <String, Class>
-    protected var _objectMarshallers :Dictionary = new Dictionary(); // <Class, ObjectMarshaller>
-    protected var _primitiveMarshaller :PrimitiveMarshaller = new PrimitiveMarshaller();
+    protected var _dataMarshallers :Dictionary = new Dictionary(); // <Class, DataMarshaller>
 
     protected var _loadTask :LoadTask;
 }

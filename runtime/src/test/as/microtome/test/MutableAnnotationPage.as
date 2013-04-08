@@ -48,8 +48,8 @@ public class MutableAnnotationPage extends MutablePage
 // GENERATED IVARS END
 
 // GENERATED STATICS START
-    protected static const s_fooSpec :PropSpec = new PropSpec("foo", { "min": 3.0, "max": 5.0 }, null);
-    protected static const s_barSpec :PropSpec = new PropSpec("bar", { "default": 3.0 }, null);
+    protected static const s_fooSpec :PropSpec = new PropSpec("foo", { "min": 3.0, "max": 5.0 }, [ int, ]);
+    protected static const s_barSpec :PropSpec = new PropSpec("bar", { "default": 3.0 }, [ int, ]);
     protected static const s_primitivesSpec :PropSpec = new PropSpec("primitives", { "nullable": true }, [ MutablePrimitivePage, ]);
 // GENERATED STATICS END
 

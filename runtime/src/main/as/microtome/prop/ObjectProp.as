@@ -4,19 +4,13 @@
 package microtome.prop {
 
 import microtome.MutablePage;
-import microtome.core.Defs;
 import microtome.core.LibraryItemBase;
-import microtome.core.TypeInfo;
 import microtome.core.microtome_internal;
 
 public final class ObjectProp extends Prop
 {
     public function ObjectProp (page :MutablePage, spec :PropSpec) {
         super(page, spec);
-    }
-
-    public function get nullable () :Boolean {
-        return boolAnnotation(Defs.NULLABLE_ANNOTATION, false);
     }
 
     override public function get value () :* {
@@ -35,10 +29,6 @@ public final class ObjectProp extends Prop
         if (_value is LibraryItemBase) {
             LibraryItemBase(_value).microtome_internal::setParent(_page);
         }
-    }
-
-    override public function get valueType () :TypeInfo {
-        return _spec.valueType;
     }
 
     protected var _value :Object;

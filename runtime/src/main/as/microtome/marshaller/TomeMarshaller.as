@@ -11,7 +11,7 @@ import microtome.core.MicrotomeMgr;
 import microtome.core.TypeInfo;
 import microtome.core.WritableObject;
 
-public class TomeMarshaller extends ObjectMarshallerBase
+public class TomeMarshaller extends ObjectMarshaller
 {
     public function TomeMarshaller () {
         super(false);
@@ -21,18 +21,18 @@ public class TomeMarshaller extends ObjectMarshallerBase
         return MutableTome;
     }
 
-    override public function readObject (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {
+    override public function readValue (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {
         return mgr.loadTome(reader, type.subtype.clazz);
     }
 
-    override public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {
+    override public function writeValue (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {
         mgr.saveTome(writer, MutableTome(obj));
     }
 
     override public function resolveRefs (mgr :MicrotomeMgr, obj :*, type :TypeInfo) :void {
         const tome :MutableTome = MutableTome(obj);
-        const pageMarshaller :ObjectMarshaller =
-            mgr.requireObjectMarshallerForClass(tome.pageClass);
+        const pageMarshaller :DataMarshaller =
+            mgr.requireDataMarshaller(tome.pageClass);
         tome.forEach(function (page :Page) :void {
             pageMarshaller.resolveRefs(mgr, page, type.subtype);
         });
@@ -40,8 +40,8 @@ public class TomeMarshaller extends ObjectMarshallerBase
 
     override public function cloneObject (mgr :MicrotomeMgr, data :Object, type :TypeInfo) :Object {
         const tome :MutableTome = MutableTome(data);
-        const pageMarshaller :ObjectMarshaller =
-            mgr.requireObjectMarshallerForClass(tome.pageClass);
+        const pageMarshaller :DataMarshaller =
+            mgr.requireDataMarshaller(tome.pageClass);
         const clone :MutableTome = new MutableTome(tome.name, tome.pageClass);
 
         tome.forEach(function (page :MutablePage) :void {

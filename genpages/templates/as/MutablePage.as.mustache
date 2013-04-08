@@ -54,7 +54,7 @@ public class {{class_name}} extends {{superclass}}
 
 // GENERATED STATICS START
     {{#props}}
-    protected static const s_{{name}}Spec :PropSpec = new PropSpec("{{name}}", {{annotation_text}}, {{#value_type}}{{#is_primitive}}null{{/is_primitive}}{{^is_primitive}}[ {{#all_typenames}}{{.}}, {{/all_typenames}}]{{/is_primitive}}{{/value_type}});
+    protected static const s_{{name}}Spec :PropSpec = new PropSpec("{{name}}", {{annotation_text}}, {{#value_type}}[ {{#all_typenames}}{{.}}, {{/all_typenames}}]{{/value_type}});
     {{/props}}
 // GENERATED STATICS END
 

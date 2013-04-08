@@ -48,9 +48,9 @@ public class MutablePrimitivePage extends MutablePage
 // GENERATED IVARS END
 
 // GENERATED STATICS START
-    protected static const s_fooSpec :PropSpec = new PropSpec("foo", null, null);
-    protected static const s_barSpec :PropSpec = new PropSpec("bar", null, null);
-    protected static const s_bazSpec :PropSpec = new PropSpec("baz", null, null);
+    protected static const s_fooSpec :PropSpec = new PropSpec("foo", null, [ Boolean, ]);
+    protected static const s_barSpec :PropSpec = new PropSpec("bar", null, [ int, ]);
+    protected static const s_bazSpec :PropSpec = new PropSpec("baz", null, [ Number, ]);
 // GENERATED STATICS END
 
 // GENERATED CLASS_OUTRO START

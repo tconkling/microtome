@@ -3,59 +3,57 @@
 
 package microtome.marshaller {
 
-import microtome.core.Defs;
+import microtome.core.Annotatable;
+import microtome.core.DataReader;
 import microtome.core.MicrotomeMgr;
 import microtome.core.TypeInfo;
-import microtome.error.ValidationError;
-import microtome.prop.BoolProp;
-import microtome.prop.IntProp;
-import microtome.prop.NumberProp;
+import microtome.core.WritableObject;
 import microtome.prop.Prop;
 
-public class PrimitiveMarshaller
+public /*abstract*/ class PrimitiveMarshaller
     implements DataMarshaller
 {
-    public function validateProp (prop :Prop) :void {
-        if (prop is BoolProp) {
-            validateBool(BoolProp(prop));
-        } else if (prop is IntProp) {
-            validateInt(IntProp(prop));
-        } else if (prop is NumberProp) {
-            validateNumber(NumberProp(prop));
-        } else {
-            throw new ValidationError(prop, "Unrecognized primitive prop");
-        }
+    public function PrimitiveMarshaller (valueClazz :Class) {
+        _valueClazz = valueClazz;
     }
 
-    public function cloneData (mgr :MicrotomeMgr, data :Object, type :TypeInfo) :* {
+    public final function get valueClass () :Class {
+        return _valueClazz;
+    }
+
+    public final function get handlesSubclasses () :Boolean {
+        return false;
+    }
+
+    public final function get isSimple () :Boolean {
+        return true;
+    }
+
+    public final function resolveRefs (mgr :MicrotomeMgr, val :*, type :TypeInfo) :void {
+        // primitives don't store refs
+    }
+
+    public final function cloneData (mgr :MicrotomeMgr, data :Object, type :TypeInfo) :* {
         // primitives don't need cloning
         return data;
     }
 
-    public function validateBool (prop :BoolProp) :void {
-        // do nothing
+    public function validateProp (prop :Prop) :void {
+        throw new Error("abstract");
     }
 
-    public function validateInt (prop :IntProp) :void {
-        const min :int = prop.intAnnotation(Defs.MIN_ANNOTATION, int.MIN_VALUE);
-        if (prop.value < min) {
-            throw new ValidationError(prop, "value too small (" + prop.value + " < " + min + ")");
-        }
-        const max :int = prop.intAnnotation(Defs.MAX_ANNOTATION, int.MAX_VALUE);
-        if (prop.value > max) {
-            throw new ValidationError(prop, "value too large (" + prop.value + " > " + max + ")");
-        }
+    public function readValue (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {
+        throw new Error("abstract");
     }
 
-    public function validateNumber (prop :NumberProp) :void {
-        const min :Number = prop.numberAnnotation(Defs.MIN_ANNOTATION, Number.NEGATIVE_INFINITY);
-        if (prop.value < min) {
-            throw new ValidationError(prop, "value too small (" + prop.value + " < " + min + ")");
-        }
-        const max :Number = prop.numberAnnotation(Defs.MAX_ANNOTATION, Number.POSITIVE_INFINITY);
-        if (prop.value > max) {
-            throw new ValidationError(prop, "value too large (" + prop.value + " > " + max + ")");
-        }
+    public function readDefault (mgr :MicrotomeMgr, type :TypeInfo, anno :Annotatable) :* {
+        throw new Error("abstract");
     }
+
+    public function writeValue (mgr :MicrotomeMgr, writer :WritableObject, val :*, name :String, type :TypeInfo) :void {
+        throw new Error("abstract");
+    }
+
+    protected var _valueClazz :Class;
 }
 }

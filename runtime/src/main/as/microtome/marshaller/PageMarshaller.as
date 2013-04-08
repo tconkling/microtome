@@ -14,7 +14,7 @@ import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 
-public class PageMarshaller extends ObjectMarshallerBase
+public class PageMarshaller extends ObjectMarshaller
 {
     public function PageMarshaller () {
         super(false);
@@ -28,11 +28,11 @@ public class PageMarshaller extends ObjectMarshallerBase
         return true;
     }
 
-    override public function readObject (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {
+    override public function readValue (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {
         return mgr.loadPage(reader, type.clazz);
     }
 
-    override public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {
+    override public function writeValue (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {
         mgr.savePage(writer, MutablePage(obj));
     }
 
@@ -42,7 +42,7 @@ public class PageMarshaller extends ObjectMarshallerBase
             var objectProp :ObjectProp = (prop as ObjectProp);
             if (objectProp != null && objectProp.value != null) {
                 try {
-                    var marshaller :ObjectMarshaller = mgr.requireObjectMarshallerForClass(
+                    var marshaller :DataMarshaller = mgr.requireDataMarshaller(
                         objectProp.valueType.clazz);
                     marshaller.resolveRefs(mgr, objectProp.value, objectProp.valueType);
                 } catch (rre :ResolveRefError) {
@@ -63,9 +63,7 @@ public class PageMarshaller extends ObjectMarshallerBase
         for (var ii :int = 0; ii < page.props.length; ++ii) {
             var prop :Prop = page.props[ii];
             var cloneProp :Prop = clone.props[ii];
-            var marshaller :DataMarshaller = (prop is ObjectProp ?
-                mgr.requireObjectMarshallerForClass(prop.valueType.clazz) :
-                mgr.primitiveMarshaller);
+            var marshaller :DataMarshaller = mgr.requireDataMarshaller(prop.valueType.clazz);
             cloneProp.value = (marshaller.cloneData(mgr, prop.value, prop.valueType));
         }
 

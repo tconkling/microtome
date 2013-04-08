@@ -10,7 +10,7 @@ import microtome.core.TypeInfo;
 import microtome.core.WritableObject;
 import microtome.error.LoadError;
 
-public class PageRefMarshaller extends ObjectMarshallerBase
+public class PageRefMarshaller extends ObjectMarshaller
 {
     public function PageRefMarshaller () {
         super(true);
@@ -20,7 +20,7 @@ public class PageRefMarshaller extends ObjectMarshallerBase
         return PageRef;
     }
 
-    override public function readObject (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {
+    override public function readValue (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {
         const pageName :String = reader.requireString(name);
         if (pageName.length == 0) {
             throw new LoadError(reader.data, "invalid PageRef", "pageName", pageName);
@@ -28,7 +28,7 @@ public class PageRefMarshaller extends ObjectMarshallerBase
         return new PageRef(pageName);
     }
 
-    override public function writeObject (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {
+    override public function writeValue (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {
         writer.writeString(name, PageRef(obj).pageName);
     }
 

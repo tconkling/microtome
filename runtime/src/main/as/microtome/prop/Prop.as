@@ -4,9 +4,12 @@
 package microtome.prop {
 
 import microtome.MutablePage;
+import microtome.core.Annotatable;
+import microtome.core.Defs;
 import microtome.core.TypeInfo;
 
 public /*abstract*/ class Prop
+    implements Annotatable
 {
     public function Prop (page :MutablePage, spec :PropSpec) {
         _page = page;
@@ -21,8 +24,16 @@ public /*abstract*/ class Prop
         throw new Error("abstract");
     }
 
-    public function get valueType () :TypeInfo {
-        throw new Error("abstract");
+    public final function get valueType () :TypeInfo {
+        return _spec.valueType;
+    }
+
+    public final function get nullable () :Boolean {
+        return boolAnnotation(Defs.NULLABLE_ANNOTATION, false);
+    }
+
+    public final function get hasDefault () :Boolean {
+        return hasAnnotation(Defs.DEFAULT_ANNOTATION);
     }
 
     public final function get name () :String {

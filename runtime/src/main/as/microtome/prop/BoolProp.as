@@ -4,12 +4,8 @@
 package microtome.prop {
 
 import microtome.MutablePage;
-import microtome.core.DataReader;
-import microtome.core.Defs;
-import microtome.core.TypeInfo;
-import microtome.core.WritableObject;
 
-public final class BoolProp extends PrimitiveProp
+public final class BoolProp extends Prop
 {
     public function BoolProp (page :MutablePage, spec :PropSpec) {
         super(page, spec);
@@ -23,24 +19,6 @@ public final class BoolProp extends PrimitiveProp
         _value = val;
     }
 
-    override public function get valueType () :TypeInfo {
-        return VALUE_TYPE;
-    }
-
-    override public function writeValue (writer :WritableObject) :void {
-        writer.writeBool(this.name, _value);
-    }
-
-    override protected function readValue (reader :DataReader) :* {
-        return reader.requireBool(this.name);
-    }
-
-    override protected function get defaultValue () :* {
-        return boolAnnotation(Defs.DEFAULT_ANNOTATION, false);
-    }
-
     protected var _value :Boolean;
-
-    protected static const VALUE_TYPE :TypeInfo = new TypeInfo(Boolean, null);
 }
 }

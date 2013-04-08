@@ -19,9 +19,8 @@
     <classEntry path="microtome.marshaller.DataMarshaller"/>
     <classEntry path="microtome.marshaller.PrimitiveMarshaller"/>
     <classEntry path="microtome.error.ValidationError"/>
-    <classEntry path="microtome.marshaller.ObjectMarshaller"/>
     <classEntry path="microtome.core.ReadableObject"/>
-    <classEntry path="microtome.marshaller.ObjectMarshallerBase"/>
+    <classEntry path="microtome.marshaller.ObjectMarshaller"/>
     <classEntry path="microtome.marshaller.StringMarshaller"/>
     <classEntry path="microtome.core.LoadTask"/>
     <classEntry path="microtome.core.DataReader"/>
@@ -44,7 +43,10 @@
     <classEntry path="microtome.core.LibraryItemBase"/>
     <classEntry path="microtome.xml.XmlElement"/>
     <classEntry path="microtome.core.WritableObject"/>
-    <classEntry path="microtome.prop.PrimitiveProp"/>
+    <classEntry path="microtome.marshaller.BoolMarshaller"/>
+    <classEntry path="microtome.marshaller.IntMarshaller"/>
+    <classEntry path="microtome.marshaller.NumberMarshaller"/>
+    <classEntry path="microtome.core.Annotatable"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

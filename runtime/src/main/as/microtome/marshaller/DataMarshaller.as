@@ -3,7 +3,7 @@
 
 package microtome.marshaller {
 
-import microtome.core.Annotatable;
+import microtome.core.Annotation;
 import microtome.core.DataReader;
 import microtome.core.MicrotomeMgr;
 import microtome.core.TypeInfo;
@@ -36,7 +36,7 @@ public interface DataMarshaller
      * reads data from a prop's annotations
      * @throw LoadError if the default cannot used for any reason.
      */
-    function readDefault (mgr :MicrotomeMgr, type :TypeInfo, anno :Annotatable) :*;
+    function readDefault (mgr :MicrotomeMgr, type :TypeInfo, anno :Annotation) :*;
 
     /** writes an object's value */
     function writeValue (mgr :MicrotomeMgr, writer :WritableObject, val :*, name :String, type :TypeInfo) :void;

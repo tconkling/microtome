@@ -4,12 +4,11 @@
 package microtome.prop {
 
 import microtome.MutablePage;
-import microtome.core.Annotatable;
+import microtome.core.Annotation;
 import microtome.core.Defs;
 import microtome.core.TypeInfo;
 
 public /*abstract*/ class Prop
-    implements Annotatable
 {
     public function Prop (page :MutablePage, spec :PropSpec) {
         _page = page;
@@ -29,7 +28,7 @@ public /*abstract*/ class Prop
     }
 
     public final function get nullable () :Boolean {
-        return boolAnnotation(Defs.NULLABLE_ANNOTATION, false);
+        return annotation(Defs.NULLABLE_ANNOTATION).boolValue(false);
     }
 
     public final function get hasDefault () :Boolean {
@@ -41,27 +40,11 @@ public /*abstract*/ class Prop
     }
 
     public final function hasAnnotation (name :String) :Boolean {
-        return (name in _spec.annotations);
+        return _spec.hasAnnotation(name);
     }
 
-    public final function boolAnnotation (name :String, defaultVal :Boolean) :Boolean {
-        var val :* = _spec.annotations[name];
-        return (val is Boolean ? val : defaultVal);
-    }
-
-    public final function intAnnotation (name :String, defaultVal :int) :int {
-        var val :* = _spec.annotations[name];
-        return (val is int ? val : defaultVal);
-    }
-
-    public final function numberAnnotation (name :String, defaultVal :Number) :Number {
-        var val :* = _spec.annotations[name];
-        return (val is Number ? val : defaultVal);
-    }
-
-    public final function stringAnnotation (name :String, defaultVal :String) :String {
-        var val :* = _spec.annotations[name];
-        return (val is String ? val : defaultVal);
+    public final function annotation (name :String) :Annotation {
+        return _spec.getAnnotation(name);
     }
 
     protected var _page :MutablePage;

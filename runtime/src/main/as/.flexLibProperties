@@ -46,7 +46,7 @@
     <classEntry path="microtome.marshaller.BoolMarshaller"/>
     <classEntry path="microtome.marshaller.IntMarshaller"/>
     <classEntry path="microtome.marshaller.NumberMarshaller"/>
-    <classEntry path="microtome.core.Annotatable"/>
+    <classEntry path="microtome.core.Annotation"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

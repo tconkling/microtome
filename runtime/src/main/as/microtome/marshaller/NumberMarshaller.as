@@ -3,7 +3,7 @@
 
 package microtome.marshaller {
 
-import microtome.core.Annotatable;
+import microtome.core.Annotation;
 import microtome.core.DataReader;
 import microtome.core.Defs;
 import microtome.core.MicrotomeMgr;
@@ -21,11 +21,11 @@ public class NumberMarshaller extends PrimitiveMarshaller
 
     override public function validateProp (p :Prop) :void {
         const prop :NumberProp = NumberProp(p);
-        const min :Number = prop.numberAnnotation(Defs.MIN_ANNOTATION, Number.NEGATIVE_INFINITY);
+        const min :Number = prop.annotation(Defs.MIN_ANNOTATION).numberValue(Number.NEGATIVE_INFINITY);
         if (prop.value < min) {
             throw new ValidationError(prop, "value too small (" + prop.value + " < " + min + ")");
         }
-        const max :Number = prop.numberAnnotation(Defs.MAX_ANNOTATION, Number.POSITIVE_INFINITY);
+        const max :Number = prop.annotation(Defs.MAX_ANNOTATION).numberValue(Number.POSITIVE_INFINITY);
         if (prop.value > max) {
             throw new ValidationError(prop, "value too large (" + prop.value + " > " + max + ")");
         }
@@ -35,8 +35,8 @@ public class NumberMarshaller extends PrimitiveMarshaller
         return reader.requireNumber(name);
     }
 
-    override public function readDefault (mgr :MicrotomeMgr, type :TypeInfo, anno :Annotatable) :* {
-        return anno.numberAnnotation(Defs.DEFAULT_ANNOTATION, 0);
+    override public function readDefault (mgr :MicrotomeMgr, type :TypeInfo, anno :Annotation) :* {
+        return anno.numberValue(0);
     }
 
     override public function writeValue (mgr :MicrotomeMgr, writer :WritableObject, val :*, name :String, type :TypeInfo) :void {

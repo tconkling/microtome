@@ -3,7 +3,7 @@
 
 package microtome.marshaller {
 
-import microtome.core.Annotatable;
+import microtome.core.Annotation;
 import microtome.core.DataReader;
 import microtome.core.MicrotomeMgr;
 import microtome.core.TypeInfo;
@@ -46,7 +46,7 @@ public /*abstract*/ class PrimitiveMarshaller
         throw new Error("abstract");
     }
 
-    public function readDefault (mgr :MicrotomeMgr, type :TypeInfo, anno :Annotatable) :* {
+    public function readDefault (mgr :MicrotomeMgr, type :TypeInfo, anno :Annotation) :* {
         throw new Error("abstract");
     }
 

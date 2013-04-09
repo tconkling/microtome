@@ -3,9 +3,8 @@
 
 package microtome.marshaller {
 
-import microtome.core.Annotatable;
+import microtome.core.Annotation;
 import microtome.core.DataReader;
-import microtome.core.Defs;
 import microtome.core.MicrotomeMgr;
 import microtome.core.TypeInfo;
 import microtome.core.WritableObject;
@@ -24,8 +23,8 @@ public class StringMarshaller extends ObjectMarshaller
         return reader.requireString(name);
     }
 
-    override public function readDefault (mgr :MicrotomeMgr, type :TypeInfo, anno :Annotatable) :* {
-        return anno.stringAnnotation(Defs.DEFAULT_ANNOTATION, "");
+    override public function readDefault (mgr :MicrotomeMgr, type :TypeInfo, anno :Annotation) :* {
+        return anno.stringValue("");
     }
 
     override public function writeValue (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {

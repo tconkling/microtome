@@ -274,7 +274,7 @@ public final class MicrotomeMgr
         } else if (useTemplate) {
             prop.value = tProp.value;
         } else if (prop.hasDefault) {
-            prop.value = marshaller.readDefault(this, prop.valueType, prop);
+            prop.value = marshaller.readDefault(this, prop.valueType, prop.annotation(Defs.DEFAULT_ANNOTATION));
         } else if (prop.nullable) {
             prop.value = null;
         } else {

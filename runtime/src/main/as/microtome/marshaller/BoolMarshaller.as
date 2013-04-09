@@ -3,9 +3,8 @@
 
 package microtome.marshaller {
 
-import microtome.core.Annotatable;
+import microtome.core.Annotation;
 import microtome.core.DataReader;
-import microtome.core.Defs;
 import microtome.core.MicrotomeMgr;
 import microtome.core.TypeInfo;
 import microtome.core.WritableObject;
@@ -25,8 +24,8 @@ public class BoolMarshaller extends PrimitiveMarshaller
         return reader.requireBool(name);
     }
 
-    override public function readDefault (mgr :MicrotomeMgr, type :TypeInfo, anno :Annotatable) :* {
-        return anno.boolAnnotation(Defs.DEFAULT_ANNOTATION, false);
+    override public function readDefault (mgr :MicrotomeMgr, type :TypeInfo, anno :Annotation) :* {
+        return anno.boolValue(false);
     }
 
     override public function writeValue (mgr :MicrotomeMgr, writer :WritableObject, val :*, name :String, type :TypeInfo) :void {

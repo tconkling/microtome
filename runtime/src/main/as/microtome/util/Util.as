@@ -3,6 +3,8 @@
 
 package microtome.util {
 
+import flash.utils.Dictionary;
+
 import microtome.MutablePage;
 import microtome.core.Defs;
 import microtome.prop.Prop;
@@ -27,6 +29,15 @@ public class Util
             }
         }
         return null;
+    }
+
+    public static function dictToArray (d :Dictionary, arr :Array = null) :Array {
+        arr = (arr || []);
+        arr.length = 0;
+        for each (var item :Object in d) {
+            arr.push(item);
+        }
+        return arr;
     }
 
     public static function compareStrings (s1 :String, s2 :String, ... ignored) :int {

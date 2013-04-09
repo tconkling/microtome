@@ -11,10 +11,15 @@ import microtome.core.LibraryItemBase;
 import microtome.core.MicrotomeItem;
 import microtome.core.microtome_internal;
 import microtome.error.MicrotomeError;
+import microtome.util.Util;
 
 public final class Library
     implements MicrotomeItem
 {
+    public function get name () :String {
+        return null;
+    }
+
     public function get library () :Library {
         return this;
     }
@@ -23,8 +28,8 @@ public final class Library
         return null;
     }
 
-    public function get name () :String {
-        return null;
+    public function get children () :Array {
+        return Util.dictToArray(_items);
     }
 
     public function getItemWithQualifiedName (qualifiedName :String) :* {

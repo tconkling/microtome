@@ -211,7 +211,7 @@ public final class MicrotomeMgr
     public function saveTome (writer :WritableObject, tome :MutableTome) :void {
         writer.writeString(Defs.PAGE_TYPE_ATTR, Util.pageTypeName(tome.pageClass));
         writer.writeBool(Defs.IS_TOME_ATTR, true);
-        for each (var page :MutablePage in tome.getAllPages().sortOn("name")) {
+        for each (var page :MutablePage in tome.children.sortOn("name")) {
             savePage(writer.addChild(page.name), page);
         }
     }

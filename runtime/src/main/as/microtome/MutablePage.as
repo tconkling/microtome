@@ -3,6 +3,7 @@
 
 package microtome {
 
+import microtome.core.LibraryItem;
 import microtome.core.LibraryItemBase;
 import microtome.core.TypeInfo;
 import microtome.prop.ObjectProp;
@@ -22,6 +23,16 @@ public class MutablePage extends LibraryItemBase
             _typeInfo = new TypeInfo(ClassUtil.getClass(this), null);
         }
         return _typeInfo;
+    }
+
+    override public final function get children () :Array {
+        var out :Array = [];
+        for each (var prop :Prop in this.props) {
+            if (prop.value is LibraryItem) {
+                out.push(prop.value);
+            }
+        }
+        return out;
     }
 
     override public final function childNamed (name :String) :* {

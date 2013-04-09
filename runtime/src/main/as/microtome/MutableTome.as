@@ -10,6 +10,7 @@ import microtome.core.TypeInfo;
 import microtome.core.microtome_internal;
 import microtome.error.MicrotomeError;
 import microtome.util.ClassUtil;
+import microtome.util.Util;
 
 public final class MutableTome extends LibraryItemBase
     implements Tome
@@ -31,14 +32,8 @@ public final class MutableTome extends LibraryItemBase
         return _size;
     }
 
-    public function getAllPages (out :Array = null) :Array {
-        const pages :Vector.<Page> = getPageList();
-        out = (out || []);
-        out.length = 0;
-        for (var ii :int = 0; ii < _size; ++ii) {
-            out.push(pages[ii]);
-        }
-        return out;
+    override public function get children () :Array {
+        return Util.dictToArray(_pages);
     }
 
     override public function childNamed (name :String) :* {
@@ -85,7 +80,6 @@ public final class MutableTome extends LibraryItemBase
 
         page.microtome_internal::setParent(this);
         _pages[page.name] = page;
-        _pageList = null;
         _size++;
     }
 
@@ -95,25 +89,11 @@ public final class MutableTome extends LibraryItemBase
         }
         page.microtome_internal::setParent(null);
         delete _pages[page.name];
-        _pageList = null;
         _size--;
-    }
-
-    protected function getPageList () :Vector.<Page> {
-        if (_pageList == null) {
-            _pageList = new Vector.<Page>(_size, true);
-            var ii :int = 0;
-            for each (var page :Page in _pages) {
-                _pageList[ii++] = page;
-            }
-        }
-        return _pageList;
     }
 
     protected var _type :TypeInfo;
     protected var _pages :Dictionary = new Dictionary();
     protected var _size :int;
-
-    protected var _pageList :Vector.<Page>; // lazily instantiated
 }
 }

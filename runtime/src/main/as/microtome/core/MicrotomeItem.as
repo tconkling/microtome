@@ -11,5 +11,6 @@ public interface MicrotomeItem
     function get name () :String;
     function get library () :Library;
     function get parent () :MicrotomeItem;
+    function get children () :Array; // Array<LibraryItem>
 }
 }

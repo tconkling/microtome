@@ -45,6 +45,10 @@ public class LibraryItemBase
         throw new Error("abstract");
     }
 
+    public function get children () :Array {
+        throw new Error("abstract");
+    }
+
     public function childNamed (name :String) :* {
         throw new Error("abstract");
     }

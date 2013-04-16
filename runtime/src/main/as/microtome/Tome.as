@@ -14,7 +14,7 @@ public interface Tome extends LibraryItem
     function get pageClass () :Class;
 
     /** @return the number of Pages in the Tome */
-    function get size () :int;
+    function get length () :uint;
 
     /** @return the Page with the given name, or null if no such page is in the Tome */
     function getPage (name :String) :*;

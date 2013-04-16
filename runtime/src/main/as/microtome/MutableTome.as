@@ -28,8 +28,8 @@ public final class MutableTome extends LibraryItemBase
         return _type.subtype.clazz;
     }
 
-    public function get size () :int {
-        return _size;
+    public function get length () :uint {
+        return _length;
     }
 
     override public function get children () :Array {
@@ -80,7 +80,7 @@ public final class MutableTome extends LibraryItemBase
 
         page.microtome_internal::setParent(this);
         _pages[page.name] = page;
-        _size++;
+        _length++;
     }
 
     public function removePage (page :MutablePage) :void {
@@ -89,11 +89,11 @@ public final class MutableTome extends LibraryItemBase
         }
         page.microtome_internal::setParent(null);
         delete _pages[page.name];
-        _size--;
+        _length--;
     }
 
     protected var _type :TypeInfo;
     protected var _pages :Dictionary = new Dictionary();
-    protected var _size :int;
+    protected var _length :uint;
 }
 }

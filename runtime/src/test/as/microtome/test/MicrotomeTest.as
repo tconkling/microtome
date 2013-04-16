@@ -61,7 +61,7 @@ public class MicrotomeTest extends Sprite
         loadXml(TOME_TEST_XML);
 
         var tome :Tome = _library.getItem("tomeTest");
-        assertEquals(tome.size, 2);
+        assertEquals(tome.length, 2);
         _library.removeAllItems();
     }
 

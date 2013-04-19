@@ -337,7 +337,9 @@ public final class MicrotomeMgr
         }
 
         for each (var item :LibraryItem in task.libraryItems) {
-            task.library.removeItem(item);
+            if (task.library == item.library) {
+                task.library.removeItem(item);
+            }
         }
         task.state = LoadTask.ABORTED;
     }

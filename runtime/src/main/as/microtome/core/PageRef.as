@@ -41,7 +41,9 @@ public final class PageRef
     }
 
     public function clone () :PageRef {
-        return new PageRef(_pageName);
+        var out :PageRef = new PageRef(_pageName);
+        out._page = _page;
+        return out;
     }
 
     protected var _pageName :String;

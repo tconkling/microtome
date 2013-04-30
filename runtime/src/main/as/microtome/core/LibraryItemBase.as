@@ -5,11 +5,15 @@ package microtome.core {
 
 import microtome.Library;
 import microtome.error.MicrotomeError;
+import microtome.util.Util;
 
 public class LibraryItemBase
     implements MicrotomeItem
 {
     public function LibraryItemBase (name :String) {
+        if (!Util.validLibraryItemName(name)) {
+            throw new ArgumentError("Invalid library item name '" + name + "'");
+        }
         _name = name;
     }
 

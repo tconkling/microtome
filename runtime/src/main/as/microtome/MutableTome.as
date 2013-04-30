@@ -40,6 +40,10 @@ public final class MutableTome extends LibraryItemBase
         return this.getPage(name);
     }
 
+    public function hasPage (name :String) :Boolean {
+        return (_pages[name] != null);
+    }
+
     public function getPage (name :String) :* {
         return _pages[name];
     }

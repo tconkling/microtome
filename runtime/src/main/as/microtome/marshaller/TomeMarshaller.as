@@ -26,7 +26,7 @@ public class TomeMarshaller extends ObjectMarshaller
     }
 
     override public function writeValue (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {
-        mgr.saveTome(writer, MutableTome(obj));
+        mgr.writeTome(writer, MutableTome(obj));
     }
 
     override public function resolveRefs (mgr :MicrotomeMgr, obj :*, type :TypeInfo) :void {

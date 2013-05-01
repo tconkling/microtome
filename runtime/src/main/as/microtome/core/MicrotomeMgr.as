@@ -182,18 +182,18 @@ public final class MicrotomeMgr
         return page;
     }
 
-    public function save (item :LibraryItem, writer :WritableObject) :void {
+    public function write (item :LibraryItem, writer :WritableObject) :void {
         const itemWriter :WritableObject = writer.addChild(item.name);
         if (item is MutablePage) {
-            savePage(itemWriter, MutablePage(item));
+            writePage(itemWriter, MutablePage(item));
         } else if (item is MutableTome) {
-            saveTome(itemWriter, MutableTome(item));
+            writeTome(itemWriter, MutableTome(item));
         } else {
             throw new MicrotomeError("Unrecognized LibraryItem", "item", item);
         }
     }
 
-    public function savePage (writer :WritableObject, page :MutablePage) :void {
+    public function writePage (writer :WritableObject, page :MutablePage) :void {
         writer.writeString(Defs.PAGE_TYPE_ATTR, Util.pageTypeName(ClassUtil.getClass(page)));
 
         // TODO: template suppport...
@@ -208,11 +208,11 @@ public final class MicrotomeMgr
         }
     }
 
-    public function saveTome (writer :WritableObject, tome :MutableTome) :void {
+    public function writeTome (writer :WritableObject, tome :MutableTome) :void {
         writer.writeString(Defs.PAGE_TYPE_ATTR, Util.pageTypeName(tome.pageClass));
         writer.writeBool(Defs.IS_TOME_ATTR, true);
         for each (var page :MutablePage in tome.children.sortOn("name")) {
-            savePage(writer.addChild(page.name), page);
+            writePage(writer.addChild(page.name), page);
         }
     }
 

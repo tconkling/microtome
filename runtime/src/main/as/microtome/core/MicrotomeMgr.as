@@ -46,8 +46,8 @@ public final class MicrotomeMgr
     public function registerPageClasses (classes :Vector.<Class>) :void {
         for each (var clazz :Class in classes) {
             if (!ClassUtil.isAssignableAs(MutablePage, clazz)) {
-                throw new Error("Class must extend " + ClassUtil.getClassName(MutablePage) +
-                    " [pageClass=" + ClassUtil.getClassName(clazz) + "]");
+                throw new MicrotomeError("Class must extend " + ClassUtil.getClassName(MutablePage),
+                    "pageClass", ClassUtil.getClassName(clazz));
             }
 
             _pageClasses[Util.pageTypeName(clazz)] = clazz;
@@ -73,7 +73,7 @@ public final class MicrotomeMgr
         }
 
         if (marshaller == null) {
-            throw new Error("No DataMarshaller for '" + ClassUtil.getClassName(clazz) + "'");
+            throw new MicrotomeError("No DataMarshaller for '" + ClassUtil.getClassName(clazz) + "'");
         }
 
         return marshaller;
@@ -97,7 +97,7 @@ public final class MicrotomeMgr
 
     public function load (library :Library, dataElements :Vector.<ReadableObject>) :void {
         if (_loadTask != null) {
-            throw new Error("Load already in progress");
+            throw new MicrotomeError("Load already in progress");
         }
         _loadTask = new LoadTask(library);
 

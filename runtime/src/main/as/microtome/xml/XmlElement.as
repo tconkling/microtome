@@ -20,7 +20,8 @@ internal class XmlElement
     }
 
     public function get debugDescription () :String {
-        return toXMLString(_xml);
+        var out :String = toXMLString(_xml, { prettyIndent: 2, prettyPrinting: true });
+        return out.split("\n")[0];
     }
 
     public function get children () :Vector.<ReadableObject> {
@@ -59,7 +60,7 @@ internal class XmlElement
         try {
             return Util.parseInteger(attr);
         } catch (e :Error) {
-            throw new LoadError(this, "attribute is not an int", "name", name, "value", attr);
+            throw new LoadError(this, "attribute is not an int", "name", name).initCause(e);
         }
         return 0;
     }
@@ -69,7 +70,7 @@ internal class XmlElement
         try {
             return Util.parseNumber(attr);
         } catch (e :Error) {
-            throw new LoadError(this, "attribute is not a Number", "name", name, "value", attr);
+            throw new LoadError(this, "attribute is not a Number", "name", name).initCause(e);
         }
         return 0;
     }

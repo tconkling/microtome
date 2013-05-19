@@ -30,3 +30,8 @@ class PageRef(object):
             raise ResolveRefError("Wrong page type [name=%s, expectedType=%s, actualType=%s" %
                                  (self._page_name, str(page_class), str(item.__class__)))
         self._page = item
+
+    def clone(self):
+        out = PageRef(self._page_name)
+        out._page = self._page
+        return out

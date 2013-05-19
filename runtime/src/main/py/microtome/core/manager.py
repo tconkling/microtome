@@ -3,16 +3,21 @@
 
 import logging
 
-from ctx import MicrotomeCtx
+from ..ctx import MicrotomeCtx
+from marshaller.bool_marshaller import BoolMarshaller
+from marshaller.int_marshaller import IntMarshaller
 
 class MicrotomeMgr(MicrotomeCtx):
     def __init__(self):
-        pass
+        self._data_marshallers = {}
+        self._page_classes = {}
+        self.register_data_marshaller(BoolMarshaller())
+        self.register_data_marshaller(IntMarshaller())
 
-    def registerPageClasses(self, classes):
+    def register_page_classes(self, classes):
         raise NotImplementedError()
 
-    def registerDataMarshaller(self, marshaller):
+    def register_data_marshaller(self, marshaller):
         raise NotImplementedError()
 
     def load(self, library, data):

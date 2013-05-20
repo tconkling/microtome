@@ -3,10 +3,11 @@
 
 from abc import ABCMeta, abstractmethod
 
-import core.manager
 
 def createCtx():
+    import core.manager
     return core.manager.MicrotomeMgr()
+
 
 class MicrotomeCtx(object):
     __metaclass__ = ABCMeta
@@ -20,7 +21,7 @@ class MicrotomeCtx(object):
         pass
 
     @abstractmethod
-    def load(self, library, data):
+    def load(self, library, readable_objects):
         pass
 
     @abstractmethod

@@ -1,8 +1,9 @@
 #
 # microtome
 
-from core.item import MicrotomeItem, LibraryItem
 import core.defs as Defs
+from error import MicrotomeError
+from core.item import MicrotomeItem, LibraryItem
 
 class Library(MicrotomeItem):
     def __init__(self):
@@ -35,5 +36,28 @@ class Library(MicrotomeItem):
                 return None
         return item
 
-if __name__ == "__main__":
-    print str(isinstance(None, Library))
+    def get_item(self, name):
+        return self._items.get(name, None)
+
+    def has_item(self, name):
+        return name in self._items
+
+    def add_item(self, item):
+        if self.has_item(item.name):
+            raise MicrotomeError("An item with that name already exists [name=%s]" % item.name)
+        elif item.parent is not None:
+            raise MicrotomeError("Item is already in a library [item=%s]" % str(item))
+
+        item._parent = self
+        self._items[item.name] = item
+
+    def remove_item(self, item):
+        if item.parent != self:
+            raise MicrotomeError("Item is not in this library [item=%s]" % str(item))
+        item._parent = None
+        del self._items[item.name]
+
+    def remove_all_items(self):
+        for item in self._items:
+            item._parent = None
+        self._items = {}

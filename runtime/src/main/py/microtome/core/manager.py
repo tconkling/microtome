@@ -31,7 +31,7 @@ class MicrotomeMgr(MicrotomeCtx):
         self.register_data_marshaller(StringMarshaller())
         self.register_data_marshaller(TomeMarshaller())
 
-    def register_page_classes(self, classes):
+    def register_page_classes(self, *classes):
         for clazz in classes:
             if not issubclass(clazz, Page):
                 raise MicrotomeError("Class must extend %s [page_class=%s]" % (str(Page), str(clazz)))

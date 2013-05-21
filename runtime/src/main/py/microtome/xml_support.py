@@ -7,12 +7,12 @@ from microtome.core.reader import ReadableObject
 from microtome.error import LoadError
 
 
-def readers_from_xml_strings(xml_strings):
+def readers_from_xml_strings(*xml_strings):
     return [XmlObject(root) for root in
             [ElementTree.fromstring(xml_string) for xml_string in xml_strings]]
 
 
-def readers_from_files(filenames):
+def readers_from_files(*filenames):
     return [XmlObject(tree.getroot()) for tree in
             [ElementTree.parse(filename) for filename in filenames]]
 

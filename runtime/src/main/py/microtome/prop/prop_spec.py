@@ -28,7 +28,7 @@ class PropSpec(object):
         if annotations is not None:
             self._annotations = {item[0]: PropAnnotation(item[1]) for item in annotations.items()}
         else:
-            self._annotations = _EMPTY_DICT
+            self._annotations = PropSpec._EMPTY_DICT
         self.value_type = TypeInfo.from_classes(value_classes) if value_classes else None
 
     def has_annotation(self, name):

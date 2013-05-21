@@ -4,7 +4,7 @@
 from abc import ABCMeta, abstractmethod
 
 
-def createCtx():
+def create_ctx():
     import microtome.core.manager
     return microtome.core.manager.MicrotomeMgr()
 
@@ -13,7 +13,7 @@ class MicrotomeCtx(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def register_page_classes(self, classes):
+    def register_page_classes(self, *classes):
         pass
 
     @abstractmethod
@@ -31,7 +31,3 @@ class MicrotomeCtx(object):
     @abstractmethod
     def clone(self, item):
         return None
-
-
-if __name__ == "__main__":
-    createCtx()

@@ -1,9 +1,9 @@
 #
 # microtome
 
-import core.defs as Defs
-from error import MicrotomeError
-from core.item import MicrotomeItem, LibraryItem
+import microtome.core.defs as Defs
+from microtome.error import MicrotomeError
+from microtome.core.item import MicrotomeItem, LibraryItem
 
 class Library(MicrotomeItem):
     def __init__(self):

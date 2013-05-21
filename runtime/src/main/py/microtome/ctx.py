@@ -5,8 +5,8 @@ from abc import ABCMeta, abstractmethod
 
 
 def createCtx():
-    import core.manager
-    return core.manager.MicrotomeMgr()
+    import microtome.core.manager
+    return microtome.core.manager.MicrotomeMgr()
 
 
 class MicrotomeCtx(object):

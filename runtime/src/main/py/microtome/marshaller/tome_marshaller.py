@@ -1,8 +1,8 @@
 #
 # microtome
 
-from data_marshaller import ObjectMarshaller
-from tome import Tome
+from microtome.marshaller.data_marshaller import ObjectMarshaller
+from microtome.tome import Tome
 
 class TomeMarshaller(ObjectMarshaller):
     def __init__(self):

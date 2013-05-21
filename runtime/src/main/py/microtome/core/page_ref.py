@@ -1,7 +1,7 @@
 #
 # microtome
 
-from error import ResolveRefError
+from microtome.error import ResolveRefError
 
 class PageRef(object):
     @classmethod

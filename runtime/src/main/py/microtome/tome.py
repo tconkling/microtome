@@ -1,9 +1,9 @@
 #
 # microtome
 
-from core.item import LibraryItemBase
-from core.type_info import TypeInfo
-from error import MicrotomeError
+from microtome.core.item import LibraryItemBase
+from microtome.core.type_info import TypeInfo
+from microtome.error import MicrotomeError
 
 class Tome(LibraryItemBase):
     def __init__(self, name, page_class):

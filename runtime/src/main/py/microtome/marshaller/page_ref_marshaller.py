@@ -1,8 +1,8 @@
 #
 # microtome
 
-from data_marshaller import ObjectMarshaller
-from core.page_ref import PageRef
+from microtome.marshaller.data_marshaller import ObjectMarshaller
+from microtome.core.page_ref import PageRef
 
 class PageRefMarshaller(ObjectMarshaller):
     def __init__(self):

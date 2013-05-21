@@ -1,7 +1,7 @@
 #
 # microtome
 
-from data_marshaller import PrimitiveMarshaller
+from microtome.marshaller.data_marshaller import PrimitiveMarshaller
 
 class BoolMarshaller(PrimitiveMarshaller):
     def __init__(self):

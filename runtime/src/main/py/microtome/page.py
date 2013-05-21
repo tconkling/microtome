@@ -1,9 +1,9 @@
 #
 # microtome
 
-from core.item import LibraryItem, LibraryItemBase
-from core.type_info import TypeInfo
-import util.util
+from microtome.core.item import LibraryItem, LibraryItemBase
+from microtome.core.type_info import TypeInfo
+import microtome.util as util
 
 _EMPTY_LIST = []
 
@@ -23,7 +23,7 @@ class Page(LibraryItemBase):
         return [prop for prop in self.props if isinstance(prop, LibraryItem)]
 
     def child_named(self, name):
-        prop = util.util.get_prop(self, name)
+        prop = util.get_prop(self, name)
         return prop
 
     @property

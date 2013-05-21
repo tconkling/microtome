@@ -3,7 +3,7 @@
 
 from abc import ABCMeta, abstractmethod, abstractproperty
 
-from error import LoadError
+from microtome.error import LoadError
 
 class DataReader(object):
     def __init__(self, readable_object):

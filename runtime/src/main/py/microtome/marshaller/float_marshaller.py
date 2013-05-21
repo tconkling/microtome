@@ -1,9 +1,9 @@
 #
 # microtome
 
-from error import ValidationError
-from data_marshaller import PrimitiveMarshaller
-import core.defs as Defs
+from microtome.error import ValidationError
+from microtome.marshaller.data_marshaller import PrimitiveMarshaller
+import microtome.core.defs as Defs
 
 class FloatMarshaller(PrimitiveMarshaller):
     def __init__(self):

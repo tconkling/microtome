@@ -3,7 +3,7 @@
 
 from abc import ABCMeta, abstractmethod, abstractproperty
 
-from error import ValidationError
+from microtome.error import ValidationError
 
 
 class DataMarshaller(object):
@@ -130,6 +130,9 @@ class ObjectMarshaller(DataMarshaller):
         # handle null data
         return self.clone_object(mgr, data, type_info) if data else None
 
+    def read_default(self, mgr, type_info, annotation):
+        raise NotImplementedError()
+
     @abstractmethod
     def clone_object(self, mgr, obj, type_info):
         '''Clone the given object. It is guaranteed not to be None'''
@@ -141,5 +144,3 @@ class ObjectMarshaller(DataMarshaller):
         elif prop.value and not isinstance(prop.value, self.value_class):
             raise ValidationError(prop, "incompatible value type [required=%s, actual=%s]" %
                                   (self.value_class.__name__, prop.value.__class__.__name__))
-
-

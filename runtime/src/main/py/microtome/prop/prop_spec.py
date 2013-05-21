@@ -1,7 +1,7 @@
 #
 # microtome
 
-from core.type_info import TypeInfo
+from microtome.core.type_info import TypeInfo
 
 class PropAnnotation(object):
     def __init__(self, value):

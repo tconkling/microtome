@@ -1,7 +1,7 @@
 #
 # microtome
 
-from data_marshaller import ObjectMarshaller
+from microtome.marshaller.data_marshaller import ObjectMarshaller
 
 class StringMarshaller(ObjectMarshaller):
     def __init__(self):

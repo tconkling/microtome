@@ -1,12 +1,12 @@
 #
 # microtome
 
-from data_marshaller import ObjectMarshaller
-from core.item import MicrotomeItem
+from microtome.marshaller.data_marshaller import ObjectMarshaller
+from microtome.core.item import MicrotomeItem
 
 class ListMarshaller(ObjectMarshaller):
     def __init__(self):
-        ObjectMarshaller.__init__(False)
+        ObjectMarshaller.__init__(self, False)
 
     @property
     def value_class(self):

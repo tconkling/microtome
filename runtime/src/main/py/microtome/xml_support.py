@@ -3,8 +3,8 @@
 
 import xml.etree.ElementTree as ElementTree
 
-from core.reader import ReadableObject
-from error import LoadError
+from microtome.core.reader import ReadableObject
+from microtome.error import LoadError
 
 
 def readers_from_xml_strings(xml_strings):

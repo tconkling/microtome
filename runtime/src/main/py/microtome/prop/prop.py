@@ -1,9 +1,8 @@
 #
 # microtome
 
-from core.item import LibraryItemBase
-from prop_spec import PropSpec
-import core.defs as Defs
+from microtome.core.item import LibraryItemBase
+import microtome.core.defs as Defs
 
 class Prop(object):
     def __init__(self, page, spec):

@@ -1,21 +1,21 @@
 #
 # microtome
 
-import util.util
-from ctx import MicrotomeCtx
-from page import Page
-from tome import Tome
-from error import MicrotomeError, LoadError
-from core.reader import DataReader
-import core.defs as Defs
-from marshaller.bool_marshaller import BoolMarshaller
-from marshaller.int_marshaller import IntMarshaller
-from marshaller.float_marshaller import FloatMarshaller
-from marshaller.list_marshaller import ListMarshaller
-from marshaller.page_marshaller import PageMarshaller
-from marshaller.page_ref_marshaller import PageRefMarshaller
-from marshaller.string_marshaller import StringMarshaller
-from marshaller.tome_marshaller import TomeMarshaller
+import microtome.util as util
+import microtome.core.defs as Defs
+from microtome.ctx import MicrotomeCtx
+from microtome.page import Page
+from microtome.tome import Tome
+from microtome.error import MicrotomeError, LoadError
+from microtome.core.reader import DataReader
+from microtome.marshaller.bool_marshaller import BoolMarshaller
+from microtome.marshaller.int_marshaller import IntMarshaller
+from microtome.marshaller.float_marshaller import FloatMarshaller
+from microtome.marshaller.list_marshaller import ListMarshaller
+from microtome.marshaller.page_marshaller import PageMarshaller
+from microtome.marshaller.page_ref_marshaller import PageRefMarshaller
+from microtome.marshaller.string_marshaller import StringMarshaller
+from microtome.marshaller.tome_marshaller import TomeMarshaller
 
 class MicrotomeMgr(MicrotomeCtx):
     def __init__(self):

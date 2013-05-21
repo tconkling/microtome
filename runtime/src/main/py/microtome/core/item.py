@@ -3,8 +3,8 @@
 
 from abc import ABCMeta, abstractmethod, abstractproperty
 
-from error import MicrotomeError
-import defs
+from microtome.error import MicrotomeError
+import microtome.core.defs as Defs
 
 class MicrotomeItem(object):
     __metaclass__ = ABCMeta
@@ -54,7 +54,7 @@ class LibraryItemBase(LibraryItem):
         out = self._name
         cur_item = self._parent
         while cur_item and cur_item.library != cur_item:
-            out = cur_item.name + defs.NAME_SEPARATOR + out
+            out = cur_item.name + Defs.NAME_SEPARATOR + out
             cur_item = cur_item.parent
 
         return out

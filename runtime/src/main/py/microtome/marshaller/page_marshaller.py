@@ -1,9 +1,9 @@
 #
 # microtome
 
-from data_marshaller import ObjectMarshaller
-from page import Page
-from error import ResolveRefError
+from microtome.marshaller.data_marshaller import ObjectMarshaller
+from microtome.page import Page
+from microtome.error import ResolveRefError
 
 class PageMarshaller(ObjectMarshaller):
     def __init__(self):

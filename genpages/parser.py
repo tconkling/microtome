@@ -32,7 +32,7 @@ QUALIFIED_TYPENAME = re.compile("({0})?{1}".format(NAMESPACE.pattern, TYPENAME.p
 
 WHITESPACE_AND_COMMENTS = re.compile(r'(\s*(//.*$)?)+', re.MULTILINE)
 
-LOG = logging.getLogger("parser")
+LOG = logging.getLogger(__name__)
 
 
 def parse_document(string):

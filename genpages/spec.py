@@ -25,7 +25,7 @@ PARAMETERIZED_TYPES = set([ ListType, PageRefType, TomeType ])
 ALL_TYPES = set([ BoolType, IntType, FloatType, StringType, ListType, PageRefType, TomeType ])
 
 # cannot be used as variable names
-RESERVED_NAMES = set(["pageType", "isTome", "props", "name"])
+RESERVED_NAMES = set(["pageType", "isTome", "props", "name", "library", "parent", "children"])
 
 
 def type_spec_to_list(type_spec):

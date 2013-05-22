@@ -7,7 +7,7 @@ from collections import namedtuple, OrderedDict
 
 Section = namedtuple("Section", ["name", "contents", "disabled"])
 
-LOG = logging.getLogger("sourcemerger")
+LOG = logging.getLogger(__name__)
 
 
 class Matcher(object):

@@ -102,11 +102,11 @@ class MicrotomeMgr(MicrotomeCtx):
                 for ii in range(len(self._load_task.pending_templated_pages)):
                     templated_page = self._load_task.pending_templated_pages[ii]
                     template = self._load_task.library.get_item_with_qualified_name(templated_page.template_name)
-                    if template is None:
-                        continue
-                    self.load_page_props(templated_page.page, templated_page.reader, template)
-                    self._load_task.pending_templated_pages.pop(ii)
-                    found_template = True
+                    if template is not None and not self._load_task.is_pending_templated_page(template):
+                        self._load_task.pending_templated_pages.pop(ii)
+                        self._load_page_props(templated_page.page, templated_page.reader, template)
+                        found_template = True
+                        break
 
             # throw an error if we're missing a template
             if len(self._load_task.pending_templated_pages) > 0:
@@ -167,6 +167,7 @@ class MicrotomeMgr(MicrotomeCtx):
             t_prop = None
             if template is not None:
                 t_prop = util.get_prop(template, prop.name)
+                LOG.debug("template prop [page=%s, prop=%s]" % (template, t_prop))
                 if t_prop is None:
                     raise LoadError(reader.data, "Missing prop in template [template=%s, prop=%s]" % (template.name, prop.name))
 
@@ -273,6 +274,12 @@ class LoadTask(object):
         if self.state != LoadTask.LOADING:
             raise MicrotomeError("state != LOADING")
         self._library_items.append(item)
+
+    def is_pending_templated_page(self, page):
+        for tpage in self.pending_templated_pages:
+            if tpage.page == page:
+                return True
+        return False
 
     def __iter__(self):
         return self._library_items.__iter__()

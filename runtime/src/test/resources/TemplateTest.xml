@@ -1,5 +1,5 @@
 <microtome>
-   <test0 pageType='PrimitivePage' foo='true' bar='2' baz='3.1415'/>
-   <test2 pageType='PrimitivePage' template='test1' baz='666'/>
-   <test1 pageType='PrimitivePage' template='test0'/>
+   <templateTest0 pageType='PrimitivePage' foo='true' bar='2' baz='3.1415'/>
+   <templateTest2 pageType='PrimitivePage' template='templateTest1' baz='666'/>
+   <templateTest1 pageType='PrimitivePage' template='templateTest0'/>
 </microtome>

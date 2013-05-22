@@ -26,11 +26,14 @@ if __name__ == "__main__":
         ctx = microtome.ctx.create_ctx()
         ctx.register_page_classes([PrimitivePage, ListPage, AnnotationPage, RefPage])
         readers = microtome.xml_support.readers_from_files(
-            resource("PrimitiveTest.xml"),
-            resource("ListTest.xml"),
             resource("AnnotationTest.xml"),
-            resource("TomeTest.xml"),
-            resource("RefTest.xml"))
+            resource("ListTest.xml"),
+            # resource("NestedTest.xml"),
+            # resource("ObjectTest.xml"),
+            resource("PrimitiveTest.xml"),
+            resource("RefTest.xml"),
+            resource("TemplateTest.xml"),
+            resource("TomeTest.xml"))
         ctx.load(lib, readers)
         LOG.info(lib.get("primitiveTest").foo)
         LOG.info(len(lib.get("listTest").kids))
@@ -38,5 +41,7 @@ if __name__ == "__main__":
         LOG.info(lib.get("annotationTest").primitives)
         LOG.info(lib.get("annotationTest").bar)
         LOG.info(lib.get("refTest").nested.baz)
+        LOG.info(lib.get("templateTest2").bar)
+        LOG.info(lib.get("templateTest2").baz)
     except MicrotomeError as e:
         print e.stacktrace

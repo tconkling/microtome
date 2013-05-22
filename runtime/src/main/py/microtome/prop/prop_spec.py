@@ -8,19 +8,19 @@ class PropAnnotation(object):
         self._value = value
 
     def bool_value(self, default):
-        return self._typed_value(bool, default)
+        return self._value if type(self._value) == bool else default
 
     def int_value(self, default):
-        return self._typed_value(int, default)
+        return int(self.number_value(default))
 
     def float_value(self, default):
-        return self._typed_value(float, default)
+        return float(self.number_value(default))
+
+    def number_value(self, default):
+        return self._value if isinstance(self._value, int) or isinstance(self._value, float) else default
 
     def string_value(self, default):
         return self._value if isinstance(self._value, basestring) else default
-
-    def _typed_value(self, the_type, default):
-        return self._value if type(self._value) == the_type else default
 
 class PropSpec(object):
     def __init__(self, name, annotations, value_classes):

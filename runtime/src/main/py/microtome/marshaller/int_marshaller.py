@@ -10,10 +10,10 @@ class IntMarshaller(PrimitiveMarshaller):
         PrimitiveMarshaller.__init__(self, int)
 
     def validate_prop(self, prop):
-        min_val = prop.annotation(Defs.MIN_ANNOTATION).int_value(float('-inf'))
+        min_val = prop.annotation(Defs.MIN_ANNOTATION).number_value(float('-inf'))
         if prop.value < min_val:
             raise ValidationError(prop, "value too small (%d < %d)" % (prop.value, min_val))
-        max_val = prop.annotation(Defs.MAX_ANNOTATION).int_value(float('inf'))
+        max_val = prop.annotation(Defs.MAX_ANNOTATION).number_value(float('inf'))
         if prop.value > max_val:
             raise ValidationError(prop, "value too large (%d > %d)" % (prop.value, max_val))
 

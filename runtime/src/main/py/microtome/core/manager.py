@@ -1,6 +1,8 @@
 #
 # microtome
 
+import logging
+
 import microtome.util as util
 import microtome.core.defs as Defs
 from microtome.ctx import MicrotomeCtx
@@ -17,6 +19,8 @@ from microtome.marshaller.page_marshaller import PageMarshaller
 from microtome.marshaller.page_ref_marshaller import PageRefMarshaller
 from microtome.marshaller.string_marshaller import StringMarshaller
 from microtome.marshaller.tome_marshaller import TomeMarshaller
+
+LOG = logging.getLogger(__name__)
 
 class MicrotomeMgr(MicrotomeCtx):
     def __init__(self):
@@ -36,7 +40,7 @@ class MicrotomeMgr(MicrotomeCtx):
         for clazz in classes:
             if not issubclass(clazz, Page):
                 raise MicrotomeError("Class must extend %s [page_class=%s]" % (str(Page), str(clazz)))
-        self._page_classes[util.page_typename(clazz)] = clazz
+            self._page_classes[util.page_typename(clazz)] = clazz
 
     def register_data_marshallers(self, marshallers):
         for marshaller in marshallers:
@@ -45,6 +49,7 @@ class MicrotomeMgr(MicrotomeCtx):
     def require_data_marshaller(self, clazz):
         marshaller = self._data_marshallers.get(clazz, None)
         if marshaller is None:
+            LOG.debug("No exact-match marshaller for '%s', trying to find a compatible one" % str(clazz))
             # if we can't find an exact match, see if we have a handler for a superclass that can
             # take subclasses
             for candidate in self._data_marshallers.values():
@@ -64,7 +69,7 @@ class MicrotomeMgr(MicrotomeCtx):
     def require_page_class(self, name, required_superclass=None):
         clazz = self.get_page_class(name)
         if clazz is None:
-            raise LoadError(None, "No such page class [name=%s]", name)
+            raise LoadError(None, "No such page class [name=%s]" % name)
         elif required_superclass is not None and not issubclass(clazz, required_superclass):
             raise LoadError(None, "Unexpected page class [required=%s, got=%s]" %
                             (str(required_superclass), str(clazz)))

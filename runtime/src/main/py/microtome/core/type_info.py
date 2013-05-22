@@ -21,3 +21,17 @@ class TypeInfo(object):
     @property
     def subtype(self):
         return self._subtype
+
+    def __str__(self):
+        return "TypeInfo: " + self._tostring()
+
+    def _tostring(self):
+        out = self._clazz.__name__
+        if self._subtype is not None:
+            out += "<" + self._subtype._tostring() + ">"
+        return out
+
+
+if __name__ == "__main__":
+    info = TypeInfo.from_classes(list, int, bool)
+    print str(info)

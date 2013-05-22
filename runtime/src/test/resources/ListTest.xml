@@ -1,0 +1,8 @@
+<microtome>
+    <listTest pageType="ListPage">
+        <kids>
+            <test1 pageType='PrimitivePage' foo='true' bar='2' baz='3.1415'/>
+            <test2 pageType='PrimitivePage' foo='false' bar='666' baz='0.1'/>
+        </kids>
+    </listTest>
+</microtome>

@@ -46,3 +46,6 @@ class Prop(object):
 
     def annotation(self, name):
         return self._spec.get_annotation(name)
+
+    def __str__(self):
+        return "[name=%s, value_type=%s, value=%s]" % (self.name, self.value_type, str(self.value))

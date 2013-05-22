@@ -32,7 +32,7 @@ class PageMarshaller(ObjectMarshaller):
                 except ResolveRefError:
                     raise
                 except Exception as e:
-                    raise ResolveRefError("Failed to resolve ref [page=%s, cause=%s]" % (page.qualified_name, str(e)))
+                    raise ResolveRefError("Failed to resolve ref [page=%s]" % page.qualified_name, cause=e)
 
     def clone_object(self, mgr, page, type_info):
         clazz = page.__class__

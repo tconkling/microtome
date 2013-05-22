@@ -1,10 +1,11 @@
 #
 # microtome
 
+import types
+
 from microtome.page import Page
 from microtome.core.prop import Prop, PropSpec
 from primitive_page import PrimitivePage
-import types
 
 class ListPage(Page):
     def __init__(self, name):

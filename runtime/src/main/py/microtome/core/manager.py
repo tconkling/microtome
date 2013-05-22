@@ -36,6 +36,10 @@ class MicrotomeMgr(MicrotomeCtx):
                                        StringMarshaller(),
                                        TomeMarshaller()])
 
+    @property
+    def library(self):
+        return self._load_task.library if self._load_task is not None else None
+
     def register_page_classes(self, classes):
         for clazz in classes:
             if not issubclass(clazz, Page):

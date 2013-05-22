@@ -60,22 +60,22 @@ class CausedException(Exception):
 
 class MicrotomeError(CausedException):
     def __init__(self, message, **kwargs):
-        super(MicrotomeError, self).__init__(message, **kwargs)
+        CausedException.__init__(self, message, **kwargs)
 
 
 class ValidationError(MicrotomeError):
     def __init__(self, prop, message, **kwargs):
         message = "Error validating '%s': %s" % (prop.name, message)
-        super(ValidationError, self).__init__(message, **kwargs)
+        CausedException.__init__(self, message, **kwargs)
 
 
 class LoadError(MicrotomeError):
     def __init__(self, bad_obj, msg, **kwargs):
         if bad_obj is not None:
             msg += "\ndata: " + bad_obj.debug_description
-        super(LoadError, self).__init__(msg, **kwargs)
+        CausedException.__init__(self, msg, **kwargs)
 
 
 class ResolveRefError(MicrotomeError):
     def __init__(self, message, **kwargs):
-        super(ResolveRefError, self).__init__(message, **kwargs)
+        CausedException.__init__(self, message, **kwargs)

@@ -27,12 +27,12 @@ class Library(MicrotomeItem, MutableMapping):
     def get_item_with_qualified_name(self, qualified_name):
         # A qualifiedName is a series of page and tome names, separated by dots
         # E.g. level1.baddies.big_boss
-        item = None
+        cur_item = self
         for name in qualified_name.split(Defs.NAME_SEPARATOR):
-            item = item.child_named(name) if item is not None else self._items.get(name, None)
-            if not isinstance(item, LibraryItem):
+            cur_item = cur_item.get(name)
+            if not isinstance(cur_item, LibraryItem):
                 return None
-        return item
+        return cur_item
 
     def add(self, item):
         if item.name in self._items:

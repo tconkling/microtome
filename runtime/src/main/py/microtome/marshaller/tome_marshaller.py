@@ -20,12 +20,12 @@ class TomeMarshaller(ObjectMarshaller):
 
     def resolve_refs(self, mgr, tome, type_info):
         page_marshaller = mgr.require_data_marshaller(tome.page_class)
-        for page in tome.children:
+        for page in tome.values():
             page_marshaller.resolve_refs(mgr, page, type_info.subtype)
 
     def clone_object(self, mgr, tome, type_info):
         page_marshaller = mgr.require_data_marshaller(tome.page_class)
         clone = Tome(tome.name, tome.page_class)
-        for page in tome.children:
+        for page in tome.values():
             clone.add_page(page_marshaller.clone_data(mgr, page, type_info.subtype))
         return clone

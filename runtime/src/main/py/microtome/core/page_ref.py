@@ -25,7 +25,7 @@ class PageRef(object):
     def resolve(self, library, page_class):
         item = library.get_item_with_qualified_name(self._page_name)
         if item is None:
-            raise ResolveRefError("No such item [name=%s]", self._page_name)
+            raise ResolveRefError("No such item [name=%s]" % self._page_name)
         elif not isinstance(item, page_class):
             raise ResolveRefError("Wrong page type [name=%s, expectedType=%s, actualType=%s" %
                                  (self._page_name, str(page_class), str(item.__class__)))

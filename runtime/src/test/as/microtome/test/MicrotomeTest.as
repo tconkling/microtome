@@ -89,12 +89,13 @@ public class MicrotomeTest extends Sprite
     protected function testTemplates () :void {
         loadXml(TEMPLATE_TEST_XML);
 
-        var page :PrimitivePage = _library.getItem("test1");
+        var page :PrimitivePage = _library.getItem("templateTest1");
         assertEquals(page.foo, true);
         assertEquals(page.bar, 2);
         assertEqualsWithAccuracy(page.baz, 3.1415, EPSILON);
 
-        page = _library.getItem("test2");
+        page = _library.getItem("templateTest2");
+        assertEquals(page.bar, 2);
         assertEqualsWithAccuracy(page.baz, 666.0, EPSILON);
 
         _library.removeAllItems();
@@ -103,7 +104,7 @@ public class MicrotomeTest extends Sprite
     protected function testAnnotations () :void {
         loadXml(ANNOTATION_TEST_XML);
 
-        var page :AnnotationPage = _library.getItem("test");
+        var page :AnnotationPage = _library.getItem("annotationTest");
         assertEquals(page.foo, 4);
         assertEquals(page.bar, 3);
         assertEquals(page.primitives, null);

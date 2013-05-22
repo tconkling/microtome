@@ -113,21 +113,20 @@ public final class MicrotomeMgr
             // Resolve all templated items:
             // Iterate through the array as many times as it takes to resolve all template-dependent
             // pages (some templates may themselves have templates in the pendingTemplatedPages).
-            // _pendingTemplatedPages can have items added to it during this process.
-            var foundTemplate :Boolean;
-            do {
+            var foundTemplate :Boolean = true;
+            while (foundTemplate) {
                 foundTemplate = false;
                 for (var ii :int = 0; ii < _loadTask.pendingTemplatedPages.length; ++ii) {
                     var tPage :TemplatedPage = _loadTask.pendingTemplatedPages[ii];
                     var tmpl :MutablePage = _loadTask.library.getItemWithQualifiedName(tPage.templateName);
-                    if (tmpl == null) {
-                        continue;
+                    if (tmpl != null && !_loadTask.isPendingTemplatedPage(tmpl)) {
+                        loadPageProps(tPage.page, tPage.reader, tmpl);
+                        _loadTask.pendingTemplatedPages.splice(ii--, 1);
+                        foundTemplate = true;
+                        break;
                     }
-                    loadPageProps(tPage.page, tPage.reader, tmpl);
-                    _loadTask.pendingTemplatedPages.splice(ii--, 1);
-                    foundTemplate = true;
                 }
-            } while (foundTemplate);
+            }
 
             // throw an error if we're missing a template
             if (_loadTask.pendingTemplatedPages.length > 0) {

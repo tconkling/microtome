@@ -4,6 +4,7 @@
 package microtome.core {
 
 import microtome.Library;
+import microtome.Page;
 
 internal class LoadTask
 {
@@ -32,6 +33,12 @@ internal class LoadTask
             throw new Error("state != LOADING");
         }
         _libraryItems.push(item);
+    }
+
+    public function isPendingTemplatedPage (page :Page) :Boolean {
+        return pendingTemplatedPages.some(function (tpage :TemplatedPage, ..._) :Boolean {
+            return tpage.page == page;
+        });
     }
 
     protected var _library :Library;

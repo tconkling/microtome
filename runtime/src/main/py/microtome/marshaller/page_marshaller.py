@@ -13,6 +13,10 @@ class PageMarshaller(ObjectMarshaller):
     def value_class(self):
         return Page
 
+    @property
+    def handles_subclasses(self):
+        return True
+
     def read_value(self, mgr, reader, name, type_info):
         return mgr.load_page(reader, type_info.clazz)
 

@@ -7,6 +7,8 @@ from microtome.error import LoadError
 
 class DataReader(object):
     def __init__(self, readable_object):
+        if not isinstance(readable_object, ReadableObject):
+            raise Error("No")
         self._data = readable_object
         self._children = None
         self._childrenByName = None

@@ -29,14 +29,14 @@ class PropSpec(object):
             self._annotations = {item[0]: PropAnnotation(item[1]) for item in annotations.items()}
         else:
             self._annotations = PropSpec._EMPTY_DICT
-        self.value_type = TypeInfo.from_classes(value_classes) if value_classes else None
+        self.value_type = TypeInfo.from_classes(*value_classes) if value_classes else None
 
     def has_annotation(self, name):
         return name in self._annotations
 
     def get_annotation(self, name):
-        anno = self._annotations[name]
-        return anno if anno else _NULL_ANNO
+        anno = self._annotations.get(name, None)
+        return anno if anno else PropSpec._NULL_ANNO
 
     _EMPTY_DICT = {}
     _NULL_ANNO = PropAnnotation(None)

@@ -13,11 +13,11 @@ class MicrotomeCtx(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def register_page_classes(self, *classes):
+    def register_page_classes(self, classes):
         pass
 
     @abstractmethod
-    def register_data_marshaller(self, marshaller):
+    def register_data_marshallers(self, marshallers):
         pass
 
     @abstractmethod

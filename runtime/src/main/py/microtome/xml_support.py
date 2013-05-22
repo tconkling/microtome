@@ -31,7 +31,7 @@ class XmlObject(ReadableObject):
 
     @property
     def children(self):
-        return list(self._xml)
+        return [XmlObject(child) for child in list(self._xml)]
 
     def has_value(self, name):
         return name in self._xml.attrib
@@ -68,5 +68,5 @@ class XmlObject(ReadableObject):
 
 if __name__ == "__main__":
     test_xml = r'<root><foo bar="1" baz="qwert"/></root>'
-    reader = readers_from_xml_strings([test_xml])[0]
+    reader = readers_from_xml_strings(test_xml)[0]
     print reader.name

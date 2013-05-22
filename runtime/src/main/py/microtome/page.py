@@ -3,7 +3,6 @@
 
 from microtome.core.item import LibraryItem, LibraryItemBase
 from microtome.core.type_info import TypeInfo
-import microtome.util as util
 
 _EMPTY_LIST = []
 
@@ -19,21 +18,25 @@ class Page(LibraryItemBase):
         return self._type_info
 
     @property
-    def children(self):
-        return [prop for prop in self.props if isinstance(prop, LibraryItem)]
-
-    def child_named(self, name):
-        prop = util.get_prop(self, name)
-        return prop
-
-    @property
     def props(self):
         return _EMPTY_LIST
+
+    def __len__(self):
+        return len(self.props)
+
+    def __iter__(self):
+        return self._children.__iter__()
+
+    def __contains__(self, val):
+        return self._children.__contains(val)
 
     def __str__(self):
         return self.__class__.__name__ + ":'" + self._name + "'"
 
+    @property
+    def _children(self):
+        return [prop for prop in self.props if isinstance(prop, LibraryItem)]
+
 
 if __name__ == "__main__":
     page = Page("asdf")
-    print page.child_named("test")

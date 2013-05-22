@@ -7,6 +7,7 @@ from microtome.ctx import MicrotomeCtx
 from microtome.page import Page
 from microtome.tome import Tome
 from microtome.error import MicrotomeError, LoadError
+from microtome.core.item import LibraryItem
 from microtome.core.reader import DataReader
 from microtome.marshaller.bool_marshaller import BoolMarshaller
 from microtome.marshaller.int_marshaller import IntMarshaller
@@ -22,23 +23,24 @@ class MicrotomeMgr(MicrotomeCtx):
         self._load_task = None
         self._data_marshallers = {}
         self._page_classes = {}
-        self.register_data_marshaller(BoolMarshaller())
-        self.register_data_marshaller(IntMarshaller())
-        self.register_data_marshaller(FloatMarshaller())
-        self.register_data_marshaller(ListMarshaller())
-        self.register_data_marshaller(PageMarshaller())
-        self.register_data_marshaller(PageRefMarshaller())
-        self.register_data_marshaller(StringMarshaller())
-        self.register_data_marshaller(TomeMarshaller())
+        self.register_data_marshallers([BoolMarshaller(),
+                                       IntMarshaller(),
+                                       FloatMarshaller(),
+                                       ListMarshaller(),
+                                       PageMarshaller(),
+                                       PageRefMarshaller(),
+                                       StringMarshaller(),
+                                       TomeMarshaller()])
 
-    def register_page_classes(self, *classes):
+    def register_page_classes(self, classes):
         for clazz in classes:
             if not issubclass(clazz, Page):
                 raise MicrotomeError("Class must extend %s [page_class=%s]" % (str(Page), str(clazz)))
         self._page_classes[util.page_typename(clazz)] = clazz
 
-    def register_data_marshaller(self, marshaller):
-        self._data_marshallers[marshaller.value_class] = marshaller
+    def register_data_marshallers(self, marshallers):
+        for marshaller in marshallers:
+            self._data_marshallers[marshaller.value_class] = marshaller
 
     def require_data_marshaller(self, clazz):
         marshaller = self._data_marshallers.get(clazz, None)
@@ -137,6 +139,8 @@ class MicrotomeMgr(MicrotomeCtx):
         else:
             self._load_page_props(page, reader)
 
+        return page
+
     def write(self, item, writer):
         raise NotImplementedError()
 
@@ -154,8 +158,8 @@ class MicrotomeMgr(MicrotomeCtx):
             t_prop = None
             if template is not None:
                 t_prop = util.get_prop(template, prop.name)
-            if t_prop is None:
-                raise LoadError(reader.data, "Missing prop in template [template=%s, prop=%s]" % (template.name, prop.name))
+                if t_prop is None:
+                    raise LoadError(reader.data, "Missing prop in template [template=%s, prop=%s]" % (template.name, prop.name))
 
             # load the prop
             try:
@@ -163,7 +167,7 @@ class MicrotomeMgr(MicrotomeCtx):
             except LoadError:
                 raise
             except Exception as e:
-                raise LoadError(reader.data, "Error loading prop [name=%s, cause=%s]" % (prop.name, str(e)))
+                raise LoadError(reader.data, "Error loading prop [name=%s]" % prop.name, cause=e)
 
     def _load_page_prop(self, page, prop, t_prop, page_reader):
         # 1. Read the value from the DataReader, if it exists
@@ -204,13 +208,13 @@ class MicrotomeMgr(MicrotomeCtx):
         if load_task.state != LoadTask.LOADING:
             raise MicrotomeError("task.state != LOADING")
 
-        for item in load_task.library_items:
-            if load_task.library.has_item(item.name):
+        for item in load_task:
+            if item.name in load_task.library:
                 load_task.state = LoadTask.ABORTED
                 raise LoadError(None, "An item named '%s' is already loaded" % item.name)
 
-        for item in load_task.library_items:
-            load_task.library.add_item(item)
+        for item in load_task:
+            load_task.library.add(item)
 
         load_task.state = LoadTask.ADDED_ITEMS
 
@@ -219,8 +223,8 @@ class MicrotomeMgr(MicrotomeCtx):
             raise MicrotomeError("task.state != ADDED_ITEMS")
 
         try:
-            for item in load_task.library_items:
-                self.require_data_marshaller(item._class__).resolve_refs(self, item, item.type_info)
+            for item in load_task:
+                self.require_data_marshaller(item.__class__).resolve_refs(self, item, item.type_info)
         except:
             self._abort_load(load_task)
             raise
@@ -231,9 +235,9 @@ class MicrotomeMgr(MicrotomeCtx):
         if load_task.state == LoadTask.ABORTED:
             return
 
-        for item in load_task.library_items:
+        for item in load_task:
             if load_task.library == item.library:
-                load_task.library.remove_item(item)
+                load_task.library.remove(item)
 
         load_task.state = LoadTask.ABORTED
 
@@ -254,14 +258,15 @@ class LoadTask(object):
     def library(self):
         return self._library
 
-    @property
-    def library_items(self):
-        return self._library_items
-
     def add_item(self, item):
+        if not isinstance(item, LibraryItem):
+            raise MicrotomeError("not a LibraryItem")
         if self.state != LoadTask.LOADING:
             raise MicrotomeError("state != LOADING")
         self._library_items.append(item)
+
+    def __iter__(self):
+        return self._library_items.__iter__()
 
 
 class TemplatedPage(object):

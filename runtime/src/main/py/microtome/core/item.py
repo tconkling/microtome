@@ -1,14 +1,13 @@
 #
 # microtome
 
-from abc import ABCMeta, abstractmethod, abstractproperty
+from abc import abstractproperty
+from collections import Sized, Iterable, Container
 
 from microtome.error import MicrotomeError
 import microtome.core.defs as Defs
 
-class MicrotomeItem(object):
-    __metaclass__ = ABCMeta
-
+class MicrotomeItem(Sized, Iterable, Container):
     @abstractproperty
     def name(self):
         return ""
@@ -21,10 +20,6 @@ class MicrotomeItem(object):
     def parent(self):
         return None
 
-    @abstractproperty
-    def children(self):
-        return []
-
 
 class LibraryItem(MicrotomeItem):
     @abstractproperty
@@ -34,10 +29,6 @@ class LibraryItem(MicrotomeItem):
 
     @abstractproperty
     def type_info(self):
-        return None
-
-    @abstractmethod
-    def child_named(self, name):
         return None
 
 

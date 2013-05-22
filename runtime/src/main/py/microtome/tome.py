@@ -1,11 +1,13 @@
 #
 # microtome
 
+from collections import Mapping
+
 from microtome.core.item import LibraryItemBase
 from microtome.core.type_info import TypeInfo
 from microtome.error import MicrotomeError
 
-class Tome(LibraryItemBase):
+class Tome(LibraryItemBase, Mapping):
     def __init__(self, name, page_class):
         LibraryItemBase.__init__(self, name)
         self._type_info = TypeInfo.from_classes(Tome, page_class)
@@ -18,25 +20,6 @@ class Tome(LibraryItemBase):
     @property
     def page_class(self):
         return self._type_info.subtype.clazz
-
-    @property
-    def children(self):
-        return self._pages.values()
-
-    def child_named(self, name):
-        return self.get_page(name)
-
-    def has_page(self, name):
-        return name in self._pages
-
-    def get_page(self, name):
-        return self._pages.get(name, None)
-
-    def require_page(self, name):
-        page = self.get_page(name)
-        if page is None:
-            raise MicrotomeError("Missing required page [name='%s']" % name)
-        return page
 
     def add_page(self, page):
         if not isinstance(page, self.page_class):
@@ -52,5 +35,17 @@ class Tome(LibraryItemBase):
         page._parent = None
         del self._pages[page.name]
 
+    def __iter__(self):
+        return self._pages.__iter__()
+
     def __len__(self):
-        return len(self._pages)
+        return self._pages.__len__()
+
+    def __contains__(self, key):
+        return self._pages.__contains__(key)
+
+    def __getitem__(self, key):
+        return self._pages.__getitem__(key)
+
+if __name__ == "__main__":
+    Tome("qwert", int)

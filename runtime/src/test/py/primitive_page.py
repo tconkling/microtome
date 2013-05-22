@@ -31,3 +31,8 @@ class PrimitivePage(Page):
     _s_fooSpec = PropSpec("foo", None, [bool, ])
     _s_barSpec = PropSpec("bar", None, [int, ])
     _s_bazSpec = PropSpec("baz", None, [float, ])
+
+
+if __name__ == "__main__":
+    page = PrimitivePage("asdf")
+    print page._foo.value_type.clazz

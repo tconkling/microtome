@@ -44,6 +44,9 @@ BASE_INTERFACE_IMPORTS = set()
 DISCARD_IMPORTS = set([name for name in AS3_TYPENAMES.values() if util.get_namespace(name) == ""])
 
 
+def comment_prefix():
+    return "//"
+
 def generate_library(lib):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
@@ -315,17 +318,18 @@ if __name__ == "__main__":
 
     PAGE = s.PageSpec(name="TestPage",
         namespace=NAMESPACE,
-        superclass = None,
-        props = [
-        s.PropSpec(type = s.TypeSpec(s.BoolType, None), name = "foo", annotations = [
-            s.AnnotationSpec(name="default", value="test", pos=0),
-            s.AnnotationSpec(name="nullable", value=True, pos=0)
-            ], pos = 0),
-        s.PropSpec(type = s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name = "bar", annotations = [], pos = 0)
+        superclass=None,
+        props=[
+            s.PropSpec(type=s.TypeSpec(s.BoolType, None), name="foo", annotations=[
+                s.AnnotationSpec(name="default", value="test", pos=0),
+                s.AnnotationSpec(name="nullable", value=True, pos=0)
+            ], pos=0),
+            s.PropSpec(type=s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name="bar", annotations=[], pos=0)
         ],
-        pos = 0)
+        pos=0)
 
-    LIB = s.LibrarySpec(namespace = NAMESPACE, header_text="", pages = [ PAGE, ANOTHER_PAGE ])
+    LIB = s.LibrarySpec(namespace=NAMESPACE, header_text="", pages=[PAGE, ANOTHER_PAGE])
+
     for filename, file_contents in generate_page(LIB, PAGE):
         print filename + ":"
         print file_contents

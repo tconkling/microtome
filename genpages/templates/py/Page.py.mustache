@@ -1,0 +1,39 @@
+{{header}}
+# GENERATED IMPORTS START
+{{#class_imports}}
+from {{package}} import {{name}}
+{{/class_imports}}
+# GENERATED IMPORTS END
+
+class {{class_name}}({{superclass}}):
+# GENERATED CONSTRUCTOR START
+    def __init__(self, name):
+        super({{class_name}}, self).__init__(name)
+        {{#props}}
+        self._{{name}} = Prop(self, {{class_name}}._s_{{name}}Spec)
+        {{/props}}
+# GENERATED CONSTRUCTOR END
+
+# GENERATED PROPS START
+    {{#props}}
+    @property
+    {{#value_type.is_pageref}}
+    def {{name}}(self):
+        return self._{{name}}.value.page if self._{{name}}.value is not None else None
+    {{/value_type.is_pageref}}
+    {{^value_type.is_pageref}}
+    def {{name}}(self):
+        return self._{{name}}.value
+    {{/value_type.is_pageref}}
+
+    {{/props}}
+    @property
+    def props(self):
+        return super({{class_name}}, self).props + [{{#props}}self._{{name}}, {{/props}}]
+# GENERATED PROPS END
+
+# GENERATED STATICS START
+    {{#props}}
+    _s_{{name}}Spec = PropSpec("{{name}}", {{annotation_text}}, {{#value_type}}[{{#all_typenames}}{{.}}, {{/all_typenames}}]{{/value_type}})
+    {{/props}}
+# GENERATED STATICS END

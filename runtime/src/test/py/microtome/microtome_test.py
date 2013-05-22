@@ -4,17 +4,17 @@
 import logging
 import os.path
 
-import microtome.xml_support
+import microtome.xml_support as xml_support
 import microtome.ctx
 from microtome.library import Library
-from primitive_page import PrimitivePage
-from list_page import ListPage
-from annotation_page import AnnotationPage
-from ref_page import RefPage
-
 from microtome.error import MicrotomeError
 
+import test.MicrotomePages
+
 LOG = logging.getLogger("tests")
+
+def test_tests():
+    assert False
 
 def resource(name):
     return os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "resources", name)
@@ -24,8 +24,8 @@ if __name__ == "__main__":
     try:
         lib = Library()
         ctx = microtome.ctx.create_ctx()
-        ctx.register_page_classes([PrimitivePage, ListPage, AnnotationPage, RefPage])
-        readers = microtome.xml_support.readers_from_files(
+        ctx.register_page_classes(test.MicrotomePages.get_page_classes())
+        readers = xml_support.readers_from_files(
             resource("AnnotationTest.xml"),
             resource("ListTest.xml"),
             # resource("NestedTest.xml"),

@@ -7,3 +7,4 @@ ROOT="`( cd \"$MY_PATH\"/.. && pwd )`"
 
 "$ROOT/bin/genpages" --library_namespace "microtome.test" "$ROOT/genpages/test" "$ROOT/runtime/src/test/as" as
 "$ROOT/bin/genpages" "$ROOT/genpages/test" "$ROOT/runtime/src/main/objc/Tests" objc
+"$ROOT/bin/genpages" --library_namespace "microtome.test" "$ROOT/genpages/test" "$ROOT/runtime/src/test/py" py

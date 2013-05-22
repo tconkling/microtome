@@ -6,17 +6,18 @@ import sys
 import os
 import errno
 import re
+import logging
+
+import sourcemerger
 import parser
+import spec as s
 import generator_objc
 import generator_as
-import logging
-import sourcemerger
-import spec as s
+import generator_py
 
 LOG = logging.getLogger("genpages")
 INPUT_FILE = re.compile(r'.*\.mt')
-GENERATORS = {"objc": generator_objc, "as": generator_as}
-MERGER = sourcemerger.GeneratedSourceMerger()
+GENERATORS = {"objc": generator_objc, "as": generator_as, "py": generator_py}
 
 
 def main():
@@ -37,6 +38,7 @@ def main():
 
     # select our generator
     generator = GENERATORS[args.language]
+    merger = sourcemerger.GeneratedSourceMerger(generator.comment_prefix())
     page_specs = []
 
     logging.basicConfig(level=logging.INFO)
@@ -61,19 +63,19 @@ def main():
         # merge each of our generated files
         for out_name, out_contents in generator.generate_page(library, page_spec):
             out_name = os.path.join(output_dir, out_name)
-            merge_and_write(out_name, out_contents)
+            merge_and_write(merger, out_name, out_contents)
 
     # now generate and save the library file
     for out_name, out_contents in generator.generate_library(library):
         out_name = os.path.join(output_dir, out_name)
-        merge_and_write(out_name, out_contents)
+        merge_and_write(merger, out_name, out_contents)
 
 
-def merge_and_write(filename, file_contents):
+def merge_and_write(merger, filename, file_contents):
     # merge with existing file?
     if os.path.isfile(filename):
         with open(filename, 'r') as existing_file:
-            file_contents = MERGER.merge(file_contents, existing_file.read())
+            file_contents = merger.merge(file_contents, existing_file.read())
 
     # generate output directories
     full_path = os.path.split(filename)[0]

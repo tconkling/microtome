@@ -17,6 +17,18 @@ def lowercase_first(str):
     '''returns a copy of the string with the first letter capitalized and the rest untouched'''
     return _modify_first_char(str, lambda char: char.lower())
 
+def camelcase_to_underscores(name):
+    capitals = re.compile(r'((\A\w)|[A-Z])[a-z0-9_]*')
+    words = [match.group(0).lower() for match in capitals.finditer(name)]
+    return "_".join(words)
+
+def underscores_to_camelcase(name, capitalize_first=False):
+    words = name.split("_")
+    words = [uppercase_first(word) for word in words]
+    if len(words) > 0 and not capitalize_first:
+        words[0] = lowercase_first(words[0])
+    return "".join(words)
+
 
 def line_data_at_index(str, idx):
     '''returns the string's line number and line column number at the given index'''
@@ -101,4 +113,6 @@ def _modify_first_char(str, f):
 
 if __name__ == '__main__':
     print uppercase_first("asdfasdfWEr")
+    print underscores_to_camelcase("foo_bar_a45", True)
+    print camelcase_to_underscores("FooBarA45")
     #print get_common_namespace(["com.foo.qwert.Bar", "com.foo.Asdf"])

@@ -38,6 +38,9 @@ BASE_IMPORTS = set(["microtome"])
 DISCARD_IMPORTS = set([name for name in OBJC_TYPENAMES.values() if not name.startswith("MT")])
 
 
+def comment_prefix():
+    return "//"
+
 def generate_library(lib):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''

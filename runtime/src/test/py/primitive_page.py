@@ -1,9 +1,10 @@
 #
 # microtome
 
+import types
+
 from microtome.page import Page
-from microtome.prop.prop_spec import PropSpec
-from microtome.prop.prop import Prop
+from microtome.core.prop import Prop, PropSpec
 
 class PrimitivePage(Page):
     def __init__(self, name):
@@ -28,9 +29,9 @@ class PrimitivePage(Page):
     def props(self):
         return super(PrimitivePage, self).props + [self._foo, self._bar, self._baz]
 
-    _s_fooSpec = PropSpec("foo", None, [bool, ])
-    _s_barSpec = PropSpec("bar", None, [int, ])
-    _s_bazSpec = PropSpec("baz", None, [float, ])
+    _s_fooSpec = PropSpec("foo", None, [types.BooleanType, ])
+    _s_barSpec = PropSpec("bar", None, [types.IntType, ])
+    _s_bazSpec = PropSpec("baz", None, [types.FloatType, ])
 
 
 if __name__ == "__main__":

@@ -2,8 +2,7 @@
 # microtome
 
 from microtome.page import Page
-from microtome.prop.prop_spec import PropSpec
-from microtome.prop.prop import Prop
+from microtome.core.prop import Prop, PropSpec
 from primitive_page import PrimitivePage
 import types
 

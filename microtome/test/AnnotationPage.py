@@ -3,7 +3,7 @@
 from microtome.core.prop import Prop
 from microtome.core.prop import PropSpec
 from microtome.page import Page
-from microtome.test import PrimitivePage
+from microtome.test.PrimitivePage import PrimitivePage
 # GENERATED IMPORTS END
 
 class AnnotationPage(Page):

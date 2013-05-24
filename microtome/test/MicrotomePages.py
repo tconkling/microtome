@@ -1,12 +1,12 @@
 
 
 # GENERATED IMPORTS START
-from microtome.test import AnnotationPage
-from microtome.test import ListPage
-from microtome.test import NestedPage
-from microtome.test import ObjectPage
-from microtome.test import PrimitivePage
-from microtome.test import RefPage
+from microtome.test.AnnotationPage import AnnotationPage
+from microtome.test.ListPage import ListPage
+from microtome.test.NestedPage import NestedPage
+from microtome.test.ObjectPage import ObjectPage
+from microtome.test.PrimitivePage import PrimitivePage
+from microtome.test.RefPage import RefPage
 # GENERATED IMPORTS END
 
 # GENERATED FUNCTIONS START

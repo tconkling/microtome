@@ -40,11 +40,10 @@ def generate_library(lib):
     # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs=TEMPLATES_DIR, escape=lambda u: u)
 
-    page_types = [ImportView(spec.namespace, spec.name) for spec in lib.pages]
+    page_imports = [ImportView.from_qualified_name(lib, util.qualified_name(spec.namespace, spec.name)) for spec in lib.pages]
 
     library_view = {
-        "namespace": lib.namespace,
-        "page_types": sorted(set(page_types)),
+        "page_imports": sorted(set(page_imports)),
         "header": lib.header_text}
 
     class_contents = stache.render(stache.load_template(LIBRARY_FILENAME), library_view)
@@ -71,6 +70,7 @@ def generate_page(lib, page_spec):
 def is_page_name(lib, the_type):
     return (util.strip_namespace(the_type) in [page_spec.name for page_spec in lib.pages])
 
+
 def get_py_typename(lib, the_type):
     '''converts a microtome typename to a Python typename'''
     if the_type in PY_TYPENAMES:
@@ -84,8 +84,14 @@ def to_bool(val):
 
 class ImportView(namedtuple("ImportView", ["package", "name"])):
     @classmethod
-    def from_qualified_name(cls, name):
-        return ImportView(util.get_namespace(name), util.strip_namespace(name))
+    def from_qualified_name(cls, lib, name):
+        namespace = util.get_namespace(name)
+        name = util.strip_namespace(name)
+        # In the python microtome runtime, pages are stored in their own individual modules -
+        # e.g. 'from game.data.BaddiePage import BaddiePage' - so we account for that here
+        if is_page_name(lib, name):
+            namespace += "." + name
+        return ImportView(namespace, name)
 
 
 class AnnotationView(object):
@@ -202,14 +208,14 @@ class PageView(object):
         # remove the imports we never want; add the imports we always want
         imports = set(imp_list) - DISCARD_IMPORTS | BASE_IMPORTS
 
-        return [ImportView.from_qualified_name(imp) for imp in sorted(imports)]
+        return [ImportView.from_qualified_name(self.lib, imp) for imp in sorted(imports)]
 
     def same_namespace(self, typename):
         return self.namespace == util.get_namespace(typename)
 
 if __name__ == "__main__":
-    NAMESPACE = "com.microtome.test"
-    ANOTHER_PAGE_TYPE = s.TypeSpec("com.microtome.test.AnotherPage", None)
+    NAMESPACE = "microtome.test"
+    ANOTHER_PAGE_TYPE = s.TypeSpec("microtome.test.AnotherPage", None)
 
     ANOTHER_PAGE = s.PageSpec(name="AnotherPage",
                               namespace=NAMESPACE,

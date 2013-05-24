@@ -1,16 +1,16 @@
 {{header}}
 
 # GENERATED IMPORTS START
-{{#page_types}}
-from {{package}}.{{name}} import {{name}}
-{{/page_types}}
+{{#page_imports}}
+from {{package}} import {{name}}
+{{/page_imports}}
 # GENERATED IMPORTS END
 
 # GENERATED FUNCTIONS START
 def get_page_classes():
     return [
-    {{#page_types}}
+    {{#page_imports}}
         {{name}},
-    {{/page_types}}
+    {{/page_imports}}
     ]
 # GENERATED FUNCTIONS END

@@ -12,19 +12,18 @@ from microtome.error import MicrotomeError
 import microtome.test.MicrotomePages as MicrotomePages
 
 LOG = logging.getLogger("tests")
-
-def test_tests():
-    assert False
+CTX = microtome.ctx.create_ctx()
+LIB = Library()
 
 def resource(name):
-    return os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "resources", name)
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", name)
+
+def setup_tests():
+    logging.basicConfig(level=logging.DEBUG)
+    CTX.register_page_classes(MicrotomePages.get_page_classes())
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
     try:
-        lib = Library()
-        ctx = microtome.ctx.create_ctx()
-        ctx.register_page_classes(MicrotomePages.get_page_classes())
         readers = xml_support.readers_from_files(
             resource("AnnotationTest.xml"),
             resource("ListTest.xml"),
@@ -34,14 +33,14 @@ if __name__ == "__main__":
             resource("RefTest.xml"),
             resource("TemplateTest.xml"),
             resource("TomeTest.xml"))
-        ctx.load(lib, readers)
-        LOG.info(lib.get("primitiveTest").foo)
-        LOG.info(len(lib.get("listTest").kids))
-        LOG.info(lib.get("listTest").kids[1].bar)
-        LOG.info(lib.get("annotationTest").primitives)
-        LOG.info(lib.get("annotationTest").bar)
-        LOG.info(lib.get("refTest").nested.baz)
-        LOG.info(lib.get("templateTest2").bar)
-        LOG.info(lib.get("templateTest2").baz)
+        CTX.load(LIB, readers)
+        LOG.info(LIB.get("primitiveTest").foo)
+        LOG.info(len(LIB.get("listTest").kids))
+        LOG.info(LIB.get("listTest").kids[1].bar)
+        LOG.info(LIB.get("annotationTest").primitives)
+        LOG.info(LIB.get("annotationTest").bar)
+        LOG.info(LIB.get("refTest").nested.baz)
+        LOG.info(LIB.get("templateTest2").bar)
+        LOG.info(LIB.get("templateTest2").baz)
     except MicrotomeError as e:
         print e.stacktrace

@@ -8,5 +8,6 @@ setup(name='microtome',
       author='Tim Conkling',
       author_email='tim@timconkling.com',
       url='https://github.com/tconkling/microtome',
-      packages=['microtome', 'microtome.codegen', 'microtome.core', 'microtome.marshaller']
+      packages=['microtome', 'microtome.codegen', 'microtome.core', 'microtome.marshaller'],
+      package_data={'microtome.codegen': ['templates/**/*.mustache']}
       )

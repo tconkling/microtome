@@ -1,13 +1,22 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+# download setuptools if it doesn't exist
+from distribute_setup import use_setuptools
+use_setuptools()
 
-setup(name='microtome',
-      version='0.1.0',
-      description='',
-      author='Tim Conkling',
-      author_email='tim@timconkling.com',
-      url='https://github.com/tconkling/microtome',
-      packages=['microtome', 'microtome.codegen', 'microtome.core', 'microtome.marshaller'],
-      package_data={'microtome.codegen': ['templates/**/*.mustache']}
-      )
+from setuptools import setup, find_packages
+
+setup(
+    name='microtome',
+    version='0.1.0',
+    packages=find_packages(exclude=['microtome.test', 'microtome.test.*']),
+    package_data={'microtome.codegen': ['templates/**/*.mustache']},
+
+    install_requires=["pystache>=0.5.2"],
+
+    # metadata for upload to PyPI
+    author='Tim Conkling',
+    author_email='tim@timconkling.com',
+    description='Parse and manage game data in your favorite game development language',
+    url='https://github.com/tconkling/microtome',
+)

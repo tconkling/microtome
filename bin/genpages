@@ -6,6 +6,5 @@ from os.path import dirname, abspath
 # Add our parent directory to sys.path
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-# Run genpages.genpages.main()
-from genpages.genpages import main
+from microtome.codegen.genpages import main
 main()

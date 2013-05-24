@@ -2,9 +2,18 @@
 
 # Executes genpages on the page definitions in genpages/test for unit testing our runtimes
 
+# usage: genpages [-h] [--header HEADER] [--library_namespace LIBRARY_NAMESPACE] input_dir output_dir {objc,py,as}
+
 MY_PATH="`dirname \"$0\"`"
 ROOT="`( cd \"$MY_PATH\"/.. && pwd )`"
 
-"$ROOT/bin/genpages" --library_namespace "microtome.test" "$ROOT/genpages/test" "$ROOT/runtime/src/test/as" as
-"$ROOT/bin/genpages" "$ROOT/genpages/test" "$ROOT/runtime/src/main/objc/Tests" objc
-"$ROOT/bin/genpages" --library_namespace "microtome.test" "$ROOT/genpages/test" "$ROOT/runtime/src/test/py" py
+INPUT_DIR="$ROOT/microtome/test/data"
+
+# Python
+"$ROOT/bin/genpages" --library_namespace "microtome.test" "$INPUT_DIR" "$ROOT" py
+
+# ActionScript
+# "$ROOT/bin/genpages" --library_namespace "microtome.test" "$INPUT_DIR" "$ROOT/runtime/src/test/as" as
+
+# Objective-C
+# "$ROOT/bin/genpages" "$INPUT_DIR" "$ROOT/runtime/src/main/objc/Tests" objc

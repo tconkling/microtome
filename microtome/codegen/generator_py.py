@@ -6,8 +6,8 @@ from collections import namedtuple
 
 import pystache
 
-import spec as s
-import util
+import microtome.codegen.spec as s
+import microtome.codegen.util as util
 
 
 BASE_PAGE_CLASS = "microtome.page.Page"

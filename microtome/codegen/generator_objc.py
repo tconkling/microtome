@@ -4,8 +4,9 @@
 import pystache
 import itertools
 import numbers
-import spec as s
-import util
+
+import microtome.codegen.spec as s
+import microtome.codegen.util as util
 
 BASE_PAGE_CLASS = "MTPage"
 

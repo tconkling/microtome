@@ -9,9 +9,10 @@ page_specs = parser.parse_document(some_string)
 
 import re
 import logging
-import util
-import spec as s
-from stringscanner import StringScanner
+
+import microtome.codegen.util as util
+import microtome.codegen.spec as s
+from microtome.codegen.stringscanner import StringScanner
 
 # token types
 QUOTED_STRING = re.compile(r'"([^"\\]*(\\.[^"\\]*)*)"')

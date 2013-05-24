@@ -115,25 +115,25 @@ public class MicrotomeTest extends Sprite
     protected const _library :Library = new Library();
     protected const _ctx :MicrotomeCtx = Microtome.createCtx();
 
-    [Embed(source="../../../resources/PrimitiveTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../microtome/test/data/PrimitiveTest.xml", mimeType="application/octet-stream")]
     private static const PRIMITIVE_TEST_XML :Class;
 
-    [Embed(source="../../../resources/ObjectTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../microtome/test/data/ObjectTest.xml", mimeType="application/octet-stream")]
     private static const OBJECT_TEST_XML :Class;
 
-    [Embed(source="../../../resources/TomeTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../microtome/test/data/TomeTest.xml", mimeType="application/octet-stream")]
     private static const TOME_TEST_XML :Class;
 
-    [Embed(source="../../../resources/NestedTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../microtome/test/data/NestedTest.xml", mimeType="application/octet-stream")]
     private static const NESTED_TEST_XML :Class;
 
-    [Embed(source="../../../resources/RefTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../microtome/test/data/RefTest.xml", mimeType="application/octet-stream")]
     private static const REF_TEST_XML :Class;
 
-    [Embed(source="../../../resources/TemplateTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../microtome/test/data/TemplateTest.xml", mimeType="application/octet-stream")]
     private static const TEMPLATE_TEST_XML :Class;
 
-    [Embed(source="../../../resources/AnnotationTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../microtome/test/data/AnnotationTest.xml", mimeType="application/octet-stream")]
     private static const ANNOTATION_TEST_XML :Class;
 
     protected static const EPSILON :Number = 0.0001;

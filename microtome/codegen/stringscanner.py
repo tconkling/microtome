@@ -2,8 +2,8 @@
 # microtome - Tim Conkling, 2012
 
 import re
-import util
 
+import microtome.codegen.util as util
 
 class StringScanner(object):
     def __init__(self, string):

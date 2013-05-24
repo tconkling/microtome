@@ -9,7 +9,7 @@ import microtome.ctx
 from microtome.library import Library
 from microtome.error import MicrotomeError
 
-import test.MicrotomePages
+import microtome.test.MicrotomePages as MicrotomePages
 
 LOG = logging.getLogger("tests")
 
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     try:
         lib = Library()
         ctx = microtome.ctx.create_ctx()
-        ctx.register_page_classes(test.MicrotomePages.get_page_classes())
+        ctx.register_page_classes(MicrotomePages.get_page_classes())
         readers = xml_support.readers_from_files(
             resource("AnnotationTest.xml"),
             resource("ListTest.xml"),

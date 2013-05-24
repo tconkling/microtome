@@ -8,12 +8,12 @@ import errno
 import re
 import logging
 
-import sourcemerger
-import parser
-import spec as s
-import generator_objc
-import generator_as
-import generator_py
+import microtome.codegen.sourcemerger as sourcemerger
+import microtome.codegen.parser as parser
+import microtome.codegen.spec as s
+import microtome.codegen.generator_objc as generator_objc
+import microtome.codegen.generator_as as generator_as
+import microtome.codegen.generator_py as generator_py
 
 LOG = logging.getLogger("genpages")
 INPUT_FILE = re.compile(r'.*\.mt')
@@ -100,12 +100,3 @@ def readable_dir(d):
         raise argparse.ArgumentTypeError("'%s' is not a readable directory" % d)
     else:
         return d
-
-
-if __name__ == "__main__":
-    sys.argv.append("--header")
-    sys.argv.append("// It's a header!")
-    sys.argv.append("test")
-    sys.argv.append("../dist")
-    sys.argv.append("as")
-    main()

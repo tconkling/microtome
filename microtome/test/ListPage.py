@@ -10,19 +10,19 @@ class ListPage(Page):
 # GENERATED CONSTRUCTOR START
     def __init__(self, name):
         super(ListPage, self).__init__(name)
-        self._list = Prop(self, ListPage._s_listSpec)
+        self._kids = Prop(self, ListPage._s_kidsSpec)
 # GENERATED CONSTRUCTOR END
 
 # GENERATED PROPS START
     @property
-    def list(self):
-        return self._list.value
+    def kids(self):
+        return self._kids.value
 
     @property
     def props(self):
-        return super(ListPage, self).props + [self._list, ]
+        return super(ListPage, self).props + [self._kids, ]
 # GENERATED PROPS END
 
 # GENERATED STATICS START
-    _s_listSpec = PropSpec("list", None, [list, PrimitivePage, ])
+    _s_kidsSpec = PropSpec("kids", None, [list, PrimitivePage, ])
 # GENERATED STATICS END

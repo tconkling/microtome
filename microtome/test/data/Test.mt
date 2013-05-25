@@ -20,7 +20,7 @@ AnnotationPage {
 }
 
 ListPage {
-    List<PrimitivePage> list;
+    List<PrimitivePage> kids;
 }
 
 NestedPage {

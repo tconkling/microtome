@@ -12,7 +12,7 @@ public interface ListPage extends Page
 // GENERATED CLASS_INTRO END
 
 // GENERATED PROPS START
-    function get list () :Array;
+    function get kids () :Array;
 // GENERATED PROPS END
 
 // GENERATED CLASS_OUTRO START

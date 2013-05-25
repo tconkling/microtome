@@ -3,27 +3,27 @@
 #import "PrimitivePage.h"
 #import "microtome.h"
 
-static MTPropSpec* s_listSpec = nil;
+static MTPropSpec* s_kidsSpec = nil;
 
 @implementation ListPage {
 @protected
-    MTObjectProp* _list;
+    MTObjectProp* _kids;
 }
 
-- (NSArray*)list { return _list.value; }
+- (NSArray*)kids { return _kids.value; }
 
-- (NSArray*)props { return MT_PROPS(_list, ); }
+- (NSArray*)props { return MT_PROPS(_kids, ); }
 
 - (id)init {
     if ((self = [super init])) {
-        _list = [[MTObjectProp alloc] initWithPropSpec:s_listSpec];
+        _kids = [[MTObjectProp alloc] initWithPropSpec:s_kidsSpec];
     }
     return self;
 }
 
 + (void)initialize {
     if (self == [ListPage class]) {
-        s_listSpec = [[MTPropSpec alloc] initWithName:@"list"
+        s_kidsSpec = [[MTPropSpec alloc] initWithName:@"kids"
             annotations:nil
             valueClasses:@[ [NSArray class],[PrimitivePage class], ] ];
     }

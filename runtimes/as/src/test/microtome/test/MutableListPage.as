@@ -23,22 +23,22 @@ public class MutableListPage extends MutablePage
 // GENERATED CONSTRUCTOR END
 
 // GENERATED PROPS START
-    public function get list () :Array { return _list.value; }
-    public function set list (val :Array) :void { _list.value = val; }
+    public function get kids () :Array { return _kids.value; }
+    public function set kids (val :Array) :void { _kids.value = val; }
 
-    override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _list, ]); }
+    override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _kids, ]); }
 
     private function initProps () :void {
-        _list = new ObjectProp(this, s_listSpec);
+        _kids = new ObjectProp(this, s_kidsSpec);
     }
 // GENERATED PROPS END
 
 // GENERATED IVARS START
-    protected var _list :ObjectProp;
+    protected var _kids :ObjectProp;
 // GENERATED IVARS END
 
 // GENERATED STATICS START
-    protected static const s_listSpec :PropSpec = new PropSpec("list", null, [ Array, MutablePrimitivePage, ]);
+    protected static const s_kidsSpec :PropSpec = new PropSpec("kids", null, [ Array, MutablePrimitivePage, ]);
 // GENERATED STATICS END
 
 // GENERATED CLASS_OUTRO START

@@ -7,13 +7,14 @@
 MY_PATH="`dirname \"$0\"`"
 ROOT="`( cd \"$MY_PATH\"/.. && pwd )`"
 
+GENPAGES="$ROOT/bin/genpages"
 INPUT_DIR="$ROOT/microtome/test/data"
 
 # Python
-"$ROOT/bin/genpages" --library_namespace "microtome.test" "$INPUT_DIR" "$ROOT" py
+$GENPAGES --library_namespace "microtome.test" "$INPUT_DIR" "$ROOT" py
 
 # ActionScript
-# "$ROOT/bin/genpages" --library_namespace "microtome.test" "$INPUT_DIR" "$ROOT/runtime/src/test/as" as
+ $GENPAGES --library_namespace "microtome.test" "$INPUT_DIR" "$ROOT/runtimes/as/src/test" as
 
 # Objective-C
-# "$ROOT/bin/genpages" "$INPUT_DIR" "$ROOT/runtime/src/main/objc/Tests" objc
+ $GENPAGES "$INPUT_DIR" "$ROOT/runtimes/objc/Tests" objc

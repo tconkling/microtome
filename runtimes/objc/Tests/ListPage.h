@@ -4,6 +4,6 @@
 
 @interface ListPage : MTPage
 
-@property (nonatomic,readonly) NSArray* list;
+@property (nonatomic,readonly) NSArray* kids;
 
 @end

@@ -100,3 +100,6 @@ def readable_dir(d):
         raise argparse.ArgumentTypeError("'%s' is not a readable directory" % d)
     else:
         return d
+
+if __name__ == "__main__":
+    main()

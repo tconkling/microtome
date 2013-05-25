@@ -14,6 +14,13 @@ setup(
 
     install_requires=["pystache>=0.5.2"],
 
+    # scripts
+    entry_points={
+        'console_scripts': [
+            'genpages = microtome.codegen.genpages:main'
+        ]
+    },
+
     # metadata for upload to PyPI
     author='Tim Conkling',
     author_email='tim@timconkling.com',

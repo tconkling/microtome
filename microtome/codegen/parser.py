@@ -16,10 +16,13 @@ from microtome.codegen.stringscanner import StringScanner
 
 # token types
 QUOTED_STRING = re.compile(r'"([^"\\]*(\\.[^"\\]*)*)"')
+BOOL_VALUE = re.compile(r'(true|false)')
+NUMBER_VALUE = re.compile(r'-?(\d*\.\d+|\d+)')
+ANNOTATION_VALUE = re.compile("(%s|%s|%s)" % (QUOTED_STRING.pattern, BOOL_VALUE.pattern, NUMBER_VALUE.pattern))
+
 NAMESPACE = re.compile(r'[a-zA-Z]+(\.[a-zA-Z]+)*')  # letters separated by .s
 TYPENAME = re.compile(r'[a-zA-Z]\w*')               # must start with a letter
 IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')            # must start with a letter or _
-ANNOTATION_VALUE = re.compile("([\w\.\-]+|{0})".format(QUOTED_STRING.pattern))
 CURLY_OPEN = re.compile(r'\{')
 CURLY_CLOSE = re.compile(r'\}')
 PAREN_OPEN = re.compile(r'\(')

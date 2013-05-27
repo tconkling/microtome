@@ -3,30 +3,30 @@
 
 namespace microtome.test;
 
-PrimitivePage {
+page PrimitivePage {
     bool foo;
     int bar;
     float baz;
 }
 
-ObjectPage {
+page ObjectPage {
     string foo;
 }
 
-AnnotationPage {
+page AnnotationPage {
     int foo (min=3, max=5);
     int bar (default=3);
     PrimitivePage primitives (nullable);
 }
 
-ListPage {
+page ListPage {
     List<PrimitivePage> kids;
 }
 
-NestedPage {
+page NestedPage {
     PrimitivePage nested;
 }
 
-RefPage {
+page RefPage {
     PageRef<PrimitivePage> nested;
 }

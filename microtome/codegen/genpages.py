@@ -53,8 +53,8 @@ def main():
                     page_specs += parser.parse_document(in_file.read())
                 except parser.ParseError, e:
                     e.filename = in_name
-                    LOG.error(str(e))
-                    return
+                    #LOG.error(str(e))
+                    raise
 
     # generate page files
     library = s.LibrarySpec(namespace=library_namespace, header_text=header_text, pages=page_specs)

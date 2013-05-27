@@ -39,10 +39,16 @@ class StringScanner(object):
     def pos(self):
         return self._pos
 
+    @pos.setter
+    def pos(self, value):
+        if value < 0 or value > len(self._string):
+            raise RuntimeError("bad pos value (must be between [0, %d]" % len(self._string))
+        self._pos = value
+
     @property
     def rest(self):
         '''returns the rest of the string (everything after the scan pointer)'''
-        return self._string[self._pos:]
+        return self._string[self._pos:] if self._pos < len(self._string) else ""
 
     @property
     def eos(self):

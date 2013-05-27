@@ -28,7 +28,7 @@ def test_parser():
     test_input = '''
         namespace com.test;
         // comment 1
-        MyPage extends AnotherPage {
+        page MyPage extends AnotherPage {
             bool foo;   // comment 2
             int bar;
             float baz (min = -3.0);
@@ -37,9 +37,13 @@ def test_parser():
             Tome<AnotherPage> theTome;
             PageRef<ThirdPage> theRef;
         }
+
+        page Page2 {
+            string qwert;
+        }
         '''
     page_specs = Parser(test_input).parse()
-    eq_(len(page_specs), 1)
+    eq_(len(page_specs), 2)
     page_spec = page_specs[0]
     eq_(page_spec.name, "MyPage")
     eq_(page_spec.namespace, "com.test")

@@ -20,6 +20,7 @@ BOOL_VALUE = re.compile(r'(true|false)')
 NUMBER_VALUE = re.compile(r'-?(\d*\.\d+|\d+)')
 ANNOTATION_VALUE = re.compile("(%s|%s|%s)" % (QUOTED_STRING.pattern, BOOL_VALUE.pattern, NUMBER_VALUE.pattern))
 
+PAGE = re.compile(r'page')
 NAMESPACE = re.compile(r'[a-zA-Z]+(\.[a-zA-Z]+)*')  # letters separated by .s
 TYPENAME = re.compile(r'[a-zA-Z]\w*')               # must start with a letter
 IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')            # must start with a letter or _
@@ -107,19 +108,15 @@ class Parser(object):
         self.eat_whitespace()
         if self.get_text("namespace") is not None:
             self.eat_whitespace()
-            namespace = self.require_text(NAMESPACE, "Expected namespace")
-            self.require_text(SEMICOLON, "invalid namespace (expected ';')")
+            namespace = self.require_text(NAMESPACE)
+            self.require_text(SEMICOLON)
             LOG.debug("found namespace: %s" % namespace)
         return namespace
 
     def parse_pages(self):
         pages = []
-        while True:
-            self.eat_whitespace()
-            page = self.parse_page()
-            if page is None:
-                break
-            pages.append(page)
+        while self.has_token():
+            pages.append(self.parse_page())
         return pages
 
     def parse_page(self):
@@ -127,10 +124,10 @@ class Parser(object):
 
         # name
         self.eat_whitespace()
+        self.require_text(PAGE)
+        self.eat_whitespace()
         page_pos = self._scanner.pos
-        page_name = self.get_text(TYPENAME)
-        if page_name is None:
-            return None
+        page_name = self.require_text(TYPENAME)
 
         LOG.debug("found page_name: " + page_name)
 
@@ -144,13 +141,13 @@ class Parser(object):
 
         # open-curly
         self.eat_whitespace()
-        self.require_text(CURLY_OPEN, "expected '{'")
+        self.require_text(CURLY_OPEN)
 
         page_props = self.parse_props()
 
         # close-curly
         self.eat_whitespace()
-        self.require_text(CURLY_CLOSE, "expected '}'")
+        self.require_text(CURLY_CLOSE)
 
         return s.PageSpec(name=page_name,
                           superclass=page_superclass,
@@ -190,9 +187,9 @@ class Parser(object):
         if self.get_text(PAREN_OPEN):
             annotations = self.parse_annotations()
             self.eat_whitespace()
-            self.require_text(PAREN_CLOSE, "expected ')'")
+            self.require_text(PAREN_CLOSE)
 
-        self.require_text(SEMICOLON, "expected semicolon")
+        self.require_text(SEMICOLON)
 
         return s.PropSpec(type=prop_type, name=prop_name, annotations=annotations or [], pos=prop_pos)
 
@@ -212,7 +209,7 @@ class Parser(object):
             self.eat_whitespace()
             subtype = self.parse_prop_type(True)
             self.eat_whitespace()
-            self.require_text(ANGLE_CLOSE, "Expected '>'")
+            self.require_text(ANGLE_CLOSE)
             LOG.debug("found subtype: " + subtype.name)
 
         if not is_subtype:
@@ -278,6 +275,14 @@ class Parser(object):
         in the stream, or None if it does not. Does not advance the stream pointer.'''
         return self._scanner.check(pattern)
 
+    def has_token(self):
+        '''Returns true if there's at least one token left in the stream'''
+        pos = self._scanner.pos
+        self.eat_whitespace()
+        eos = self._scanner.eos
+        self._scanner.pos = pos
+        return not eos
+
     def get_text(self, pattern):
         '''Returns the text that matches the given pattern if it exists at the current point
         in the stream, or None if it does not.'''
@@ -288,7 +293,7 @@ class Parser(object):
         in the stream, or raises a ParseError if it does not.'''
         value = self.get_text(pattern)
         if value is None:
-            raise ParseError(self.string, self.pos, msg or "Expected " + str(pattern.pattern))
+            raise ParseError(self.string, self.pos, msg or "Expected '%s'" % str(pattern.pattern))
         return value
 
     def eat_whitespace(self):

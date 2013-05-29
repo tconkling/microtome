@@ -182,16 +182,20 @@ class PageView(object):
         return self.page.name
 
     @property
+    def namespace(self):
+        return self.page.namespace
+
+    @property
+    def qualified_name(self):
+        return util.qualified_name(self.namespace, self.class_name)
+
+    @property
     def superclass(self):
         return util.strip_namespace(self.qualified_superclass)
 
     @property
     def qualified_superclass(self):
         return self.page.superclass if self.page.superclass is not None else BASE_PAGE_CLASS
-
-    @property
-    def namespace(self):
-        return self.page.namespace
 
     @property
     def class_filename(self):
@@ -207,6 +211,7 @@ class PageView(object):
 
         # remove the imports we never want; add the imports we always want
         imports = set(imp_list) - DISCARD_IMPORTS | BASE_IMPORTS
+        imports.discard(self.qualified_name)
 
         return [ImportView.from_qualified_name(self.lib, imp) for imp in sorted(imports)]
 
@@ -241,6 +246,6 @@ if __name__ == "__main__":
         print filename + ":"
         print file_contents
 
-    # for filename, file_contents in generate_page(LIB, PAGE):
-    #     print filename + ":"
-    #     print file_contents
+    for filename, file_contents in generate_page(LIB, PAGE):
+        print filename + ":"
+        print file_contents

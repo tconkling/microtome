@@ -40,7 +40,7 @@ class Page(LibraryItemBase):
     @property
     def _children(self):
         if self._childrenDict is None:
-            self._childrenDict = {prop.name: prop for prop in self.props if isinstance(prop, LibraryItem)}
+            self._childrenDict = {prop.name: prop.value for prop in self.props if isinstance(prop.value, LibraryItem)}
         return self._childrenDict
 
 

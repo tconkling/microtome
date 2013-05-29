@@ -2,8 +2,9 @@
 # microtome
 
 import os.path
+import logging
 
-from nose.tools import eq_
+from nose.tools import eq_, assert_is_not_none
 
 import microtome.codegen.spec as s
 from microtome.codegen.parser import Parser
@@ -14,6 +15,7 @@ import microtome.test.MicrotomePages as MicrotomePages
 
 CTX = microtome.ctx.create_ctx()
 LIB = Library()
+LOG = logging.getLogger(__name__)
 
 def resource(name):
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", name)
@@ -75,7 +77,9 @@ def test_object():
 
 def test_nested():
     load_xml("NestedTest.xml")
-    eq_(LIB.get("nestedTest").nested.baz, 3.1415)
+    nested = LIB.get_item_with_qualified_name("nestedTest.nested")
+    assert_is_not_none(nested)
+    eq_(nested.baz, 3.1415)
 
 def test_list():
     load_xml("ListTest.xml")

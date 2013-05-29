@@ -277,7 +277,7 @@ class LoadTask(object):
 
     def is_pending_templated_page(self, page):
         for tpage in self.pending_templated_pages:
-            if tpage.page == page:
+            if tpage.page is page:
                 return True
         return False
 

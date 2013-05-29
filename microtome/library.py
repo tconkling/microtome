@@ -2,10 +2,13 @@
 # microtome
 
 from collections import MutableMapping
+import logging
 
 import microtome.core.defs as Defs
 from microtome.error import MicrotomeError
 from microtome.core.item import MicrotomeItem, LibraryItem
+
+LOG = logging.getLogger(__name__)
 
 class Library(MicrotomeItem, MutableMapping):
     def __init__(self):
@@ -69,9 +72,6 @@ class Library(MicrotomeItem, MutableMapping):
 
     def __iter__(self):
         return self._items.__iter__()
-
-    def __reversed__(self):
-        return self._items.__reversed__()
 
     def __contains__(self, item):
         return self._items.__contains__(item)

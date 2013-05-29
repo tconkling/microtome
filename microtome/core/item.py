@@ -20,6 +20,9 @@ class MicrotomeItem(Mapping):
     def parent(self):
         return None
 
+    def __eq__(self, other):
+        return self is other
+
 
 class LibraryItem(MicrotomeItem):
     @abstractproperty

@@ -5,6 +5,18 @@ import traceback
 import re
 import sys
 
+def ancestor_class_depth(base_clazz, clazz, depth=0):
+    '''returns the depth of the ancestry tree from base_clazz to clazz, or -1 if base_clazz
+    is not a superclass of clazz'''
+    if clazz is base_clazz:
+        return depth
+    elif clazz is not object:
+        for base in clazz.__bases__:
+            base_depth = ancestor_class_depth(base_clazz, base, depth+1)
+            if base_depth >= 0:
+                return base_depth
+    return -1
+
 class CausedException(Exception):
     def __init__(self, *args, **kwargs):
         if len(args) == 1 and not kwargs and isinstance(args[0], Exception):
@@ -19,8 +31,12 @@ class CausedException(Exception):
             super(CausedException, self).__init__(repr(args[0]))
             # ^^^ to display what it is wrapping, in case it gets printed or similar
             return
+
         self.wrapped = None
-        self.stack = traceback.format_stack()[:-1]  # cut off current frame
+        # cut off frames we don't care about
+        class_depth = max(ancestor_class_depth(CausedException, self.__class__), 0)
+        self.stack = traceback.format_stack()[:-(class_depth+1)]
+
         try:
             cause = kwargs['cause']
             del kwargs['cause']
@@ -60,22 +76,22 @@ class CausedException(Exception):
 
 class MicrotomeError(CausedException):
     def __init__(self, message, **kwargs):
-        CausedException.__init__(self, message, **kwargs)
+        super(MicrotomeError, self).__init__(message, **kwargs)
 
 
 class ValidationError(MicrotomeError):
     def __init__(self, prop, message, **kwargs):
         message = "Error validating '%s': %s" % (prop.name, message)
-        CausedException.__init__(self, message, **kwargs)
+        super(ValidationError, self).__init__(message, **kwargs)
 
 
 class LoadError(MicrotomeError):
     def __init__(self, bad_obj, msg, **kwargs):
         if bad_obj is not None:
             msg += "\ndata: " + bad_obj.debug_description
-        CausedException.__init__(self, msg, **kwargs)
+        super(LoadError, self).__init__(msg, **kwargs)
 
 
 class ResolveRefError(MicrotomeError):
     def __init__(self, message, **kwargs):
-        CausedException.__init__(self, message, **kwargs)
+        super(ResolveRefError, self).__init__(message, **kwargs)

@@ -30,6 +30,18 @@ class Page(LibraryItemBase):
     def __contains__(self, val):
         return self._children.__contains(val)
 
+    def __getitem__(self, key):
+        for prop in self.props:
+            if isinstance(prop, LibraryItem) and prop.name == key:
+                return prop
+        raise KeyError(key)
+
+    def __setitem__(self, key, value):
+        raise NotImplementedError()
+
+    def __delitem__(self, key):
+        raise NotImplementedError()
+
     def __str__(self):
         return self.__class__.__name__ + ":'" + self._name + "'"
 

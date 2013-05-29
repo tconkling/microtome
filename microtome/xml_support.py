@@ -30,7 +30,7 @@ class XmlObject(ReadableObject):
 
     @property
     def debug_description(self):
-        return ElementTree.tostring(self._xml)
+        return ElementTree.tostring(self._xml).split("\n")[0]
 
     @property
     def children(self):

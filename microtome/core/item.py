@@ -2,12 +2,12 @@
 # microtome
 
 from abc import abstractproperty
-from collections import Sized, Iterable, Container
+from collections import Mapping
 
 from microtome.error import MicrotomeError
 import microtome.core.defs as Defs
 
-class MicrotomeItem(Sized, Iterable, Container):
+class MicrotomeItem(Mapping):
     @abstractproperty
     def name(self):
         return ""

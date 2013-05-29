@@ -10,6 +10,7 @@ class Page(LibraryItemBase):
     def __init__(self, name):
         LibraryItemBase.__init__(self, name)
         self._type_info = None
+        self._childrenDict = None
 
     @property
     def type_info(self):
@@ -22,7 +23,7 @@ class Page(LibraryItemBase):
         return _EMPTY_LIST
 
     def __len__(self):
-        return len(self.props)
+        return len(self._children)
 
     def __iter__(self):
         return self._children.__iter__()
@@ -31,23 +32,16 @@ class Page(LibraryItemBase):
         return self._children.__contains(val)
 
     def __getitem__(self, key):
-        for prop in self.props:
-            if isinstance(prop, LibraryItem) and prop.name == key:
-                return prop
-        raise KeyError(key)
-
-    def __setitem__(self, key, value):
-        raise NotImplementedError()
-
-    def __delitem__(self, key):
-        raise NotImplementedError()
+        return self._children[key]
 
     def __str__(self):
         return self.__class__.__name__ + ":'" + self._name + "'"
 
     @property
     def _children(self):
-        return [prop for prop in self.props if isinstance(prop, LibraryItem)]
+        if self._childrenDict is None:
+            self._childrenDict = {prop.name: prop for prop in self.props if isinstance(prop, LibraryItem)}
+        return self._childrenDict
 
 
 if __name__ == "__main__":

@@ -15,7 +15,7 @@ import microtome.codegen.generator_objc as generator_objc
 import microtome.codegen.generator_as as generator_as
 import microtome.codegen.generator_py as generator_py
 
-LOG = logging.getLogger("genpages")
+LOG = logging.getLogger(__name__)
 INPUT_FILE = re.compile(r'.*\.mt')
 GENERATORS = {"objc": generator_objc, "as": generator_as, "py": generator_py}
 

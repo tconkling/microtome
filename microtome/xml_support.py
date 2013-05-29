@@ -6,6 +6,9 @@ import xml.etree.ElementTree as ElementTree
 from microtome.core.reader import ReadableObject
 from microtome.error import LoadError
 
+def load_xml(ctx, lib, *filenames):
+    ctx.load(lib, readers_from_files(*filenames))
+
 
 def readers_from_xml_strings(*xml_strings):
     return [XmlObject(root) for root in

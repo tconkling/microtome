@@ -9,8 +9,13 @@ from microtome.test.PrimitivePage import PrimitivePage
 
 class RefPage(Page):
 # GENERATED CONSTRUCTOR START
+    _s_inited = False
     def __init__(self, name):
         super(RefPage, self).__init__(name)
+        if not RefPage._s_inited:
+            RefPage._s_inited = True
+            RefPage._s_nestedSpec = PropSpec("nested", None, [PageRef, PrimitivePage, ])
+
         self._nested = Prop(self, RefPage._s_nestedSpec)
 # GENERATED CONSTRUCTOR END
 
@@ -23,7 +28,3 @@ class RefPage(Page):
     def props(self):
         return super(RefPage, self).props + [self._nested, ]
 # GENERATED PROPS END
-
-# GENERATED STATICS START
-    _s_nestedSpec = PropSpec("nested", None, [PageRef, PrimitivePage, ])
-# GENERATED STATICS END

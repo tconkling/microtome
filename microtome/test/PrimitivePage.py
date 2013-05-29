@@ -7,8 +7,15 @@ from microtome.page import Page
 
 class PrimitivePage(Page):
 # GENERATED CONSTRUCTOR START
+    _s_inited = False
     def __init__(self, name):
         super(PrimitivePage, self).__init__(name)
+        if not PrimitivePage._s_inited:
+            PrimitivePage._s_inited = True
+            PrimitivePage._s_fooSpec = PropSpec("foo", None, [bool, ])
+            PrimitivePage._s_barSpec = PropSpec("bar", None, [int, ])
+            PrimitivePage._s_bazSpec = PropSpec("baz", None, [float, ])
+
         self._foo = Prop(self, PrimitivePage._s_fooSpec)
         self._bar = Prop(self, PrimitivePage._s_barSpec)
         self._baz = Prop(self, PrimitivePage._s_bazSpec)
@@ -31,9 +38,3 @@ class PrimitivePage(Page):
     def props(self):
         return super(PrimitivePage, self).props + [self._foo, self._bar, self._baz, ]
 # GENERATED PROPS END
-
-# GENERATED STATICS START
-    _s_fooSpec = PropSpec("foo", None, [bool, ])
-    _s_barSpec = PropSpec("bar", None, [int, ])
-    _s_bazSpec = PropSpec("baz", None, [float, ])
-# GENERATED STATICS END

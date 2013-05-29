@@ -7,8 +7,15 @@ from {{package}} import {{name}}
 
 class {{class_name}}({{superclass}}):
 # GENERATED CONSTRUCTOR START
+    _s_inited = False
     def __init__(self, name):
         super({{class_name}}, self).__init__(name)
+        if not {{class_name}}._s_inited:
+            {{class_name}}._s_inited = True
+            {{#props}}
+            {{class_name}}._s_{{name}}Spec = PropSpec("{{name}}", {{annotation_text}}, {{#value_type}}[{{#all_typenames}}{{.}}, {{/all_typenames}}]{{/value_type}})
+            {{/props}}
+
         {{#props}}
         self._{{name}} = Prop(self, {{class_name}}._s_{{name}}Spec)
         {{/props}}
@@ -31,9 +38,3 @@ class {{class_name}}({{superclass}}):
     def props(self):
         return super({{class_name}}, self).props + [{{#props}}self._{{name}}, {{/props}}]
 # GENERATED PROPS END
-
-# GENERATED STATICS START
-    {{#props}}
-    _s_{{name}}Spec = PropSpec("{{name}}", {{annotation_text}}, {{#value_type}}[{{#all_typenames}}{{.}}, {{/all_typenames}}]{{/value_type}})
-    {{/props}}
-# GENERATED STATICS END

@@ -8,8 +8,13 @@ from microtome.test.PrimitivePage import PrimitivePage
 
 class NestedPage(Page):
 # GENERATED CONSTRUCTOR START
+    _s_inited = False
     def __init__(self, name):
         super(NestedPage, self).__init__(name)
+        if not NestedPage._s_inited:
+            NestedPage._s_inited = True
+            NestedPage._s_nestedSpec = PropSpec("nested", None, [PrimitivePage, ])
+
         self._nested = Prop(self, NestedPage._s_nestedSpec)
 # GENERATED CONSTRUCTOR END
 
@@ -22,7 +27,3 @@ class NestedPage(Page):
     def props(self):
         return super(NestedPage, self).props + [self._nested, ]
 # GENERATED PROPS END
-
-# GENERATED STATICS START
-    _s_nestedSpec = PropSpec("nested", None, [PrimitivePage, ])
-# GENERATED STATICS END

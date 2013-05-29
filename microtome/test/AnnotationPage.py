@@ -8,8 +8,15 @@ from microtome.test.PrimitivePage import PrimitivePage
 
 class AnnotationPage(Page):
 # GENERATED CONSTRUCTOR START
+    _s_inited = False
     def __init__(self, name):
         super(AnnotationPage, self).__init__(name)
+        if not AnnotationPage._s_inited:
+            AnnotationPage._s_inited = True
+            AnnotationPage._s_fooSpec = PropSpec("foo", {"min": 3.0, "max": 5.0}, [int, ])
+            AnnotationPage._s_barSpec = PropSpec("bar", {"default": 3.0}, [int, ])
+            AnnotationPage._s_primitivesSpec = PropSpec("primitives", {"nullable": True}, [PrimitivePage, ])
+
         self._foo = Prop(self, AnnotationPage._s_fooSpec)
         self._bar = Prop(self, AnnotationPage._s_barSpec)
         self._primitives = Prop(self, AnnotationPage._s_primitivesSpec)
@@ -32,9 +39,3 @@ class AnnotationPage(Page):
     def props(self):
         return super(AnnotationPage, self).props + [self._foo, self._bar, self._primitives, ]
 # GENERATED PROPS END
-
-# GENERATED STATICS START
-    _s_fooSpec = PropSpec("foo", {"min": 3.0, "max": 5.0}, [int, ])
-    _s_barSpec = PropSpec("bar", {"default": 3.0}, [int, ])
-    _s_primitivesSpec = PropSpec("primitives", {"nullable": True}, [PrimitivePage, ])
-# GENERATED STATICS END

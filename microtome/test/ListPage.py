@@ -8,8 +8,13 @@ from microtome.test.PrimitivePage import PrimitivePage
 
 class ListPage(Page):
 # GENERATED CONSTRUCTOR START
+    _s_inited = False
     def __init__(self, name):
         super(ListPage, self).__init__(name)
+        if not ListPage._s_inited:
+            ListPage._s_inited = True
+            ListPage._s_kidsSpec = PropSpec("kids", None, [list, PrimitivePage, ])
+
         self._kids = Prop(self, ListPage._s_kidsSpec)
 # GENERATED CONSTRUCTOR END
 
@@ -22,7 +27,3 @@ class ListPage(Page):
     def props(self):
         return super(ListPage, self).props + [self._kids, ]
 # GENERATED PROPS END
-
-# GENERATED STATICS START
-    _s_kidsSpec = PropSpec("kids", None, [list, PrimitivePage, ])
-# GENERATED STATICS END

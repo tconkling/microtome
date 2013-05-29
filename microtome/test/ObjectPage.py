@@ -7,8 +7,13 @@ from microtome.page import Page
 
 class ObjectPage(Page):
 # GENERATED CONSTRUCTOR START
+    _s_inited = False
     def __init__(self, name):
         super(ObjectPage, self).__init__(name)
+        if not ObjectPage._s_inited:
+            ObjectPage._s_inited = True
+            ObjectPage._s_fooSpec = PropSpec("foo", None, [str, ])
+
         self._foo = Prop(self, ObjectPage._s_fooSpec)
 # GENERATED CONSTRUCTOR END
 
@@ -21,7 +26,3 @@ class ObjectPage(Page):
     def props(self):
         return super(ObjectPage, self).props + [self._foo, ]
 # GENERATED PROPS END
-
-# GENERATED STATICS START
-    _s_fooSpec = PropSpec("foo", None, [str, ])
-# GENERATED STATICS END

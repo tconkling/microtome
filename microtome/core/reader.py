@@ -56,17 +56,55 @@ class DataReader(object):
     def get_float(self, name, default=0.0):
         return self._data.get_float(name) if self._data.has_value(name) else default
 
+    def get_ints(self, name, count=0, delim=",", default=None):
+        return self.require_ints(name, count, delim) if self._data.has_value(name) else default
+
+    def get_floats(self, name, count=0, delim=",", default=None):
+        return self.require_floats(name, count, delim) if self._data.has_value(name) else default
+
     def require_string(self, name):
-        return self._data.get_string(name)
+        try:
+            return self._data.get_string(name)
+        except Exception, e:
+            raise LoadError(self._data, "error loading string '%s': %s" % (name, e.message))
 
     def require_bool(self, name):
-        return self._data.get_bool(name)
+        try:
+            return self._data.get_bool(name)
+        except Exception, e:
+            raise LoadError(self._data, "error loading boolean '%s': %s" % (name, e.message))
 
     def require_int(self, name):
-        return self._data.get_int(name)
+        try:
+            return self._data.get_int(name)
+        except Exception, e:
+            raise LoadError(self._data, "error loading int '%s': %s" % (name, e.message))
 
     def require_float(self, name):
-        return self._data.get_float(name)
+        try:
+            return self._data.get_float(name)
+        except Exception, e:
+            raise LoadError(self._data, "error loading float '%s': %s" % (name, e.message))
+
+    def require_ints(self, name, count=0, delim=","):
+        return self._require_list(name, count, delim, int, lambda s: int(s))
+
+    def require_floats(self, name, count=0, delim=","):
+        return self._require_list(name, count, delim, float, lambda s: float(s))
+
+    def _require_list(self, name, count, delim, list_type, parser):
+        out = None
+        try:
+            out = [parser(s) for s in self.require_string(name).split(delim)]
+        except LoadError:
+            raise
+        except Exception, e:
+            raise LoadError(self._data, "error loading %s list '%s': %s" % (list_type.__name__, name, e.message))
+
+        if count > 0 and len(out) != count:
+            raise LoadError(self._data, "bad %s list length [name=%s, required=%d, got=%d]" % (list_type.__name__, name, count, len(out)))
+
+        return out
 
 
 class ReadableObject(object):

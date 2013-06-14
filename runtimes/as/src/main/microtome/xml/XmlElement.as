@@ -5,7 +5,6 @@ package microtome.xml {
 
 import microtome.core.ReadableObject;
 import microtome.core.WritableObject;
-import microtome.error.LoadError;
 import microtome.util.Util;
 
 internal class XmlElement
@@ -39,7 +38,7 @@ internal class XmlElement
     public function getString (name :String) :String {
         const out :String = _xml.attribute(name)[0];
         if (out == null) {
-            throw new LoadError(this, "Missing required attribute", "name", name);
+            throw new Error("Missing string attribute");
         }
         return out;
     }
@@ -50,29 +49,17 @@ internal class XmlElement
             return true;
         } else if (attr == "false" || attr == "no") {
             return false;
+        } else {
+            throw new Error("not a boolean");
         }
-
-        throw new LoadError(this, "attribute is not a boolean", "name", name, "value", attr);
     }
 
     public function getInt (name :String) :int {
-        const attr :String = getString(name);
-        try {
-            return Util.parseInteger(attr);
-        } catch (e :Error) {
-            throw new LoadError(this, "attribute is not an int", "name", name).initCause(e);
-        }
-        return 0;
+        return Util.parseInteger(getString(name));
     }
 
     public function getNumber (name :String) :Number {
-        const attr :String = getString(name);
-        try {
-            return Util.parseNumber(attr);
-        } catch (e :Error) {
-            throw new LoadError(this, "attribute is not a Number", "name", name).initCause(e);
-        }
-        return 0;
+        return Util.parseNumber(getString(name));
     }
 
     public function addChild (name :String) :WritableObject {

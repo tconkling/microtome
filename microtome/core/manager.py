@@ -177,7 +177,7 @@ class MicrotomeMgr(MicrotomeCtx):
             except LoadError:
                 raise
             except Exception as e:
-                raise LoadError(reader.data, "Error loading prop [name=%s]" % prop.name, cause=e)
+                raise LoadError(reader.data, "Error loading prop '%s': %s" % (prop.name, e.message))
 
     def _load_page_prop(self, page, prop, t_prop, page_reader):
         # 1. Read the value from the DataReader, if it exists

@@ -52,21 +52,13 @@ class XmlObject(ReadableObject):
         elif attr == "false" or attr == "no":
             return False
         else:
-            raise LoadError(self, "attribute is not a boolean [name=%s, value=%s]" % (name, attr))
+            raise RuntimeError("'%s' is not a boolean" % attr)
 
     def get_int(self, name):
-        attr = self.get_string(name)
-        try:
-            return int(attr)
-        except ValueError:
-            raise LoadError(self, "attribute is not an int [name=%s, value=%s]" % (name, attr))
+        return int(self.get_string(name))
 
     def get_float(self, name):
-        attr = self.get_string(name)
-        try:
-            return float(attr)
-        except ValueError:
-            raise LoadError(self, "attribute is not a float [name=%s, value=%s]" % (name, attr))
+        return float(self.get_string(name))
 
 
 if __name__ == "__main__":

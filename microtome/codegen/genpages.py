@@ -2,7 +2,6 @@
 # microtome - Tim Conkling, 2012
 
 import argparse
-import sys
 import os
 import errno
 import re

@@ -3,3 +3,4 @@ genpages/test/*.m
 .settings
 html-template
 dist
+*.pyc

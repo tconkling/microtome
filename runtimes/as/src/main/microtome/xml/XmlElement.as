@@ -62,7 +62,7 @@ internal class XmlElement
         return Util.parseNumber(getString(name));
     }
 
-    public function addChild (name :String) :WritableObject {
+    public function addChild (name :String, isList :Boolean = false) :WritableObject {
         const child :XML = <{name}/>;
         _xml.appendChild(child);
         return new XmlElement(child);

@@ -38,6 +38,18 @@ public class ObjectMarshaller
         return false;
     }
 
+    public function canRead (reader :DataReader, name :String) :Boolean {
+        return isSimple ? reader.hasValue(name) : reader.hasChild(name);
+    }
+
+    public function getReader (parentReader :DataReader, name :String) :DataReader {
+        return isSimple ? parentReader : parentReader.requireChild(name);
+    }
+
+    public function getWriter (parentWriter :WritableObject, name :String) :WritableObject {
+        return isSimple ? parentWriter : parentWriter.addChild(name);
+    }
+
     public function readValue (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {
         throw new Error("abstract");
     }

@@ -26,6 +26,12 @@ public interface DataMarshaller
      */
     function get isSimple () :Boolean;
 
+    function canRead (reader :DataReader, name :String) :Boolean;
+
+    function getReader (parentReader :DataReader, name :String) :DataReader;
+
+    function getWriter (parentWriter :WritableObject, name :String) :WritableObject;
+
     /**
      * Reads data using a data reader.
      * @throw LoadError if the data cannot be loaded for any reason.

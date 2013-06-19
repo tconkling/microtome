@@ -29,6 +29,18 @@ public /*abstract*/ class PrimitiveMarshaller
         return true;
     }
 
+    public final function canRead (reader :DataReader, name :String) :Boolean {
+        return reader.hasValue(name);
+    }
+
+    public final function getReader (parentReader :DataReader, name :String) :DataReader {
+        return parentReader;
+    }
+
+    public final function getWriter (parentWriter :WritableObject, name :String) :WritableObject {
+        return parentWriter;
+    }
+
     public final function resolveRefs (mgr :MicrotomeMgr, val :*, type :TypeInfo) :void {
         // primitives don't store refs
     }

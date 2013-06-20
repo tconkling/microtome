@@ -24,19 +24,26 @@ public class JsonArray extends JsonElement
     }
 
     public function getBool (name :String) :Boolean {
-        throw new Error("getBool not supported");
+        requireType(Boolean);
+        return array[_readHead++] as Boolean;
     }
 
     public function getInt (name :String) :int {
-        throw new Error("getInt not supported");
+        requireType(int);
+        return array[_readHead++] as int;
     }
 
     public function getNumber (name :String) :Number {
-        throw new Error("getNumber not supported");
+        requireType(Number);
+        return array[_readHead++] as Number;
     }
 
     public function getString (name :String) :String {
-        throw new Error("getString not supported");
+        // coerce any primitive value into a string
+        if (!isPrimitive()) {
+            throw new Error("Complex value at readHead");
+        }
+        return String(array[_readHead++]);
     }
 
     public function addChild (name :String, isList :Boolean = false) :WritableObject {
@@ -44,23 +51,37 @@ public class JsonArray extends JsonElement
     }
 
     public function writeBool (name :String, val :Boolean) :void {
-        throw new Error("writeBool not supported");
+        array.push(val);
     }
 
     public function writeInt (name :String, val :int) :void {
-        throw new Error("writeInt not supported");
+        array.push(val);
     }
 
     public function writeNumber (name :String, val :Number) :void {
-        throw new Error("writeNumber not supported");
+        array.push(val);
     }
 
     public function writeString (name :String, val :String) :void {
-        throw new Error("writeString not supported");
+        array.push(val);
     }
 
     protected function get array () :Array {
         return _value as Array;
     }
+
+    protected function requireType (type :Class) :void {
+        if (!(array[_readHead] is type)) {
+            throw new Error("Type is not correct [" + name + ", " + array[name] + "]");
+        }
+    }
+
+    protected function isPrimitive () :Boolean {
+        return array[_readHead] is Boolean || array[_readHead] is Number ||
+            array[_readHead] is String;
+    }
+
+    // used to track primitive reads from this array.
+    protected var _readHead :int = 0;
 }
 }

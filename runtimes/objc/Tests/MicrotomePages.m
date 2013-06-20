@@ -4,6 +4,7 @@
 #import "ListPage.h"
 #import "NestedPage.h"
 #import "ObjectPage.h"
+#import "PrimitiveListPage.h"
 #import "PrimitivePage.h"
 #import "RefPage.h"
 
@@ -13,6 +14,7 @@ NSArray* GetMicrotomePageClasses (void) {
         [ListPage class],
         [NestedPage class],
         [ObjectPage class],
+        [PrimitiveListPage class],
         [PrimitivePage class],
         [RefPage class],
     ];

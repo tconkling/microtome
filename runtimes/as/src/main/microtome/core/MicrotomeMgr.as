@@ -166,8 +166,12 @@ public final class MicrotomeMgr
             throw new LoadError(reader.data, "Invalid page name", "name", name);
         }
 
-        const typename :String = reader.requireString(Defs.PAGE_TYPE_ATTR);
-        const pageClass :Class = requirePageClass(typename, requiredSuperclass);
+        const typename :String = reader.getString(Defs.PAGE_TYPE_ATTR);
+        if (typename == null && requiredSuperclass == null) {
+            throw new Error("Unknown page type");
+        }
+        const pageClass :Class =
+            typename == null ? requiredSuperclass : requirePageClass(typename, requiredSuperclass);
 
         const page :MutablePage = new pageClass(name);
 

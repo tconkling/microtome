@@ -17,7 +17,7 @@ public /* abstract */ class JsonElement
     public function get debugDescription () :String {
         var debug :Object = {};
         debug[_name] = _value;
-        return JSON.stringify(debug, 2);
+        return JSON.stringify(debug, null, 2);
     }
 
     protected var _name :String;

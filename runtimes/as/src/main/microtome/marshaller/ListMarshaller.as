@@ -19,7 +19,7 @@ public class ListMarshaller extends ObjectMarshaller
         return Array;
     }
 
-    override public function getWriter (parentWriter :WritableObject,  name :String) :WritableObject {
+    override public function getValueWriter (parentWriter :WritableObject,  name :String) :WritableObject {
         return parentWriter.addChild(name, true);
     }
 
@@ -40,7 +40,7 @@ public class ListMarshaller extends ObjectMarshaller
         const childMarshaller :DataMarshaller = mgr.requireDataMarshaller(type.subtype.clazz);
         for each (var child :Object in list) {
             var name :String = (child is MicrotomeItem ? MicrotomeItem(child).name : "item");
-            childMarshaller.writeValue(mgr, childMarshaller.getWriter(writer, name), child, name, type.subtype);
+            childMarshaller.writeValue(mgr, childMarshaller.getValueWriter(writer, name), child, name, type.subtype);
         }
     }
 

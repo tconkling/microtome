@@ -34,15 +34,15 @@ public class ObjectMarshaller
         return false;
     }
 
-    public function canRead (reader :DataReader, name :String) :Boolean {
+    public function canReadValue (reader :DataReader, name :String) :Boolean {
         return _isSimple ? reader.hasValue(name) : reader.hasChild(name);
     }
 
-    public function getReader (parentReader :DataReader, name :String) :DataReader {
+    public function getValueReader (parentReader :DataReader, name :String) :DataReader {
         return _isSimple ? parentReader : parentReader.requireChild(name);
     }
 
-    public function getWriter (parentWriter :WritableObject, name :String) :WritableObject {
+    public function getValueWriter (parentWriter :WritableObject, name :String) :WritableObject {
         return _isSimple ? parentWriter : parentWriter.addChild(name);
     }
 

@@ -25,10 +25,6 @@ public /*abstract*/ class PrimitiveMarshaller
         return false;
     }
 
-    public final function get isSimple () :Boolean {
-        return true;
-    }
-
     public final function canRead (reader :DataReader, name :String) :Boolean {
         return reader.hasValue(name);
     }

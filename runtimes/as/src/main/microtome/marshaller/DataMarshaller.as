@@ -18,14 +18,6 @@ public interface DataMarshaller
     /** @true if the marshaller handles subclasses of its valueClass */
     function get handlesSubclasses () :Boolean;
 
-    /**
-     * @return true if this marshaller represents a "simple" data type.
-     * A simple type is one that can be parsed from a single value. Generally, composite objects
-     * are likely to be non-simple (though, for example, a Tuple object could be made simple if
-     * you were to parse it from a comma-delimited string).
-     */
-    function get isSimple () :Boolean;
-
     function canRead (reader :DataReader, name :String) :Boolean;
 
     function getReader (parentReader :DataReader, name :String) :DataReader;

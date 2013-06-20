@@ -27,7 +27,7 @@ public class JsonObject extends JsonElement
     }
 
     public function hasValue (name :String) :Boolean {
-        return _value.hasOwnProperty(name);
+        return _value.hasOwnProperty(name) && _value[name] != null && isPrimitive(_value[name]);
     }
 
     public function getBool (name :String) :Boolean {

@@ -25,8 +25,16 @@ public /*abstract*/ class PrimitiveMarshaller
         return false;
     }
 
-    public final function get isSimple () :Boolean {
-        return true;
+    public final function canReadValue (reader :DataReader, name :String) :Boolean {
+        return reader.hasValue(name);
+    }
+
+    public final function getValueReader (parentReader :DataReader, name :String) :DataReader {
+        return parentReader;
+    }
+
+    public final function getValueWriter (parentWriter :WritableObject, name :String) :WritableObject {
+        return parentWriter;
     }
 
     public final function resolveRefs (mgr :MicrotomeMgr, val :*, type :TypeInfo) :void {

@@ -7,6 +7,7 @@ import microtome.test.MutableAnnotationPage;
 import microtome.test.MutableListPage;
 import microtome.test.MutableNestedPage;
 import microtome.test.MutableObjectPage;
+import microtome.test.MutablePrimitiveListPage;
 import microtome.test.MutablePrimitivePage;
 import microtome.test.MutableRefPage;
 // GENERATED IMPORTS END
@@ -26,6 +27,7 @@ public class MicrotomePages
         microtome.test.MutableListPage,
         microtome.test.MutableNestedPage,
         microtome.test.MutableObjectPage,
+        microtome.test.MutablePrimitiveListPage,
         microtome.test.MutablePrimitivePage,
         microtome.test.MutableRefPage,
     ];

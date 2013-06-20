@@ -1,4 +1,3 @@
-
 # GENERATED IMPORTS START
 from microtome.core.prop import Prop
 from microtome.core.prop import PropSpec
@@ -6,8 +5,7 @@ from microtome.page import Page
 from microtome.test.PrimitivePage import PrimitivePage
 # GENERATED IMPORTS END
 
-class NestedPage(Page):
-# GENERATED CONSTRUCTOR START
+class NestedPage(Page):# GENERATED CONSTRUCTOR START
     _s_inited = False
     def __init__(self, name):
         super(NestedPage, self).__init__(name)
@@ -27,3 +25,7 @@ class NestedPage(Page):
     def props(self):
         return super(NestedPage, self).props + [self._nested, ]
 # GENERATED PROPS END
+
+# GENERATED CLASS_DECL START
+class NestedPage(Page):
+# GENERATED CLASS_DECL END

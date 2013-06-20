@@ -30,3 +30,10 @@ page NestedPage {
 page RefPage {
     PageRef<PrimitivePage> nested;
 }
+
+page PrimitiveListPage {
+    List<string> strings;
+    List<bool> booleans;
+    List<int> ints;
+    List<float> floats;
+}

@@ -12,14 +12,14 @@ public class XmlUtil
     public static function createReaders (xmlDocs :Vector.<XML>) :Vector.<ReadableObject> {
         const data :Vector.<ReadableObject> = new <ReadableObject>[];
         for each (var xml :XML in xmlDocs) {
-            data.push(new XmlElement(xml));
+            data.push(new XmlElement(xml, false));
         }
         return data;
     }
 
     /** Creates a WritableObject that will write to the given XML object */
     public static function createWriter (xml :XML) :WritableObject {
-        return new XmlElement(xml);
+        return new XmlElement(xml, false);
     }
 }
 }

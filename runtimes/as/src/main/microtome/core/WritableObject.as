@@ -5,7 +5,7 @@ package microtome.core {
 
 public interface WritableObject
 {
-    function addChild (name :String) :WritableObject;
+    function addChild (name :String, isList :Boolean = false) :WritableObject;
 
     function writeBool (name :String, val :Boolean) :void;
     function writeInt (name :String, val :int) :void;

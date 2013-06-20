@@ -1,0 +1,17 @@
+{
+  "templateTest0": {
+    "pageType": "PrimitivePage",
+    "foo": true,
+    "bar": 2,
+    "baz": 3.1415
+  },
+  "templateTest2": {
+    "pageType": "PrimitivePage",
+    "template": "templateTest1",
+    "baz": 666
+  },
+  "templateTest1": {
+    "pageType": "PrimitivePage",
+    "template": "templateTest0"
+  }
+}

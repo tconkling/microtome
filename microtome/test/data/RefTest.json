@@ -1,0 +1,6 @@
+{
+  "refTest": {
+    "pageType": "RefPage",
+    "nested": "tomeTest.test1"
+  }
+}

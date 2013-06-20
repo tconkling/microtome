@@ -18,11 +18,14 @@ public interface DataMarshaller
     /** @true if the marshaller handles subclasses of its valueClass */
     function get handlesSubclasses () :Boolean;
 
-    function canRead (reader :DataReader, name :String) :Boolean;
+    /** @true if this marshaller can read the named value from the given reader. */
+    function canReadValue (reader :DataReader, name :String) :Boolean;
 
-    function getReader (parentReader :DataReader, name :String) :DataReader;
+    /** @return a DataReader for the given property on the given DataReader. */
+    function getValueReader (parentReader :DataReader, name :String) :DataReader;
 
-    function getWriter (parentWriter :WritableObject, name :String) :WritableObject;
+    /** @return a WritableObject for the given property on the given WritableObject. */
+    function getValueWriter (parentWriter :WritableObject, name :String) :WritableObject;
 
     /**
      * Reads data using a data reader.

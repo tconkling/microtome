@@ -201,7 +201,7 @@ public final class MicrotomeMgr
                 continue;
             }
             var marshaller :DataMarshaller = requireDataMarshaller(prop.valueType.clazz);
-            var childWriter :WritableObject = marshaller.getWriter(writer, prop.name);
+            var childWriter :WritableObject = marshaller.getValueWriter(writer, prop.name);
             marshaller.writeValue(this, childWriter, prop.value, prop.name, prop.valueType);
         }
     }
@@ -260,11 +260,11 @@ public final class MicrotomeMgr
         const name :String = prop.name;
         const marshaller :DataMarshaller = requireDataMarshaller(prop.valueType.clazz);
 
-        const canRead :Boolean = marshaller.canRead(pageReader, name);
+        const canRead :Boolean = marshaller.canReadValue(pageReader, name);
         const useTemplate :Boolean = !canRead && (tProp != null);
 
         if (canRead) {
-            const reader :DataReader = marshaller.getReader(pageReader, name);
+            const reader :DataReader = marshaller.getValueReader(pageReader, name);
             prop.value = marshaller.readValue(this, reader, name, prop.valueType);
             marshaller.validateProp(prop);
         } else if (useTemplate) {

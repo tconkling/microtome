@@ -10,12 +10,17 @@ import microtome.util.Util;
 internal class XmlElement
     implements ReadableObject, WritableObject
 {
-    public function XmlElement (xml :XML) {
+    public function XmlElement (xml :XML, isList :Boolean) {
         _xml = xml;
+        // we are only created to wrap a primitive in the case of reading a list.
+        var children :XMLList = xml.children();
+        _isPrimitive = xml.attributes().length() == 0 &&
+            children.length() == 1 && children[0].nodeKind() == "text";
+        _isList = !_isPrimitive && isList;
     }
 
     public function get name () :String {
-        return _xml.localName();
+        return _isPrimitive ? null : _xml.localName();
     }
 
     public function get debugDescription () :String {
@@ -24,19 +29,24 @@ internal class XmlElement
     }
 
     public function get children () :Vector.<ReadableObject> {
+        if (_isPrimitive) {
+            return new <ReadableObject>[];
+        }
         var children :Vector.<ReadableObject> = new <ReadableObject>[];
         for each (var child :XML in _xml.elements()) {
-            children.push(new XmlElement(child));
+            // assume that a child with no properties is a list, the XMLElement constructor will
+            // catch the case of a primitive.
+            children.push(new XmlElement(child, child.attributes().length() == 0));
         }
         return children;
     }
 
     public function hasValue (name :String) :Boolean {
-        return _xml.attribute(name)[0] != null;
+        return (_isPrimitive && name == null) || _xml.attribute(name)[0] != null;
     }
 
     public function getString (name :String) :String {
-        const out :String = _xml.attribute(name)[0];
+        const out :String = _isPrimitive ? _xml[0] : _xml.attribute(name)[0];
         if (out == null) {
             throw new Error("Missing string attribute");
         }
@@ -65,11 +75,15 @@ internal class XmlElement
     public function addChild (name :String, isList :Boolean = false) :WritableObject {
         const child :XML = <{name}/>;
         _xml.appendChild(child);
-        return new XmlElement(child);
+        return new XmlElement(child, isList);
     }
 
     public function writeString (name :String, val :String) :void {
-        _xml.@[name] = val;
+        if (_isList) {
+            _xml.appendChild(<value/>.appendChild(val));
+        } else {
+            _xml.@[name] = val;
+        }
     }
 
     public function writeBool (name :String, val :Boolean) :void {
@@ -127,6 +141,7 @@ internal class XmlElement
 
     protected var _xml :XML;
     protected var _value :String;
-    protected var _children :Array;
+    protected var _isPrimitive :Boolean;
+    protected var _isList :Boolean;
 }
 }

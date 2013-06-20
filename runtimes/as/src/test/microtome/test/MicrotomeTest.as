@@ -4,7 +4,6 @@
 package microtome.test {
 
 import flash.display.Sprite;
-import flash.sampler.Sample;
 import flash.utils.ByteArray;
 
 import microtome.Library;
@@ -31,9 +30,8 @@ public class MicrotomeTest extends Sprite
             testRefs();
             testTemplates();
             testAnnotations();
+            testPrimitiveList();
         }
-
-        testPrimitiveList();
 
         trace("All tests passed");
     }
@@ -198,6 +196,8 @@ public class MicrotomeTest extends Sprite
     [Embed(source="../../../../../../microtome/test/data/AnnotationTest.json", mimeType="application/octet-stream")]
     private static const ANNOTATION_TEST_JSON :Class;
 
+    [Embed(source="../../../../../../microtome/test/data/PrimitiveListTest.xml", mimeType="application/octet-stream")]
+    private static const PRIMITIVE_LIST_XML :Class;
     [Embed(source="../../../../../../microtome/test/data/PrimitiveListTest.json", mimeType="application/octet-stream")]
     private static const PRIMITIVE_LIST_JSON :Class;
 

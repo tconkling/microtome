@@ -1,0 +1,29 @@
+<microtome>
+    <primitiveListTest pageType="PrimitiveListPage">
+        <strings>
+            <value>one</value>
+            <value>two</value>
+            <value>three</value>
+        </strings>
+        <booleans>
+            <value>true</value>
+            <value>false</value>
+        </booleans>
+        <ints>
+            <value>1</value>
+            <value>2</value>
+            <value>3</value>
+            <value>5</value>
+            <value>7</value>
+            <value>11</value>
+        </ints>
+        <floats>
+            <!-- line wrap for testing -->
+            <value>1.0
+            </value>
+            <value>2.1</value>
+            <value>3.2</value>
+            <value>4.3</value>
+        </floats>
+    </primitiveListTest>
+</microtome>

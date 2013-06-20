@@ -1,16 +1,18 @@
 {
   "tomeTest": {
     "pageType": "PrimitivePage",
-    "isTome": "true",
+    "isTome": true,
     "test1": {
       "pageType": "PrimitivePage",
       "foo": true,
       "bar": 2,
       "baz": 3.1415
     },
-    "test2": "PrimitivePage",
-    "foo": false,
-    "bar": 666,
-    "baz": 0.1
+    "test2": {
+      "pageType": "PrimitivePage",
+      "foo": false,
+      "bar": 666,
+      "baz": 0.1
+    }
   }
 }

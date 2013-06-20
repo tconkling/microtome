@@ -26,10 +26,6 @@ public class ObjectMarshaller
         _isSimple = isSimple;
     }
 
-    public final function get isSimple () :Boolean {
-        return _isSimple;
-    }
-
     public function get valueClass () :Class {
         throw new Error("abstract");
     }
@@ -39,15 +35,15 @@ public class ObjectMarshaller
     }
 
     public function canRead (reader :DataReader, name :String) :Boolean {
-        return isSimple ? reader.hasValue(name) : reader.hasChild(name);
+        return _isSimple ? reader.hasValue(name) : reader.hasChild(name);
     }
 
     public function getReader (parentReader :DataReader, name :String) :DataReader {
-        return isSimple ? parentReader : parentReader.requireChild(name);
+        return _isSimple ? parentReader : parentReader.requireChild(name);
     }
 
     public function getWriter (parentWriter :WritableObject, name :String) :WritableObject {
-        return isSimple ? parentWriter : parentWriter.addChild(name);
+        return _isSimple ? parentWriter : parentWriter.addChild(name);
     }
 
     public function readValue (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {

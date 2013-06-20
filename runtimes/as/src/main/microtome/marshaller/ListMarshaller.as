@@ -19,6 +19,10 @@ public class ListMarshaller extends ObjectMarshaller
         return Array;
     }
 
+    override public function getValueWriter (parentWriter :WritableObject,  name :String) :WritableObject {
+        return parentWriter.addChild(name, true);
+    }
+
     override public function readValue (mgr :MicrotomeMgr, reader :DataReader, name :String, type :TypeInfo) :* {
         const list :Array = [];
         const childMarshaller :DataMarshaller =
@@ -33,11 +37,10 @@ public class ListMarshaller extends ObjectMarshaller
 
     override public function writeValue (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {
         const list :Array = obj as Array;
-        const childMarshaller :DataMarshaller =
-            mgr.requireDataMarshaller(type.subtype.clazz);
+        const childMarshaller :DataMarshaller = mgr.requireDataMarshaller(type.subtype.clazz);
         for each (var child :Object in list) {
             var name :String = (child is MicrotomeItem ? MicrotomeItem(child).name : "item");
-            childMarshaller.writeValue(mgr, writer.addChild(name), child, name, type.subtype);
+            childMarshaller.writeValue(mgr, childMarshaller.getValueWriter(writer, name), child, name, type.subtype);
         }
     }
 

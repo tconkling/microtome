@@ -16,7 +16,7 @@ public class JsonObject extends JsonElement
             if (!_value.hasOwnProperty(prop) || _value[prop] == null) {
                 continue;
             }
-            if (!isPrimitive(prop)) {
+            if (!isPrimitive(_value[prop])) {
                 var child :Object = _value[prop];
                 children.push(child is Array ?
                     new JsonArray(prop, child as Array) :
@@ -31,23 +31,23 @@ public class JsonObject extends JsonElement
     }
 
     public function getBool (name :String) :Boolean {
-        requireType(name, Boolean);
+        requireType(_value[name], Boolean);
         return _value[name] as Boolean;
     }
 
     public function getInt (name :String) :int {
-        requireType(name, int);
+        requireType(_value[name], int);
         return _value[name] as int;
     }
 
     public function getNumber (name :String) :Number {
-        requireType(name, Number);
+        requireType(_value[name], Number);
         return _value[name] as Number;
     }
 
     public function getString (name :String) :String {
         // coerce any primitive value into a string
-        if (!isPrimitive(name)) {
+        if (!isPrimitive(_value[name])) {
             throw new Error("Complex value [" + name + "]");
         }
         return String(_value[name]);
@@ -73,16 +73,6 @@ public class JsonObject extends JsonElement
 
     public function writeString (name :String, val :String) :void {
         _value[name] = val;
-    }
-
-    protected function requireType (name :String, type :Class) :void {
-        if (!(_value[name] is type)) {
-            throw new Error("Type is not correct [" + name + ", " + _value[name] + "]");
-        }
-    }
-
-    protected function isPrimitive (name :String) :Boolean {
-        return _value[name] is Boolean || _value[name] is Number || _value[name] is String;
     }
 }
 }

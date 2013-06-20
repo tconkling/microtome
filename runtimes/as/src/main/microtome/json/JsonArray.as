@@ -13,8 +13,8 @@ public class JsonArray extends JsonElement
     public function get children () :Vector.<ReadableObject> {
         var children :Vector.<ReadableObject> = new <ReadableObject>[];
         array.forEach(function (child :Object, ..._) :void {
-            children.push(child is Array ?
-                new JsonArray(null, child as Array) : new JsonObject(null, child));
+            children.push(child is Array ? new JsonArray(null, child as Array) :
+                (isPrimitive(child) ? new JsonPrimitive(child) : new JsonObject(null, child)));
         });
         return children;
     }
@@ -24,26 +24,19 @@ public class JsonArray extends JsonElement
     }
 
     public function getBool (name :String) :Boolean {
-        requireType(Boolean);
-        return array[_readHead++] as Boolean;
+        throw new Error("getBool not supported");
     }
 
     public function getInt (name :String) :int {
-        requireType(int);
-        return array[_readHead++] as int;
+        throw new Error("getInt not supported");
     }
 
     public function getNumber (name :String) :Number {
-        requireType(Number);
-        return array[_readHead++] as Number;
+        throw new Error("getNumber not supported");
     }
 
     public function getString (name :String) :String {
-        // coerce any primitive value into a string
-        if (!isPrimitive()) {
-            throw new Error("Complex value at readHead");
-        }
-        return String(array[_readHead++]);
+        throw new Error("getString not supported");
     }
 
     public function addChild (name :String, isList :Boolean = false) :WritableObject {
@@ -69,19 +62,5 @@ public class JsonArray extends JsonElement
     protected function get array () :Array {
         return _value as Array;
     }
-
-    protected function requireType (type :Class) :void {
-        if (!(array[_readHead] is type)) {
-            throw new Error("Type is not correct [" + name + ", " + array[name] + "]");
-        }
-    }
-
-    protected function isPrimitive () :Boolean {
-        return array[_readHead] is Boolean || array[_readHead] is Number ||
-            array[_readHead] is String;
-    }
-
-    // used to track primitive reads from this array.
-    protected var _readHead :int = 0;
 }
 }

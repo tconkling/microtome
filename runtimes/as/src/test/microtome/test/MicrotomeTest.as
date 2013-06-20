@@ -4,6 +4,7 @@
 package microtome.test {
 
 import flash.display.Sprite;
+import flash.sampler.Sample;
 import flash.utils.ByteArray;
 
 import microtome.Library;
@@ -31,6 +32,8 @@ public class MicrotomeTest extends Sprite
             testTemplates();
             testAnnotations();
         }
+
+        testPrimitiveList();
 
         trace("All tests passed");
     }
@@ -128,6 +131,33 @@ public class MicrotomeTest extends Sprite
         _library.removeAllItems();
     }
 
+    protected function testPrimitiveList () :void {
+        load("PRIMITIVE_LIST");
+
+        const expectedStrings :Vector.<String> = new <String>["one", "two", "three"];
+        const expectedBooleans :Vector.<Boolean> = new <Boolean>[true, false];
+        const expectedInts :Vector.<int> = new <int>[1, 2, 3, 5, 7, 11];
+        const expectedFloats :Vector.<Number> = new <Number>[1.0, 2.1, 3.2, 4.3];
+
+        var page :PrimitiveListPage = _library.getItem("primitiveListTest");
+        assertEquals(page.strings.length, expectedStrings.length);
+        for (var ii :int = 0; ii < expectedStrings.length; ii++) {
+            assertEquals(page.strings[ii], expectedStrings[ii]);
+        }
+        assertEquals(page.booleans.length, expectedBooleans.length);
+        for (ii = 0; ii < expectedBooleans.length; ii++) {
+            assertEquals(page.booleans[ii], expectedBooleans[ii]);
+        }
+        assertEquals(page.ints.length, expectedInts.length);
+        for (ii = 0; ii < expectedInts.length; ii++) {
+            assertEquals(page.ints[ii], expectedInts[ii]);
+        }
+        assertEquals(page.floats.length, expectedFloats.length);
+        for (ii = 0; ii < expectedFloats.length; ii++) {
+            assertEqualsWithAccuracy(page.floats[ii], expectedFloats[ii], EPSILON);
+        }
+    }
+
     protected const _library :Library = new Library();
     protected const _ctx :MicrotomeCtx = Microtome.createCtx();
 
@@ -167,6 +197,9 @@ public class MicrotomeTest extends Sprite
     private static const ANNOTATION_TEST_XML :Class;
     [Embed(source="../../../../../../microtome/test/data/AnnotationTest.json", mimeType="application/octet-stream")]
     private static const ANNOTATION_TEST_JSON :Class;
+
+    [Embed(source="../../../../../../microtome/test/data/PrimitiveListTest.json", mimeType="application/octet-stream")]
+    private static const PRIMITIVE_LIST_JSON :Class;
 
     protected static const EPSILON :Number = 0.0001;
 }

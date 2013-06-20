@@ -20,6 +20,17 @@ public /* abstract */ class JsonElement
         return JSON.stringify(debug, null, 2);
     }
 
+    protected function requireType (value :Object, type :Class) :void {
+        if (!(value is type)) {
+            throw new Error("Type is not correct [" + type + ", " +
+                JSON.stringify(value, null, 2) + "]");
+        }
+    }
+
+    protected function isPrimitive (value :Object) :Boolean {
+        return value is Boolean || value is Number || value is String;
+    }
+
     protected var _name :String;
     protected var _value :Object;
 }

@@ -48,6 +48,13 @@ public final class Library
         return item;
     }
 
+    public function requireItemWithQualifiedName (qualifiedName :String) :* {
+        var item :LibraryItem = getItemWithQualifiedName(qualifiedName);
+        if (item == null) {
+            throw new MicrotomeError("No such item", "qualifiedName", qualifiedName);
+        }
+    }
+
     public function getItem (name :String) :* {
         return _items[name];
     }

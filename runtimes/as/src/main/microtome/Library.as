@@ -53,6 +53,7 @@ public final class Library
         if (item == null) {
             throw new MicrotomeError("No such item", "qualifiedName", qualifiedName);
         }
+        return item;
     }
 
     public function getItem (name :String) :* {

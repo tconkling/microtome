@@ -1,11 +1,12 @@
-
 # GENERATED IMPORTS START
 from microtome.core.prop import Prop
 from microtome.core.prop import PropSpec
 from microtome.page import Page
 # GENERATED IMPORTS END
 
+# GENERATED CLASS_DECL START
 class PrimitivePage(Page):
+# GENERATED CLASS_DECL END
 # GENERATED CONSTRUCTOR START
     _s_inited = False
     def __init__(self, name):

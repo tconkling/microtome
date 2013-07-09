@@ -21,7 +21,7 @@
 #define MT_NAME_SEPARATOR @"."
 
 #define MT_PAGE_TYPE_ATTR @"pageType"
-#define MT_IS_TOME_ATTR @"isTome"
+#define MT_TOME_TYPE_ATTR @"tomeType"
 #define MT_TEMPLATE_ATTR @"template"
 
 #define MT_NULLABLE_ANNOTATION @"nullable"

@@ -208,8 +208,7 @@ public final class MicrotomeMgr
     }
 
     public function writeTome (writer :WritableObject, tome :MutableTome) :void {
-        writer.writeString(Defs.PAGE_TYPE_ATTR, Util.pageTypeName(tome.pageClass));
-        writer.writeBool(Defs.IS_TOME_ATTR, true);
+        writer.writeString(Defs.TOME_TYPE_ATTR, Util.pageTypeName(tome.pageClass));
         for each (var page :MutablePage in tome.children.sortOn("name")) {
             writePage(writer.addChild(page.name), page);
         }
@@ -284,10 +283,9 @@ public final class MicrotomeMgr
 
     protected function loadLibraryItem (reader :DataReader) :LibraryItem {
         // a tome or a page
-        const pageType :String = reader.requireString(Defs.PAGE_TYPE_ATTR);
-        if (reader.getBool(Defs.IS_TOME_ATTR, false)) {
+        if (reader.hasValue(Defs.TOME_TYPE_ATTR)) {
             // it's a tome!
-            return loadTome(reader, requirePageClass(pageType));
+            return loadTome(reader, requirePageClass(reader.requireString(Defs.TOME_TYPE_ATTR)));
         } else {
             // it's a page!
             return loadPage(reader);

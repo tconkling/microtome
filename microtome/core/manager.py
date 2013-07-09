@@ -206,10 +206,9 @@ class MicrotomeMgr(MicrotomeCtx):
 
     def _load_library_item(self, reader):
         # a tome or a page
-        page_typename = reader.require_string(Defs.PAGE_TYPE_ATTR)
-        if reader.get_bool(Defs.IS_TOME_ATTR, False):
+        if reader.has_value(Defs.TOME_TYPE_ATTR):
             # it's a tome!
-            return self.load_tome(reader, self.require_page_class(page_typename))
+            return self.load_tome(reader, self.require_page_class(reader.require_string(Defs.TOME_TYPE_ATTR)))
         else:
             # it's a page!
             return self.load_page(reader)

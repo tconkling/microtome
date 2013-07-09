@@ -2,7 +2,7 @@
 # microtome
 
 PAGE_TYPE_ATTR = "pageType"
-IS_TOME_ATTR = "isTome"
+TOME_TYPE_ATTR = "tomeType"
 TEMPLATE_ATTR = "template"
 
 NULLABLE_ANNOTATION = "nullable"

@@ -6,7 +6,7 @@ package microtome.core {
 public class Defs
 {
     public static const PAGE_TYPE_ATTR :String = "pageType";
-    public static const IS_TOME_ATTR :String = "isTome";
+    public static const TOME_TYPE_ATTR :String = "tomeType";
     public static const TEMPLATE_ATTR :String = "template";
 
     public static const NULLABLE_ANNOTATION :String = "nullable";

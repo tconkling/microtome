@@ -24,6 +24,10 @@ class ListPage(Page):
     def kids(self):
         return self._kids.value
 
+    @kids.setter
+    def kids(self, value):
+        self._kids.value = value
+
     @property
     def props(self):
         return super(ListPage, self).props + [self._kids, ]

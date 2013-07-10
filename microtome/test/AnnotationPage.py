@@ -28,13 +28,25 @@ class AnnotationPage(Page):
     def foo(self):
         return self._foo.value
 
+    @foo.setter
+    def foo(self, value):
+        self._foo.value = value
+
     @property
     def bar(self):
         return self._bar.value
 
+    @bar.setter
+    def bar(self, value):
+        self._bar.value = value
+
     @property
     def primitives(self):
         return self._primitives.value
+
+    @primitives.setter
+    def primitives(self, value):
+        self._primitives.value = value
 
     @property
     def props(self):

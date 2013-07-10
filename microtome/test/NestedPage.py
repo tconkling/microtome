@@ -24,6 +24,10 @@ class NestedPage(Page):
     def nested(self):
         return self._nested.value
 
+    @nested.setter
+    def nested(self, value):
+        self._nested.value = value
+
     @property
     def props(self):
         return super(NestedPage, self).props + [self._nested, ]

@@ -25,6 +25,10 @@ class RefPage(Page):
     def nested(self):
         return self._nested.value.page if self._nested.value is not None else None
 
+    @nested.setter
+    def nested(self, value):
+        self._nested.value = PageRef.from_page(value) if value is not None else None
+
     @property
     def props(self):
         return super(RefPage, self).props + [self._nested, ]

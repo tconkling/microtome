@@ -23,6 +23,10 @@ class ObjectPage(Page):
     def foo(self):
         return self._foo.value
 
+    @foo.setter
+    def foo(self, value):
+        self._foo.value = value
+
     @property
     def props(self):
         return super(ObjectPage, self).props + [self._foo, ]

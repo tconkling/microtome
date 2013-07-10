@@ -27,13 +27,25 @@ class PrimitivePage(Page):
     def foo(self):
         return self._foo.value
 
+    @foo.setter
+    def foo(self, value):
+        self._foo.value = value
+
     @property
     def bar(self):
         return self._bar.value
 
+    @bar.setter
+    def bar(self, value):
+        self._bar.value = value
+
     @property
     def baz(self):
         return self._baz.value
+
+    @baz.setter
+    def baz(self, value):
+        self._baz.value = value
 
     @property
     def props(self):

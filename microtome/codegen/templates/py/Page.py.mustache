@@ -28,14 +28,23 @@ class {{class_name}}({{superclass}}):
 
 # GENERATED PROPS START
     {{#props}}
-    @property
     {{#value_type.is_pageref}}
+    @property
     def {{name}}(self):
         return self._{{name}}.value.page if self._{{name}}.value is not None else None
+
+    @{{name}}.setter
+    def {{name}}(self, value):
+        self._{{name}}.value = PageRef.from_page(value) if value is not None else None
     {{/value_type.is_pageref}}
     {{^value_type.is_pageref}}
+    @property
     def {{name}}(self):
         return self._{{name}}.value
+
+    @{{name}}.setter
+    def {{name}}(self, value):
+        self._{{name}}.value = value
     {{/value_type.is_pageref}}
 
     {{/props}}

@@ -141,4 +141,3 @@ class ReadableObject(object):
     @abstractmethod
     def get_string(self, name):
         return ""
-

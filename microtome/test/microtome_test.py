@@ -4,6 +4,8 @@
 import os.path
 import logging
 
+import xml.etree.ElementTree as ElementTree
+
 from nose.tools import eq_, assert_is_not_none
 
 import microtome.codegen.spec as s
@@ -12,16 +14,17 @@ import microtome.xml_support as xml_support
 import microtome.ctx
 from microtome.library import Library
 import microtome.test.MicrotomePages as MicrotomePages
+from microtome.test.PrimitivePage import PrimitivePage
 
 CTX = microtome.ctx.create_ctx()
-LIB = Library()
 LOG = logging.getLogger(__name__)
 
 def resource(name):
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", name)
 
-def load_xml(*filenames):
-    CTX.load(LIB, xml_support.readers_from_files(*[resource(name) for name in filenames]))
+def load_xml(lib, *filenames):
+    CTX.load(lib, xml_support.readers_from_files(*[resource(name) for name in filenames]))
+    return lib
 
 def setup_tests():
     CTX.register_page_classes(MicrotomePages.get_page_classes())
@@ -65,46 +68,63 @@ def test_parser():
     eq_(theTome.type.subtype.name, "com.test.AnotherPage")
 
 def test_primitives():
-    load_xml("PrimitiveTest.xml")
-    page = LIB.get("primitiveTest")
+    lib = load_xml(Library(), "PrimitiveTest.xml")
+    page = lib.get("primitiveTest")
     eq_(page.foo, True)
     eq_(page.bar, 2)
     eq_(page.baz, 3.1415)
 
 def test_object():
-    load_xml("ObjectTest.xml")
-    eq_(LIB.get("objectTest").foo, "foo")
+    lib = load_xml(Library(), "ObjectTest.xml")
+    eq_(lib.get("objectTest").foo, "foo")
 
 def test_nested():
-    load_xml("NestedTest.xml")
-    nested = LIB.get_item_with_qualified_name("nestedTest.nested")
+    lib = load_xml(Library(), "NestedTest.xml")
+    nested = lib.get_item_with_qualified_name("nestedTest.nested")
     assert_is_not_none(nested)
     eq_(nested.baz, 3.1415)
 
 def test_list():
-    load_xml("ListTest.xml")
-    page = LIB.get("listTest")
+    lib = load_xml(Library(), "ListTest.xml")
+    page = lib.get("listTest")
     eq_(len(page.kids), 2)
     eq_(page.kids[1].bar, 666)
 
 def test_ref():
-    load_xml("TomeTest.xml", "RefTest.xml")
-    tome = LIB.get("tomeTest")
-    ref = LIB.get("refTest")
+    lib = load_xml(Library(), "TomeTest.xml", "RefTest.xml")
+    tome = lib.get("tomeTest")
+    ref = lib.get("refTest")
     eq_(len(tome), 2)
     eq_(ref.nested.baz, 3.1415)
 
 def test_templates():
-    load_xml("TemplateTest.xml")
-    page1 = LIB.get("templateTest1")
-    page2 = LIB.get("templateTest2")
+    lib = load_xml(Library(), "TemplateTest.xml")
+    page1 = lib.get("templateTest1")
+    page2 = lib.get("templateTest2")
     eq_(page1.foo, True)
     eq_(page2.baz, 666)
     eq_(page2.bar, 2)
 
 def test_annotations():
-    load_xml("AnnotationTest.xml")
-    page = LIB.get("annotationTest")
+    lib = load_xml(Library(), "AnnotationTest.xml")
+    page = lib.get("annotationTest")
     eq_(page.foo, 4)
     eq_(page.bar, 3)
     eq_(page.primitives, None)
+
+def test_writer():
+    # load everything
+    lib = load_xml(Library(), "PrimitiveTest.xml", "ObjectTest.xml", "NestedTest.xml",
+        "ListTest.xml", "TomeTest.xml", "RefTest.xml", "TemplateTest.xml", "AnnotationTest.xml")
+
+    # write it all back
+    xmls = []
+    for item in lib.values():
+        xml = ElementTree.Element("microtome")
+        CTX.write(item, xml_support.create_writer(xml))
+        xmls.append(xml)
+
+    # and load it again
+    readers = xml_support.readers_from_xml_strings(*[ElementTree.tostring(xml) for xml in xmls])
+    lib = Library()
+    CTX.load(lib, readers)

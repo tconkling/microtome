@@ -24,4 +24,4 @@ class IntMarshaller(PrimitiveMarshaller):
         return annotation.int_value(0)
 
     def write_value(self, mgr, writer, value, name, type_info):
-        raise NotImplementedError()
+        writer.write_int(name, value)

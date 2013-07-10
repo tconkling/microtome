@@ -35,7 +35,7 @@ class Page(LibraryItemBase):
         return self._children[key]
 
     def __str__(self):
-        return self.__class__.__name__ + ":'" + self._name + "'"
+        return "%s:'%s'" % (self.__class__.__name__, self._name)
 
     @property
     def _children(self):

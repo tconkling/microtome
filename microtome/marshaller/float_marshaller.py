@@ -24,4 +24,4 @@ class FloatMarshaller(PrimitiveMarshaller):
         return annotation.float_value(0.0)
 
     def write_value(self, mgr, writer, value, name, type_info):
-        raise NotImplementedError()
+        writer.write_float(name, value)

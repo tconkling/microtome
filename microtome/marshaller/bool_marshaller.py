@@ -18,4 +18,4 @@ class BoolMarshaller(PrimitiveMarshaller):
         return annotation.bool_value(False)
 
     def write_value(self, mgr, writer, value, name, type_info):
-        raise NotImplementedError()
+        writer.write_bool(name, value)

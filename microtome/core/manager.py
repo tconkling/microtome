@@ -151,7 +151,29 @@ class MicrotomeMgr(MicrotomeCtx):
         return page
 
     def write(self, item, writer):
-        raise NotImplementedError()
+        item_writer = writer.add_child(item.name)
+        if isinstance(item, Page):
+            self.write_page(item_writer, item)
+        elif isinstance(item, Tome):
+            self.write_tome(item_writer, item)
+        else:
+            raise MicrotomeError("Unrecognized LibraryItem '%s'" % item)
+
+    def write_page(self, writer, page):
+        writer.write_string(Defs.PAGE_TYPE_ATTR, util.page_typename(page.__class__))
+
+        # TODO: template support
+        for prop in page.props:
+            if prop.value is None:
+                continue
+            marshaller = self.require_data_marshaller(prop.value_type.clazz)
+            child_writer = writer if marshaller.is_simple else writer.add_child(prop.name)
+            marshaller.write_value(self, child_writer, prop.value, prop.name, prop.value_type)
+
+    def write_tome(self, writer, tome):
+        writer.write_string(Defs.TOME_TYPE_ATTR, util.page_typename(tome.page_class))
+        for page in sorted(tome.values(), key=lambda page: page.name):
+            self.write_page(writer.add_child(page.name), page)
 
     def clone(self, item):
         raise NotImplementedError()

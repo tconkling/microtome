@@ -45,5 +45,8 @@ class Tome(LibraryItemBase):
     def __getitem__(self, key):
         return self._pages.__getitem__(key)
 
+    def __str__(self):
+        return "Tome<%s>:'%s'" % (self.page_class.__name__, self._name)
+
 if __name__ == "__main__":
     Tome("qwert", int)

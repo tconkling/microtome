@@ -4,6 +4,7 @@
 import xml.etree.ElementTree as ElementTree
 
 from microtome.core.reader import ReadableObject
+from microtome.core.writer import WritableObject
 from microtome.error import LoadError
 
 def load_xml(ctx, lib, *filenames):
@@ -20,7 +21,29 @@ def readers_from_files(*filenames):
             [ElementTree.parse(filename) for filename in filenames]]
 
 
-class XmlObject(ReadableObject):
+def create_writer(xml_element):
+    '''creates a WritableObject that will write to the given ElementTree element'''
+    return XmlObject(xml_element)
+
+
+def indent(xml_element, level=0):
+    '''idents the given Element, for pretty-printing'''
+    i = "\n" + level*"  "
+    if len(xml_element):
+        if not xml_element.text or not xml_element.text.strip():
+            xml_element.text = i + "  "
+        if not xml_element.tail or not xml_element.tail.strip():
+            xml_element.tail = i
+        for xml_element in xml_element:
+            indent(xml_element, level+1)
+        if not xml_element.tail or not xml_element.tail.strip():
+            xml_element.tail = i
+    else:
+        if level and (not xml_element.tail or not xml_element.tail.strip()):
+            xml_element.tail = i
+
+
+class XmlObject(ReadableObject, WritableObject):
     def __init__(self, xml):
         self._xml = xml
 
@@ -59,6 +82,21 @@ class XmlObject(ReadableObject):
 
     def get_float(self, name):
         return float(self.get_string(name))
+
+    def add_child(self, name):
+        return XmlObject(ElementTree.SubElement(self._xml, name))
+
+    def write_string(self, name, value):
+        self._xml.set(name, value)
+
+    def write_bool(self, name, value):
+        self.write_string(name, "true" if value else "false")
+
+    def write_int(self, name, value):
+        self.write_string(name, repr(value))
+
+    def write_float(self, name, value):
+        self.write_string(name, repr(value))
 
 
 if __name__ == "__main__":

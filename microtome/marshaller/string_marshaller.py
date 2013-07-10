@@ -17,8 +17,8 @@ class StringMarshaller(ObjectMarshaller):
     def read_default(self, mgr, type_info, annotation):
         return annotation.string_value("")
 
-    def write_value(self, mgr, writer, obj, name, type_info):
-        raise NotImplementedError()
+    def write_value(self, mgr, writer, value, name, type_info):
+        writer.write_string(name, value)
 
     def clone_object(self, mgr, data, type_info):
         # strings don't need cloning

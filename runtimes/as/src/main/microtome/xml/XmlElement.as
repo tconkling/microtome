@@ -38,7 +38,7 @@ internal class XmlElement
     public function getString (name :String) :String {
         const out :String = _xml.attribute(name)[0];
         if (out == null) {
-            throw new Error("Missing string attribute");
+            throw new Error("Missing string attribute '" + name + "'");
         }
         return out;
     }

@@ -74,9 +74,9 @@ public class Throwable extends Error
             var framesInCommon :int = ourTrace.length - 1 - m;
 
             // Print our stack trace
-            out += CAUSE_CAPTION + ClassUtil.getClassName(e) + "\n";
+            out += CAUSE_CAPTION + ClassUtil.getClassName(e) + ' "' + e.message + '"\n';
             for (var ii :int = 0; ii <= m; ++ii) {
-                out += ourTrace[m] + "\n";
+                out += ourTrace[ii] + "\n";
             }
             if (framesInCommon != 0) {
                 out += "\t... " + framesInCommon + " more\n";

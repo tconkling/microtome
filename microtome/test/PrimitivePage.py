@@ -51,3 +51,6 @@ class PrimitivePage(Page):
     def props(self):
         return super(PrimitivePage, self).props + [self._foo, self._bar, self._baz, ]
 # GENERATED PROPS END
+
+# GENERATED POST-IMPORTS START
+# GENERATED POST-IMPORTS END

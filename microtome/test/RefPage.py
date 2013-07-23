@@ -1,9 +1,7 @@
 # GENERATED IMPORTS START
-from microtome.core.page_ref import PageRef
 from microtome.core.prop import Prop
 from microtome.core.prop import PropSpec
 from microtome.page import Page
-from microtome.test.PrimitivePage import PrimitivePage
 # GENERATED IMPORTS END
 
 # GENERATED CLASS_DECL START
@@ -33,3 +31,8 @@ class RefPage(Page):
     def props(self):
         return super(RefPage, self).props + [self._nested, ]
 # GENERATED PROPS END
+
+# GENERATED POST-IMPORTS START
+from microtome.core.page_ref import PageRef
+from microtome.test.PrimitivePage import PrimitivePage
+# GENERATED POST-IMPORTS END

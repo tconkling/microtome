@@ -31,3 +31,6 @@ class ObjectPage(Page):
     def props(self):
         return super(ObjectPage, self).props + [self._foo, ]
 # GENERATED PROPS END
+
+# GENERATED POST-IMPORTS START
+# GENERATED POST-IMPORTS END

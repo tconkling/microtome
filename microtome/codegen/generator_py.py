@@ -205,12 +205,21 @@ class PageView(object):
     def class_imports(self):
         # our superclass
         imp_list = [self.qualified_superclass]
-        # prop value typenames
-        for prop in self.props:
-            imp_list += prop.value_type.qualified_typenames()
 
         # remove the imports we never want; add the imports we always want
         imports = set(imp_list) - DISCARD_IMPORTS | BASE_IMPORTS
+        imports.discard(self.qualified_name)
+
+        return [ImportView.from_qualified_name(self.lib, imp) for imp in sorted(imports)]
+
+    @property
+    def post_imports(self):
+        # we import all prop types in the POST-IMPORTS section, at the end of the file,
+        # to prevent circular import issues
+        imp_list = []
+        for prop in self.props:
+            imp_list += prop.value_type.qualified_typenames()
+        imports = set(imp_list) - DISCARD_IMPORTS
         imports.discard(self.qualified_name)
 
         return [ImportView.from_qualified_name(self.lib, imp) for imp in sorted(imports)]

@@ -2,7 +2,6 @@
 from microtome.core.prop import Prop
 from microtome.core.prop import PropSpec
 from microtome.page import Page
-from microtome.test.PrimitivePage import PrimitivePage
 # GENERATED IMPORTS END
 
 # GENERATED CLASS_DECL START
@@ -32,3 +31,7 @@ class ListPage(Page):
     def props(self):
         return super(ListPage, self).props + [self._kids, ]
 # GENERATED PROPS END
+
+# GENERATED POST-IMPORTS START
+from microtome.test.PrimitivePage import PrimitivePage
+# GENERATED POST-IMPORTS END

@@ -52,3 +52,9 @@ class {{class_name}}({{superclass}}):
     def props(self):
         return super({{class_name}}, self).props + [{{#props}}self._{{name}}, {{/props}}]
 # GENERATED PROPS END
+
+# GENERATED POST-IMPORTS START
+{{#post_imports}}
+from {{package}} import {{name}}
+{{/post_imports}}
+# GENERATED POST-IMPORTS END

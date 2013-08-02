@@ -35,7 +35,7 @@ class GeneratedSourceMerger(object):
     '''
 
     def __init__(self, comment_str=r'//'):
-        self._section_delimiter = re.compile(r'\s*' + comment_str + r' GENERATED (\w+) (START|END|DISABLED)\r?\n')
+        self._section_delimiter = re.compile(r'\s*' + comment_str + r' GENERATED ([\w\-]+) (START|END|DISABLED)\r?\n')
 
     def merge(self, newly_generated, previously_generated):
         '''returns previously_generated with marked sections updated from the same

@@ -31,6 +31,10 @@ public class MutableRefPage extends MutablePage
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _nested, ]); }
 
     private function initProps () :void {
+        if (!s_propSpecsInited) {
+            s_propSpecsInited = true;
+            s_nestedSpec = new PropSpec("nested", null, [ PageRef, MutablePrimitivePage, ]);
+        }
         _nested = new ObjectProp(this, s_nestedSpec);
     }
 // GENERATED PROPS END
@@ -40,7 +44,8 @@ public class MutableRefPage extends MutablePage
 // GENERATED IVARS END
 
 // GENERATED STATICS START
-    protected static const s_nestedSpec :PropSpec = new PropSpec("nested", null, [ PageRef, MutablePrimitivePage, ]);
+    private static var s_propSpecsInited :Boolean;
+    private static var s_nestedSpec :PropSpec;
 // GENERATED STATICS END
 
 // GENERATED CLASS_OUTRO START

@@ -35,6 +35,12 @@ public class MutableAnnotationPage extends MutablePage
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _foo, _bar, _primitives, ]); }
 
     private function initProps () :void {
+        if (!s_propSpecsInited) {
+            s_propSpecsInited = true;
+            s_fooSpec = new PropSpec("foo", { "min": 3.0, "max": 5.0 }, [ int, ]);
+            s_barSpec = new PropSpec("bar", { "default": 3.0 }, [ int, ]);
+            s_primitivesSpec = new PropSpec("primitives", { "nullable": true }, [ MutablePrimitivePage, ]);
+        }
         _foo = new IntProp(this, s_fooSpec);
         _bar = new IntProp(this, s_barSpec);
         _primitives = new ObjectProp(this, s_primitivesSpec);
@@ -48,9 +54,10 @@ public class MutableAnnotationPage extends MutablePage
 // GENERATED IVARS END
 
 // GENERATED STATICS START
-    protected static const s_fooSpec :PropSpec = new PropSpec("foo", { "min": 3.0, "max": 5.0 }, [ int, ]);
-    protected static const s_barSpec :PropSpec = new PropSpec("bar", { "default": 3.0 }, [ int, ]);
-    protected static const s_primitivesSpec :PropSpec = new PropSpec("primitives", { "nullable": true }, [ MutablePrimitivePage, ]);
+    private static var s_propSpecsInited :Boolean;
+    private static var s_fooSpec :PropSpec;
+    private static var s_barSpec :PropSpec;
+    private static var s_primitivesSpec :PropSpec;
 // GENERATED STATICS END
 
 // GENERATED CLASS_OUTRO START

@@ -29,6 +29,10 @@ public class MutableListPage extends MutablePage
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _kids, ]); }
 
     private function initProps () :void {
+        if (!s_propSpecsInited) {
+            s_propSpecsInited = true;
+            s_kidsSpec = new PropSpec("kids", null, [ Array, MutablePrimitivePage, ]);
+        }
         _kids = new ObjectProp(this, s_kidsSpec);
     }
 // GENERATED PROPS END
@@ -38,7 +42,8 @@ public class MutableListPage extends MutablePage
 // GENERATED IVARS END
 
 // GENERATED STATICS START
-    protected static const s_kidsSpec :PropSpec = new PropSpec("kids", null, [ Array, MutablePrimitivePage, ]);
+    private static var s_propSpecsInited :Boolean;
+    private static var s_kidsSpec :PropSpec;
 // GENERATED STATICS END
 
 // GENERATED CLASS_OUTRO START

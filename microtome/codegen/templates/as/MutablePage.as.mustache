@@ -40,6 +40,12 @@ public class {{class_name}} extends {{superclass}}
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ {{#props}}_{{name}}, {{/props}}]); }
 
     private function initProps () :void {
+        if (!s_propSpecsInited) {
+            s_propSpecsInited = true;
+            {{#props}}
+            s_{{name}}Spec = new PropSpec("{{name}}", {{annotation_text}}, {{#value_type}}[ {{#all_typenames}}{{.}}, {{/all_typenames}}]{{/value_type}});
+            {{/props}}
+        }
         {{#props}}
         _{{name}} = new {{typename}}(this, s_{{name}}Spec);
         {{/props}}
@@ -53,8 +59,9 @@ public class {{class_name}} extends {{superclass}}
 // GENERATED IVARS END
 
 // GENERATED STATICS START
+    private static var s_propSpecsInited :Boolean;
     {{#props}}
-    protected static const s_{{name}}Spec :PropSpec = new PropSpec("{{name}}", {{annotation_text}}, {{#value_type}}[ {{#all_typenames}}{{.}}, {{/all_typenames}}]{{/value_type}});
+    private static var s_{{name}}Spec :PropSpec;
     {{/props}}
 // GENERATED STATICS END
 

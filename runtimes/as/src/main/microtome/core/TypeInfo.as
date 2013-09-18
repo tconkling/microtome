@@ -15,6 +15,10 @@ public class TypeInfo
     }
 
     public function TypeInfo (clazz :Class, subtype :TypeInfo) {
+        if (clazz == null) {
+            throw new Error("clazz must not be null");
+        }
+
         _clazz = clazz;
         _subtype = subtype;
     }

@@ -37,6 +37,12 @@ class Library(MicrotomeItem, MutableMapping):
                 return None
         return cur_item
 
+    def require_item_with_qualified_name(self, qualified_name):
+        item = self.get_item_with_qualified_name(qualified_name)
+        if item is None:
+            raise MicrotomeError("No such item [name=%s]" % qualified_name)
+        return item
+
     def add(self, item):
         if item.name in self._items:
             raise MicrotomeError("An item with that name already exists [name=%s]" % item.name)

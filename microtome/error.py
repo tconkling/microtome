@@ -17,7 +17,7 @@ def ancestor_class_depth(base_clazz, clazz, depth=0):
                 return base_depth
     return -1
 
-class CausedException(Exception):
+class ChainableError(Exception):
     def __init__(self, *args, **kwargs):
         if len(args) == 1 and not kwargs and isinstance(args[0], Exception):
             # we shall just wrap a non-caused exception
@@ -28,13 +28,13 @@ class CausedException(Exception):
             #     care of this.
             self.wrapped = args[0]
             self.cause = ()
-            super(CausedException, self).__init__(repr(args[0]))
+            super(ChainableError, self).__init__(repr(args[0]))
             # ^^^ to display what it is wrapping, in case it gets printed or similar
             return
 
         self.wrapped = None
         # cut off frames we don't care about
-        class_depth = max(ancestor_class_depth(CausedException, self.__class__), 0)
+        class_depth = max(ancestor_class_depth(ChainableError, self.__class__), 0)
         self.stack = traceback.format_stack()[:-(class_depth+1)]
 
         try:
@@ -43,10 +43,10 @@ class CausedException(Exception):
         except:
             cause = ()
 
-        if isinstance(cause, Exception) and not isinstance(cause, CausedException):
-            cause = CausedException(cause)
+        if isinstance(cause, Exception) and not isinstance(cause, ChainableError):
+            cause = ChainableError(cause)
         self.cause = cause if isinstance(cause, tuple) else (cause,)
-        super(CausedException, self).__init__(*args, **kwargs)
+        super(ChainableError, self).__init__(*args, **kwargs)
 
     @property
     def stacktrace(self):
@@ -74,7 +74,7 @@ class CausedException(Exception):
                     yield re.sub(r'([^\n]*\n)', indentation + r'\1', line)
 
 
-class MicrotomeError(CausedException):
+class MicrotomeError(ChainableError):
     def __init__(self, message, **kwargs):
         super(MicrotomeError, self).__init__(message, **kwargs)
 

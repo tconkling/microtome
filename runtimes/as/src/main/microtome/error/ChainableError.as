@@ -12,9 +12,9 @@ import microtome.util.ClassUtil;
  * An Error subclass that supports chaining via the "cause" parameter (similar to
  * java.lang.Throwable).
  */
-public class Throwable extends Error
+public class ChainableError extends Error
 {
-    public function Throwable (message :String = "", cause :Error = null) {
+    public function ChainableError (message :String = "", cause :Error = null) {
         super(message);
         // save a reference to Error.getStackTrace so that we can use our own implementation
         // but still access the original.
@@ -28,7 +28,7 @@ public class Throwable extends Error
         return _cause;
     }
 
-    public function initCause (val :Error) :Throwable {
+    public function initCause (val :Error) :ChainableError {
         if (_cause != null) {
             throw new IllegalOperationError("Can't overwrite cause");
         } else if (val == this) {
@@ -83,8 +83,8 @@ public class Throwable extends Error
             }
 
             // print cause, if any
-            if (e is Throwable && Throwable(e).cause != null) {
-                out += printEnclosedStackTrace(Throwable(e).cause, ourTrace, dejaVu);
+            if (e is ChainableError && ChainableError(e).cause != null) {
+                out += printEnclosedStackTrace(ChainableError(e).cause, ourTrace, dejaVu);
             }
         }
 
@@ -92,8 +92,8 @@ public class Throwable extends Error
     }
 
     protected static function getStackTraceElements (e :Error) :Array {
-        var theTrace :String = (e is Throwable ?
-            Throwable(e)._originalGetStackTrace.apply(e) : e.getStackTrace());
+        var theTrace :String = (e is ChainableError ?
+            ChainableError(e)._originalGetStackTrace.apply(e) : e.getStackTrace());
         if (theTrace == null) {
             return [];
         } else {

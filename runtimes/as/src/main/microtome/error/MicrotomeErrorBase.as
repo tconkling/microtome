@@ -3,7 +3,7 @@
 
 package microtome.error {
 
-public class MicrotomeErrorBase extends Throwable
+public class MicrotomeErrorBase extends ChainableError
 {
     public function MicrotomeErrorBase (message :String, args :Array = null) {
         super(Joiner.pairsArray(message, args || []));

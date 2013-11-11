@@ -13,8 +13,7 @@ import microtome.core.microtome_internal;
 import microtome.error.MicrotomeError;
 import microtome.util.Util;
 
-public final class Library
-    implements MicrotomeItem
+public final class Library implements MicrotomeItem
 {
     public function get name () :String {
         return null;

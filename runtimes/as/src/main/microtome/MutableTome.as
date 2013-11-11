@@ -12,8 +12,7 @@ import microtome.error.MicrotomeError;
 import microtome.util.ClassUtil;
 import microtome.util.Util;
 
-public final class MutableTome extends LibraryItemBase
-    implements Tome
+public final class MutableTome extends LibraryItemBase implements Tome
 {
     public function MutableTome (name :String, pageClass :Class) {
         super(name);

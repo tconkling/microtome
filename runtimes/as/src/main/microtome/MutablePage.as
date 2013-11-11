@@ -11,8 +11,7 @@ import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 import microtome.util.Util;
 
-public class MutablePage extends LibraryItemBase
-    implements Page
+public class MutablePage extends LibraryItemBase implements Page
 {
     public function MutablePage (name :String) {
         super(name);

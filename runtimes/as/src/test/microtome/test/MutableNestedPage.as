@@ -10,8 +10,7 @@ import microtome.prop.PropSpec;
 // GENERATED IMPORTS END
 
 // GENERATED CLASS_INTRO START
-public class MutableNestedPage extends MutablePage
-    implements NestedPage
+public class MutableNestedPage extends MutablePage implements NestedPage
 {
 // GENERATED CLASS_INTRO END
 

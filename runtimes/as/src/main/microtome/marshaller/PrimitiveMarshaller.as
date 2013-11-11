@@ -10,8 +10,7 @@ import microtome.core.TypeInfo;
 import microtome.core.WritableObject;
 import microtome.prop.Prop;
 
-public /*abstract*/ class PrimitiveMarshaller
-    implements DataMarshaller
+public /*abstract*/ class PrimitiveMarshaller implements DataMarshaller
 {
     public function PrimitiveMarshaller (valueClazz :Class) {
         _valueClazz = valueClazz;

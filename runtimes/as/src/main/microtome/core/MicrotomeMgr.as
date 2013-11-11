@@ -25,8 +25,7 @@ import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 import microtome.util.Util;
 
-public final class MicrotomeMgr
-    implements MicrotomeCtx
+public final class MicrotomeMgr implements MicrotomeCtx
 {
     public function MicrotomeMgr () {
         registerDataMarshaller(new BoolMarshaller());

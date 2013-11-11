@@ -48,8 +48,7 @@ public class PropSpec
 
 import microtome.core.Annotation;
 
-class PropAnnotation
-    implements Annotation
+class PropAnnotation implements Annotation
 {
     public function PropAnnotation (value :Object) {
         _value = value;

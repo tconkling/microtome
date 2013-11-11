@@ -7,8 +7,7 @@ import microtome.Library;
 import microtome.error.MicrotomeError;
 import microtome.util.Util;
 
-public class LibraryItemBase
-    implements MicrotomeItem
+public class LibraryItemBase implements MicrotomeItem
 {
     public function LibraryItemBase (name :String) {
         if (!Util.validLibraryItemName(name)) {

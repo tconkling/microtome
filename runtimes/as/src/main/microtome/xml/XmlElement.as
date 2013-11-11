@@ -7,8 +7,7 @@ import microtome.core.ReadableObject;
 import microtome.core.WritableObject;
 import microtome.util.Util;
 
-internal class XmlElement
-    implements ReadableObject, WritableObject
+internal class XmlElement implements ReadableObject, WritableObject
 {
     public function XmlElement (xml :XML) {
         _xml = xml;

@@ -11,8 +11,7 @@ import microtome.prop.PropSpec;
 // GENERATED IMPORTS END
 
 // GENERATED CLASS_INTRO START
-public class MutableRefPage extends MutablePage
-    implements RefPage
+public class MutableRefPage extends MutablePage implements RefPage
 {
 // GENERATED CLASS_INTRO END
 

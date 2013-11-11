@@ -13,8 +13,7 @@ import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 
-public class ObjectMarshaller
-    implements DataMarshaller
+public class ObjectMarshaller implements DataMarshaller
 {
     /**
      * @param isSimple true if this marshaller represents a "simple" data type.

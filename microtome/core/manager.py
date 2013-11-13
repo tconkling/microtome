@@ -6,7 +6,6 @@ import logging
 import microtome.util as util
 import microtome.core.defs as Defs
 from microtome.ctx import MicrotomeCtx
-from microtome.page import Page
 from microtome.tome import Tome
 from microtome.error import MicrotomeError, LoadError
 from microtome.core.item import LibraryItem
@@ -15,8 +14,7 @@ from microtome.marshaller.bool_marshaller import BoolMarshaller
 from microtome.marshaller.int_marshaller import IntMarshaller
 from microtome.marshaller.float_marshaller import FloatMarshaller
 from microtome.marshaller.list_marshaller import ListMarshaller
-from microtome.marshaller.page_marshaller import PageMarshaller
-from microtome.marshaller.page_ref_marshaller import PageRefMarshaller
+from microtome.marshaller.tome_ref_marshaller import TomeRefMarshaller
 from microtome.marshaller.string_marshaller import StringMarshaller
 from microtome.marshaller.tome_marshaller import TomeMarshaller
 
@@ -26,13 +24,13 @@ class MicrotomeMgr(MicrotomeCtx):
     def __init__(self):
         self._load_task = None
         self._data_marshallers = {}
-        self._page_classes = {}
+        self._tome_classes = {}
+        self.register_tome_classes([Tome])
         self.register_data_marshallers([BoolMarshaller(),
                                        IntMarshaller(),
                                        FloatMarshaller(),
                                        ListMarshaller(),
-                                       PageMarshaller(),
-                                       PageRefMarshaller(),
+                                       TomeRefMarshaller(),
                                        StringMarshaller(),
                                        TomeMarshaller()])
 
@@ -40,11 +38,12 @@ class MicrotomeMgr(MicrotomeCtx):
     def library(self):
         return self._load_task.library if self._load_task is not None else None
 
-    def register_page_classes(self, classes):
+    def register_tome_classes(self, classes):
         for clazz in classes:
-            if not issubclass(clazz, Page):
-                raise MicrotomeError("Class must extend %s [page_class=%s]" % (str(Page), str(clazz)))
-            self._page_classes[util.page_typename(clazz)] = clazz
+            if not issubclass(clazz, Tome):
+                raise MicrotomeError("Class must extend %s [tome_class=%s]" % (str(Tome), str(clazz)))
+            self._tome_classes[util.tome_typename(clazz)] = clazz
+            LOG.debug("Registered tome class '%s'" % str(clazz))
 
     def register_data_marshallers(self, marshallers):
         for marshaller in marshallers:
@@ -67,15 +66,15 @@ class MicrotomeMgr(MicrotomeCtx):
 
         return marshaller
 
-    def get_page_class(self, name):
-        return self._page_classes.get(name, None)
+    def get_tome_class(self, name):
+        return self._tome_classes.get(name, None)
 
-    def require_page_class(self, name, required_superclass=None):
-        clazz = self.get_page_class(name)
+    def require_tome_class(self, name, required_superclass=None):
+        clazz = self.get_tome_class(name)
         if clazz is None:
-            raise LoadError(None, "No such page class [name=%s]" % name)
+            raise LoadError(None, "No such tome class [name=%s]" % name)
         elif required_superclass is not None and not issubclass(clazz, required_superclass):
-            raise LoadError(None, "Unexpected page class [required=%s, got=%s]" %
+            raise LoadError(None, "Unexpected tome class [required=%s, got=%s]" %
                             (str(required_superclass), str(clazz)))
         return clazz
 
@@ -88,32 +87,32 @@ class MicrotomeMgr(MicrotomeCtx):
         try:
             for obj in readable_objects:
                 for item_reader in DataReader(obj).children:
-                    self._load_task.add_item(self._load_library_item(item_reader))
+                    self._load_task.add_item(self.load_tome(item_reader))
 
             self._add_loaded_items(self._load_task)
 
             # Resolve all templated items:
             # Iterate through the array as many times as it takes to resolve all template-dependent
-            # pages (some templates may themselves have templates in the pendingTemplatedPages).
-            # _pendingTemplatedPages can have items added to it during this process.
+            # tomes (some templates may themselves have templates in the pendingTemplatedTomes).
+            # _pendingTemplatedTomes can have items added to it during this process.
             found_template = True
             while found_template:
                 found_template = False
-                for ii in range(len(self._load_task.pending_templated_pages)):
-                    templated_page = self._load_task.pending_templated_pages[ii]
-                    template = self._load_task.library.get_item_with_qualified_name(templated_page.template_name)
-                    if template is not None and not self._load_task.is_pending_templated_page(template):
-                        self._load_task.pending_templated_pages.pop(ii)
-                        self._load_page_props(templated_page.page, templated_page.reader, template)
+                for ii in range(len(self._load_task.pending_templated_tomes)):
+                    templated_tome = self._load_task.pending_templated_tomes[ii]
+                    template = self._load_task.library.get_tome_with_qualified_name(templated_tome.template_name)
+                    if template is not None and not self._load_task.is_pending_templated_tome(template):
+                        self._load_task.pending_templated_tomes.pop(ii)
+                        self._load_tome_now(templated_tome.tome, templated_tome.reader, template)
                         found_template = True
                         break
 
             # throw an error if we're missing a template
-            if len(self._load_task.pending_templated_pages) > 0:
-                missing = self._load_task.pending_templated_pages[0]
+            if len(self._load_task.pending_templated_tomes) > 0:
+                missing = self._load_task.pending_templated_tomes[0]
                 raise LoadError(missing.reader.data, "Missing template [name=%s]" % missing.template_name)
 
-            # finalize the load, which resolves all PageRefs
+            # finalize the load, which resolves all TomeRefs
             self._finalize_loaded_items(self._load_task)
 
         except:
@@ -122,86 +121,80 @@ class MicrotomeMgr(MicrotomeCtx):
         finally:
             self._load_task = None
 
-    def load_tome(self, reader, page_class):
+    def load_tome(self, reader, required_superclass=None):
         name = reader.name
         if not util.valid_library_item_name(name):
             raise LoadError(reader.data, "Invalid tome name [name=%s]" % name)
 
-        tome = Tome(name, page_class)
-        for page_reader in reader.children:
-            tome.add_page(self.load_page(page_reader, page_class))
+        typename = reader.get_string(Defs.TOME_TYPE_ATTR, util.tome_typename(Tome))
+        tome_class = self.require_tome_class(typename, required_superclass)
+        tome = tome_class(name)
+
+        if reader.has_value(Defs.TEMPLATE_ATTR):
+            # if this tome has a template, we defer its loading until the end
+            self._load_task.pending_templated_tomes.append(TemplatedTome(tome, reader))
+        else:
+            self._load_tome_now(tome, reader)
 
         return tome
 
-    def load_page(self, reader, required_superclass=None):
-        name = reader.name
-        if not util.valid_library_item_name(name):
-            raise LoadError(reader.data, "Invalid tome name [name=%s]" % name)
+    def write(self, tome, writer):
+        self.write_tome(writer.add_child(tome.name), tome)
 
-        typename = reader.require_string(Defs.PAGE_TYPE_ATTR)
-        page_class = self.require_page_class(typename, required_superclass)
-        page = page_class(name)
-
-        if reader.has_value(Defs.TEMPLATE_ATTR):
-            # if this page has a template, we defer its loading until the end
-            self._load_task.pending_templated_pages.append(TemplatedPage(page, reader))
-        else:
-            self._load_page_props(page, reader)
-
-        return page
-
-    def write(self, item, writer):
-        item_writer = writer.add_child(item.name)
-        if isinstance(item, Page):
-            self.write_page(item_writer, item)
-        elif isinstance(item, Tome):
-            self.write_tome(item_writer, item)
-        else:
-            raise MicrotomeError("Unrecognized LibraryItem '%s'" % item)
-
-    def write_page(self, writer, page):
-        writer.write_string(Defs.PAGE_TYPE_ATTR, util.page_typename(page.__class__))
+    def write_tome(self, writer, tome):
+        writer.write_string(Defs.TOME_TYPE_ATTR, util.tome_typename(tome.__class__))
 
         # TODO: template support
-        for prop in page.props:
-            if prop.value is None:
-                continue
+
+        # Write out non-Tome props
+        for prop in (prop for prop in util.basic_props(tome) if prop.value is not None):
             marshaller = self.require_data_marshaller(prop.value_type.clazz)
             child_writer = writer if marshaller.is_simple else writer.add_child(prop.name)
             marshaller.write_value(self, child_writer, prop.value, prop.name, prop.value_type)
 
-    def write_tome(self, writer, tome):
-        writer.write_string(Defs.TOME_TYPE_ATTR, util.page_typename(tome.page_class))
-        for page in sorted(tome.values(), key=lambda page: page.name):
-            self.write_page(writer.add_child(page.name), page)
+        # Write Tomes
+        for tome in sorted(tome.values(), key=lambda tome: tome.name):
+            self.write_tome(writer.add_child(tome.name), tome)
 
     def clone(self, item):
         raise NotImplementedError()
 
-    def _load_page_props(self, page, reader, template=None):
-        # template's class must be equal to, or subclass of, page's class
-        if template is not None and not isinstance(template, page.__class__):
-            raise LoadError(reader.data, "Incompatible template [page_name=%s, page_class=%s, template_name=%s, template_class=%s" %
-                            (page.name, str(page.__class__), template.name, str(template.__class__)))
+    def _load_tome_now(self, tome, reader, template=None):
+        # props
+        self._load_tome_props(tome, reader, template)
 
-        for prop in page.props:
-            # if we have a page template, get its corresponding prop
+        # additional non-prop tomes
+        for tome_reader in reader.children:
+            if util.get_prop(tome, tome_reader.name) is None:
+                tome.add_tome(self.load_tome(tome_reader))
+
+        if template is not None and len(template) != len(tome):
+            raise MicrotomeError("TODO: templated tome children-cloning")
+
+    def _load_tome_props(self, tome, reader, template=None):
+        # template's class must be equal to, or subclass of, tome's class
+        if template is not None and not isinstance(template, tome.__class__):
+            raise LoadError(reader.data, "Incompatible template [tome_name=%s, tome_class=%s, template_name=%s, template_class=%s" %
+                            (tome.name, str(tome.__class__), template.name, str(template.__class__)))
+
+        for prop in tome.props:
+            # if we have a tome template, get its corresponding prop
             t_prop = None
             if template is not None:
                 t_prop = util.get_prop(template, prop.name)
-                LOG.debug("template prop [page=%s, prop=%s]" % (template, t_prop))
+                LOG.debug("template prop [tome=%s, prop=%s]" % (template, t_prop))
                 if t_prop is None:
                     raise LoadError(reader.data, "Missing prop in template [template=%s, prop=%s]" % (template.name, prop.name))
 
             # load the prop
             try:
-                self._load_page_prop(page, prop, t_prop, reader)
+                self._load_tome_prop(tome, prop, t_prop, reader)
             except LoadError:
                 raise
             except Exception as e:
                 raise LoadError(reader.data, "Error loading prop '%s'" % prop.name, cause=e)
 
-    def _load_page_prop(self, page, prop, t_prop, page_reader):
+    def _load_tome_prop(self, tome, prop, t_prop, tome_reader):
         # 1. Read the value from the DataReader, if it exists
         # 2. Else, copy the value from the template, if it exists
         # 3. Else, read the value from its 'default' annotation, if it exists
@@ -210,11 +203,11 @@ class MicrotomeMgr(MicrotomeCtx):
         name = prop.name
         marshaller = self.require_data_marshaller(prop.value_type.clazz)
 
-        can_read = page_reader.has_value(name) if marshaller.is_simple else page_reader.has_child(name)
+        can_read = tome_reader.has_value(name) if marshaller.is_simple else tome_reader.has_child(name)
         use_template = not can_read and t_prop is not None
 
         if can_read:
-            reader = page_reader if marshaller.is_simple else page_reader.require_child(name)
+            reader = tome_reader if marshaller.is_simple else tome_reader.require_child(name)
             prop.value = marshaller.read_value(self, reader, name, prop.value_type)
             marshaller.validate_prop(prop)
         elif use_template:
@@ -224,16 +217,7 @@ class MicrotomeMgr(MicrotomeCtx):
         elif prop.nullable:
             prop.value = None
         else:
-            raise LoadError(page_reader.data, "Missing required child or value [name=%s]" % name)
-
-    def _load_library_item(self, reader):
-        # a tome or a page
-        if reader.has_value(Defs.TOME_TYPE_ATTR):
-            # it's a tome!
-            return self.load_tome(reader, self.require_page_class(reader.require_string(Defs.TOME_TYPE_ATTR)))
-        else:
-            # it's a page!
-            return self.load_page(reader)
+            raise LoadError(tome_reader.data, "Missing required child or value [name=%s]" % name)
 
     def _add_loaded_items(self, load_task):
         if load_task.state != LoadTask.LOADING:
@@ -283,7 +267,7 @@ class LoadTask(object):
         self._library = library
         self._library_items = []
         self.state = LoadTask.LOADING
-        self.pending_templated_pages = []
+        self.pending_templated_tomes = []
 
     @property
     def library(self):
@@ -296,9 +280,9 @@ class LoadTask(object):
             raise MicrotomeError("state != LOADING")
         self._library_items.append(item)
 
-    def is_pending_templated_page(self, page):
-        for tpage in self.pending_templated_pages:
-            if tpage.page is page:
+    def is_pending_templated_tome(self, tome):
+        for ttome in self.pending_templated_tomes:
+            if ttome.tome is tome:
                 return True
         return False
 
@@ -306,9 +290,9 @@ class LoadTask(object):
         return self._library_items.__iter__()
 
 
-class TemplatedPage(object):
-    def __init__(self, page, reader):
-        self.page = page
+class TemplatedTome(object):
+    def __init__(self, tome, reader):
+        self.tome = tome
         self.reader = reader
 
     @property
@@ -317,4 +301,5 @@ class TemplatedPage(object):
 
 if __name__ == "__main__":
     mgr = MicrotomeMgr()
+    print Tome.__name__
 

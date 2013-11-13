@@ -1,7 +1,6 @@
 #
 # microtome
 
-PAGE_TYPE_ATTR = "pageType"
 TOME_TYPE_ATTR = "tomeType"
 TEMPLATE_ATTR = "template"
 

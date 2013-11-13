@@ -1,9 +1,11 @@
 #
 # microtome
 
-def page_typename(page_class):
+from microtome.tome import Tome
+
+def tome_typename(tome_class):
     '''return the page typename for the given page class'''
-    return page_class.__name__
+    return tome_class.__name__
 
 def valid_library_item_name(name):
     # items cannot have '.' in the name
@@ -11,3 +13,9 @@ def valid_library_item_name(name):
 
 def get_prop(page, name):
     return next((prop for prop in page.props if prop.name == name), None)
+
+def basic_props(tome):
+    '''Returns all non-Tome-storing props'''
+    for prop in tome.props:
+        if not isinstance(prop.value, Tome):
+            yield prop

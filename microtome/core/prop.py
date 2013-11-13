@@ -1,13 +1,13 @@
 #
 # microtome
 
-from microtome.core.item import LibraryItemBase
+from microtome.tome import Tome
 from microtome.core.type_info import TypeInfo
 import microtome.core.defs as Defs
 
 class Prop(object):
-    def __init__(self, page, spec):
-        self._page = page
+    def __init__(self, tome, spec):
+        self._tome = tome
         self._spec = spec
         self._value = None
 
@@ -20,11 +20,11 @@ class Prop(object):
         if self._value == val:
             return
 
-        if isinstance(self._value, LibraryItemBase):
-            self._value._parent = None
+        if isinstance(self._value, Tome):
+            self._tome.remove_tome(self._value)
         self._value = val
-        if isinstance(self._value, LibraryItemBase):
-            self._value._parent = self._page
+        if isinstance(self._value, Tome):
+            self._tome.add_tome(self._value)
 
     @property
     def value_type(self):

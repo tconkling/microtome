@@ -13,7 +13,7 @@ LOG = logging.getLogger(__name__)
 class Library(MicrotomeItem, MutableMapping):
     def __init__(self):
         MicrotomeItem.__init__(self)
-        self._items = {}
+        self._tomes = {}
 
     @property
     def name(self):
@@ -27,8 +27,8 @@ class Library(MicrotomeItem, MutableMapping):
     def parent(self):
         return None
 
-    def get_item_with_qualified_name(self, qualified_name):
-        # A qualifiedName is a series of page and tome names, separated by dots
+    def get_tome_with_qualified_name(self, qualified_name):
+        # A qualifiedName is a series of tome names, separated by dots
         # E.g. level1.baddies.big_boss
         cur_item = self
         for name in qualified_name.split(Defs.NAME_SEPARATOR):
@@ -37,50 +37,50 @@ class Library(MicrotomeItem, MutableMapping):
                 return None
         return cur_item
 
-    def require_item_with_qualified_name(self, qualified_name):
-        item = self.get_item_with_qualified_name(qualified_name)
-        if item is None:
-            raise MicrotomeError("No such item [name=%s]" % qualified_name)
-        return item
+    def require_tome_with_qualified_name(self, qualified_name):
+        tome = self.get_tome_with_qualified_name(qualified_name)
+        if tome is None:
+            raise MicrotomeError("No such tome [name=%s]" % qualified_name)
+        return tome
 
-    def add(self, item):
-        if item.name in self._items:
-            raise MicrotomeError("An item with that name already exists [name=%s]" % item.name)
-        elif item.parent is not None:
-            raise MicrotomeError("Item is already in a library [item=%s]" % str(item))
+    def add(self, tome):
+        if tome.name in self._tomes:
+            raise MicrotomeError("A tome with that name already exists [name=%s]" % tome.name)
+        elif tome.parent is not None:
+            raise MicrotomeError("Item is already in a library [tome=%s]" % str(tome))
 
-        item._parent = self
-        self._items[item.name] = item
+        tome._parent = self
+        self._tomes[tome.name] = tome
 
-    def remove(self, item):
-        if item.parent != self:
-            raise MicrotomeError("Item is not in this library [item=%s]" % str(item))
-        item._parent = None
-        del self._items[item.name]
+    def remove(self, tome):
+        if tome.parent != self:
+            raise MicrotomeError("Item is not in this library [tome=%s]" % str(tome))
+        tome._parent = None
+        del self._tomes[tome.name]
 
     def clear(self):
-        for item in self._items:
-            item._parent = None
-        self._items = {}
+        for tome in self._tomes:
+            tome._parent = None
+        self._tomes = {}
 
     def __len__(self):
-        return len(self._items)
+        return len(self._tomes)
 
     def __getitem__(self, key):
-        return self._items[key]
+        return self._tomes[key]
 
     def __setitem__(self, key, value):
         raise NotImplementedError("Use Library.add_item")
 
     def __delitem__(self, key):
-        item = self._items.pop(key)
+        item = self._tomes.pop(key)
         item._parent = None
 
     def __iter__(self):
-        return self._items.__iter__()
+        return self._tomes.__iter__()
 
     def __contains__(self, item):
-        return self._items.__contains__(item)
+        return self._tomes.__contains__(item)
 
 if __name__ == "__main__":
     lib = Library()

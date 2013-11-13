@@ -13,7 +13,7 @@ class MicrotomeCtx(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def register_page_classes(self, classes):
+    def register_tome_classes(self, classes):
         pass
 
     @abstractmethod

@@ -5,48 +5,48 @@ from microtome.core.item import LibraryItemBase
 from microtome.core.type_info import TypeInfo
 from microtome.error import MicrotomeError
 
+_EMPTY_LIST = []
+
 class Tome(LibraryItemBase):
-    def __init__(self, name, page_class):
+    def __init__(self, name):
         LibraryItemBase.__init__(self, name)
-        self._type_info = TypeInfo.from_classes(Tome, page_class)
-        self._pages = {}
+        self._type_info = None
+        self._tomes = {}
 
     @property
     def type_info(self):
+        if self._type_info is None:
+            self._type_info = TypeInfo(self.__class__, None)
         return self._type_info
 
     @property
-    def page_class(self):
-        return self._type_info.subtype.clazz
+    def props(self):
+        return _EMPTY_LIST
 
-    def add_page(self, page):
-        if not isinstance(page, self.page_class):
-            raise MicrotomeError("Incorrect page type [required=%s, got=%s]" %
-                                (str(self.page_class), str(page.__class__)))
+    def add_tome(self, tome):
+        tome._parent = self
+        self._tomes[tome.name] = tome
 
-        page._parent = self
-        self._pages[page.name] = page
-
-    def remove_page(self, page):
-        if page.parent != self:
-            raise MicrotomeError("Page is not in the Tome [page=%s]" % str(page))
-        page._parent = None
-        del self._pages[page.name]
+    def remove_tome(self, tome):
+        if tome.parent != self:
+            raise MicrotomeError("specified Tome is not contained in this Tome [tome=%s]" % str(tome))
+        tome._parent = None
+        del self._tomes[tome.name]
 
     def __iter__(self):
-        return self._pages.__iter__()
+        return self._tomes.__iter__()
 
     def __len__(self):
-        return self._pages.__len__()
+        return self._tomes.__len__()
 
     def __contains__(self, key):
-        return self._pages.__contains__(key)
+        return self._tomes.__contains__(key)
 
     def __getitem__(self, key):
-        return self._pages.__getitem__(key)
+        return self._tomes.__getitem__(key)
 
     def __str__(self):
-        return "Tome<%s>:'%s'" % (self.page_class.__name__, self._name)
+        return "%s:'%s'" % (self.__class__.__name__, self._name)
 
 if __name__ == "__main__":
-    Tome("qwert", int)
+    Tome("qwert")

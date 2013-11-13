@@ -5,15 +5,15 @@ package microtome.util {
 
 import flash.utils.Dictionary;
 
-import microtome.MutablePage;
+import microtome.MutableTome;
 import microtome.core.Defs;
 import microtome.prop.Prop;
 
 public class Util
 {
-    /** @return the page typename for the given page Class */
-    public static function pageTypeName (pageClazz :Class) :String {
-        var name :String = ClassUtil.tinyClassName(pageClazz);
+    /** @return the tome typename for the given tome Class */
+    public static function tomeTypeName (tomeClass :Class) :String {
+        var name :String = ClassUtil.tinyClassName(tomeClass);
         return (startsWith(name, MUTABLE_PREFIX) ? name.substr(MUTABLE_PREFIX.length) : name);
     }
 
@@ -22,8 +22,8 @@ public class Util
         return name.length > 0 && name.indexOf(Defs.NAME_SEPARATOR) < 0;
     }
 
-    public static function getProp (page :MutablePage, name :String) :Prop {
-        for each (var prop :Prop in page.props) {
+    public static function getProp (tome :MutableTome, name :String) :Prop {
+        for each (var prop :Prop in tome.props) {
             if (prop.name == name) {
                 return prop;
             }

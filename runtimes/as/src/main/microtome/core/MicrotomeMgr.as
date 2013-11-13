@@ -7,9 +7,8 @@ import flash.utils.Dictionary;
 
 import microtome.Library;
 import microtome.MicrotomeCtx;
-import microtome.MutablePage;
 import microtome.MutableTome;
-import microtome.Page;
+import microtome.Tome;
 import microtome.error.LoadError;
 import microtome.error.MicrotomeError;
 import microtome.marshaller.BoolMarshaller;
@@ -17,10 +16,9 @@ import microtome.marshaller.DataMarshaller;
 import microtome.marshaller.IntMarshaller;
 import microtome.marshaller.ListMarshaller;
 import microtome.marshaller.NumberMarshaller;
-import microtome.marshaller.PageMarshaller;
-import microtome.marshaller.PageRefMarshaller;
 import microtome.marshaller.StringMarshaller;
 import microtome.marshaller.TomeMarshaller;
+import microtome.marshaller.TomeRefMarshaller;
 import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 import microtome.util.Util;
@@ -32,24 +30,25 @@ public final class MicrotomeMgr implements MicrotomeCtx
         registerDataMarshaller(new IntMarshaller());
         registerDataMarshaller(new NumberMarshaller());
         registerDataMarshaller(new ListMarshaller());
-        registerDataMarshaller(new PageMarshaller());
-        registerDataMarshaller(new PageRefMarshaller());
-        registerDataMarshaller(new StringMarshaller());
         registerDataMarshaller(new TomeMarshaller());
+        registerDataMarshaller(new TomeRefMarshaller());
+        registerDataMarshaller(new StringMarshaller());
+
+        registerTomeClasses(new <Class>[ MutableTome ]);
     }
 
     public final function get library () :Library {
         return _loadTask.library;
     }
 
-    public function registerPageClasses (classes :Vector.<Class>) :void {
+    public function registerTomeClasses (classes :Vector.<Class>) :void {
         for each (var clazz :Class in classes) {
-            if (!ClassUtil.isAssignableAs(MutablePage, clazz)) {
-                throw new MicrotomeError("Class must extend " + ClassUtil.getClassName(MutablePage),
-                    "pageClass", ClassUtil.getClassName(clazz));
+            if (!ClassUtil.isAssignableAs(MutableTome, clazz)) {
+                throw new MicrotomeError("Class must extend " + ClassUtil.getClassName(MutableTome),
+                    "tomeClass", ClassUtil.getClassName(clazz));
             }
 
-            _pageClasses[Util.pageTypeName(clazz)] = clazz;
+            _tomeClasses[Util.tomeTypeName(clazz)] = clazz;
         }
     }
 
@@ -78,16 +77,16 @@ public final class MicrotomeMgr implements MicrotomeCtx
         return marshaller;
     }
 
-    public function getPageClass (name :String) :Class {
-        return _pageClasses[name];
+    public function getTomeClass (name :String) :Class {
+        return _tomeClasses[name];
     }
 
-    public function requirePageClass (name :String, requiredSuperclass :Class = null) :Class {
-        var clazz :Class = getPageClass(name);
+    public function requireTomeClass (name :String, requiredSuperclass :Class = null) :Class {
+        var clazz :Class = getTomeClass(name);
         if (clazz == null) {
-            throw new LoadError(null, "No such page class", "name", name);
+            throw new LoadError(null, "No such tome class", "name", name);
         } else if (requiredSuperclass != null && !ClassUtil.isAssignableAs(requiredSuperclass, clazz)) {
-            throw new LoadError(null, "Unexpected page class",
+            throw new LoadError(null, "Unexpected tome class",
                 "required", ClassUtil.getClassName(requiredSuperclass),
                 "got", ClassUtil.getClassName(clazz));
         }
@@ -103,7 +102,7 @@ public final class MicrotomeMgr implements MicrotomeCtx
         try {
             for each (var elt :ReadableObject in dataElements) {
                 for each (var itemReader :DataReader in new DataReader(elt).children) {
-                    _loadTask.addItem(loadLibraryItem(itemReader));
+                    _loadTask.addTome(loadTome(itemReader));
                 }
             }
 
@@ -111,16 +110,16 @@ public final class MicrotomeMgr implements MicrotomeCtx
 
             // Resolve all templated items:
             // Iterate through the array as many times as it takes to resolve all template-dependent
-            // pages (some templates may themselves have templates in the pendingTemplatedPages).
+            // tomes (some templates may themselves have templates in the pendingTemplatedTomes).
             var foundTemplate :Boolean = true;
             while (foundTemplate) {
                 foundTemplate = false;
-                for (var ii :int = 0; ii < _loadTask.pendingTemplatedPages.length; ++ii) {
-                    var tPage :TemplatedPage = _loadTask.pendingTemplatedPages[ii];
-                    var tmpl :MutablePage = _loadTask.library.getItemWithQualifiedName(tPage.templateName);
-                    if (tmpl != null && !_loadTask.isPendingTemplatedPage(tmpl)) {
-                        loadPageProps(tPage.page, tPage.reader, tmpl);
-                        _loadTask.pendingTemplatedPages.splice(ii--, 1);
+                for (var ii :int = 0; ii < _loadTask.pendingTemplatedTomes.length; ++ii) {
+                    var tTome :TemplatedTome = _loadTask.pendingTemplatedTomes[ii];
+                    var tmpl :MutableTome = _loadTask.library.getTomeWithQualifiedName(tTome.templateName);
+                    if (tmpl != null && !_loadTask.isPendingTemplatedTome(tmpl)) {
+                        loadTomeNow(tTome.tome, tTome.reader, tmpl);
+                        _loadTask.pendingTemplatedTomes.splice(ii--, 1);
                         foundTemplate = true;
                         break;
                     }
@@ -128,13 +127,13 @@ public final class MicrotomeMgr implements MicrotomeCtx
             }
 
             // throw an error if we're missing a template
-            if (_loadTask.pendingTemplatedPages.length > 0) {
-                const missing :TemplatedPage = _loadTask.pendingTemplatedPages[0];
+            if (_loadTask.pendingTemplatedTomes.length > 0) {
+                const missing :TemplatedTome = _loadTask.pendingTemplatedTomes[0];
                 throw new LoadError(missing.reader.data, "Missing template",
                     "name", missing.templateName);
             }
 
-            // finalize the load, which resolves all PageRefs
+            // finalize the load, which resolves all TomeRefs
             finalizeLoadedItems(_loadTask);
 
         } catch (e :Error) {
@@ -146,57 +145,39 @@ public final class MicrotomeMgr implements MicrotomeCtx
         }
     }
 
-    public function loadTome (reader :DataReader, pageClass :Class) :MutableTome {
+    public function loadTome (reader :DataReader, requiredSuperclass :Class = null) :MutableTome {
         const name :String = reader.name;
         if (!Util.validLibraryItemName(name)) {
             throw new LoadError(reader.data, "Invalid tome name", "name", name);
         }
 
-        const tome :MutableTome = new MutableTome(name, pageClass);
-        for each (var pageReader :DataReader in reader.children) {
-            tome.addPage(loadPage(pageReader, pageClass));
+        const typename :String = reader.getString(Defs.TOME_TYPE_ATTR, Defs.MUTABLE_TOME_NAME);
+        const tomeClass :Class = requireTomeClass(typename, requiredSuperclass);
+
+        const tome :MutableTome = new tomeClass(name);
+
+        if (reader.hasValue(Defs.TEMPLATE_ATTR)) {
+            // if this tome has a template, we defer its loading until the end
+            _loadTask.pendingTemplatedTomes.push(new TemplatedTome(tome, reader));
+        } else {
+            loadTomeNow(tome, reader);
         }
+
         return tome;
     }
 
-    public function loadPage (reader :DataReader, requiredSuperclass :Class = null) :MutablePage {
-        const name :String = reader.name;
-        if (!Util.validLibraryItemName(name)) {
-            throw new LoadError(reader.data, "Invalid page name", "name", name);
-        }
-
-        const typename :String = reader.requireString(Defs.PAGE_TYPE_ATTR);
-        const pageClass :Class = requirePageClass(typename, requiredSuperclass);
-
-        const page :MutablePage = new pageClass(name);
-
-        if (reader.hasValue(Defs.TEMPLATE_ATTR)) {
-            // if this page has a template, we defer its loading until the end
-            _loadTask.pendingTemplatedPages.push(new TemplatedPage(page, reader));
-        } else {
-            loadPageProps(page, reader);
-        }
-
-        return page;
+    public function write (item :Tome, writer :WritableObject) :void {
+        writeTome(writer.addChild(item.name), MutableTome(item));
     }
 
-    public function write (item :LibraryItem, writer :WritableObject) :void {
-        const itemWriter :WritableObject = writer.addChild(item.name);
-        if (item is MutablePage) {
-            writePage(itemWriter, MutablePage(item));
-        } else if (item is MutableTome) {
-            writeTome(itemWriter, MutableTome(item));
-        } else {
-            throw new MicrotomeError("Unrecognized LibraryItem", "item", item);
-        }
-    }
-
-    public function writePage (writer :WritableObject, page :MutablePage) :void {
-        writer.writeString(Defs.PAGE_TYPE_ATTR, Util.pageTypeName(ClassUtil.getClass(page)));
+    public function writeTome (writer :WritableObject, tome :MutableTome) :void {
+        writer.writeString(Defs.TOME_TYPE_ATTR, Util.tomeTypeName(ClassUtil.getClass(tome)));
 
         // TODO: template suppport...
-        for each (var prop :Prop in page.props) {
-            if (prop.value === null) {
+
+        // Write out non-Tome props
+        for each (var prop :Prop in tome.props) {
+            if (prop.value === null || prop.value is MutableTome) {
                 continue;
             }
             var marshaller :DataMarshaller = requireDataMarshaller(prop.valueType.clazz);
@@ -204,30 +185,44 @@ public final class MicrotomeMgr implements MicrotomeCtx
                 (marshaller.isSimple ? writer : writer.addChild(prop.name));
             marshaller.writeValue(this, childWriter, prop.value, prop.name, prop.valueType);
         }
-    }
 
-    public function writeTome (writer :WritableObject, tome :MutableTome) :void {
-        writer.writeString(Defs.TOME_TYPE_ATTR, Util.pageTypeName(tome.pageClass));
-        for each (var page :MutablePage in tome.children.sortOn("name")) {
-            writePage(writer.addChild(page.name), page);
+        // Write out all Tomes
+        for each (var tome :MutableTome in tome.children.sortOn("name")) {
+            writeTome(writer.addChild(tome.name), tome);
         }
     }
 
-    public function clone (item :LibraryItem) :* {
-        const clazz :Class = ClassUtil.getClass(item);
+    public function clone (tome :Tome) :* {
+        const clazz :Class = ClassUtil.getClass(tome);
         const marshaller :DataMarshaller = requireDataMarshaller(clazz);
-        return marshaller.cloneData(this, item, item.typeInfo);
+        return marshaller.cloneData(this, tome, tome.typeInfo);
     }
 
-    protected function loadPageProps (page :MutablePage, reader :DataReader, tmpl :MutablePage = null) :void {
-        // template's class must be equal to (or a subclass of) page's class
-        if (tmpl != null && !(tmpl is ClassUtil.getClass(page))) {
-            throw new LoadError(reader.data, "Incompatible template", "pageName", page.name,
-                "pageClass", ClassUtil.getClassName(page), "templateName", tmpl.name,
+    protected function loadTomeNow (tome :MutableTome, reader :DataReader, tmpl :MutableTome = null) :void {
+        // props
+        loadTomeProps(tome, reader, tmpl);
+
+        // additional non-prop tomes
+        for each (var tomeReader :DataReader in reader.children) {
+            if (Util.getProp(tome, tomeReader.name) == null) {
+                tome.addTome(loadTome(tomeReader));
+            }
+        }
+
+        if (tmpl != null && tmpl.numChildren != tome.numChildren) {
+            throw new Error("TODO: templated tome children-cloning");
+        }
+    }
+
+    protected function loadTomeProps (tome :MutableTome, reader :DataReader, tmpl :MutableTome = null) :void {
+        // template's class must be equal to (or a subclass of) tome's class
+        if (tmpl != null && !(tmpl is ClassUtil.getClass(tome))) {
+            throw new LoadError(reader.data, "Incompatible template", "tomeName", tome.name,
+                "tomeClass", ClassUtil.getClassName(tome), "templateName", tmpl.name,
                 "templateClass", ClassUtil.getClassName(tmpl));
         }
 
-        for each (var prop :Prop in page.props) {
+        for each (var prop :Prop in tome.props) {
             // if we have a template, get its corresponding template
             var tProp :Prop = null;
             if (tmpl != null) {
@@ -240,7 +235,7 @@ public final class MicrotomeMgr implements MicrotomeCtx
 
             // load the prop
             try {
-                loadPageProp(page, prop, tProp, reader);
+                loadTomeProp(tome, prop, tProp, reader);
             } catch (loadErr :LoadError) {
                 throw loadErr;
             } catch (err :Error) {
@@ -250,7 +245,7 @@ public final class MicrotomeMgr implements MicrotomeCtx
         }
     }
 
-    protected function loadPageProp (page :Page, prop :Prop, tProp :Prop, pageReader :DataReader) :void {
+    protected function loadTomeProp (tome :Tome, prop :Prop, tProp :Prop, tomeReader :DataReader) :void {
         // 1. Read the value from the DataReader, if it exists
         // 2. Else, copy the value from the template, if it exists
         // 3. Else, read the value from its 'default' annotation, if it exists
@@ -261,12 +256,12 @@ public final class MicrotomeMgr implements MicrotomeCtx
         const marshaller :DataMarshaller = requireDataMarshaller(prop.valueType.clazz);
 
         const canRead :Boolean =
-            (marshaller.isSimple ? pageReader.hasValue(name) : pageReader.hasChild(name));
+            (marshaller.isSimple ? tomeReader.hasValue(name) : tomeReader.hasChild(name));
         const useTemplate :Boolean = !canRead && (tProp != null);
 
         if (canRead) {
             const reader :DataReader =
-                (marshaller.isSimple ? pageReader : pageReader.requireChild(name));
+                (marshaller.isSimple ? tomeReader : tomeReader.requireChild(name));
             prop.value = marshaller.readValue(this, reader, name, prop.valueType);
             marshaller.validateProp(prop);
         } else if (useTemplate) {
@@ -276,18 +271,7 @@ public final class MicrotomeMgr implements MicrotomeCtx
         } else if (prop.nullable) {
             prop.value = null;
         } else {
-            throw new LoadError(pageReader.data, "Missing required value or child", "name", name);
-        }
-    }
-
-    protected function loadLibraryItem (reader :DataReader) :LibraryItem {
-        // a tome or a page
-        if (reader.hasValue(Defs.TOME_TYPE_ATTR)) {
-            // it's a tome!
-            return loadTome(reader, requirePageClass(reader.requireString(Defs.TOME_TYPE_ATTR)));
-        } else {
-            // it's a page!
-            return loadPage(reader);
+            throw new LoadError(tomeReader.data, "Missing required value or child", "name", name);
         }
     }
 
@@ -296,15 +280,15 @@ public final class MicrotomeMgr implements MicrotomeCtx
             throw new MicrotomeError("task.state != LOADING");
         }
 
-        for each (var item :LibraryItem in task.libraryItems) {
-            if (task.library.hasItem(item.name)) {
+        for each (var item :Tome in task.libraryItems) {
+            if (task.library.hasTome(item.name)) {
                 task.state = LoadTask.ABORTED;
                 throw new LoadError(null, "An item named '" + item.name + "' is already loaded");
             }
         }
 
         for each (item in task.libraryItems) {
-            task.library.addItem(item);
+            task.library.addTome(item);
         }
 
         task.state = LoadTask.ADDED_ITEMS;
@@ -316,7 +300,7 @@ public final class MicrotomeMgr implements MicrotomeCtx
         }
 
         try {
-            for each (var item :LibraryItem in task.libraryItems) {
+            for each (var item :Tome in task.libraryItems) {
                 var marshaller :DataMarshaller = requireDataMarshaller(ClassUtil.getClass(item));
                 marshaller.resolveRefs(this, item, item.typeInfo);
             }
@@ -333,15 +317,15 @@ public final class MicrotomeMgr implements MicrotomeCtx
             return;
         }
 
-        for each (var item :LibraryItem in task.libraryItems) {
+        for each (var item :Tome in task.libraryItems) {
             if (task.library == item.library) {
-                task.library.removeItem(item);
+                task.library.removeTome(item);
             }
         }
         task.state = LoadTask.ABORTED;
     }
 
-    protected var _pageClasses :Dictionary = new Dictionary();  // <String, Class>
+    protected var _tomeClasses :Dictionary = new Dictionary();  // <String, Class>
     protected var _dataMarshallers :Dictionary = new Dictionary(); // <Class, DataMarshaller>
 
     protected var _loadTask :LoadTask;

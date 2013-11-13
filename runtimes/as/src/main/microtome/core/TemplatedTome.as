@@ -3,17 +3,17 @@
 
 package microtome.core {
 
-import microtome.MutablePage;
+import microtome.MutableTome;
 
-public class TemplatedPage
+public class TemplatedTome
 {
-    public function TemplatedPage (page :MutablePage, reader :DataReader) {
-        _page = page;
+    public function TemplatedTome (tome :MutableTome, reader :DataReader) {
+        _tome = tome;
         _reader = reader;
     }
 
-    public function get page () :MutablePage {
-        return _page;
+    public function get tome () :MutableTome {
+        return _tome;
     }
 
     public function get reader () :DataReader {
@@ -24,7 +24,7 @@ public class TemplatedPage
         return _reader.requireString(Defs.TEMPLATE_ATTR);
     }
 
-    protected var _page :MutablePage;
+    protected var _tome :MutableTome;
     protected var _reader :DataReader;
 }
 

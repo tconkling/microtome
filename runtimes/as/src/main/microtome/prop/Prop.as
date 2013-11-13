@@ -3,15 +3,15 @@
 
 package microtome.prop {
 
-import microtome.MutablePage;
+import microtome.MutableTome;
 import microtome.core.Annotation;
 import microtome.core.Defs;
 import microtome.core.TypeInfo;
 
 public /*abstract*/ class Prop
 {
-    public function Prop (page :MutablePage, spec :PropSpec) {
-        _page = page;
+    public function Prop (tome :MutableTome, spec :PropSpec) {
+        _tome = tome;
         _spec = spec;
     }
 
@@ -47,7 +47,7 @@ public /*abstract*/ class Prop
         return _spec.getAnnotation(name);
     }
 
-    protected var _page :MutablePage;
+    protected var _tome :MutableTome;
     protected var _spec :PropSpec;
 }
 }

@@ -6,8 +6,6 @@ package microtome {
 import flash.utils.Dictionary;
 
 import microtome.core.Defs;
-import microtome.core.LibraryItem;
-import microtome.core.LibraryItemBase;
 import microtome.core.MicrotomeItem;
 import microtome.core.microtome_internal;
 import microtome.error.MicrotomeError;
@@ -28,71 +26,70 @@ public final class Library implements MicrotomeItem
     }
 
     public function get children () :Array {
-        return Util.dictToArray(_items);
+        return Util.dictToArray(_tomes);
     }
 
-    public function getItemWithQualifiedName (qualifiedName :String) :* {
-        // A qualifiedName is a series of page and tome names, separated by dots
+    public function getTomeWithQualifiedName (qualifiedName :String) :* {
+        // A qualifiedName is a series of tome names, separated by dots
         // E.g. level1.baddies.big_boss
 
-        var item :LibraryItem = null;
+        var item :Tome = null;
         for each (var name :String in qualifiedName.split(Defs.NAME_SEPARATOR)) {
-            var child :* = (item != null ? item.childNamed(name) : _items[name]);
-            if (!(child is LibraryItem)) {
+            item = (item == null ? _tomes[name] : item.getTome(name));
+            if (item == null) {
                 return null;
             }
-            item = LibraryItem(child);
         }
 
         return item;
     }
 
-    public function requireItemWithQualifiedName (qualifiedName :String) :* {
-        var item :LibraryItem = getItemWithQualifiedName(qualifiedName);
+    public function requireTomeWithQualifiedName (qualifiedName :String) :* {
+        var item :Tome = getTomeWithQualifiedName(qualifiedName);
         if (item == null) {
-            throw new MicrotomeError("No such item", "qualifiedName", qualifiedName);
+            throw new MicrotomeError("No such tome", "qualifiedName", qualifiedName);
         }
         return item;
     }
 
-    public function getItem (name :String) :* {
-        return _items[name];
+    public function getTome (name :String) :* {
+        return _tomes[name];
     }
 
-    public function hasItem (name :String) :Boolean {
-        return (name in _items);
+    public function hasTome (name :String) :Boolean {
+        return (name in _tomes);
     }
 
-    public function addItem (item :LibraryItem) :void {
-        if (hasItem(item.name)) {
-            throw new MicrotomeError("An item with that name already exists", "name", item.name);
-        } else if (item.parent != null) {
-            throw new MicrotomeError("Item is already in a library", "item", item);
+    public function addTome (tome :Tome) :void {
+        if (hasTome(tome.name)) {
+            throw new MicrotomeError("A tome with that name already exists", "name", tome.name);
+        } else if (tome.parent != null) {
+            throw new MicrotomeError("Tome is already in a library", "tome", tome);
         }
 
-        setItemParent(item, this);
-        _items[item.name] = item;
+        setTomeParent(tome, this);
+        _tomes[tome.name] = tome;
     }
 
-    public function removeItem (item :LibraryItem) :void {
-        if (item.parent != this) {
-            throw new MicrotomeError("Item is not in this library", "item", item);
+    public function removeTome (tome :Tome) :void {
+        if (tome.parent != this) {
+            throw new MicrotomeError("Tome is not in this library", "tome", tome);
         }
-        setItemParent(item, null);
-        delete _items[item.name];
+        setTomeParent(tome, null);
+        delete _tomes[tome.name];
     }
 
-    public function removeAllItems () :void {
-        for each (var item :LibraryItem in _items) {
-            setItemParent(item, null);
+    public function removeAllTomes () :void {
+        for each (var item :Tome in _tomes) {
+            setTomeParent(item, null);
         }
-        _items = new Dictionary();
+        _tomes = new Dictionary();
     }
 
-    protected function setItemParent (item :LibraryItem, library :Library) :void {
-        LibraryItemBase(item).microtome_internal::setParent(library);
+    protected function setTomeParent (tome :Tome, library :Library) :void {
+        MutableTome(tome).microtome_internal::setParent(library);
     }
 
-    internal var _items :Dictionary = new Dictionary();
+    internal var _tomes :Dictionary = new Dictionary();
 }
 }

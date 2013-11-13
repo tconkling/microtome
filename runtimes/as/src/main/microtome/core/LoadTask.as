@@ -4,7 +4,7 @@
 package microtome.core {
 
 import microtome.Library;
-import microtome.Page;
+import microtome.Tome;
 
 internal class LoadTask
 {
@@ -14,7 +14,7 @@ internal class LoadTask
     public static const ABORTED :int = 3;
 
     public var state :int = LOADING;
-    public const pendingTemplatedPages :Vector.<TemplatedPage> = new <TemplatedPage>[];
+    public const pendingTemplatedTomes :Vector.<TemplatedTome> = new <TemplatedTome>[];
 
     public function LoadTask (library :Library) {
         _library = library;
@@ -24,24 +24,24 @@ internal class LoadTask
         return _library;
     }
 
-    public function get libraryItems () :Vector.<LibraryItem> {
-        return _libraryItems;
+    public function get libraryItems () :Vector.<Tome> {
+        return _tomes;
     }
 
-    public function addItem (item :LibraryItem) :void {
+    public function addTome (tome :Tome) :void {
         if (this.state != LOADING) {
             throw new Error("state != LOADING");
         }
-        _libraryItems.push(item);
+        _tomes.push(tome);
     }
 
-    public function isPendingTemplatedPage (page :Page) :Boolean {
-        return pendingTemplatedPages.some(function (tpage :TemplatedPage, ..._) :Boolean {
-            return tpage.page == page;
+    public function isPendingTemplatedTome (tome :Tome) :Boolean {
+        return pendingTemplatedTomes.some(function (ttome :TemplatedTome, ..._) :Boolean {
+            return ttome.tome == tome;
         });
     }
 
     protected var _library :Library;
-    protected const _libraryItems :Vector.<LibraryItem> = new <LibraryItem>[];
+    protected const _tomes :Vector.<Tome> = new <Tome>[];
 }
 }

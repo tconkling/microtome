@@ -5,98 +5,143 @@ package microtome {
 
 import flash.utils.Dictionary;
 
-import microtome.core.LibraryItemBase;
+import microtome.core.Defs;
+import microtome.core.MicrotomeItem;
 import microtome.core.TypeInfo;
 import microtome.core.microtome_internal;
 import microtome.error.MicrotomeError;
+import microtome.prop.Prop;
 import microtome.util.ClassUtil;
 import microtome.util.Util;
 
-public final class MutableTome extends LibraryItemBase implements Tome
+public class MutableTome implements Tome
 {
-    public function MutableTome (name :String, pageClass :Class) {
-        super(name);
-        _type = TypeInfo.fromClasses([ MutableTome, pageClass ]);
-    }
-
-    override public function get typeInfo () :TypeInfo {
-        return _type;
-    }
-
-    public function get pageClass () :Class {
-        return _type.subtype.clazz;
-    }
-
-    public function get length () :uint {
-        return _length;
-    }
-
-    override public function get children () :Array {
-        return Util.dictToArray(_pages);
-    }
-
-    override public function childNamed (name :String) :* {
-        return this.getPage(name);
-    }
-
-    public function hasPage (name :String) :Boolean {
-        return (_pages[name] != null);
-    }
-
-    public function getPage (name :String) :* {
-        return _pages[name];
-    }
-
-    public function requirePage (name :String) :* {
-        const page :Page = _pages[name];
-        if (page == null) {
-            throw new Error("Missing required page [name='" + name + "']");
+    public function MutableTome (name :String) {
+        if (!Util.validLibraryItemName(name)) {
+            throw new ArgumentError("Invalid Tome name '" + name + "'");
         }
-        return page;
+        _name = name;
+    }
+
+    /** The item's fully qualified name, used during TomeRef resolution */
+    public final function get qualifiedName () :String {
+        if (this.library == null) {
+            throw new MicrotomeError("Tome must be in a library to have a fullyQualifiedName",
+                "tome", this);
+        }
+
+        var out :String = _name;
+        var curItem :MicrotomeItem = _parent;
+        while (curItem != null && curItem.library != curItem) {
+            out = curItem.name + Defs.NAME_SEPARATOR + out;
+            curItem = curItem.parent;
+        }
+        return out;
+    }
+
+    public final function get name () :String {
+        return _name;
+    }
+
+    public final function get parent () :MicrotomeItem {
+        return _parent;
+    }
+
+    public final function get library () :Library {
+        return (_parent != null ? _parent.library : null);
+    }
+
+    public final function get typeInfo () :TypeInfo {
+        if (_typeInfo == null) {
+            _typeInfo = new TypeInfo(ClassUtil.getClass(this), null);
+        }
+        return _typeInfo;
+    }
+
+    public function get numChildren () :uint {
+        return _numChildren;
+    }
+
+    public final function get children () :Array {
+        return (_tomes != null ? Util.dictToArray(_tomes) : []);
+    }
+
+    public function get props () :Vector.<Prop> {
+        return EMPTY_VEC;
+    }
+
+    public function hasTome (name :String) :Boolean {
+        return (getTome(name) != null);
+    }
+
+    public function getTome (name :String) :* {
+        return (_tomes != null ? _tomes[name] : null);
+    }
+
+    public function requireTome (name :String) :* {
+        const tome :Tome = getTome(name);
+        if (tome == null) {
+            throw new Error("Missing required tome [name='" + name + "']");
+        }
+        return tome;
     }
 
     /**
-     * Iterates over the pages in the Tome.
-     * fn should take a single MutablePage argument. It can optionally return a Boolean specifying
+     * Iterates over the named tome children in the Tome.
+     * fn should take a single MutableTome argument. It can optionally return a Boolean specifying
      * whether to stop the iteration.
      */
-    public function forEach (fn :Function) :void {
-        for each (var page :Page in _pages) {
-            if (fn(page)) {
-                return;
+    public function forEachTome (fn :Function) :void {
+        if (_tomes != null) {
+            for each (var tome :Tome in _tomes) {
+                if (fn(tome)) {
+                    return;
+                }
             }
         }
     }
 
-    public function addPage (page :MutablePage) :void {
-        if (!(page is this.pageClass)) {
-            throw new MicrotomeError("Incorrect page type",
-                "required", ClassUtil.getClassName(this.pageClass),
-                "got", ClassUtil.getClassName(page));
-        } else if (page.name == null) {
-            throw new MicrotomeError("Page is missing name", "type", ClassUtil.getClassName(page));
-        } else if (_pages[page.name] != null) {
-            throw new MicrotomeError("Duplicate page name '" + page.name + "'");
-        } else if (page.parent != null) {
-            throw new MicrotomeError("Page is already parented", "parent", page.parent);
+    public function addTome (tome :MutableTome) :void {
+        if (tome.name == null) {
+            throw new MicrotomeError("Tome is missing name", "type", ClassUtil.getClassName(tome));
+        } else if (tome.parent != null) {
+            throw new MicrotomeError("Tome is already parented", "parent", tome.parent);
+        } else if (getTome(name) != null) {
+            throw new MicrotomeError("Duplicate tome name '" + tome.name + "'");
         }
 
-        page.microtome_internal::setParent(this);
-        _pages[page.name] = page;
-        _length++;
-    }
-
-    public function removePage (page :MutablePage) :void {
-        if (page.parent != this) {
-            throw new MicrotomeError("Page is not in this tome", "page", page);
+        tome.microtome_internal::setParent(this);
+        if (_tomes == null) {
+            _tomes = new Dictionary();
         }
-        page.microtome_internal::setParent(null);
-        delete _pages[page.name];
-        _length--;
+        _tomes[tome.name] = tome;
+        ++_numChildren;
     }
 
-    protected var _type :TypeInfo;
-    protected var _pages :Dictionary = new Dictionary();
-    protected var _length :uint;
+    public function removeTome (tome :MutableTome) :void {
+        if (tome.parent != this) {
+            throw new MicrotomeError("Tome is not a child of this tome", "tome", tome);
+        }
+        tome.microtome_internal::setParent(null);
+        delete _tomes[tome.name];
+        --_numChildren;
+    }
+
+    public function toString () :String {
+        return ClassUtil.tinyClassName(this) + ":'" + _name + "'";
+    }
+
+    microtome_internal final function setParent (parent :MicrotomeItem) :void {
+        _parent = parent;
+    }
+
+    protected var _parent :MicrotomeItem;
+    protected var _name :String;
+
+    private var _typeInfo :TypeInfo;
+    private var _tomes :Dictionary;
+    private var _numChildren :uint;
+
+    protected static const EMPTY_VEC :Vector.<Prop> = new Vector.<Prop>(0, true);
 }
 }

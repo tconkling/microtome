@@ -3,26 +3,22 @@
 
 package microtome {
 
-import microtome.core.LibraryItem;
+import microtome.core.MicrotomeItem;
+import microtome.core.TypeInfo;
 
-/**
- * A Tome is a collection of uniquely-named Pages.
- */
-public interface Tome extends LibraryItem
+public interface Tome extends MicrotomeItem
 {
-    /** @return the base class for Pages in the Tome */
-    function get pageClass () :Class;
+    function get qualifiedName () :String;
 
-    /** @return the number of Pages in the Tome */
-    function get length () :uint;
+    function get typeInfo () :TypeInfo;
 
-    /** @return true if the Tome has a Page with the given name */
-    function hasPage (name :String) :Boolean;
+    /** @return true if the Tome has a child Tome with the given name */
+    function hasTome (name :String) :Boolean;
 
-    /** @return the Page with the given name, or null if no such page is in the Tome */
-    function getPage (name :String) :*;
+    /** @return the child Tome with the given name, or null if no such child is in the Tome */
+    function getTome (name :String) :*;
 
-    /** @return the Page with the given name. Throws an error if there is no such page. */
-    function requirePage (name :String) :*;
+    /** @return the child Tome with the given name, or null if no such child is in the Tome */
+    function requireTome (name :String) :*;
 }
 }

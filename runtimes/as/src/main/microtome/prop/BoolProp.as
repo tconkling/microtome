@@ -3,12 +3,12 @@
 
 package microtome.prop {
 
-import microtome.MutablePage;
+import microtome.MutableTome;
 
 public final class BoolProp extends Prop
 {
-    public function BoolProp (page :MutablePage, spec :PropSpec) {
-        super(page, spec);
+    public function BoolProp (tome :MutableTome, spec :PropSpec) {
+        super(tome, spec);
     }
 
     override public function get value () :* {

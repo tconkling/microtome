@@ -41,7 +41,7 @@ public interface DataMarshaller
     /** writes an object's value */
     function writeValue (mgr :MicrotomeMgr, writer :WritableObject, val :*, name :String, type :TypeInfo) :void;
 
-    /** resolves PageRefs contained within an object */
+    /** resolves TomeRefs contained within an object */
     function resolveRefs (mgr :MicrotomeMgr, val :*, type :TypeInfo) :void;
 
     /**

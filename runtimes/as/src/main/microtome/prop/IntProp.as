@@ -3,12 +3,12 @@
 
 package microtome.prop {
 
-import microtome.MutablePage;
+import microtome.MutableTome;
 
 public final class IntProp extends Prop
 {
-    public function IntProp (page :MutablePage, spec :PropSpec) {
-        super(page, spec);
+    public function IntProp (tome :MutableTome, spec :PropSpec) {
+        super(tome, spec);
     }
 
     override public function get value () :* {

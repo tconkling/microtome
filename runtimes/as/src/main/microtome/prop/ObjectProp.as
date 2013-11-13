@@ -3,14 +3,12 @@
 
 package microtome.prop {
 
-import microtome.MutablePage;
-import microtome.core.LibraryItemBase;
-import microtome.core.microtome_internal;
+import microtome.MutableTome;
 
 public final class ObjectProp extends Prop
 {
-    public function ObjectProp (page :MutablePage, spec :PropSpec) {
-        super(page, spec);
+    public function ObjectProp (tome :MutableTome, spec :PropSpec) {
+        super(tome, spec);
     }
 
     override public function get value () :* {
@@ -22,12 +20,12 @@ public final class ObjectProp extends Prop
             return;
         }
 
-        if (_value is LibraryItemBase) {
-            LibraryItemBase(_value).microtome_internal::setParent(null);
+        if (_value is MutableTome) {
+            _tome.removeTome(MutableTome(_value));
         }
         _value = val;
-        if (_value is LibraryItemBase) {
-            LibraryItemBase(_value).microtome_internal::setParent(_page);
+        if (_value is MutableTome) {
+            _tome.addTome(MutableTome(_value));
         }
     }
 

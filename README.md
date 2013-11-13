@@ -16,12 +16,12 @@ You include the runtime in your game. It reads game data stored in XML and produ
 * Ensure python 2.7 is installed
 * `$ cd /path/to/microtome`
 * `$ python setup.py install` (or `$ sudo python setup.py install`)
-* Generate test microtome "pages": `$ /path/to/microtome/bin/gen-test-pages`
+* Generate test microtome "tomes": `$ /path/to/microtome/bin/gen-test-tomes`
 * Run the test applications at  `microtome/runtime/src/test/as` (ActionScript) and `microtome/runtime/src/main/objc` (Objective-C).
 
 ## Language support
 
-microtome supports ActionScript, Python, and Objective-C, but it's designed to be extensible to other languages. To support a new language, you'll need to write a code generator (look at ```microtome/genpages/generator_as.py``` and ```microtome/genpages/generator_objc.py``` for examples) and a runtime (look at ```microtome/runtime/src/main/as``` and ```microtome/runtime/src/main/objc```).
+microtome supports ActionScript, Python, and Objective-C, but it's designed to be extensible to other languages. To support a new language, you'll need to write a code generator (look at ```microtome/gentomes/generator_as.py``` and ```microtome/gentomes/generator_objc.py``` for examples) and a runtime (look at ```microtome/runtime/src/main/as``` and ```microtome/runtime/src/main/objc```).
 
 All runtimes currently support XML, but other data formats (such as JSON) are easily supported as well.
 
@@ -30,27 +30,27 @@ All runtimes currently support XML, but other data formats (such as JSON) are ea
 ```
 namespace com.dungeoncrawler;
 
-page GameData {
-  HeroPage hero;
-  Tome<BaddiePage> baddies;
+Tome GameData {
+  HeroTome hero;
+  Tome baddies;
 }
 
-page HeroPage extends ActorPage {
+Tome HeroTome extends ActorTome {
     float mana (min=0);
     float manaRegenRate (min=0);
 }
 
-page BaddiePage extends ActorPage {
+Tome BaddieTome extends ActorTome {
     int xpValue;
 }
 
-page ActorPage {
+Tome ActorTome {
     float health (min=0);
     float walkSpeed (min=0);
-    AttackPage attack;
+    AttackTome attack;
 }
 
-page AttackPage {
+Tome AttackTome {
     int damage;
     float range (min=0);
 }

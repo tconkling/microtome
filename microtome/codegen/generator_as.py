@@ -9,21 +9,18 @@ import microtome.codegen.spec as s
 import microtome.codegen.util as util
 
 
-BASE_PAGE_CLASS = "microtome.MutablePage"
-BASE_PAGE_INTERFACE = "microtome.Page"
-
 AS3_TYPENAMES = {
     s.BoolType: "Boolean",
     s.IntType: "int",
     s.FloatType: "Number",
     s.StringType: "String",
     s.ListType: "Array",
-    s.PageRefType: "microtome.core.PageRef",
-    s.TomeType: "microtome.Tome"
+    s.TomeRefType: "microtome.core.TomeRef",
+    s.TomeType: "microtome.Tome",
 }
 
 AS3_MUTABLE_TYPENAMES = {
-    s.TomeType: "microtome.MutableTome"
+    s.TomeType: "microtome.MutableTome",
 }
 
 PRIMITIVE_PROPNAMES = {
@@ -34,7 +31,9 @@ PRIMITIVE_PROPNAMES = {
 
 OBJECT_PROPNAME = "microtome.prop.ObjectProp"
 
-LIBRARY_FILENAME = "MicrotomePages.as"
+LIBRARY_FILENAME = "MicrotomeTypes.as"
+TOME_TEMPLATE_NAME = "Tome.as"
+MUTABLE_TOME_TEMPLATE_NAME = "MutableTome.as"
 TEMPLATES_DIR = util.abspath("templates/as")
 
 # stuff we always import
@@ -54,11 +53,11 @@ def generate_library(lib):
     # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs=TEMPLATES_DIR, escape=lambda u: u)
 
-    page_types = [util.qualified_name(spec.namespace, mutable_page_name(spec.name)) for spec in lib.pages]
+    tome_types = [util.qualified_name(spec.namespace, mutable_tome_name(spec.name)) for spec in lib.tomes]
 
     library_view = {
         "namespace": lib.namespace,
-        "page_types": sorted(set(page_types)),
+        "tome_types": sorted(set(tome_types)),
         "header": lib.header_text}
 
     class_contents = stache.render(stache.load_template(LIBRARY_FILENAME), library_view)
@@ -68,25 +67,25 @@ def generate_library(lib):
     return [(os.path.join(path, LIBRARY_FILENAME), class_contents)]
 
 
-def generate_page(lib, page_spec):
+def generate_tome(lib, tome_spec):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
-    page_view = PageView(lib, page_spec)
+    tome_view = TomeView(lib, tome_spec)
 
      # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs=TEMPLATES_DIR, escape=lambda u: u)
 
-    iface_name = page_view.interface_filename
-    iface_contents = stache.render(stache.load_template("Page.as"), page_view)
+    iface_name = tome_view.interface_filename
+    iface_contents = stache.render(stache.load_template(TOME_TEMPLATE_NAME), tome_view)
 
-    class_name = page_view.class_filename
-    class_contents = stache.render(stache.load_template("MutablePage.as"), page_view)
+    class_name = tome_view.class_filename
+    class_contents = stache.render(stache.load_template(MUTABLE_TOME_TEMPLATE_NAME), tome_view)
 
     return [(iface_name, iface_contents), (class_name, class_contents)]
 
 
-def is_page_name(lib, the_type):
-    return (util.strip_namespace(the_type) in [page_spec.name for page_spec in lib.pages])
+def is_tome_name(lib, the_type):
+    return (util.strip_namespace(the_type) in [tome_spec.name for tome_spec in lib.tomes])
 
 
 def get_as3_typename(lib, the_type, mutable=False):
@@ -95,8 +94,8 @@ def get_as3_typename(lib, the_type, mutable=False):
         return AS3_MUTABLE_TYPENAMES[the_type]
     elif the_type in AS3_TYPENAMES:
         return AS3_TYPENAMES[the_type]
-    elif mutable and is_page_name(lib, the_type):
-        return mutable_page_name(the_type)
+    elif mutable and is_tome_name(lib, the_type):
+        return mutable_tome_name(the_type)
     else:
         return the_type
 
@@ -113,9 +112,9 @@ def to_bool(val):
     return "true" if val else "false"
 
 
-def mutable_page_name(page_name):
-    return util.qualified_name(util.get_namespace(page_name),
-                               "Mutable" + util.strip_namespace(page_name))
+def mutable_tome_name(tome_name):
+    return util.qualified_name(util.get_namespace(tome_name),
+                               "Mutable" + util.strip_namespace(tome_name))
 
 
 class AnnotationView(object):
@@ -144,17 +143,17 @@ class TypeView(object):
 
     @property
     def is_mutable(self):
-        return self.type.name == s.PageRefType or \
+        return self.type.name == s.TomeRefType or \
             self.type.name in AS3_MUTABLE_TYPENAMES or \
-            is_page_name(self.lib, self.type.name)
+            is_tome_name(self.lib, self.type.name)
 
     @property
     def is_primitive(self):
         return self.type.name in s.PRIMITIVE_TYPES
 
     @property
-    def is_pageref(self):
-        return self.type.name == s.PageRefType
+    def is_tomeref(self):
+        return self.type.name == s.TomeRefType
 
     @property
     def name(self):
@@ -169,7 +168,7 @@ class TypeView(object):
         return [util.strip_namespace(name) for name in self.qualified_typenames(True)]
 
     def get_qualified_name(self, mutable):
-        if self.type.name == s.PageRefType:
+        if self.type.name == s.TomeRefType:
             return get_as3_typename(self.lib, self.type.subtype.name, mutable)
         else:
             return get_as3_typename(self.lib, self.type.name, mutable)
@@ -221,20 +220,20 @@ class PropView(object):
         return len(self.annotations) > 0
 
 
-class PageView(object):
-    def __init__(self, lib, page):
+class TomeView(object):
+    def __init__(self, lib, tome):
         self.lib = lib
-        self.page = page
+        self.tome = tome
         self.header = lib.header_text
-        self.props = [PropView(lib, prop) for prop in self.page.props]
+        self.props = [PropView(lib, prop) for prop in self.tome.props]
 
     @property
     def class_name(self):
-        return mutable_page_name(self.page.name)
+        return mutable_tome_name(self.tome.name)
 
     @property
     def interface_name(self):
-        return self.page.name
+        return self.tome.name
 
     @property
     def superclass(self):
@@ -242,11 +241,11 @@ class PageView(object):
 
     @property
     def qualified_superclass(self):
-        if self.page.superclass is None:
-            return BASE_PAGE_CLASS
+        if self.tome.superclass is None:
+            return AS3_MUTABLE_TYPENAMES[s.TomeType]
         else:
-            super_namespace = util.get_namespace(self.page.superclass)
-            super_name = mutable_page_name(util.strip_namespace(self.page.superclass))
+            super_namespace = util.get_namespace(self.tome.superclass)
+            super_name = mutable_tome_name(util.strip_namespace(self.tome.superclass))
             return util.qualified_name(super_namespace, super_name)
 
     @property
@@ -255,11 +254,11 @@ class PageView(object):
 
     @property
     def qualified_parent_interface(self):
-        return self.page.superclass or BASE_PAGE_INTERFACE
+        return self.tome.superclass or AS3_TYPENAMES[s.TomeType]
 
     @property
     def namespace(self):
-        return self.page.namespace
+        return self.tome.namespace
 
     @property
     def class_filename(self):
@@ -308,15 +307,15 @@ class PageView(object):
 
 if __name__ == "__main__":
     NAMESPACE = "com.microtome.test"
-    ANOTHER_PAGE_TYPE = s.TypeSpec("com.microtome.test.AnotherPage", None)
+    ANOTHER_TOME_TYPE = s.TypeSpec("com.microtome.test.AnotherTome", None)
 
-    ANOTHER_PAGE = s.PageSpec(name="AnotherPage",
+    ANOTHER_TOME = s.TomeSpec(name="AnotherTome",
                               namespace=NAMESPACE,
                               superclass=None,
                               props=[],
                               pos=0)
 
-    PAGE = s.PageSpec(name="TestPage",
+    TOME = s.TomeSpec(name="TestTome",
         namespace=NAMESPACE,
         superclass=None,
         props=[
@@ -324,12 +323,13 @@ if __name__ == "__main__":
                 s.AnnotationSpec(name="default", value="test", pos=0),
                 s.AnnotationSpec(name="nullable", value=True, pos=0)
             ], pos=0),
-            s.PropSpec(type=s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name="bar", annotations=[], pos=0)
+            s.PropSpec(type=s.TypeSpec(s.TomeRefType, ANOTHER_TOME_TYPE), name="bar", annotations=[], pos=0),
+            s.PropSpec(type=s.TypeSpec(s.TomeType, None), name="baz", annotations=[], pos=0),
         ],
         pos=0)
 
-    LIB = s.LibrarySpec(namespace=NAMESPACE, header_text="", pages=[PAGE, ANOTHER_PAGE])
+    LIB = s.LibrarySpec(namespace=NAMESPACE, header_text="", tomes=[TOME, ANOTHER_TOME])
 
-    for filename, file_contents in generate_page(LIB, PAGE):
+    for filename, file_contents in generate_tome(LIB, TOME):
         print filename + ":"
         print file_contents

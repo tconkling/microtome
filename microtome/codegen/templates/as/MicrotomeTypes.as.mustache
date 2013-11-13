@@ -3,25 +3,25 @@
 package {{namespace}} {
 
 // GENERATED IMPORTS START
-{{#page_types}}
+{{#tome_types}}
 import {{.}};
-{{/page_types}}
+{{/tome_types}}
 // GENERATED IMPORTS END
 
 // GENERATED CLASS_INTRO START
-public class MicrotomePages
+public class MicrotomeTypes
 {
 // GENERATED CLASS_INTRO END
 
 // GENERATED FUNCTIONS START
-    public static function get pageClasses () :Vector.<Class> { return PAGE_CLASSES; }
+    public static function get tomeClasses () :Vector.<Class> { return TOME_CLASSES; }
 // GENERATED FUNCTIONS END
 
 // GENERATED STATICS START
-    protected static const PAGE_CLASSES :Vector.<Class> = new <Class>[
-    {{#page_types}}
+    protected static const TOME_CLASSES :Vector.<Class> = new <Class>[
+    {{#tome_types}}
         {{.}},
-    {{/page_types}}
+    {{/tome_types}}
     ];
 // GENERATED STATICS END
 

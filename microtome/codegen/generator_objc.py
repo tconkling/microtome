@@ -16,8 +16,7 @@ OBJC_TYPENAMES = {
     s.FloatType: "float",
     s.StringType: "NSString",
     s.ListType: "NSArray",
-    s.PageRefType: "MTPageRef",
-    s.TomeType: "MTMutableTome"
+    s.TomeRefType: "MTPageRef",
 }
 
 PRIMITIVE_PROPNAMES = {
@@ -57,10 +56,10 @@ def generate_library(lib):
     return [(LIBRARY_HEADER, header_contents), (LIBRARY_CLASS, class_contents)]
 
 
-def generate_page(lib, page_spec):
+def generate_tome(lib, tome_spec):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
-    page_view = PageView(page_spec, lib.header_text)
+    page_view = PageView(tome_spec, lib.header_text)
 
     # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs=TEMPLATES_DIR, escape=lambda u: u)
@@ -117,7 +116,7 @@ class TypeView(object):
         return self.type.name in s.PRIMITIVE_TYPES
 
     def is_pageref(self):
-        return self.type.name == s.PageRefType
+        return self.type.name == s.TomeRefType
 
     def name(self):
         return self._get_name(True)
@@ -129,7 +128,7 @@ class TypeView(object):
         return [get_objc_typename(name, False) for name in s.type_spec_to_list(self.type)]
 
     def _get_name(self, pointer_type):
-        if self.type.name == s.PageRefType:
+        if self.type.name == s.TomeRefType:
             return get_objc_typename(self.type.subtype.name, pointer_type)
         else:
             return get_objc_typename(self.type.name, pointer_type)
@@ -209,7 +208,7 @@ class PageView(object):
 if __name__ == "__main__":
     ANOTHER_PAGE_TYPE = s.TypeSpec(name="com.microtome.test.AnotherPage", subtype=None)
     NAMESPACE = "com.microtome.test"
-    PAGE=s.PageSpec(name = "TestPage",
+    PAGE=s.TomeSpec(name = "TestPage",
         namespace=NAMESPACE,
         superclass=None,
         props=[
@@ -217,11 +216,11 @@ if __name__ == "__main__":
                 s.AnnotationSpec(name="default", value="test", pos=0),
                 s.AnnotationSpec(name="nullable", value=True, pos=0)
             ], pos=0),
-            s.PropSpec(type = s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name = "bar", annotations = [], pos = 0)
+            s.PropSpec(type = s.TypeSpec(s.TomeRefType, ANOTHER_PAGE_TYPE), name = "bar", annotations = [], pos = 0)
         ],
         pos = 0)
 
     LIB = s.LibrarySpec(namespace = NAMESPACE, header_text="", pages = [ PAGE ])
-    for filename, file_contents in generate_page(LIB, PAGE):
+    for filename, file_contents in generate_tome(LIB, PAGE):
         print filename + ":"
         print file_contents

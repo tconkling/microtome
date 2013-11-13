@@ -39,7 +39,7 @@ def main():
     # select our generator
     generator = GENERATORS[args.language]
     merger = sourcemerger.GeneratedSourceMerger(generator.comment_prefix())
-    page_specs = []
+    tome_specs = []
 
     logging.basicConfig(level=logging.INFO)
 
@@ -50,18 +50,18 @@ def main():
             # open the file, parse it, and run it through the generator
             with open(in_name, 'r') as in_file:
                 try:
-                    page_specs += parser.parse_document(in_file.read())
+                    tome_specs += parser.parse_document(in_file.read())
                 except parser.ParseError, e:
                     e.filename = in_name
                     #LOG.error(str(e))
                     raise
 
-    # generate page files
-    library = s.LibrarySpec(namespace=library_namespace, header_text=header_text, pages=page_specs)
-    for page_spec in page_specs:
+    # generate tome files
+    library = s.LibrarySpec(namespace=library_namespace, header_text=header_text, tomes=tome_specs)
+    for tome_spec in tome_specs:
         # this can result in multiple generated files (e.g. a .h and .m file for objc)
         # merge each of our generated files
-        for out_name, out_contents in generator.generate_page(library, page_spec):
+        for out_name, out_contents in generator.generate_tome(library, tome_spec):
             out_name = os.path.join(output_dir, out_name)
             merge_and_write(merger, out_name, out_contents)
 

@@ -1,5 +1,5 @@
-genpages/test/*.h
-genpages/test/*.m
+gentomes/test/*.h
+gentomes/test/*.m
 .settings
 html-template
 dist

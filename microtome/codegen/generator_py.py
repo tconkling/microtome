@@ -10,19 +10,18 @@ import microtome.codegen.spec as s
 import microtome.codegen.util as util
 
 
-BASE_PAGE_CLASS = "microtome.page.Page"
-
 PY_TYPENAMES = {
     s.BoolType: "bool",
     s.IntType: "int",
     s.FloatType: "float",
     s.StringType: "str",
     s.ListType: "list",
-    s.PageRefType: "microtome.core.page_ref.PageRef",
-    s.TomeType: "microtome.tome.Tome"
+    s.TomeRefType: "microtome.core.tome_ref.TomeRef",
+    s.TomeType: "microtome.tome.Tome",
 }
 
-LIBRARY_FILENAME = "MicrotomePages.py"
+LIBRARY_FILENAME = "MicrotomeTypes.py"
+TOME_TEMPLATE_NAME = "Tome.py"
 TEMPLATES_DIR = util.abspath("templates/py")
 
 # stuff we always import
@@ -40,10 +39,10 @@ def generate_library(lib):
     # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs=TEMPLATES_DIR, escape=lambda u: u)
 
-    page_imports = [ImportView.from_qualified_name(lib, util.qualified_name(spec.namespace, spec.name)) for spec in lib.pages]
+    tome_imports = [ImportView.from_qualified_name(lib, util.qualified_name(spec.namespace, spec.name)) for spec in lib.tomes]
 
     library_view = {
-        "page_imports": sorted(set(page_imports)),
+        "tome_imports": sorted(set(tome_imports)),
         "header": lib.header_text}
 
     class_contents = stache.render(stache.load_template(LIBRARY_FILENAME), library_view)
@@ -53,22 +52,22 @@ def generate_library(lib):
     return [(os.path.join(path, LIBRARY_FILENAME), class_contents)]
 
 
-def generate_page(lib, page_spec):
+def generate_tome(lib, tome_spec):
     '''Returns a list of (filename, filecontents) tuples representing the generated files to
     be written to disk'''
-    page_view = PageView(lib, page_spec)
+    tome_view = TomeView(lib, tome_spec)
 
      # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs=TEMPLATES_DIR, escape=lambda u: u)
 
-    class_name = page_view.class_filename
-    class_contents = stache.render(stache.load_template("Page.py"), page_view)
+    class_name = tome_view.class_filename
+    class_contents = stache.render(stache.load_template(TOME_TEMPLATE_NAME), tome_view)
 
     return [(class_name, class_contents)]
 
 
-def is_page_name(lib, the_type):
-    return (util.strip_namespace(the_type) in [page_spec.name for page_spec in lib.pages])
+def is_tome_name(lib, the_type):
+    return (util.strip_namespace(the_type) in [tome_spec.name for tome_spec in lib.tomes])
 
 
 def get_py_typename(lib, the_type):
@@ -87,9 +86,9 @@ class ImportView(namedtuple("ImportView", ["package", "name"])):
     def from_qualified_name(cls, lib, name):
         namespace = util.get_namespace(name)
         name = util.strip_namespace(name)
-        # In the python microtome runtime, pages are stored in their own individual modules -
-        # e.g. 'from game.data.BaddiePage import BaddiePage' - so we account for that here
-        if is_page_name(lib, name):
+        # In the python microtome runtime, tomes are stored in their own individual modules -
+        # e.g. 'from game.data.BaddieTome import BaddieTome' - so we account for that here
+        if is_tome_name(lib, name):
             namespace += "." + name
         return ImportView(namespace, name)
 
@@ -119,8 +118,8 @@ class TypeView(object):
         self.lib = lib
 
     @property
-    def is_pageref(self):
-        return self.type.name == s.PageRefType
+    def is_tomeref(self):
+        return self.type.name == s.TomeRefType
 
     @property
     def name(self):
@@ -131,7 +130,7 @@ class TypeView(object):
         return [util.strip_namespace(name) for name in self.qualified_typenames()]
 
     def get_qualified_name(self):
-        if self.type.name == s.PageRefType:
+        if self.type.name == s.TomeRefType:
             return get_py_typename(self.lib, self.type.subtype.name)
         else:
             return get_py_typename(self.lib, self.type.name)
@@ -170,20 +169,20 @@ class PropView(object):
     def has_annos(self):
         return len(self.annotations) > 0
 
-class PageView(object):
-    def __init__(self, lib, page):
+class TomeView(object):
+    def __init__(self, lib, tome):
         self.lib = lib
-        self.page = page
+        self.tome = tome
         self.header = lib.header_text
-        self.props = [PropView(lib, prop) for prop in self.page.props]
+        self.props = [PropView(lib, prop) for prop in self.tome.props]
 
     @property
     def class_name(self):
-        return self.page.name
+        return self.tome.name
 
     @property
     def namespace(self):
-        return self.page.namespace
+        return self.tome.namespace
 
     @property
     def qualified_name(self):
@@ -195,7 +194,7 @@ class PageView(object):
 
     @property
     def qualified_superclass(self):
-        return self.page.superclass if self.page.superclass is not None else BASE_PAGE_CLASS
+        return self.tome.superclass if self.tome.superclass is not None else PY_TYPENAMES[s.TomeType]
 
     @property
     def class_filename(self):
@@ -229,15 +228,15 @@ class PageView(object):
 
 if __name__ == "__main__":
     NAMESPACE = "microtome.test"
-    ANOTHER_PAGE_TYPE = s.TypeSpec("microtome.test.AnotherPage", None)
+    ANOTHER_TOME_TYPE = s.TypeSpec("microtome.test.AnotherTome", None)
 
-    ANOTHER_PAGE = s.PageSpec(name="AnotherPage",
+    ANOTHER_TOME = s.TomeSpec(name="AnotherTome",
                               namespace=NAMESPACE,
                               superclass=None,
                               props=[],
                               pos=0)
 
-    PAGE = s.PageSpec(name="TestPage",
+    TOME = s.TomeSpec(name="TestTome",
         namespace=NAMESPACE,
         superclass=None,
         props=[
@@ -245,16 +244,16 @@ if __name__ == "__main__":
                 s.AnnotationSpec(name="default", value="test", pos=0),
                 s.AnnotationSpec(name="nullable", value=True, pos=0)
             ], pos=0),
-            s.PropSpec(type=s.TypeSpec(s.PageRefType, ANOTHER_PAGE_TYPE), name="bar", annotations=[], pos=0)
+            s.PropSpec(type=s.TypeSpec(s.TomeRefType, ANOTHER_TOME_TYPE), name="bar", annotations=[], pos=0)
         ],
         pos=0)
 
-    LIB = s.LibrarySpec(namespace=NAMESPACE, header_text="", pages=[PAGE, ANOTHER_PAGE])
+    LIB = s.LibrarySpec(namespace=NAMESPACE, header_text="", tomes=[TOME, ANOTHER_TOME])
 
     for filename, file_contents in generate_library(LIB):
         print filename + ":"
         print file_contents
 
-    for filename, file_contents in generate_page(LIB, PAGE):
+    for filename, file_contents in generate_tome(LIB, TOME):
         print filename + ":"
         print file_contents

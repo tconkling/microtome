@@ -8,8 +8,8 @@ from collections import namedtuple
 
 import microtome.core.defs as Defs
 
-LibrarySpec =       namedtuple("LibrarySpec", ["namespace", "header_text", "pages"])
-PageSpec =          namedtuple("PageSpec", ["name", "superclass", "namespace", "props", "pos"])
+LibrarySpec =       namedtuple("LibrarySpec", ["namespace", "header_text", "tomes"])
+TomeSpec =          namedtuple("TomeSpec", ["name", "superclass", "namespace", "props", "pos"])
 PropSpec =          namedtuple("PropSpec", ["type", "name", "annotations", "pos"])
 AnnotationSpec =    namedtuple("AnnotationSpec", ["name", "value", "pos"])
 TypeSpec =          namedtuple("TypeSpec", ["name", "subtype"])
@@ -19,15 +19,15 @@ IntType =       "int"
 FloatType =     "float"
 StringType =    "string"
 ListType =      "List"
-PageRefType =   "PageRef"
+TomeRefType =   "TomeRef"
 TomeType =      "Tome"
 
 PRIMITIVE_TYPES = set([BoolType, IntType, FloatType])
-PARAMETERIZED_TYPES = set([ListType, PageRefType, TomeType])
-ALL_TYPES = set([BoolType, IntType, FloatType, StringType, ListType, PageRefType, TomeType])
+PARAMETERIZED_TYPES = set([ListType, TomeRefType])
+ALL_TYPES = set([BoolType, IntType, FloatType, StringType, ListType, TomeRefType, TomeType])
 
 # cannot be used as variable names
-RESERVED_NAMES = set([Defs.PAGE_TYPE_ATTR, Defs.TOME_TYPE_ATTR, "props", "name", "library", "parent", "children"])
+RESERVED_NAMES = set([Defs.TOME_TYPE_ATTR, Defs.TEMPLATE_ATTR, "props", "name", "library", "parent", "children"])
 
 
 def type_spec_to_list(type_spec):

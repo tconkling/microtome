@@ -1,16 +1,16 @@
 {{header}}
 
 # GENERATED IMPORTS START
-{{#page_imports}}
+{{#tome_imports}}
 from {{package}} import {{name}}
-{{/page_imports}}
+{{/tome_imports}}
 # GENERATED IMPORTS END
 
 # GENERATED FUNCTIONS START
-def get_page_classes():
+def get_tome_classes():
     return [
-    {{#page_imports}}
+    {{#tome_imports}}
         {{name}},
-    {{/page_imports}}
+    {{/tome_imports}}
     ]
 # GENERATED FUNCTIONS END

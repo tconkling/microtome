@@ -17,7 +17,7 @@ setup(
     # scripts
     entry_points={
         'console_scripts': [
-            'genpages = microtome.codegen.genpages:main'
+            'gentomes = microtome.codegen.gentomes:main'
         ]
     },
 

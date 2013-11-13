@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Executes gentomes on the page definitions in gentomes/test for unit testing our runtimes
+
+# usage: gentomes [-h] [--header HEADER] [--library_namespace LIBRARY_NAMESPACE] input_dir output_dir {objc,py,as}
+
+MY_PATH="`dirname \"$0\"`"
+ROOT="`( cd \"$MY_PATH\"/.. && pwd )`"
+
+GENTOMES="$ROOT/bin/gentomes"
+INPUT_DIR="$ROOT/microtome/test/data"
+
+# Python
+$GENTOMES --library_namespace "microtome.test" "$INPUT_DIR" "$ROOT" py
+
+# ActionScript
+$GENTOMES --library_namespace "microtome.test" "$INPUT_DIR" "$ROOT/runtimes/as/src/test" as
+
+# Objective-C
+# $GENTOMES "$INPUT_DIR" "$ROOT/runtimes/objc/Tests" objc

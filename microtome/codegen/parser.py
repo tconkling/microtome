@@ -4,7 +4,7 @@
 '''
 Usage:
 import parser
-page_specs = parser.parse_document(some_string)
+tome_specs = parser.parse_document(some_string)
 '''
 
 import re
@@ -20,7 +20,7 @@ BOOL_VALUE = re.compile(r'(true|false)')
 NUMBER_VALUE = re.compile(r'-?(\d*\.\d+|\d+)')
 ANNOTATION_VALUE = re.compile("(%s|%s|%s)" % (QUOTED_STRING.pattern, BOOL_VALUE.pattern, NUMBER_VALUE.pattern))
 
-PAGE = re.compile(r'page')
+TOME = re.compile(r'Tome')
 NAMESPACE = re.compile(r'[a-zA-Z]+(\.[a-zA-Z]+)*')  # letters separated by .s
 TYPENAME = re.compile(r'[a-zA-Z]\w*')               # must start with a letter
 IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')            # must start with a letter or _
@@ -66,14 +66,14 @@ class Parser(object):
         self._scanner = StringScanner(string)
 
     def parse(self):
-        '''parse the document and return a list of PageSpec tokens'''
+        '''parse the document and return a list of TomeSpec tokens'''
         # parse
         self._namespace = self.parse_namespace()
-        pages = self.parse_pages()
+        tomes = self.parse_tomes()
         # validate
-        for page in pages:
-            self.validate_page(page)
-        return pages
+        for tome in tomes:
+            self.validate_tome(tome)
+        return tomes
 
     @property
     def namespace(self):
@@ -90,11 +90,11 @@ class Parser(object):
         '''return the current scan position in the string'''
         return self._scanner.pos
 
-    def validate_page(self, page):
-        '''perform semantic validation on a PageSpec'''
+    def validate_tome(self, tome):
+        '''perform semantic validation on a TomeSpec'''
         # check for duplicate property names
         prop_names = set()
-        for prop in page.props:
+        for prop in tome.props:
             lc_name = prop.name.lower()
             if lc_name in s.RESERVED_NAMES:
                 raise ParseError(self.string, prop.pos, "Illegal use of reserved property name '%s'" % prop.name)
@@ -113,47 +113,47 @@ class Parser(object):
             LOG.debug("found namespace: %s" % namespace)
         return namespace
 
-    def parse_pages(self):
-        pages = []
+    def parse_tomes(self):
+        tomes = []
         while self.has_token():
-            pages.append(self.parse_page())
-        return pages
+            tomes.append(self.parse_tome())
+        return tomes
 
-    def parse_page(self):
-        '''parse a PageSpec'''
+    def parse_tome(self):
+        '''parse a TomeSpec'''
 
         # name
         self.eat_whitespace()
-        self.require_text(PAGE)
+        self.require_text(TOME)
         self.eat_whitespace()
-        page_pos = self._scanner.pos
-        page_name = self.require_text(TYPENAME)
+        tome_pos = self._scanner.pos
+        tome_name = self.require_text(TYPENAME)
 
-        LOG.debug("found page_name: " + page_name)
+        LOG.debug("found tome_name: " + tome_name)
 
         # superclass
         self.eat_whitespace()
-        page_superclass = None
+        tome_superclass = None
         if self.get_text("extends") is not None:
             self.eat_whitespace()
-            page_superclass = self.parse_qualified_typename("Expected superclass name")
-            LOG.debug("found superclass: " + page_superclass)
+            tome_superclass = self.parse_qualified_typename("Expected superclass name")
+            LOG.debug("found superclass: " + tome_superclass)
 
         # open-curly
         self.eat_whitespace()
         self.require_text(CURLY_OPEN)
 
-        page_props = self.parse_props()
+        tome_props = self.parse_props()
 
         # close-curly
         self.eat_whitespace()
         self.require_text(CURLY_CLOSE)
 
-        return s.PageSpec(name=page_name,
-                          superclass=page_superclass,
+        return s.TomeSpec(name=tome_name,
+                          superclass=tome_superclass,
                           namespace=self.namespace,
-                          props=page_props,
-                          pos=page_pos)
+                          props=tome_props,
+                          pos=tome_pos)
 
     def parse_props(self):
         '''parse a list of PropSpecs'''
@@ -221,7 +221,7 @@ class Parser(object):
         return s.TypeSpec(name=typename, subtype=subtype)
 
     def parse_qualified_typename(self, errText=None):
-        '''Parses a namespace-qualified typename. If the the namespace is omitted, the page's
+        '''Parses a namespace-qualified typename. If the the namespace is omitted, the tome's
         namespace is assumed'''
         return self.make_qualified_typename(self.require_text(QUALIFIED_TYPENAME, errText))
 
@@ -333,14 +333,13 @@ if __name__ == "__main__":
     TEST_STR = '''
         namespace com.test;
         // comment 1
-        MyPage extends AnotherPage {
+        tome MyTome extends AnotherTome {
             bool foo;   // comment 2
             int bar;
             float baz (min = -3.0);
             string str (nullable, text="as df");
 
-            Tome<AnotherPage> theTome;
-            PageRef<ThirdPage> theRef;
+            TomeRef<ThirdTome> theRef;
         }
         '''
     print Parser(TEST_STR).parse()

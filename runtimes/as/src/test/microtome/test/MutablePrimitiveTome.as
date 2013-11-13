@@ -3,7 +3,7 @@
 package microtome.test {
 
 // GENERATED IMPORTS START
-import microtome.MutablePage;
+import microtome.MutableTome;
 import microtome.prop.BoolProp;
 import microtome.prop.IntProp;
 import microtome.prop.NumberProp;
@@ -12,12 +12,12 @@ import microtome.prop.PropSpec;
 // GENERATED IMPORTS END
 
 // GENERATED CLASS_INTRO START
-public class MutablePrimitivePage extends MutablePage implements PrimitivePage
+public class MutablePrimitiveTome extends MutableTome implements PrimitiveTome
 {
 // GENERATED CLASS_INTRO END
 
 // GENERATED CONSTRUCTOR START
-    public function MutablePrimitivePage (name :String) {
+    public function MutablePrimitiveTome (name :String) {
         super(name);
         initProps();
     }

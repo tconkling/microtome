@@ -15,15 +15,15 @@ import microtome.xml.XmlUtil;
 public class MicrotomeTest extends Sprite
 {
     public function MicrotomeTest() {
-        _ctx.registerPageClasses(MicrotomePages.pageClasses);
+        _ctx.registerTomeClasses(MicrotomeTypes.tomeClasses);
 
         testPrimitives();
         testObjects();
-        testTome();
         testNested();
         testRefs();
         testTemplates();
         testAnnotations();
+        testGeneric();
 
         trace("All tests passed");
     }
@@ -41,75 +41,86 @@ public class MicrotomeTest extends Sprite
     protected function testPrimitives () :void {
         loadXml(PRIMITIVE_TEST_XML);
 
-        var page :PrimitivePage = _library.getItem("primitiveTest");
-        assert(page != null);
-        assertEquals(page.foo, true);
-        assertEquals(page.bar, 2);
-        assertEqualsWithAccuracy(page.baz, 3.1415, EPSILON);
-        _library.removeAllItems();
+        var tome :PrimitiveTome = _library.getTome("primitiveTest");
+        assert(tome != null);
+        assertEquals(tome.foo, true);
+        assertEquals(tome.bar, 2);
+        assertEqualsWithAccuracy(tome.baz, 3.1415, EPSILON);
+        _library.removeAllTomes();
     }
 
     protected function testObjects () :void {
         loadXml(OBJECT_TEST_XML);
 
-        var page :ObjectPage = _library.getItem("objectTest");
-        assertEquals(page.foo, "foo");
-        _library.removeAllItems();
-    }
-
-    protected function testTome () :void {
-        loadXml(TOME_TEST_XML);
-
-        var tome :Tome = _library.getItem("tomeTest");
-        assertEquals(tome.length, 2);
-        _library.removeAllItems();
+        var tome :ObjectTome = _library.getTome("objectTest");
+        assertEquals(tome.foo, "foo");
+        _library.removeAllTomes();
     }
 
     protected function testNested () :void {
         loadXml(NESTED_TEST_XML);
 
-        var page :NestedPage = _library.getItem("nestedTest");
-        assertEquals(page.nested.foo, true);
-        assertEquals(page.nested.bar, 2);
-        assertEqualsWithAccuracy(page.nested.baz, 3.1415, EPSILON);
-        _library.removeAllItems();
+        var tome :NestedTome = _library.getTome("nestedTest");
+        assertEquals(tome.nested.foo, true);
+        assertEquals(tome.nested.bar, 2);
+        assertEqualsWithAccuracy(tome.nested.baz, 3.1415, EPSILON);
+        _library.removeAllTomes();
     }
 
     protected function testRefs () :void {
         loadXml(REF_TEST_XML, TOME_TEST_XML);
 
-        var page :RefPage = _library.getItem("refTest");
-        assert(page.nested != null);
-        assertEquals(page.nested.foo, true);
-        assertEquals(page.nested.bar, 2);
-        assertEqualsWithAccuracy(page.nested.baz, 3.1415, EPSILON);
-        _library.removeAllItems();
+        var tome :RefTome = _library.getTome("refTest");
+        assert(tome.nested != null);
+        assertEquals(tome.nested.foo, true);
+        assertEquals(tome.nested.bar, 2);
+        assertEqualsWithAccuracy(tome.nested.baz, 3.1415, EPSILON);
+        _library.removeAllTomes();
     }
 
     protected function testTemplates () :void {
         loadXml(TEMPLATE_TEST_XML);
 
-        var page :PrimitivePage = _library.getItem("templateTest1");
-        assertEquals(page.foo, true);
-        assertEquals(page.bar, 2);
-        assertEqualsWithAccuracy(page.baz, 3.1415, EPSILON);
+        var tome :PrimitiveTome = _library.getTome("templateTest1");
+        assertEquals(tome.foo, true);
+        assertEquals(tome.bar, 2);
+        assertEqualsWithAccuracy(tome.baz, 3.1415, EPSILON);
 
-        page = _library.getItem("templateTest2");
-        assertEquals(page.bar, 2);
-        assertEqualsWithAccuracy(page.baz, 666.0, EPSILON);
+        tome = _library.getTome("templateTest2");
+        assertEquals(tome.bar, 2);
+        assertEqualsWithAccuracy(tome.baz, 666.0, EPSILON);
 
-        _library.removeAllItems();
+        _library.removeAllTomes();
     }
 
     protected function testAnnotations () :void {
         loadXml(ANNOTATION_TEST_XML);
 
-        var page :AnnotationPage = _library.getItem("annotationTest");
-        assertEquals(page.foo, 4);
-        assertEquals(page.bar, 3);
-        assertEquals(page.primitives, null);
+        var tome :AnnotationTome = _library.getTome("annotationTest");
+        assertEquals(tome.foo, 4);
+        assertEquals(tome.bar, 3);
+        assertEquals(tome.primitives, null);
 
-        _library.removeAllItems();
+        _library.removeAllTomes();
+    }
+
+    protected function testGeneric () :void {
+        loadXml(GENERIC_NESTED_TEST_XML);
+
+        var tome :Tome = _library.getTomeWithQualifiedName("genericTest.generic");
+        assertEquals(tome.children.length, 2);
+
+        var primitive :PrimitiveTome = tome.getTome("primitive");
+        assertEquals(primitive.foo, true);
+        assertEquals(primitive.bar, 2);
+        assertEqualsWithAccuracy(primitive.baz, 3.1415, EPSILON);
+
+        var anno :AnnotationTome = tome.getTome("annotations");
+        assertEquals(anno.foo, 4);
+        assertEquals(anno.bar, 3);
+        assertEquals(anno.primitives, null);
+
+        _library.removeAllTomes();
     }
 
     protected const _library :Library = new Library();
@@ -135,6 +146,9 @@ public class MicrotomeTest extends Sprite
 
     [Embed(source="../../../../../../microtome/test/data/AnnotationTest.xml", mimeType="application/octet-stream")]
     private static const ANNOTATION_TEST_XML :Class;
+
+    [Embed(source="../../../../../../microtome/test/data/GenericNestedTest.xml", mimeType="application/octet-stream")]
+    private static const GENERIC_NESTED_TEST_XML :Class;
 
     protected static const EPSILON :Number = 0.0001;
 }

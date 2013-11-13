@@ -3,16 +3,16 @@
 package microtome.test {
 
 // GENERATED IMPORTS START
-import microtome.Page;
+import microtome.Tome;
 // GENERATED IMPORTS END
 
 // GENERATED CLASS_INTRO START
-public interface RefPage extends Page
+public interface RefTome extends Tome
 {
 // GENERATED CLASS_INTRO END
 
 // GENERATED PROPS START
-    function get nested () :PrimitivePage;
+    function get nested () :PrimitiveTome;
 // GENERATED PROPS END
 
 // GENERATED CLASS_OUTRO START

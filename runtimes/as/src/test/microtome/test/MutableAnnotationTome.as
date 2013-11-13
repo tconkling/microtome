@@ -3,7 +3,7 @@
 package microtome.test {
 
 // GENERATED IMPORTS START
-import microtome.MutablePage;
+import microtome.MutableTome;
 import microtome.prop.IntProp;
 import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
@@ -11,12 +11,12 @@ import microtome.prop.PropSpec;
 // GENERATED IMPORTS END
 
 // GENERATED CLASS_INTRO START
-public class MutableAnnotationPage extends MutablePage implements AnnotationPage
+public class MutableAnnotationTome extends MutableTome implements AnnotationTome
 {
 // GENERATED CLASS_INTRO END
 
 // GENERATED CONSTRUCTOR START
-    public function MutableAnnotationPage (name :String) {
+    public function MutableAnnotationTome (name :String) {
         super(name);
         initProps();
     }
@@ -27,9 +27,9 @@ public class MutableAnnotationPage extends MutablePage implements AnnotationPage
     public function set foo (val :int) :void { _foo.value = val; }
     public function get bar () :int { return _bar.value; }
     public function set bar (val :int) :void { _bar.value = val; }
-    public function get mutablePrimitives () :MutablePrimitivePage { return _primitives.value; }
-    public function get primitives () :PrimitivePage { return _primitives.value; }
-    public function set primitives (val :PrimitivePage) :void { _primitives.value = val; }
+    public function get mutablePrimitives () :MutablePrimitiveTome { return _primitives.value; }
+    public function get primitives () :PrimitiveTome { return _primitives.value; }
+    public function set primitives (val :PrimitiveTome) :void { _primitives.value = val; }
 
     override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _foo, _bar, _primitives, ]); }
 
@@ -38,7 +38,7 @@ public class MutableAnnotationPage extends MutablePage implements AnnotationPage
             s_propSpecsInited = true;
             s_fooSpec = new PropSpec("foo", { "min": 3.0, "max": 5.0 }, [ int, ]);
             s_barSpec = new PropSpec("bar", { "default": 3.0 }, [ int, ]);
-            s_primitivesSpec = new PropSpec("primitives", { "nullable": true }, [ MutablePrimitivePage, ]);
+            s_primitivesSpec = new PropSpec("primitives", { "nullable": true }, [ MutablePrimitiveTome, ]);
         }
         _foo = new IntProp(this, s_fooSpec);
         _bar = new IntProp(this, s_barSpec);

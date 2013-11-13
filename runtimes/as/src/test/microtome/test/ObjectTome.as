@@ -3,18 +3,16 @@
 package microtome.test {
 
 // GENERATED IMPORTS START
-import microtome.Page;
+import microtome.Tome;
 // GENERATED IMPORTS END
 
 // GENERATED CLASS_INTRO START
-public interface PrimitivePage extends Page
+public interface ObjectTome extends Tome
 {
 // GENERATED CLASS_INTRO END
 
 // GENERATED PROPS START
-    function get foo () :Boolean;
-    function get bar () :int;
-    function get baz () :Number;
+    function get foo () :String;
 // GENERATED PROPS END
 
 // GENERATED CLASS_OUTRO START

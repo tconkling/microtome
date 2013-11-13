@@ -1,21 +1,21 @@
 # GENERATED IMPORTS START
 from microtome.core.prop import Prop
 from microtome.core.prop import PropSpec
-from microtome.page import Page
+from microtome.tome import Tome
 # GENERATED IMPORTS END
 
 # GENERATED CLASS_DECL START
-class ListPage(Page):
+class ListTome(Tome):
 # GENERATED CLASS_DECL END
 # GENERATED CONSTRUCTOR START
     _s_inited = False
     def __init__(self, name):
-        super(ListPage, self).__init__(name)
-        if not ListPage._s_inited:
-            ListPage._s_inited = True
-            ListPage._s_kidsSpec = PropSpec("kids", None, [list, PrimitivePage, ])
+        super(ListTome, self).__init__(name)
+        if not ListTome._s_inited:
+            ListTome._s_inited = True
+            ListTome._s_kidsSpec = PropSpec("kids", None, [list, PrimitiveTome, ])
 
-        self._kids = Prop(self, ListPage._s_kidsSpec)
+        self._kids = Prop(self, ListTome._s_kidsSpec)
 # GENERATED CONSTRUCTOR END
 
 # GENERATED PROPS START
@@ -29,9 +29,9 @@ class ListPage(Page):
 
     @property
     def props(self):
-        return super(ListPage, self).props + [self._kids, ]
+        return super(ListTome, self).props + [self._kids, ]
 # GENERATED PROPS END
 
 # GENERATED POST-IMPORTS START
-from microtome.test.PrimitivePage import PrimitivePage
+from microtome.test.PrimitiveTome import PrimitiveTome
 # GENERATED POST-IMPORTS END

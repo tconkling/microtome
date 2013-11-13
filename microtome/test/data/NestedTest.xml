@@ -1,5 +1,5 @@
 <microtome>
-    <nestedTest pageType='NestedPage'>
-        <nested pageType='PrimitivePage' foo='true' bar='2' baz='3.1415'/>
+    <nestedTest tomeType='NestedTome'>
+        <nested tomeType='PrimitiveTome' foo='true' bar='2' baz='3.1415'/>
     </nestedTest>
 </microtome>

@@ -1,25 +1,25 @@
 # GENERATED IMPORTS START
 from microtome.core.prop import Prop
 from microtome.core.prop import PropSpec
-from microtome.page import Page
+from microtome.tome import Tome
 # GENERATED IMPORTS END
 
 # GENERATED CLASS_DECL START
-class AnnotationPage(Page):
+class AnnotationTome(Tome):
 # GENERATED CLASS_DECL END
 # GENERATED CONSTRUCTOR START
     _s_inited = False
     def __init__(self, name):
-        super(AnnotationPage, self).__init__(name)
-        if not AnnotationPage._s_inited:
-            AnnotationPage._s_inited = True
-            AnnotationPage._s_fooSpec = PropSpec("foo", {"min": 3.0, "max": 5.0}, [int, ])
-            AnnotationPage._s_barSpec = PropSpec("bar", {"default": 3.0}, [int, ])
-            AnnotationPage._s_primitivesSpec = PropSpec("primitives", {"nullable": True}, [PrimitivePage, ])
+        super(AnnotationTome, self).__init__(name)
+        if not AnnotationTome._s_inited:
+            AnnotationTome._s_inited = True
+            AnnotationTome._s_fooSpec = PropSpec("foo", {"min": 3.0, "max": 5.0}, [int, ])
+            AnnotationTome._s_barSpec = PropSpec("bar", {"default": 3.0}, [int, ])
+            AnnotationTome._s_primitivesSpec = PropSpec("primitives", {"nullable": True}, [PrimitiveTome, ])
 
-        self._foo = Prop(self, AnnotationPage._s_fooSpec)
-        self._bar = Prop(self, AnnotationPage._s_barSpec)
-        self._primitives = Prop(self, AnnotationPage._s_primitivesSpec)
+        self._foo = Prop(self, AnnotationTome._s_fooSpec)
+        self._bar = Prop(self, AnnotationTome._s_barSpec)
+        self._primitives = Prop(self, AnnotationTome._s_primitivesSpec)
 # GENERATED CONSTRUCTOR END
 
 # GENERATED PROPS START
@@ -49,9 +49,9 @@ class AnnotationPage(Page):
 
     @property
     def props(self):
-        return super(AnnotationPage, self).props + [self._foo, self._bar, self._primitives, ]
+        return super(AnnotationTome, self).props + [self._foo, self._bar, self._primitives, ]
 # GENERATED PROPS END
 
 # GENERATED POST-IMPORTS START
-from microtome.test.PrimitivePage import PrimitivePage
+from microtome.test.PrimitiveTome import PrimitiveTome
 # GENERATED POST-IMPORTS END

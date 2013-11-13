@@ -1,0 +1,8 @@
+<microtome>
+    <genericTest tomeType='GenericNestedTome'>
+        <generic>
+            <primitive tomeType='PrimitiveTome' foo='true' bar='2' baz='3.1415'/>
+            <annotations tomeType='AnnotationTome' foo='4'/>
+        </generic>
+    </genericTest>
+</microtome>

@@ -3,30 +3,34 @@
 
 namespace microtome.test;
 
-page PrimitivePage {
+Tome PrimitiveTome {
     bool foo;
     int bar;
     float baz;
 }
 
-page ObjectPage {
+Tome ObjectTome {
     string foo;
 }
 
-page AnnotationPage {
+Tome AnnotationTome {
     int foo (min=3, max=5);
     int bar (default=3);
-    PrimitivePage primitives (nullable);
+    PrimitiveTome primitives (nullable);
 }
 
-page ListPage {
-    List<PrimitivePage> kids;
+Tome ListTome {
+    List<PrimitiveTome> kids;
 }
 
-page NestedPage {
-    PrimitivePage nested;
+Tome NestedTome {
+    PrimitiveTome nested;
 }
 
-page RefPage {
-    PageRef<PrimitivePage> nested;
+Tome GenericNestedTome {
+    Tome generic;
+}
+
+Tome RefTome {
+    TomeRef<PrimitiveTome> nested;
 }

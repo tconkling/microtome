@@ -1,21 +1,21 @@
 # GENERATED IMPORTS START
 from microtome.core.prop import Prop
 from microtome.core.prop import PropSpec
-from microtome.page import Page
+from microtome.tome import Tome
 # GENERATED IMPORTS END
 
 # GENERATED CLASS_DECL START
-class ObjectPage(Page):
+class ObjectTome(Tome):
 # GENERATED CLASS_DECL END
 # GENERATED CONSTRUCTOR START
     _s_inited = False
     def __init__(self, name):
-        super(ObjectPage, self).__init__(name)
-        if not ObjectPage._s_inited:
-            ObjectPage._s_inited = True
-            ObjectPage._s_fooSpec = PropSpec("foo", None, [str, ])
+        super(ObjectTome, self).__init__(name)
+        if not ObjectTome._s_inited:
+            ObjectTome._s_inited = True
+            ObjectTome._s_fooSpec = PropSpec("foo", None, [str, ])
 
-        self._foo = Prop(self, ObjectPage._s_fooSpec)
+        self._foo = Prop(self, ObjectTome._s_fooSpec)
 # GENERATED CONSTRUCTOR END
 
 # GENERATED PROPS START
@@ -29,7 +29,7 @@ class ObjectPage(Page):
 
     @property
     def props(self):
-        return super(ObjectPage, self).props + [self._foo, ]
+        return super(ObjectTome, self).props + [self._foo, ]
 # GENERATED PROPS END
 
 # GENERATED POST-IMPORTS START

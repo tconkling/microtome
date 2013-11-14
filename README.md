@@ -1,13 +1,13 @@
 microtome
 =========
 
-An ORM tool for parsing and managing game data in your favorite game development language.
+An ORM-like tool for parsing and managing game data in your favorite game development language.
 
 ## What
 
 microtome consists of two components: a code generator, and a runtime.
 
-The code generator reads simple descriptor files that describe your game data structure. It generates class files in your game development language of choice.
+The code generator reads simple descriptor files that describe your game's data structures. It generates class files in your game development language of choice.
 
 You include the runtime in your game. It reads game data stored in XML and produces instances of the generated classes.
 
@@ -21,7 +21,7 @@ You include the runtime in your game. It reads game data stored in XML and produ
 
 ## Language support
 
-microtome supports ActionScript, Python, and Objective-C, but it's designed to be extensible to other languages. To support a new language, you'll need to write a code generator (look at ```microtome/gentomes/generator_as.py``` and ```microtome/gentomes/generator_objc.py``` for examples) and a runtime (look at ```microtome/runtime/src/main/as``` and ```microtome/runtime/src/main/objc```).
+microtome supports ActionScript, Python, and Objective-C out of the box, and is easily extensible to other languages. To support a new language, you'll need to write a code generator (look at ```microtome/gentomes/generator_as.py``` and ```microtome/gentomes/generator_objc.py``` for examples) and a runtime (look at ```microtome/runtime/src/main/as``` and ```microtome/runtime/src/main/objc```).
 
 All runtimes currently support XML, but other data formats (such as JSON) are easily supported as well.
 

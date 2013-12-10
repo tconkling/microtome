@@ -41,7 +41,7 @@ class TomeMarshaller(ObjectMarshaller):
             marshaller.resolve_refs(mgr, child_tome, child_tome.type_info)
 
     def clone_object(self, mgr, tome, type_info):
-        clone = Tome(tome.name)
+        clone = tome.__class__(tome.name)
 
         # non-tome props
         my_basic_props = list(util.basic_props(tome))

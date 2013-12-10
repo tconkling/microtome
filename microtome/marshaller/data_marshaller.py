@@ -128,7 +128,7 @@ class ObjectMarshaller(DataMarshaller):
 
     def clone_data(self, mgr, data, type_info):
         # handle null data
-        return self.clone_object(mgr, data, type_info) if data else None
+        return self.clone_object(mgr, data, type_info) if data is not None else None
 
     def read_default(self, mgr, type_info, annotation):
         raise NotImplementedError()

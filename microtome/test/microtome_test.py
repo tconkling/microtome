@@ -6,7 +6,7 @@ import logging
 
 import xml.etree.ElementTree as ElementTree
 
-from nose.tools import eq_, assert_is_not_none
+from nose.tools import *
 
 import microtome.codegen.spec as s
 from microtome.codegen.parser import Parser
@@ -103,6 +103,17 @@ def test_templates():
     eq_(tome1.foo, True)
     eq_(tome2.baz, 666)
     eq_(tome2.bar, 2)
+
+    nested = lib.get("templateTest4")
+    assert_is_not_none(nested.nested)
+    eq_(nested.nested.baz, 3.1415)
+    eq_(len(nested.values()), 3)
+    ok_("additionalTome1" in nested)
+    ok_("additionalTome2" in nested)
+
+    # ensure we didn't just do a shallow copy
+    nestedTmpl = lib.get("templateTest3")
+    assert_not_equal(nestedTmpl.get("additionalTome1"), nested.get("additionalTome1"))
 
 def test_annotations():
     lib = load_xml(Library(), "AnnotationTest.xml")

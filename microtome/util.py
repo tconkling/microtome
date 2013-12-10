@@ -17,5 +17,5 @@ def get_prop(page, name):
 def basic_props(tome):
     '''Returns all non-Tome-storing props'''
     for prop in tome.props:
-        if not isinstance(prop.value, Tome):
+        if not issubclass(prop.value_type.clazz, Tome):
             yield prop

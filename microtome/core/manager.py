@@ -156,20 +156,32 @@ class MicrotomeMgr(MicrotomeCtx):
         for tome in sorted(tome.values(), key=lambda tome: tome.name):
             self.write_tome(writer.add_child(tome.name), tome)
 
-    def clone(self, item):
-        raise NotImplementedError()
+    def clone(self, tome):
+        LOG.debug("cloning '%s'. Marshaller: '%s'" % (tome, self.require_data_marshaller(tome.__class__)))
+        the_clone = self.require_data_marshaller(tome.__class__).clone_data(self, tome, tome.type_info)
+        LOG.debug("output: '%s'" % the_clone)
+        return the_clone
 
     def _load_tome_now(self, tome, reader, template=None):
         # props
         self._load_tome_props(tome, reader, template)
 
-        # additional non-prop tomes
+        # load additional non-prop tomes from the reader
         for tome_reader in reader.children:
             if util.get_prop(tome, tome_reader.name) is None:
                 tome.add_tome(self.load_tome(tome_reader))
 
-        if template is not None and len(template) != len(tome):
-            raise MicrotomeError("TODO: templated tome children-cloning")
+        # add additional non-prop tomes from the template
+        if template is not None:
+            for template_tome in template.values():
+                if template_tome.name not in tome:
+                    tome.add_tome
+
+        # clone any additional tomes inside our template
+        if template is not None:
+            for tmplChild in template.values():
+                if not tmplChild.name in tome:
+                    tome.add_tome(self.clone(tmplChild))
 
     def _load_tome_props(self, tome, reader, template=None):
         # template's class must be equal to, or subclass of, tome's class
@@ -196,7 +208,7 @@ class MicrotomeMgr(MicrotomeCtx):
 
     def _load_tome_prop(self, tome, prop, t_prop, tome_reader):
         # 1. Read the value from the DataReader, if it exists
-        # 2. Else, copy the value from the template, if it exists
+        # 2. Else, clone the value from the template, if it exists
         # 3. Else, read the value from its 'default' annotation, if it exists
         # 3. Else, set the value to null if it's nullable
         # 4. Else, fail.
@@ -211,7 +223,7 @@ class MicrotomeMgr(MicrotomeCtx):
             prop.value = marshaller.read_value(self, reader, name, prop.value_type)
             marshaller.validate_prop(prop)
         elif use_template:
-            prop.value = t_prop.value
+            prop.value = marshaller.clone_data(self, t_prop.value, t_prop.value_type)
         elif prop.has_default:
             prop.value = marshaller.read_default(self, prop.value_type, prop.annotation(Defs.DEFAULT_ANNOTATION))
         elif prop.nullable:

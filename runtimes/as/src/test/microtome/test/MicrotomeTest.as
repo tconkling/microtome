@@ -90,6 +90,17 @@ public class MicrotomeTest extends Sprite
         assertEquals(tome.bar, 2);
         assertEqualsWithAccuracy(tome.baz, 666.0, EPSILON);
 
+        var nested :NestedTome = _library.getTome("templateTest4");
+        assert(nested.nested != null);
+        assertEqualsWithAccuracy(nested.nested.baz, 3.1415, EPSILON);
+        assertEquals(nested.children.length, 3);
+        assert(nested.hasTome("additionalTome1"));
+        assert(nested.hasTome("additionalTome2"));
+
+        // ensure we didn't just do a shallow copy
+        var nestedTmpl :NestedTome = _library.getTome("templateTest3");
+        assert(nestedTmpl.requireTome("additionalTome1") != nested.requireTome("additionalTome1"));
+
         _library.removeAllTomes();
     }
 

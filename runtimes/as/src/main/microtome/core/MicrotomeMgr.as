@@ -209,8 +209,13 @@ public final class MicrotomeMgr implements MicrotomeCtx
             }
         }
 
-        if (tmpl != null && tmpl.numChildren != tome.numChildren) {
-            throw new Error("TODO: templated tome children-cloning");
+        // clone any additional tomes inside our template
+        if (tmpl != null) {
+            tmpl.forEachTome(function (tmplChild :Tome) :void {
+                if (!tome.hasTome(tmplChild.name)) {
+                    tome.addTome(clone(tmplChild));
+                }
+            });
         }
     }
 
@@ -247,7 +252,7 @@ public final class MicrotomeMgr implements MicrotomeCtx
 
     protected function loadTomeProp (tome :Tome, prop :Prop, tProp :Prop, tomeReader :DataReader) :void {
         // 1. Read the value from the DataReader, if it exists
-        // 2. Else, copy the value from the template, if it exists
+        // 2. Else, clone the value from the template, if it exists
         // 3. Else, read the value from its 'default' annotation, if it exists
         // 3. Else, set the value to null if it's nullable
         // 4. Else, fail.
@@ -265,7 +270,7 @@ public final class MicrotomeMgr implements MicrotomeCtx
             prop.value = marshaller.readValue(this, reader, name, prop.valueType);
             marshaller.validateProp(prop);
         } else if (useTemplate) {
-            prop.value = tProp.value;
+            prop.value = marshaller.cloneData(this, tProp.value, tProp.valueType);
         } else if (prop.hasDefault) {
             prop.value = marshaller.readDefault(this, prop.valueType, prop.annotation(Defs.DEFAULT_ANNOTATION));
         } else if (prop.nullable) {

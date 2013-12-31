@@ -17,11 +17,9 @@ public class MicrotomeTypes
 {
 // GENERATED CLASS_INTRO END
 
-// GENERATED FUNCTIONS START
+// GENERATED CLASS_BODY START
     public static function get tomeClasses () :Vector.<Class> { return TOME_CLASSES; }
-// GENERATED FUNCTIONS END
 
-// GENERATED STATICS START
     protected static const TOME_CLASSES :Vector.<Class> = new <Class>[
         microtome.test.MutableAnnotationTome,
         microtome.test.MutableGenericNestedTome,
@@ -31,7 +29,7 @@ public class MicrotomeTypes
         microtome.test.MutablePrimitiveTome,
         microtome.test.MutableRefTome,
     ];
-// GENERATED STATICS END
+// GENERATED CLASS_BODY END
 
 // GENERATED CLASS_OUTRO START
 }

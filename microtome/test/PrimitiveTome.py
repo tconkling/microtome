@@ -22,7 +22,7 @@ class PrimitiveTome(Tome):
         self._baz = Prop(self, PrimitiveTome._s_bazSpec)
 # GENERATED CONSTRUCTOR END
 
-# GENERATED PROPS START
+# GENERATED CLASS_BODY START
     @property
     def foo(self):
         return self._foo.value
@@ -50,7 +50,7 @@ class PrimitiveTome(Tome):
     @property
     def props(self):
         return super(PrimitiveTome, self).props + [self._foo, self._bar, self._baz, ]
-# GENERATED PROPS END
+# GENERATED CLASS_BODY END
 
 # GENERATED POST-IMPORTS START
 # GENERATED POST-IMPORTS END

@@ -21,7 +21,7 @@ public class MutableObjectTome extends MutableTome implements ObjectTome
     }
 // GENERATED CONSTRUCTOR END
 
-// GENERATED PROPS START
+// GENERATED CLASS_BODY START
     public function get foo () :String { return _foo.value; }
     public function set foo (val :String) :void { _foo.value = val; }
 
@@ -34,16 +34,12 @@ public class MutableObjectTome extends MutableTome implements ObjectTome
         }
         _foo = new ObjectProp(this, s_fooSpec);
     }
-// GENERATED PROPS END
 
-// GENERATED IVARS START
     protected var _foo :ObjectProp;
-// GENERATED IVARS END
 
-// GENERATED STATICS START
     private static var s_propSpecsInited :Boolean;
     private static var s_fooSpec :PropSpec;
-// GENERATED STATICS END
+// GENERATED CLASS_BODY END
 
 // GENERATED CLASS_OUTRO START
 }

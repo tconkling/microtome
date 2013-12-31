@@ -1,5 +1,3 @@
-
-
 package microtome.test {
 
 // GENERATED IMPORTS START
@@ -11,11 +9,11 @@ public interface PrimitiveTome extends Tome
 {
 // GENERATED CLASS_INTRO END
 
-// GENERATED PROPS START
+// GENERATED CLASS_BODY START
     function get foo () :Boolean;
     function get bar () :int;
     function get baz () :Number;
-// GENERATED PROPS END
+// GENERATED CLASS_BODY END
 
 // GENERATED CLASS_OUTRO START
 }

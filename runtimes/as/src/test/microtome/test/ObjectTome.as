@@ -1,5 +1,3 @@
-
-
 package microtome.test {
 
 // GENERATED IMPORTS START
@@ -11,9 +9,9 @@ public interface ObjectTome extends Tome
 {
 // GENERATED CLASS_INTRO END
 
-// GENERATED PROPS START
+// GENERATED CLASS_BODY START
     function get foo () :String;
-// GENERATED PROPS END
+// GENERATED CLASS_BODY END
 
 // GENERATED CLASS_OUTRO START
 }

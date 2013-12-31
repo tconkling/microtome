@@ -18,7 +18,7 @@ class GenericNestedTome(Tome):
         self._generic = Prop(self, GenericNestedTome._s_genericSpec)
 # GENERATED CONSTRUCTOR END
 
-# GENERATED PROPS START
+# GENERATED CLASS_BODY START
     @property
     def generic(self):
         return self._generic.value
@@ -30,7 +30,7 @@ class GenericNestedTome(Tome):
     @property
     def props(self):
         return super(GenericNestedTome, self).props + [self._generic, ]
-# GENERATED PROPS END
+# GENERATED CLASS_BODY END
 
 # GENERATED POST-IMPORTS START
 from microtome.tome import Tome

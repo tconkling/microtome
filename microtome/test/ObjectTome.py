@@ -18,7 +18,7 @@ class ObjectTome(Tome):
         self._foo = Prop(self, ObjectTome._s_fooSpec)
 # GENERATED CONSTRUCTOR END
 
-# GENERATED PROPS START
+# GENERATED CLASS_BODY START
     @property
     def foo(self):
         return self._foo.value
@@ -30,7 +30,7 @@ class ObjectTome(Tome):
     @property
     def props(self):
         return super(ObjectTome, self).props + [self._foo, ]
-# GENERATED PROPS END
+# GENERATED CLASS_BODY END
 
 # GENERATED POST-IMPORTS START
 # GENERATED POST-IMPORTS END

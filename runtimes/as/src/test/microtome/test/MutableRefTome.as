@@ -22,7 +22,7 @@ public class MutableRefTome extends MutableTome implements RefTome
     }
 // GENERATED CONSTRUCTOR END
 
-// GENERATED PROPS START
+// GENERATED CLASS_BODY START
     public function get mutableNested () :MutablePrimitiveTome { const ref :TomeRef = _nested.value; return (ref != null ? ref.tome : null); }
     public function get nested () :PrimitiveTome { return this.mutableNested; }
     public function set nested (val :PrimitiveTome) :void { _nested.value = (val != null ? TomeRef.fromTome(val) : null); }
@@ -36,16 +36,12 @@ public class MutableRefTome extends MutableTome implements RefTome
         }
         _nested = new ObjectProp(this, s_nestedSpec);
     }
-// GENERATED PROPS END
 
-// GENERATED IVARS START
     protected var _nested :ObjectProp;
-// GENERATED IVARS END
 
-// GENERATED STATICS START
     private static var s_propSpecsInited :Boolean;
     private static var s_nestedSpec :PropSpec;
-// GENERATED STATICS END
+// GENERATED CLASS_BODY END
 
 // GENERATED CLASS_OUTRO START
 }

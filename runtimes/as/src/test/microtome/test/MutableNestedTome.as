@@ -21,7 +21,7 @@ public class MutableNestedTome extends MutableTome implements NestedTome
     }
 // GENERATED CONSTRUCTOR END
 
-// GENERATED PROPS START
+// GENERATED CLASS_BODY START
     public function get mutableNested () :MutablePrimitiveTome { return _nested.value; }
     public function get nested () :PrimitiveTome { return _nested.value; }
     public function set nested (val :PrimitiveTome) :void { _nested.value = val; }
@@ -35,16 +35,12 @@ public class MutableNestedTome extends MutableTome implements NestedTome
         }
         _nested = new ObjectProp(this, s_nestedSpec);
     }
-// GENERATED PROPS END
 
-// GENERATED IVARS START
     protected var _nested :ObjectProp;
-// GENERATED IVARS END
 
-// GENERATED STATICS START
     private static var s_propSpecsInited :Boolean;
     private static var s_nestedSpec :PropSpec;
-// GENERATED STATICS END
+// GENERATED CLASS_BODY END
 
 // GENERATED CLASS_OUTRO START
 }

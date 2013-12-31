@@ -26,7 +26,7 @@ class {{class_name}}({{superclass}}):
         {{/props}}
 # GENERATED CONSTRUCTOR END
 
-# GENERATED PROPS START
+# GENERATED CLASS_BODY START
     {{#props}}
     {{#value_type.is_tomeref}}
     @property
@@ -51,7 +51,7 @@ class {{class_name}}({{superclass}}):
     @property
     def props(self):
         return super({{class_name}}, self).props + [{{#props}}self._{{name}}, {{/props}}]
-# GENERATED PROPS END
+# GENERATED CLASS_BODY END
 
 # GENERATED POST-IMPORTS START
 {{#post_imports}}

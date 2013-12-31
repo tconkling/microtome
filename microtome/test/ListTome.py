@@ -18,7 +18,7 @@ class ListTome(Tome):
         self._kids = Prop(self, ListTome._s_kidsSpec)
 # GENERATED CONSTRUCTOR END
 
-# GENERATED PROPS START
+# GENERATED CLASS_BODY START
     @property
     def kids(self):
         return self._kids.value
@@ -30,7 +30,7 @@ class ListTome(Tome):
     @property
     def props(self):
         return super(ListTome, self).props + [self._kids, ]
-# GENERATED PROPS END
+# GENERATED CLASS_BODY END
 
 # GENERATED POST-IMPORTS START
 from microtome.test.PrimitiveTome import PrimitiveTome

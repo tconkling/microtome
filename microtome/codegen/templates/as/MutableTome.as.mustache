@@ -20,7 +20,7 @@ public class {{class_name}} extends {{superclass}} implements {{interface_name}}
     }
 // GENERATED CONSTRUCTOR END
 
-// GENERATED PROPS START
+// GENERATED CLASS_BODY START
     {{#props}}
 {{#value_type.is_tomeref}}
     public function get {{mutable_name}} () :{{value_type.mutable_name}} { const ref :TomeRef = _{{name}}.value; return (ref != null ? ref.tome : null); }
@@ -49,20 +49,16 @@ public class {{class_name}} extends {{superclass}} implements {{interface_name}}
         _{{name}} = new {{typename}}(this, s_{{name}}Spec);
         {{/props}}
     }
-// GENERATED PROPS END
 
-// GENERATED IVARS START
     {{#props}}
     protected var _{{name}} :{{typename}};
     {{/props}}
-// GENERATED IVARS END
 
-// GENERATED STATICS START
     private static var s_propSpecsInited :Boolean;
     {{#props}}
     private static var s_{{name}}Spec :PropSpec;
     {{/props}}
-// GENERATED STATICS END
+// GENERATED CLASS_BODY END
 
 // GENERATED CLASS_OUTRO START
 }

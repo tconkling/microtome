@@ -22,7 +22,7 @@ public class MutableGenericNestedTome extends MutableTome implements GenericNest
     }
 // GENERATED CONSTRUCTOR END
 
-// GENERATED PROPS START
+// GENERATED CLASS_BODY START
     public function get mutableGeneric () :MutableTome { return _generic.value; }
     public function get generic () :Tome { return _generic.value; }
     public function set generic (val :Tome) :void { _generic.value = val; }
@@ -36,16 +36,12 @@ public class MutableGenericNestedTome extends MutableTome implements GenericNest
         }
         _generic = new ObjectProp(this, s_genericSpec);
     }
-// GENERATED PROPS END
 
-// GENERATED IVARS START
     protected var _generic :ObjectProp;
-// GENERATED IVARS END
 
-// GENERATED STATICS START
     private static var s_propSpecsInited :Boolean;
     private static var s_genericSpec :PropSpec;
-// GENERATED STATICS END
+// GENERATED CLASS_BODY END
 
 // GENERATED CLASS_OUTRO START
 }

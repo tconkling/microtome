@@ -18,7 +18,7 @@ class RefTome(Tome):
         self._nested = Prop(self, RefTome._s_nestedSpec)
 # GENERATED CONSTRUCTOR END
 
-# GENERATED PROPS START
+# GENERATED CLASS_BODY START
     @property
     def nested(self):
         return self._nested.value.tome if self._nested.value is not None else None
@@ -30,7 +30,7 @@ class RefTome(Tome):
     @property
     def props(self):
         return super(RefTome, self).props + [self._nested, ]
-# GENERATED PROPS END
+# GENERATED CLASS_BODY END
 
 # GENERATED POST-IMPORTS START
 from microtome.core.tome_ref import TomeRef

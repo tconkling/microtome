@@ -18,7 +18,7 @@ class NestedTome(Tome):
         self._nested = Prop(self, NestedTome._s_nestedSpec)
 # GENERATED CONSTRUCTOR END
 
-# GENERATED PROPS START
+# GENERATED CLASS_BODY START
     @property
     def nested(self):
         return self._nested.value
@@ -30,7 +30,7 @@ class NestedTome(Tome):
     @property
     def props(self):
         return super(NestedTome, self).props + [self._nested, ]
-# GENERATED PROPS END
+# GENERATED CLASS_BODY END
 
 # GENERATED POST-IMPORTS START
 from microtome.test.PrimitiveTome import PrimitiveTome

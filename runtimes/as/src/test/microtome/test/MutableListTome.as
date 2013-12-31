@@ -21,7 +21,7 @@ public class MutableListTome extends MutableTome implements ListTome
     }
 // GENERATED CONSTRUCTOR END
 
-// GENERATED PROPS START
+// GENERATED CLASS_BODY START
     public function get kids () :Array { return _kids.value; }
     public function set kids (val :Array) :void { _kids.value = val; }
 
@@ -34,16 +34,12 @@ public class MutableListTome extends MutableTome implements ListTome
         }
         _kids = new ObjectProp(this, s_kidsSpec);
     }
-// GENERATED PROPS END
 
-// GENERATED IVARS START
     protected var _kids :ObjectProp;
-// GENERATED IVARS END
 
-// GENERATED STATICS START
     private static var s_propSpecsInited :Boolean;
     private static var s_kidsSpec :PropSpec;
-// GENERATED STATICS END
+// GENERATED CLASS_BODY END
 
 // GENERATED CLASS_OUTRO START
 }

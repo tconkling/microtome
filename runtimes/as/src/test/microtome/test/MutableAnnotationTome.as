@@ -22,7 +22,7 @@ public class MutableAnnotationTome extends MutableTome implements AnnotationTome
     }
 // GENERATED CONSTRUCTOR END
 
-// GENERATED PROPS START
+// GENERATED CLASS_BODY START
     public function get foo () :int { return _foo.value; }
     public function set foo (val :int) :void { _foo.value = val; }
     public function get bar () :int { return _bar.value; }
@@ -44,20 +44,16 @@ public class MutableAnnotationTome extends MutableTome implements AnnotationTome
         _bar = new IntProp(this, s_barSpec);
         _primitives = new ObjectProp(this, s_primitivesSpec);
     }
-// GENERATED PROPS END
 
-// GENERATED IVARS START
     protected var _foo :IntProp;
     protected var _bar :IntProp;
     protected var _primitives :ObjectProp;
-// GENERATED IVARS END
 
-// GENERATED STATICS START
     private static var s_propSpecsInited :Boolean;
     private static var s_fooSpec :PropSpec;
     private static var s_barSpec :PropSpec;
     private static var s_primitivesSpec :PropSpec;
-// GENERATED STATICS END
+// GENERATED CLASS_BODY END
 
 // GENERATED CLASS_OUTRO START
 }

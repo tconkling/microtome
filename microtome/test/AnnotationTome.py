@@ -22,7 +22,7 @@ class AnnotationTome(Tome):
         self._primitives = Prop(self, AnnotationTome._s_primitivesSpec)
 # GENERATED CONSTRUCTOR END
 
-# GENERATED PROPS START
+# GENERATED CLASS_BODY START
     @property
     def foo(self):
         return self._foo.value
@@ -50,7 +50,7 @@ class AnnotationTome(Tome):
     @property
     def props(self):
         return super(AnnotationTome, self).props + [self._foo, self._bar, self._primitives, ]
-# GENERATED PROPS END
+# GENERATED CLASS_BODY END
 
 # GENERATED POST-IMPORTS START
 from microtome.test.PrimitiveTome import PrimitiveTome

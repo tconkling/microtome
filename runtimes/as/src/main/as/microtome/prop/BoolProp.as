@@ -16,7 +16,7 @@ public final class BoolProp extends Prop
     }
 
     override public function set value (val :*) :void {
-        _value = val;
+        _value = val as Boolean;
     }
 
     protected var _value :Boolean;

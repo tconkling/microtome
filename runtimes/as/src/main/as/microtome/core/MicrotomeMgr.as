@@ -187,8 +187,8 @@ public final class MicrotomeMgr implements MicrotomeCtx
         }
 
         // Write out all Tomes
-        for each (var tome :MutableTome in tome.children.sortOn("name")) {
-            writeTome(writer.addChild(tome.name), tome);
+        for each (var childTome :MutableTome in tome.children.sortOn("name")) {
+            writeTome(writer.addChild(childTome.name), childTome);
         }
     }
 

@@ -29,7 +29,7 @@ public class BoolMarshaller extends PrimitiveMarshaller
     }
 
     override public function writeValue (mgr :MicrotomeMgr, writer :WritableObject, val :*, name :String, type :TypeInfo) :void {
-        writer.writeBool(name, val);
+        writer.writeBool(name, val as Boolean);
     }
 }
 }

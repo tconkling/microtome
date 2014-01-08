@@ -4,7 +4,6 @@
 package microtome.core {
 
 import microtome.MutableTome;
-import microtome.util.ClassUtil;
 import microtome.util.Util;
 
 public class Defs

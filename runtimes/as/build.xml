@@ -1,6 +1,6 @@
 <?xml version="1.0" standalone="yes"?>
 <project name="microtome" default="swc" basedir=".">
-  <property name="src.dir" location="src/main"/>
+  <property name="src.dir" location="src/main/as"/>
   <property name="deploy.dir" location="dist"/>
 
   <property name="ooo-build.vers" value="2.5"/>

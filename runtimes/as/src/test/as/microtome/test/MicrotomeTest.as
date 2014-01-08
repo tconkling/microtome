@@ -137,28 +137,28 @@ public class MicrotomeTest extends Sprite
     protected const _library :Library = new Library();
     protected const _ctx :MicrotomeCtx = Microtome.createCtx();
 
-    [Embed(source="../../../../../../microtome/test/data/PrimitiveTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../../microtome/test/data/PrimitiveTest.xml", mimeType="application/octet-stream")]
     private static const PRIMITIVE_TEST_XML :Class;
 
-    [Embed(source="../../../../../../microtome/test/data/ObjectTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../../microtome/test/data/ObjectTest.xml", mimeType="application/octet-stream")]
     private static const OBJECT_TEST_XML :Class;
 
-    [Embed(source="../../../../../../microtome/test/data/TomeTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../../microtome/test/data/TomeTest.xml", mimeType="application/octet-stream")]
     private static const TOME_TEST_XML :Class;
 
-    [Embed(source="../../../../../../microtome/test/data/NestedTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../../microtome/test/data/NestedTest.xml", mimeType="application/octet-stream")]
     private static const NESTED_TEST_XML :Class;
 
-    [Embed(source="../../../../../../microtome/test/data/RefTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../../microtome/test/data/RefTest.xml", mimeType="application/octet-stream")]
     private static const REF_TEST_XML :Class;
 
-    [Embed(source="../../../../../../microtome/test/data/TemplateTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../../microtome/test/data/TemplateTest.xml", mimeType="application/octet-stream")]
     private static const TEMPLATE_TEST_XML :Class;
 
-    [Embed(source="../../../../../../microtome/test/data/AnnotationTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../../microtome/test/data/AnnotationTest.xml", mimeType="application/octet-stream")]
     private static const ANNOTATION_TEST_XML :Class;
 
-    [Embed(source="../../../../../../microtome/test/data/GenericNestedTest.xml", mimeType="application/octet-stream")]
+    [Embed(source="../../../../../../../microtome/test/data/GenericNestedTest.xml", mimeType="application/octet-stream")]
     private static const GENERIC_NESTED_TEST_XML :Class;
 
     protected static const EPSILON :Number = 0.0001;

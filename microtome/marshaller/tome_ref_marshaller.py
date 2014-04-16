@@ -16,7 +16,7 @@ class TomeRefMarshaller(ObjectMarshaller):
         return TomeRef(reader.require_string(name))
 
     def write_value(self, mgr, writer, tome_ref, name, type_info):
-        writer.write_string(name, tome_ref.tome_name)
+        writer.write_string(name, tome_ref.tome_id)
 
     def resolve_refs(self, mgr, tome_ref, type_info):
         tome_ref.resolve(mgr.library, type_info.subtype.clazz)

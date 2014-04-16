@@ -116,7 +116,7 @@ public final class MicrotomeMgr implements MicrotomeCtx
                 foundTemplate = false;
                 for (var ii :int = 0; ii < _loadTask.pendingTemplatedTomes.length; ++ii) {
                     var tTome :TemplatedTome = _loadTask.pendingTemplatedTomes[ii];
-                    var tmpl :MutableTome = _loadTask.library.getTomeWithQualifiedName(tTome.templateName);
+                    var tmpl :MutableTome = _loadTask.library.getTome(tTome.templateName);
                     if (tmpl != null && !_loadTask.isPendingTemplatedTome(tmpl)) {
                         loadTomeNow(tTome.tome, tTome.reader, tmpl);
                         _loadTask.pendingTemplatedTomes.splice(ii--, 1);
@@ -205,15 +205,15 @@ public final class MicrotomeMgr implements MicrotomeCtx
         // additional non-prop tomes
         for each (var tomeReader :DataReader in reader.children) {
             if (Util.getProp(tome, tomeReader.name) == null) {
-                tome.addTome(loadTome(tomeReader));
+                tome.addChild(loadTome(tomeReader));
             }
         }
 
         // clone any additional tomes inside our template
         if (tmpl != null) {
-            tmpl.forEachTome(function (tmplChild :Tome) :void {
-                if (!tome.hasTome(tmplChild.name)) {
-                    tome.addTome(clone(tmplChild));
+            tmpl.forEachChild(function (tmplChild :Tome) :void {
+                if (!tome.hasChild(tmplChild.name)) {
+                    tome.addChild(clone(tmplChild));
                 }
             });
         }
@@ -286,14 +286,14 @@ public final class MicrotomeMgr implements MicrotomeCtx
         }
 
         for each (var item :Tome in task.libraryItems) {
-            if (task.library.hasTome(item.name)) {
+            if (task.library.hasChild(item.name)) {
                 task.state = LoadTask.ABORTED;
                 throw new LoadError(null, "An item named '" + item.name + "' is already loaded");
             }
         }
 
         for each (item in task.libraryItems) {
-            task.library.addTome(item);
+            task.library.addChild(item);
         }
 
         task.state = LoadTask.ADDED_ITEMS;
@@ -324,7 +324,7 @@ public final class MicrotomeMgr implements MicrotomeCtx
 
         for each (var item :Tome in task.libraryItems) {
             if (task.library == item.library) {
-                task.library.removeTome(item);
+                task.library.removeChild(item);
             }
         }
         task.state = LoadTask.ABORTED;

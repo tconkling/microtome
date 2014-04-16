@@ -19,7 +19,7 @@ public class Util
 
     public static function validLibraryItemName (name :String) :Boolean {
         // library items cannot have '.' in the name
-        return name.length > 0 && name.indexOf(Defs.NAME_SEPARATOR) < 0;
+        return name.length > 0 && name.indexOf(Defs.ID_SEPARATOR) < 0;
     }
 
     public static function getProp (tome :MutableTome, name :String) :Prop {

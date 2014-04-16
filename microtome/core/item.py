@@ -26,7 +26,7 @@ class MicrotomeItem(Mapping):
 
 class LibraryItem(MicrotomeItem):
     @abstractproperty
-    def qualified_name(self):
+    def id(self):
         '''the item's fully qualified name, used during TomeRef resolution'''
         return ""
 
@@ -41,14 +41,14 @@ class LibraryItemBase(LibraryItem):
         self._parent = None
 
     @property
-    def qualified_name(self):
+    def id(self):
         if self.library is None:
-            raise MicrotomeError("item must be in a library to have a qualified_name [item=%s]" % self)
+            raise MicrotomeError("item must be in a library to have an ID [item=%s]" % self)
 
         out = self._name
         cur_item = self._parent
         while cur_item and cur_item.library != cur_item:
-            out = cur_item.name + Defs.NAME_SEPARATOR + out
+            out = cur_item.name + Defs.ID_SEPARATOR + out
             cur_item = cur_item.parent
 
         return out

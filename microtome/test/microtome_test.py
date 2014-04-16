@@ -79,7 +79,7 @@ def test_object():
 
 def test_nested():
     lib = load_xml(Library(), "NestedTest.xml")
-    nested = lib.get_tome_with_qualified_name("nestedTest.nested")
+    nested = lib.get_tome("nestedTest.nested")
     assert_is_not_none(nested)
     eq_(nested.baz, 3.1415)
 
@@ -124,7 +124,7 @@ def test_annotations():
 
 def test_generic():
     lib = load_xml(Library(), "GenericNestedTest.xml")
-    tome = lib.get_tome_with_qualified_name("genericTest.generic")
+    tome = lib.get_tome("genericTest.generic")
     eq_(len(tome), 2)
 
     primitive = tome.get("primitive")

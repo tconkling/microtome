@@ -27,20 +27,20 @@ class Library(MicrotomeItem, MutableMapping):
     def parent(self):
         return None
 
-    def get_tome_with_qualified_name(self, qualified_name):
-        # A qualifiedName is a series of tome names, separated by dots
+    def get_tome(self, tome_id):
+        # A tome_id is a series of tome names, separated by dots
         # E.g. level1.baddies.big_boss
         cur_item = self
-        for name in qualified_name.split(Defs.NAME_SEPARATOR):
+        for name in tome_id.split(Defs.ID_SEPARATOR):
             cur_item = cur_item.get(name)
             if not isinstance(cur_item, LibraryItem):
                 return None
         return cur_item
 
-    def require_tome_with_qualified_name(self, qualified_name):
-        tome = self.get_tome_with_qualified_name(qualified_name)
+    def require_tome(self, tome_id):
+        tome = self.get_tome(tome_id)
         if tome is None:
-            raise MicrotomeError("No such tome [name=%s]" % qualified_name)
+            raise MicrotomeError("No such tome [id=%s]" % tome_id)
         return tome
 
     def add(self, tome):

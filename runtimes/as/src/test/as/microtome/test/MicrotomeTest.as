@@ -94,12 +94,12 @@ public class MicrotomeTest extends Sprite
         assert(nested.nested != null);
         assertEqualsWithAccuracy(nested.nested.baz, 3.1415, EPSILON);
         assertEquals(nested.children.length, 3);
-        assert(nested.hasTome("additionalTome1"));
-        assert(nested.hasTome("additionalTome2"));
+        assert(nested.hasChild("additionalTome1"));
+        assert(nested.hasChild("additionalTome2"));
 
         // ensure we didn't just do a shallow copy
         var nestedTmpl :NestedTome = _library.getTome("templateTest3");
-        assert(nestedTmpl.requireTome("additionalTome1") != nested.requireTome("additionalTome1"));
+        assert(nestedTmpl.requireChild("additionalTome1") != nested.requireChild("additionalTome1"));
 
         _library.removeAllTomes();
     }
@@ -118,15 +118,15 @@ public class MicrotomeTest extends Sprite
     protected function testGeneric () :void {
         loadXml(GENERIC_NESTED_TEST_XML);
 
-        var tome :Tome = _library.getTomeWithQualifiedName("genericTest.generic");
+        var tome :Tome = _library.getTome("genericTest.generic");
         assertEquals(tome.children.length, 2);
 
-        var primitive :PrimitiveTome = tome.getTome("primitive");
+        var primitive :PrimitiveTome = tome.getChild("primitive");
         assertEquals(primitive.foo, true);
         assertEquals(primitive.bar, 2);
         assertEqualsWithAccuracy(primitive.baz, 3.1415, EPSILON);
 
-        var anno :AnnotationTome = tome.getTome("annotations");
+        var anno :AnnotationTome = tome.getChild("annotations");
         assertEquals(anno.foo, 4);
         assertEquals(anno.bar, 3);
         assertEquals(anno.primitives, null);

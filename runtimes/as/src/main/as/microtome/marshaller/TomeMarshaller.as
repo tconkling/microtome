@@ -51,13 +51,13 @@ public class TomeMarshaller extends ObjectMarshaller
                     throw rre;
                 } catch (e :Error) {
                     throw new ResolveRefError("Failed to resolve ref",
-                        "tome", tome.qualifiedName).initCause(e);
+                        "tome", tome.id).initCause(e);
                 }
             }
         }
 
         // Tomes
-        tome.forEachTome(function (child :MutableTome) :void {
+        tome.forEachChild(function (child :MutableTome) :void {
             var marshaller :DataMarshaller = mgr.requireDataMarshaller(child.typeInfo.clazz);
             marshaller.resolveRefs(mgr, child, child.typeInfo);
         });
@@ -80,9 +80,9 @@ public class TomeMarshaller extends ObjectMarshaller
         }
 
         // tomes
-        tome.forEachTome(function (child :MutableTome) :void {
+        tome.forEachChild(function (child :MutableTome) :void {
             var marshaller :DataMarshaller = mgr.requireDataMarshaller(child.typeInfo.clazz);
-            clone.addTome(marshaller.cloneData(mgr, child, child.typeInfo));
+            clone.addChild(marshaller.cloneData(mgr, child, child.typeInfo));
         });
 
         return clone;

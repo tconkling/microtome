@@ -100,7 +100,7 @@ class MicrotomeMgr(MicrotomeCtx):
                 found_template = False
                 for ii in range(len(self._load_task.pending_templated_tomes)):
                     templated_tome = self._load_task.pending_templated_tomes[ii]
-                    template = self._load_task.library.get_tome_with_qualified_name(templated_tome.template_name)
+                    template = self._load_task.library.get_tome(templated_tome.template_name)
                     if template is not None and not self._load_task.is_pending_templated_tome(template):
                         self._load_task.pending_templated_tomes.pop(ii)
                         self._load_tome_now(templated_tome.tome, templated_tome.reader, template)

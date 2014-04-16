@@ -11,8 +11,7 @@ import microtome.core.microtome_internal;
 import microtome.error.MicrotomeError;
 import microtome.util.Util;
 
-public final class Library implements MicrotomeItem
-{
+public final class Library implements MicrotomeItem {
     public function get name () :String {
         return null;
     }
@@ -29,13 +28,13 @@ public final class Library implements MicrotomeItem
         return Util.dictToArray(_tomes);
     }
 
-    public function getTomeWithQualifiedName (qualifiedName :String) :* {
-        // A qualifiedName is a series of tome names, separated by dots
+    public function getTome (tomeId :String) :* {
+        // A tomeId is a series of tome names, separated by dots
         // E.g. level1.baddies.big_boss
 
         var item :Tome = null;
-        for each (var name :String in qualifiedName.split(Defs.NAME_SEPARATOR)) {
-            item = (item == null ? _tomes[name] : item.getTome(name));
+        for each (var name :String in tomeId.split(Defs.ID_SEPARATOR)) {
+            item = (item == null ? _tomes[name] : item.getChild(name));
             if (item == null) {
                 return null;
             }
@@ -44,25 +43,33 @@ public final class Library implements MicrotomeItem
         return item;
     }
 
-    public function requireTomeWithQualifiedName (qualifiedName :String) :* {
-        var item :Tome = getTomeWithQualifiedName(qualifiedName);
+    public function requireTome (tomeId :String) :* {
+        var item :Tome = getTome(tomeId);
         if (item == null) {
-            throw new MicrotomeError("No such tome", "qualifiedName", qualifiedName);
+            throw new MicrotomeError("No such tome", "tomeId", tomeId);
         }
         return item;
     }
 
-    public function getTome (name :String) :* {
+    public function getChild (name :String) :* {
         return _tomes[name];
     }
 
-    public function hasTome (name :String) :Boolean {
+    public function requireChild (name :String) :* {
+        const tome :Tome = getChild(name);
+        if (tome == null) {
+            throw new Error("Missing required tome [name='" + name + "']");
+        }
+        return tome;
+    }
+
+    public function hasChild (name :String) :Boolean {
         return (name in _tomes);
     }
 
-    public function addTome (tome :Tome) :void {
-        if (hasTome(tome.name)) {
-            throw new MicrotomeError("A tome with that name already exists", "name", tome.name);
+    public function addChild (tome :Tome) :void {
+        if (hasChild(tome.name)) {
+            throw new MicrotomeError("A child tome with that name already exists", "name", tome.name);
         } else if (tome.parent != null) {
             throw new MicrotomeError("Tome is already in a library", "tome", tome);
         }
@@ -71,7 +78,7 @@ public final class Library implements MicrotomeItem
         _tomes[tome.name] = tome;
     }
 
-    public function removeTome (tome :Tome) :void {
+    public function removeChild (tome :Tome) :void {
         if (tome.parent != this) {
             throw new MicrotomeError("Tome is not in this library", "tome", tome);
         }

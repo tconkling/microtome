@@ -6,8 +6,7 @@ package microtome.core {
 import microtome.MutableTome;
 import microtome.util.Util;
 
-public class Defs
-{
+public class Defs {
     public static const MUTABLE_TOME_NAME :String = Util.tomeTypeName(MutableTome);
 
     public static const TOME_TYPE_ATTR :String = "tomeType";
@@ -18,6 +17,6 @@ public class Defs
     public static const MAX_ANNOTATION :String = "max";
     public static const DEFAULT_ANNOTATION :String = "default";
 
-    public static const NAME_SEPARATOR :String = ".";
+    public static const ID_SEPARATOR :String = ".";
 }
 }

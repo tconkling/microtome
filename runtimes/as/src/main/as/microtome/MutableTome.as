@@ -24,16 +24,15 @@ public class MutableTome implements Tome
     }
 
     /** The item's fully qualified name, used during TomeRef resolution */
-    public final function get qualifiedName () :String {
+    public final function get id () :String {
         if (this.library == null) {
-            throw new MicrotomeError("Tome must be in a library to have a fullyQualifiedName",
-                "tome", this);
+            throw new MicrotomeError("Tome must be in a library to have an id", "tome", this);
         }
 
         var out :String = _name;
         var curItem :MicrotomeItem = _parent;
         while (curItem != null && curItem.library != curItem) {
-            out = curItem.name + Defs.NAME_SEPARATOR + out;
+            out = curItem.name + Defs.ID_SEPARATOR + out;
             curItem = curItem.parent;
         }
         return out;
@@ -70,16 +69,16 @@ public class MutableTome implements Tome
         return EMPTY_VEC;
     }
 
-    public function hasTome (name :String) :Boolean {
-        return (getTome(name) != null);
+    public function hasChild (name :String) :Boolean {
+        return (getChild(name) != null);
     }
 
-    public function getTome (name :String) :* {
+    public function getChild (name :String) :* {
         return (_tomes != null ? _tomes[name] : null);
     }
 
-    public function requireTome (name :String) :* {
-        const tome :Tome = getTome(name);
+    public function requireChild (name :String) :* {
+        const tome :Tome = getChild(name);
         if (tome == null) {
             throw new Error("Missing required tome [name='" + name + "']");
         }
@@ -91,7 +90,7 @@ public class MutableTome implements Tome
      * fn should take a single MutableTome argument. It can optionally return a Boolean specifying
      * whether to stop the iteration.
      */
-    public function forEachTome (fn :Function) :void {
+    public function forEachChild (fn :Function) :void {
         if (_tomes != null) {
             for each (var tome :Tome in _tomes) {
                 if (fn(tome)) {
@@ -101,12 +100,12 @@ public class MutableTome implements Tome
         }
     }
 
-    public function addTome (tome :MutableTome) :void {
+    public function addChild (tome :MutableTome) :void {
         if (tome.name == null) {
             throw new MicrotomeError("Tome is missing name", "type", ClassUtil.getClassName(tome));
         } else if (tome.parent != null) {
             throw new MicrotomeError("Tome is already parented", "parent", tome.parent);
-        } else if (getTome(name) != null) {
+        } else if (getChild(name) != null) {
             throw new MicrotomeError("Duplicate tome name '" + tome.name + "'");
         }
 
@@ -118,7 +117,7 @@ public class MutableTome implements Tome
         ++_numChildren;
     }
 
-    public function removeTome (tome :MutableTome) :void {
+    public function removeChild (tome :MutableTome) :void {
         if (tome.parent != this) {
             throw new MicrotomeError("Tome is not a child of this tome", "tome", tome);
         }

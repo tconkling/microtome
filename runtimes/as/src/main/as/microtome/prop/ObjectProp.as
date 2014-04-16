@@ -21,11 +21,11 @@ public final class ObjectProp extends Prop
         }
 
         if (_value is MutableTome) {
-            _tome.removeTome(MutableTome(_value));
+            _tome.removeChild(MutableTome(_value));
         }
         _value = val;
         if (_value is MutableTome) {
-            _tome.addTome(MutableTome(_value));
+            _tome.addChild(MutableTome(_value));
         }
     }
 

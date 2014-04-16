@@ -23,7 +23,7 @@ public class MutableTome implements Tome
         _name = name;
     }
 
-    /** The item's fully qualified name, used during TomeRef resolution */
+    /** The Tome's ID is its fully qualified name (e.g. actors.baddies.orc) */
     public final function get id () :String {
         if (this.library == null) {
             throw new MicrotomeError("Tome must be in a library to have an id", "tome", this);

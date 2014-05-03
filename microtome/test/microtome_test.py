@@ -14,6 +14,7 @@ import microtome.xml_support as xml_support
 import microtome.ctx
 from microtome.library import Library
 import microtome.test.MicrotomeTypes as MicrotomeTypes
+from microtome.error import MicrotomeError
 
 CTX = microtome.ctx.create_ctx()
 LOG = logging.getLogger(__name__)
@@ -137,6 +138,8 @@ def test_generic():
     eq_(anno.bar, 3)
     eq_(anno.primitives, None)
 
+def test_failures():
+    assert_raises(MicrotomeError, load_xml, Library(), "DuplicateNameFailure.xml")
 
 def test_writer():
     # load everything

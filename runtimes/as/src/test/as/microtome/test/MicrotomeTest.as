@@ -10,6 +10,7 @@ import microtome.Library;
 import microtome.Microtome;
 import microtome.MicrotomeCtx;
 import microtome.Tome;
+import microtome.error.MicrotomeError;
 import microtome.xml.XmlUtil;
 
 public class MicrotomeTest extends Sprite
@@ -24,6 +25,7 @@ public class MicrotomeTest extends Sprite
         testTemplates();
         testAnnotations();
         testGeneric();
+        testFailures();
 
         trace("All tests passed");
     }
@@ -134,6 +136,13 @@ public class MicrotomeTest extends Sprite
         _library.removeAllTomes();
     }
 
+    protected function testFailures () :void {
+        assertThrows(function () :void {
+            loadXml(DUPLICATE_NAME_FAILURE_XML);
+        }, MicrotomeError, "Duplicate tome names should not be allowed");
+        _library.removeAllTomes();
+    }
+
     protected const _library :Library = new Library();
     protected const _ctx :MicrotomeCtx = Microtome.createCtx();
 
@@ -160,6 +169,9 @@ public class MicrotomeTest extends Sprite
 
     [Embed(source="../../../../../../../microtome/test/data/GenericNestedTest.xml", mimeType="application/octet-stream")]
     private static const GENERIC_NESTED_TEST_XML :Class;
+
+    [Embed(source="../../../../../../../microtome/test/data/DuplicateNameFailure.xml", mimeType="application/octet-stream")]
+    private static const DUPLICATE_NAME_FAILURE_XML :Class;
 
     protected static const EPSILON :Number = 0.0001;
 }

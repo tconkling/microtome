@@ -23,7 +23,17 @@ class Tome(LibraryItemBase):
     def props(self):
         return _EMPTY_LIST
 
+    def has_child(self, tome_name):
+        return self._tomes is not None and tome_name in self._tomes
+
     def add_tome(self, tome):
+        if tome.name is None:
+            raise MicrotomeError("Tome is missing name [tome=%s]" % str(tome))
+        elif tome.parent is not None:
+            raise MicrotomeError("Tome is already parented [tome=%s, parent=%s]" % (str(tome), str(tome.parent)))
+        elif self.has_child(tome.name):
+            raise MicrotomeError("Duplicate tome name '%s'" % tome.name)
+
         tome._parent = self
         self._tomes[tome.name] = tome
 

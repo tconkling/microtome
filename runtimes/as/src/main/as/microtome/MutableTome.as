@@ -105,7 +105,7 @@ public class MutableTome implements Tome
             throw new MicrotomeError("Tome is missing name", "type", ClassUtil.getClassName(tome));
         } else if (tome.parent != null) {
             throw new MicrotomeError("Tome is already parented", "parent", tome.parent);
-        } else if (getChild(name) != null) {
+        } else if (hasChild(tome.name)) {
             throw new MicrotomeError("Duplicate tome name '" + tome.name + "'");
         }
 

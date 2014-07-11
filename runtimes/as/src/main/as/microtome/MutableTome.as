@@ -17,10 +17,7 @@ import microtome.util.Util;
 public class MutableTome implements Tome
 {
     public function MutableTome (name :String) {
-        if (!Util.validLibraryItemName(name)) {
-            throw new ArgumentError("Invalid Tome name '" + name + "'");
-        }
-        _name = name;
+        this.name = name;
     }
 
     /** The Tome's ID is its fully qualified name (e.g. actors.baddies.orc) */
@@ -40,6 +37,16 @@ public class MutableTome implements Tome
 
     public final function get name () :String {
         return _name;
+    }
+
+    /** Sets the Tome's name. It is an error to change a Tome's name if it has a parent. */
+    public final function set name (val :String) :void {
+        if (!Util.validLibraryItemName(name)) {
+            throw new ArgumentError("Invalid Tome name '" + name + "'");
+        } else if (_parent != null) {
+            throw new MicrotomeError("cannot rename parented Tomes")
+        }
+        _name = name;
     }
 
     public final function get parent () :MicrotomeItem {

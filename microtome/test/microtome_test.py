@@ -125,15 +125,23 @@ def test_annotations():
 
 def test_generic():
     lib = load_xml(Library(), "GenericNestedTest.xml")
-    tome = lib.get_tome("genericTest.generic")
-    eq_(len(tome), 2)
+    _do_test_generic(lib.get_tome("genericTest"))
 
-    primitive = tome.get("primitive")
+def test_clone():
+    lib = load_xml(Library(), "GenericNestedTest.xml")
+    _do_test_generic(CTX.clone(lib.get_tome("genericTest")))
+
+def _do_test_generic(tome):
+    child = tome.generic
+    assert_is_not_none(child)
+    eq_(len(child), 2)
+
+    primitive = child.get("primitive")
     eq_(primitive.foo, True)
     eq_(primitive.bar, 2)
     eq_(primitive.baz, 3.1415)
 
-    anno = tome.get("annotations")
+    anno = child.get("annotations")
     eq_(anno.foo, 4)
     eq_(anno.bar, 3)
     eq_(anno.primitives, None)

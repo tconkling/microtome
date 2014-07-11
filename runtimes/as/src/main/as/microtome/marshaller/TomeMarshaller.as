@@ -13,6 +13,7 @@ import microtome.error.ResolveRefError;
 import microtome.prop.ObjectProp;
 import microtome.prop.Prop;
 import microtome.util.ClassUtil;
+import microtome.util.Util;
 
 public class TomeMarshaller extends ObjectMarshaller
 {
@@ -68,21 +69,20 @@ public class TomeMarshaller extends ObjectMarshaller
         const clazz :Class = ClassUtil.getClass(tome);
         const clone :MutableTome = new clazz(tome.name);
 
-        // non-tome props
+        // props
         for (var ii :int = 0; ii < tome.props.length; ++ii) {
             var prop :Prop = tome.props[ii];
-            if (prop.value is MutableTome) {
-                continue;
-            }
             var cloneProp :Prop = clone.props[ii];
             var marshaller :DataMarshaller = mgr.requireDataMarshaller(prop.valueType.clazz);
             cloneProp.value = (marshaller.cloneData(mgr, prop.value, prop.valueType));
         }
 
-        // tomes
+        // additional non-prop tomes
         tome.forEachChild(function (child :MutableTome) :void {
-            var marshaller :DataMarshaller = mgr.requireDataMarshaller(child.typeInfo.clazz);
-            clone.addChild(marshaller.cloneData(mgr, child, child.typeInfo));
+            if (Util.getProp(tome, child.name) == null) {
+                var marshaller :DataMarshaller = mgr.requireDataMarshaller(child.typeInfo.clazz);
+                clone.addChild(marshaller.cloneData(mgr, child, child.typeInfo));
+            }
         });
 
         return clone;

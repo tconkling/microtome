@@ -43,17 +43,16 @@ class TomeMarshaller(ObjectMarshaller):
     def clone_object(self, mgr, tome, type_info):
         clone = tome.__class__(tome.name)
 
-        # non-tome props
-        my_basic_props = list(util.basic_props(tome))
-        clone_basic_props = list(util.basic_props(clone))
-        for ii in range(len(my_basic_props)):
-            prop = my_basic_props[ii]
-            clone_prop = clone_basic_props[ii]
+        # props
+        for ii in range(len(tome.props)):
+            prop = tome.props[ii]
+            clone_prop = clone.props[ii]
             marshaller = mgr.require_data_marshaller(prop.value_type.clazz)
             clone_prop.value = marshaller.clone_data(mgr, prop.value, prop.value_type)
 
-        # child tomes
+        # additional non-pop tomes
         for child_tome in tome.values():
-            marshaller = mgr.require_data_marshaller(child_tome.type_info.clazz)
-            clone.add_tome(marshaller.clone_data(mgr, child_tome, child_tome.type_info))
+            if util.get_prop(tome, child_tome.name) is None:
+                marshaller = mgr.require_data_marshaller(child_tome.type_info.clazz)
+                clone.add_tome(marshaller.clone_data(mgr, child_tome, child_tome.type_info))
         return clone

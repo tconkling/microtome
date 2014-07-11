@@ -25,6 +25,7 @@ public class MicrotomeTest extends Sprite
         testTemplates();
         testAnnotations();
         testGeneric();
+        testClone();
         testFailures();
 
         trace("All tests passed");
@@ -119,21 +120,30 @@ public class MicrotomeTest extends Sprite
 
     protected function testGeneric () :void {
         loadXml(GENERIC_NESTED_TEST_XML);
+        doTestGeneric(_library.getTome("genericTest"));
+        _library.removeAllTomes();
+    }
 
-        var tome :Tome = _library.getTome("genericTest.generic");
-        assertEquals(tome.children.length, 2);
+    protected function testClone () :void {
+        loadXml(GENERIC_NESTED_TEST_XML);
+        doTestGeneric(_ctx.clone(_library.getTome("genericTest")));
+        _library.removeAllTomes();
+    }
 
-        var primitive :PrimitiveTome = tome.getChild("primitive");
+    protected function doTestGeneric (tome :GenericNestedTome) :void {
+        var child :Tome = tome.generic;
+        assert(child != null);
+        assertEquals(child.children.length, 2);
+
+        var primitive :PrimitiveTome = child.getChild("primitive");
         assertEquals(primitive.foo, true);
         assertEquals(primitive.bar, 2);
         assertEqualsWithAccuracy(primitive.baz, 3.1415, EPSILON);
 
-        var anno :AnnotationTome = tome.getChild("annotations");
+        var anno :AnnotationTome = child.getChild("annotations");
         assertEquals(anno.foo, 4);
         assertEquals(anno.bar, 3);
         assertEquals(anno.primitives, null);
-
-        _library.removeAllTomes();
     }
 
     protected function testFailures () :void {

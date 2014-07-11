@@ -41,12 +41,12 @@ public class MutableTome implements Tome
 
     /** Sets the Tome's name. It is an error to change a Tome's name if it has a parent. */
     public final function set name (val :String) :void {
-        if (!Util.validLibraryItemName(name)) {
-            throw new ArgumentError("Invalid Tome name '" + name + "'");
+        if (!Util.validLibraryItemName(val)) {
+            throw new ArgumentError("Invalid Tome name '" + val + "'");
         } else if (_parent != null) {
             throw new MicrotomeError("cannot rename parented Tomes")
         }
-        _name = name;
+        _name = val;
     }
 
     public final function get parent () :MicrotomeItem {

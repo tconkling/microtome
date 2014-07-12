@@ -93,11 +93,15 @@ public final class MicrotomeMgr implements MicrotomeCtx
         return clazz;
     }
 
-    public function load (library :Library, dataElements :Vector.<ReadableObject>) :void {
+    public function load (library :Library, dataElements :Vector.<ReadableObject>) :Vector.<Tome> {
         if (_loadTask != null) {
             throw new MicrotomeError("Load already in progress");
         }
         _loadTask = new LoadTask(library);
+
+        // Retain a reference to to our loaded-tomes vector so that we can
+        // return it after _loadTask has been set to null at the end of the function.
+        var loadedTopLevelTomes :Vector.<Tome> = _loadTask.libraryItems;
 
         try {
             for each (var elt :ReadableObject in dataElements) {
@@ -143,6 +147,8 @@ public final class MicrotomeMgr implements MicrotomeCtx
         } finally {
             _loadTask = null;
         }
+
+        return loadedTopLevelTomes;
     }
 
     public function loadTome (reader :DataReader, requiredSuperclass :Class = null) :MutableTome {

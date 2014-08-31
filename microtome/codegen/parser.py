@@ -21,9 +21,9 @@ NUMBER_VALUE = re.compile(r'-?(\d*\.\d+|\d+)')
 ANNOTATION_VALUE = re.compile("(%s|%s|%s)" % (QUOTED_STRING.pattern, BOOL_VALUE.pattern, NUMBER_VALUE.pattern))
 
 TOME = re.compile(r'Tome')
-NAMESPACE = re.compile(r'[a-zA-Z]+(\.[a-zA-Z]+)*')  # letters separated by .s
 TYPENAME = re.compile(r'[a-zA-Z]\w*')               # must start with a letter
 IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')            # must start with a letter or _
+NAMESPACE = re.compile("{0}(\\.{0})*".format(TYPENAME.pattern))  # letters/numbers separated by dots
 CURLY_OPEN = re.compile(r'\{')
 CURLY_CLOSE = re.compile(r'\}')
 PAREN_OPEN = re.compile(r'\(')
@@ -331,9 +331,9 @@ def get_quoted_string(s):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     TEST_STR = '''
-        namespace com.test;
+        namespace com.test2;
         // comment 1
-        tome MyTome extends AnotherTome {
+        Tome MyTome extends AnotherTome {
             bool foo;   // comment 2
             int bar;
             float baz (min = -3.0);

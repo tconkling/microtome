@@ -16,10 +16,12 @@ class PrimitiveTome(Tome):
             PrimitiveTome._s_fooSpec = PropSpec("foo", None, [bool, ])
             PrimitiveTome._s_barSpec = PropSpec("bar", None, [int, ])
             PrimitiveTome._s_bazSpec = PropSpec("baz", None, [float, ])
+            PrimitiveTome._s_deadSpec = PropSpec("dead", None, [int, ])
 
         self._foo = Prop(self, PrimitiveTome._s_fooSpec)
         self._bar = Prop(self, PrimitiveTome._s_barSpec)
         self._baz = Prop(self, PrimitiveTome._s_bazSpec)
+        self._dead = Prop(self, PrimitiveTome._s_deadSpec)
 # GENERATED CONSTRUCTOR END
 
 # GENERATED CLASS_BODY START
@@ -48,8 +50,16 @@ class PrimitiveTome(Tome):
         self._baz.value = value
 
     @property
+    def dead(self):
+        return self._dead.value
+
+    @dead.setter
+    def dead(self, value):
+        self._dead.value = value
+
+    @property
     def props(self):
-        return super(PrimitiveTome, self).props + [self._foo, self._bar, self._baz, ]
+        return super(PrimitiveTome, self).props + [self._foo, self._bar, self._baz, self._dead, ]
 # GENERATED CLASS_BODY END
 
 # GENERATED POST-IMPORTS START

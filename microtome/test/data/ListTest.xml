@@ -1,8 +1,8 @@
 <microtome>
     <listTest tomeType="ListTome">
         <kids>
-            <test1 tomeType='PrimitiveTome' foo='true' bar='2' baz='3.1415'/>
-            <test2 tomeType='PrimitiveTome' foo='false' bar='666' baz='0.1'/>
+            <test1 tomeType='PrimitiveTome' foo='true' bar='2' baz='3.1415' dead='0xdead'/>
+            <test2 tomeType='PrimitiveTome' foo='false' bar='666' baz='0.1' dead='0xdead'/>
         </kids>
     </listTest>
 </microtome>

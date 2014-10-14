@@ -73,6 +73,7 @@ def test_primitives():
     eq_(tome.foo, True)
     eq_(tome.bar, 2)
     eq_(tome.baz, 3.1415)
+    eq_(tome.dead, 0xdead)
 
 def test_object():
     lib = load_xml(Library(), "ObjectTest.xml")

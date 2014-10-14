@@ -30,8 +30,10 @@ public class MutablePrimitiveTome extends MutableTome implements PrimitiveTome
     public function set bar (val :int) :void { _bar.value = val; }
     public function get baz () :Number { return _baz.value; }
     public function set baz (val :Number) :void { _baz.value = val; }
+    public function get dead () :int { return _dead.value; }
+    public function set dead (val :int) :void { _dead.value = val; }
 
-    override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _foo, _bar, _baz, ]); }
+    override public function get props () :Vector.<Prop> { return super.props.concat(new <Prop>[ _foo, _bar, _baz, _dead, ]); }
 
     private function initProps () :void {
         if (!s_propSpecsInited) {
@@ -39,20 +41,24 @@ public class MutablePrimitiveTome extends MutableTome implements PrimitiveTome
             s_fooSpec = new PropSpec("foo", null, [ Boolean, ]);
             s_barSpec = new PropSpec("bar", null, [ int, ]);
             s_bazSpec = new PropSpec("baz", null, [ Number, ]);
+            s_deadSpec = new PropSpec("dead", null, [ int, ]);
         }
         _foo = new BoolProp(this, s_fooSpec);
         _bar = new IntProp(this, s_barSpec);
         _baz = new NumberProp(this, s_bazSpec);
+        _dead = new IntProp(this, s_deadSpec);
     }
 
     protected var _foo :BoolProp;
     protected var _bar :IntProp;
     protected var _baz :NumberProp;
+    protected var _dead :IntProp;
 
     private static var s_propSpecsInited :Boolean;
     private static var s_fooSpec :PropSpec;
     private static var s_barSpec :PropSpec;
     private static var s_bazSpec :PropSpec;
+    private static var s_deadSpec :PropSpec;
 // GENERATED CLASS_BODY END
 
 // GENERATED CLASS_OUTRO START

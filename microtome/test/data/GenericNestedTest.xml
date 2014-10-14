@@ -1,7 +1,7 @@
 <microtome>
     <genericTest tomeType='GenericNestedTome'>
         <generic>
-            <primitive tomeType='PrimitiveTome' foo='true' bar='2' baz='3.1415'/>
+            <primitive tomeType='PrimitiveTome' foo='true' bar='2' baz='3.1415' dead='0xdead'/>
             <annotations tomeType='AnnotationTome' foo='4'/>
         </generic>
     </genericTest>

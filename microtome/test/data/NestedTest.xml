@@ -1,5 +1,5 @@
 <microtome>
     <nestedTest tomeType='NestedTome'>
-        <nested tomeType='PrimitiveTome' foo='true' bar='2' baz='3.1415'/>
+        <nested tomeType='PrimitiveTome' foo='true' bar='2' baz='3.1415' dead='0xdead'/>
     </nestedTest>
 </microtome>

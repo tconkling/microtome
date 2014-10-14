@@ -48,6 +48,7 @@ public class MicrotomeTest extends Sprite
         assert(tome != null);
         assertEquals(tome.foo, true);
         assertEquals(tome.bar, 2);
+        assertEquals(tome.dead, 0xdead);
         assertEqualsWithAccuracy(tome.baz, 3.1415, EPSILON);
         _library.removeAllTomes();
     }

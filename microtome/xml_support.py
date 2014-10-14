@@ -78,7 +78,7 @@ class XmlObject(ReadableObject, WritableObject):
             raise RuntimeError("'%s' is not a boolean" % attr)
 
     def get_int(self, name):
-        return int(self.get_string(name))
+        return int(self.get_string(name), 0)
 
     def get_float(self, name):
         return float(self.get_string(name))

@@ -14,7 +14,7 @@ INPUT_DIR="$ROOT/microtome/test/data"
 $GENTOMES --library_namespace "microtome.test" "$INPUT_DIR" "$ROOT" py
 
 # ActionScript
-$GENTOMES --library_namespace "microtome.test" "$INPUT_DIR" "$ROOT/runtimes/as/src/test" as
+$GENTOMES --library_namespace "microtome.test" "$INPUT_DIR" "$ROOT/runtimes/as/src/test/as" as
 
 # Objective-C
 # $GENTOMES "$INPUT_DIR" "$ROOT/runtimes/objc/Tests" objc

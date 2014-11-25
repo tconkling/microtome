@@ -277,8 +277,7 @@ class TomeView(object):
         # prop value typenames
         for prop in self.props:
             imp_list += prop.value_type.qualified_typenames(False)
-            if prop.value_type.is_mutable:
-                imp_list += prop.value_type.qualified_typenames(True)
+            imp_list += prop.value_type.qualified_typenames(True)
 
         # strip out anything in our namespace
         imp_list = [imp for imp in imp_list if not self.same_namespace(imp)]

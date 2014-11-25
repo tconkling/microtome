@@ -37,10 +37,10 @@ MUTABLE_TOME_TEMPLATE_NAME = "MutableTome.as"
 TEMPLATES_DIR = util.abspath("templates/as")
 
 # stuff we always import
-BASE_CLASS_IMPORTS = set(["microtome.prop.Prop", "microtome.prop.PropSpec"])
+BASE_CLASS_IMPORTS = {"microtome.prop.Prop", "microtome.prop.PropSpec"}
 BASE_INTERFACE_IMPORTS = set()
 # stuff we never import (packageless typenames: Boolean, int, etc)
-DISCARD_IMPORTS = set([name for name in AS3_TYPENAMES.values() if util.get_namespace(name) == ""])
+DISCARD_IMPORTS = {name for name in AS3_TYPENAMES.values() if util.get_namespace(name) == ""}
 
 
 def comment_prefix():

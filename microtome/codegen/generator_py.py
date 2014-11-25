@@ -25,9 +25,9 @@ TOME_TEMPLATE_NAME = "Tome.py"
 TEMPLATES_DIR = util.abspath("templates/py")
 
 # stuff we always import
-BASE_IMPORTS = set(["microtome.core.prop.Prop", "microtome.core.prop.PropSpec"])
+BASE_IMPORTS = {"microtome.core.prop.Prop", "microtome.core.prop.PropSpec"}
 # stuff we never import (packageless typenames: bool, int, etc)
-DISCARD_IMPORTS = set([name for name in PY_TYPENAMES.values() if util.get_namespace(name) == ""])
+DISCARD_IMPORTS = {name for name in PY_TYPENAMES.values() if util.get_namespace(name) == ""}
 
 def comment_prefix():
     return "#"

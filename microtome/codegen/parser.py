@@ -198,7 +198,7 @@ class Parser(object):
         self.eat_whitespace()
         typename = self.require_text(QUALIFIED_TYPENAME, "Expected type identifier")
 
-        if not typename in s.ALL_TYPES:
+        if typename not in s.ALL_TYPES:
             typename = self.make_qualified_typename(typename)
             LOG.debug("Found custom type: '%s'" % typename)
 
@@ -215,7 +215,7 @@ class Parser(object):
         if not is_subtype:
             if typename in s.PARAMETERIZED_TYPES and subtype is None:
                 raise ParseError(self.string, self.pos, "Expected parameterized type for '%s'" % typename)
-            elif not typename in s.PARAMETERIZED_TYPES and subtype is not None:
+            elif typename not in s.PARAMETERIZED_TYPES and subtype is not None:
                 raise ParseError(self.string, self.pos, "'%s' is not a parameterized type" % typename)
 
         return s.TypeSpec(name=typename, subtype=subtype)

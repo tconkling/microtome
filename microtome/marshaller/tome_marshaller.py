@@ -33,7 +33,7 @@ class TomeMarshaller(ObjectMarshaller):
             except ResolveRefError:
                 raise
             except Exception as e:
-                raise ResolveRefError("Failed to resolve ref [tome=%s]" % tome.qualified_name, cause=e)
+                raise ResolveRefError("Failed to resolve ref [tome=%s]" % tome.id, cause=e)
 
         # child tomes
         for child_tome in tome.values():

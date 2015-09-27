@@ -123,7 +123,7 @@ public final class MicrotomeMgr implements MicrotomeCtx
                     var tmpl :MutableTome = _loadTask.library.getTome(tTome.templateName);
                     if (tmpl != null && !_loadTask.isPendingTemplatedTome(tmpl)) {
                         loadTomeNow(tTome.tome, tTome.reader, tmpl);
-                        _loadTask.pendingTemplatedTomes.splice(ii--, 1);
+                        _loadTask.pendingTemplatedTomes.removeAt(ii--);
                         foundTemplate = true;
                         break;
                     }

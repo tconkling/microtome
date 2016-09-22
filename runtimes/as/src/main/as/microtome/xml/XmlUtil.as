@@ -8,10 +8,14 @@ import microtome.core.WritableObject;
 
 public class XmlUtil
 {
-    /** Creates ReadableObjects from a Vector of XML objects */
-    public static function createReaders (xmlDocs :Vector.<XML>) :Vector.<ReadableObject> {
+    public static function createReader (xml :XML) :ReadableObject {
+        return new XmlElement(xml);
+    }
+
+    /** Creates ReadableObjects from a Vector or Array of XML objects */
+    public static function createReaders (xmls :*) :Vector.<ReadableObject> {
         const data :Vector.<ReadableObject> = new <ReadableObject>[];
-        for each (var xml :XML in xmlDocs) {
+        for each (var xml :XML in xmls) {
             data.push(new XmlElement(xml));
         }
         return data;

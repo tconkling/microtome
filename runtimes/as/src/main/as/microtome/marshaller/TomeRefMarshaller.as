@@ -3,6 +3,7 @@
 
 package microtome.marshaller {
 
+import microtome.core.Annotation;
 import microtome.core.DataReader;
 import microtome.core.MicrotomeMgr;
 import microtome.core.TomeRef;
@@ -26,6 +27,10 @@ public class TomeRefMarshaller extends ObjectMarshaller
             throw new LoadError(reader.data, "invalid TomeRef", "tomeName", tomeName);
         }
         return new TomeRef(tomeName);
+    }
+
+    override public function readDefault (mgr :MicrotomeMgr, type :TypeInfo, anno :Annotation) :* {
+        return new TomeRef(anno.stringValue(null));
     }
 
     override public function writeValue (mgr :MicrotomeMgr, writer :WritableObject, obj :*, name :String, type :TypeInfo) :void {

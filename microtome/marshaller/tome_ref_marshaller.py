@@ -4,6 +4,7 @@
 from microtome.marshaller.data_marshaller import ObjectMarshaller
 from microtome.core.tome_ref import TomeRef
 
+
 class TomeRefMarshaller(ObjectMarshaller):
     def __init__(self):
         ObjectMarshaller.__init__(self, True)
@@ -14,6 +15,9 @@ class TomeRefMarshaller(ObjectMarshaller):
 
     def read_value(self, mgr, reader, name, type_info):
         return TomeRef(reader.require_string(name))
+
+    def read_default(self, mgr, type_info, anno):
+        return TomeRef(anno.string_value(None))
 
     def write_value(self, mgr, writer, tome_ref, name, type_info):
         writer.write_string(name, tome_ref.tome_id)

@@ -8,7 +8,7 @@ setup(
     packages=find_packages(exclude=['microtome.test', 'microtome.test.*']),
     package_data={'microtome.codegen': ['templates/**/*.mustache']},
 
-    install_requires=["pystache>=0.5.2"],
+    install_requires=["pystache>=0.5.2", "six>=1.12"],
 
     # scripts
     entry_points={

@@ -208,7 +208,8 @@ class PageView(object):
 if __name__ == "__main__":
     ANOTHER_PAGE_TYPE = s.TypeSpec(name="com.microtome.test.AnotherPage", subtype=None)
     NAMESPACE = "com.microtome.test"
-    PAGE=s.TomeSpec(name = "TestPage",
+    PAGE=s.TomeSpec(
+        name="TestPage",
         namespace=NAMESPACE,
         superclass=None,
         props=[
@@ -222,5 +223,5 @@ if __name__ == "__main__":
 
     LIB = s.LibrarySpec(namespace = NAMESPACE, header_text="", pages = [ PAGE ])
     for filename, file_contents in generate_tome(LIB, PAGE):
-        print filename + ":"
-        print file_contents
+        print(filename + ":")
+        print(file_contents)

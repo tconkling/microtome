@@ -251,9 +251,9 @@ if __name__ == "__main__":
     LIB = s.LibrarySpec(namespace=NAMESPACE, header_text="", tomes=[TOME, ANOTHER_TOME])
 
     for filename, file_contents in generate_library(LIB):
-        print filename + ":"
-        print file_contents
+        print(filename + ':')
+        print(file_contents)
 
     for filename, file_contents in generate_tome(LIB, TOME):
-        print filename + ":"
-        print file_contents
+        print(filename + ':')
+        print(file_contents)

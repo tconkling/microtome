@@ -1,6 +1,7 @@
 #
 # microtome
 
+from __future__ import print_function
 import xml.etree.ElementTree as ElementTree
 
 from microtome.core.reader import ReadableObject
@@ -102,4 +103,4 @@ class XmlObject(ReadableObject, WritableObject):
 if __name__ == "__main__":
     test_xml = r'<root><foo bar="1" baz="qwert"/></root>'
     reader = readers_from_xml_strings(test_xml)[0]
-    print reader.name
+    print(reader.name)

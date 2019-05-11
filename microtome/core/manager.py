@@ -311,7 +311,8 @@ class TemplatedTome(object):
     def template_name(self):
         return self.reader.require_string(Defs.TEMPLATE_ATTR)
 
+
 if __name__ == "__main__":
     mgr = MicrotomeMgr()
-    print Tome.__name__
+    print(Tome.__name__)
 

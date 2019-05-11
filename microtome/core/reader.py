@@ -66,25 +66,25 @@ class DataReader(object):
     def require_string(self, name):
         try:
             return self._data.get_string(name)
-        except Exception, e:
+        except Exception as e:
             raise LoadError(self._data, "error loading string '%s': %s" % (name, e.message))
 
     def require_bool(self, name):
         try:
             return self._data.get_bool(name)
-        except Exception, e:
+        except Exception as e:
             raise LoadError(self._data, "error loading boolean '%s': %s" % (name, e.message))
 
     def require_int(self, name):
         try:
             return self._data.get_int(name)
-        except Exception, e:
+        except Exception as e:
             raise LoadError(self._data, "error loading int '%s': %s" % (name, e.message))
 
     def require_float(self, name):
         try:
             return self._data.get_float(name)
-        except Exception, e:
+        except Exception as e:
             raise LoadError(self._data, "error loading float '%s': %s" % (name, e.message))
 
     def require_ints(self, name, count=0, delim=","):
@@ -99,7 +99,7 @@ class DataReader(object):
             out = [parser(s) for s in self.require_string(name).split(delim)]
         except LoadError:
             raise
-        except Exception, e:
+        except Exception as e:
             raise LoadError(self._data, "error loading %s list '%s': %s" % (list_type.__name__, name, e.message))
 
         if count > 0 and len(out) != count:

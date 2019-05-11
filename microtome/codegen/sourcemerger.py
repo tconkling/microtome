@@ -1,6 +1,7 @@
 #
 # microtome - Tim Conkling, 2012
 
+from __future__ import print_function
 import re
 import logging
 from collections import namedtuple, OrderedDict
@@ -133,5 +134,5 @@ if __name__ == "__main__":
     // GENERATED TEST END
     old end
     """
-    print GeneratedSourceMerger().merge(NEW, OLD)
+    print(GeneratedSourceMerger().merge(NEW, OLD))
 

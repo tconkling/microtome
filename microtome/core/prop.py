@@ -1,6 +1,10 @@
 #
 # microtome
 
+from __future__ import print_function
+from __future__ import print_function
+from __future__ import print_function
+from __future__ import print_function
 from microtome.tome import Tome
 from microtome.core.type_info import TypeInfo
 import microtome.core.defs as Defs
@@ -92,11 +96,11 @@ class PropSpec(object):
 
 if __name__ == "__main__":
     anno = PropAnnotation(u'Hello')
-    print anno.int_value(55)
-    print anno.bool_value(False)
-    print anno.string_value("whoops")
+    print(anno.int_value(55))
+    print(anno.bool_value(False))
+    print(anno.string_value("whoops"))
 
-    print PropSpec._NULL_ANNO
+    print(PropSpec._NULL_ANNO)
 
     spec = PropSpec("my prop", {"qwert": 3}, None)
-    print spec._annotations
+    print(spec._annotations)

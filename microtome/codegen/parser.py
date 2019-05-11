@@ -342,4 +342,4 @@ if __name__ == "__main__":
             TomeRef<ThirdTome> theRef;
         }
         """
-    print Parser(TEST_STR).parse()
+    print(Parser(TEST_STR).parse())

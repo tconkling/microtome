@@ -1,6 +1,9 @@
 #
 # microtome - Tim Conkling, 2012
 
+from __future__ import print_function
+from __future__ import print_function
+from __future__ import print_function
 import re
 from collections import namedtuple
 import os
@@ -112,7 +115,7 @@ def _modify_first_char(str, f):
 
 
 if __name__ == '__main__':
-    print uppercase_first("asdfasdfWEr")
-    print underscores_to_camelcase("foo_bar_a45", True)
-    print camelcase_to_underscores("FooBarA45")
+    print(uppercase_first("asdfasdfWEr"))
+    print(underscores_to_camelcase("foo_bar_a45", True))
+    print(camelcase_to_underscores("FooBarA45"))
     #print get_common_namespace(["com.foo.qwert.Bar", "com.foo.Asdf"])

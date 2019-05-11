@@ -51,7 +51,7 @@ def main():
             with open(in_name, 'r') as in_file:
                 try:
                     tome_specs += parser.parse_document(in_file.read())
-                except parser.ParseError, e:
+                except parser.ParseError as e:
                     e.filename = in_name
                     #LOG.error(str(e))
                     raise

@@ -1,5 +1,6 @@
 #
 # microtome - Tim Conkling, 2012
+from __future__ import print_function
 import numbers
 import os
 
@@ -315,7 +316,8 @@ if __name__ == "__main__":
                               props=[],
                               pos=0)
 
-    TOME = s.TomeSpec(name="TestTome",
+    TOME = s.TomeSpec(
+        name="TestTome",
         namespace=NAMESPACE,
         superclass=None,
         props=[
@@ -331,5 +333,5 @@ if __name__ == "__main__":
     LIB = s.LibrarySpec(namespace=NAMESPACE, header_text="", tomes=[TOME, ANOTHER_TOME])
 
     for filename, file_contents in generate_tome(LIB, TOME):
-        print filename + ":"
-        print file_contents
+        print((filename + ":"))
+        print(file_contents)

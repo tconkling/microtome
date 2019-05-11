@@ -1,6 +1,9 @@
 #
 # microtome
 
+from __future__ import print_function
+
+
 class TypeInfo(object):
     @classmethod
     def from_classes(cls, *classes):
@@ -34,4 +37,4 @@ class TypeInfo(object):
 
 if __name__ == "__main__":
     info = TypeInfo.from_classes(list, int, bool)
-    print str(info)
+    print(str(info))

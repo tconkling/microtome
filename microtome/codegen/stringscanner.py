@@ -3,7 +3,10 @@
 
 import re
 
+import six
+
 import microtome.codegen.util as util
+
 
 class StringScanner(object):
     def __init__(self, string):
@@ -66,6 +69,6 @@ class StringScanner(object):
         return self._string.splitlines()[self.line_number]
 
     def _get_match(self, pattern, flags):
-        if isinstance(pattern, basestring):
+        if isinstance(pattern, six.string_types):
             pattern = re.compile(pattern, flags)
         return pattern.match(self._string, self._pos)

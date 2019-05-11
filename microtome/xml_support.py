@@ -2,11 +2,13 @@
 # microtome
 
 from __future__ import print_function
+
 import xml.etree.ElementTree as ElementTree
 
 from microtome.core.reader import ReadableObject
 from microtome.core.writer import WritableObject
 from microtome.error import LoadError
+
 
 def load_xml(ctx, lib, *filenames):
     ctx.load(lib, readers_from_files(*filenames))

@@ -2,11 +2,10 @@
 # microtome - Tim Conkling, 2012
 
 from __future__ import print_function
-from __future__ import print_function
-from __future__ import print_function
+
+import os
 import re
 from collections import namedtuple
-import os
 
 LineData = namedtuple("LineData", ["line_num", "col"])
 

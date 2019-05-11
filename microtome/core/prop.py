@@ -2,12 +2,13 @@
 # microtome
 
 from __future__ import print_function
-from __future__ import print_function
-from __future__ import print_function
-from __future__ import print_function
-from microtome.tome import Tome
-from microtome.core.type_info import TypeInfo
+
+import six
+
 import microtome.core.defs as Defs
+from microtome.core.type_info import TypeInfo
+from microtome.tome import Tome
+
 
 class Prop(object):
     def __init__(self, tome, spec):
@@ -72,7 +73,8 @@ class PropAnnotation(object):
         return self._value if isinstance(self._value, int) or isinstance(self._value, float) else default
 
     def string_value(self, default):
-        return self._value if isinstance(self._value, basestring) else default
+        return self._value if isinstance(self._value, six.string_types) else default
+
 
 class PropSpec(object):
     def __init__(self, name, annotations, value_classes):

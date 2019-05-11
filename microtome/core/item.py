@@ -27,7 +27,7 @@ class MicrotomeItem(Mapping):
 class LibraryItem(MicrotomeItem):
     @abstractproperty
     def id(self):
-        '''the item's fully qualified name, used during TomeRef resolution'''
+        """the item's fully qualified name, used during TomeRef resolution"""
         return ""
 
     @abstractproperty

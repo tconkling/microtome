@@ -9,12 +9,12 @@ LineData = namedtuple("LineData", ["line_num", "col"])
 
 
 def uppercase_first(str):
-    '''returns a copy of the string with the first letter capitalized and the rest untouched'''
+    """returns a copy of the string with the first letter capitalized and the rest untouched"""
     return _modify_first_char(str, lambda char: char.upper())
 
 
 def lowercase_first(str):
-    '''returns a copy of the string with the first letter capitalized and the rest untouched'''
+    """returns a copy of the string with the first letter capitalized and the rest untouched"""
     return _modify_first_char(str, lambda char: char.lower())
 
 def camelcase_to_underscores(name):
@@ -31,7 +31,7 @@ def underscores_to_camelcase(name, capitalize_first=False):
 
 
 def line_data_at_index(str, idx):
-    '''returns the string's line number and line column number at the given index'''
+    """returns the string's line number and line column number at the given index"""
     # count the number of newlines up to idx
     pattern = re.compile(r'\n')
     line_num = 0
@@ -54,36 +54,36 @@ def abspath(path):
 
 
 def strip_namespace(typename):
-    '''com.microtome.Foo -> Foo'''
+    """com.microtome.Foo -> Foo"""
     idx = typename.rfind(".")
     return typename[idx+1:] if idx >= 0 else typename
 
 
 def get_namespace(typename):
-    '''com.microtome.Foo -> com.microtome'''
+    """com.microtome.Foo -> com.microtome"""
     idx = typename.rfind(".")
     return typename[:idx] if idx >= 0 else ""
 
 
 def get_namespace_elements(typename):
-    '''com.microtome.Foo -> [ 'com', 'microtome' ]'''
+    """com.microtome.Foo -> [ 'com', 'microtome' ]"""
     package_str = get_namespace(typename)
     return package_str.split(".") if len(package_str) > 0 else []
 
 
 def qualified_name(namespace, typename):
-    '''appends a namespace to a typename'''
+    """appends a namespace to a typename"""
     return namespace + "." + typename if len(namespace) > 0 else typename
 
 
 def namespace_to_path(namespace):
-    '''com.microtome.foo -> com/microtome/foo'''
+    """com.microtome.foo -> com/microtome/foo"""
     return namespace.replace(".", "/")
 
 
 def get_common_namespace(typenames):
-    '''discovers the longest common namespace shared by all the typenames,
-    e.g. [ com.foo.bar.Baz, com.foo.qwert.Asdf ] -> com.foo'''
+    """discovers the longest common namespace shared by all the typenames,
+    e.g. [ com.foo.bar.Baz, com.foo.qwert.Asdf ] -> com.foo"""
     common = []
     for typename in typenames:
         elements = get_namespace_elements(typename)

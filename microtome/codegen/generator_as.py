@@ -47,8 +47,8 @@ def comment_prefix():
     return "//"
 
 def generate_library(lib):
-    '''Returns a list of (filename, filecontents) tuples representing the generated files to
-    be written to disk'''
+    """Returns a list of (filename, filecontents) tuples representing the generated files to
+    be written to disk"""
 
     # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs=TEMPLATES_DIR, escape=lambda u: u)
@@ -68,8 +68,8 @@ def generate_library(lib):
 
 
 def generate_tome(lib, tome_spec):
-    '''Returns a list of (filename, filecontents) tuples representing the generated files to
-    be written to disk'''
+    """Returns a list of (filename, filecontents) tuples representing the generated files to
+    be written to disk"""
     tome_view = TomeView(lib, tome_spec)
 
      # "escape" param disables html-escaping
@@ -89,7 +89,7 @@ def is_tome_name(lib, the_type):
 
 
 def get_as3_typename(lib, the_type, mutable=False):
-    '''converts a microtome typename to an actionscript typename'''
+    """converts a microtome typename to an actionscript typename"""
     if mutable and the_type in AS3_MUTABLE_TYPENAMES:
         return AS3_MUTABLE_TYPENAMES[the_type]
     elif the_type in AS3_TYPENAMES:
@@ -101,7 +101,7 @@ def get_as3_typename(lib, the_type, mutable=False):
 
 
 def get_prop_typename(the_type):
-    '''returns the prop typename for the given typename'''
+    """returns the prop typename for the given typename"""
     if the_type in PRIMITIVE_PROPNAMES:
         return PRIMITIVE_PROPNAMES[the_type]
     else:
@@ -174,7 +174,7 @@ class TypeView(object):
             return get_as3_typename(self.lib, self.type.name, mutable)
 
     def qualified_typenames(self, mutable):
-        '''namespace-qualified typenames of all types used by this Type'''
+        """namespace-qualified typenames of all types used by this Type"""
         return [get_as3_typename(self.lib, name, mutable) for name in s.type_spec_to_list(self.type)]
 
 
@@ -303,6 +303,7 @@ class TomeView(object):
 
     def same_namespace(self, typename):
         return self.namespace == util.get_namespace(typename)
+
 
 if __name__ == "__main__":
     NAMESPACE = "com.microtome.test"

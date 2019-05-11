@@ -10,6 +10,7 @@ from microtome.core.item import MicrotomeItem, LibraryItem
 
 LOG = logging.getLogger(__name__)
 
+
 class Library(MicrotomeItem, MutableMapping):
     def __init__(self):
         MicrotomeItem.__init__(self)
@@ -81,6 +82,7 @@ class Library(MicrotomeItem, MutableMapping):
 
     def __contains__(self, item):
         return self._tomes.__contains__(item)
+
 
 if __name__ == "__main__":
     lib = Library()

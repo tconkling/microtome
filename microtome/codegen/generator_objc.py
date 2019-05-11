@@ -42,8 +42,8 @@ def comment_prefix():
     return "//"
 
 def generate_library(lib):
-    '''Returns a list of (filename, filecontents) tuples representing the generated files to
-    be written to disk'''
+    """Returns a list of (filename, filecontents) tuples representing the generated files to
+    be written to disk"""
 
     # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs=TEMPLATES_DIR, escape=lambda u: u)
@@ -57,8 +57,8 @@ def generate_library(lib):
 
 
 def generate_tome(lib, tome_spec):
-    '''Returns a list of (filename, filecontents) tuples representing the generated files to
-    be written to disk'''
+    """Returns a list of (filename, filecontents) tuples representing the generated files to
+    be written to disk"""
     page_view = PageView(tome_spec, lib.header_text)
 
     # "escape" param disables html-escaping
@@ -74,12 +74,12 @@ def generate_tome(lib, tome_spec):
 
 
 def capitalize(string):
-    '''capitalizes the first letter of the string, without lower-casing any of the others'''
+    """capitalizes the first letter of the string, without lower-casing any of the others"""
     return string[0].capitalize() + string[1:]
 
 
 def get_objc_typename(the_type, pointer_type=True):
-    '''converts a microtome typename to an objective-c typename'''
+    """converts a microtome typename to an objective-c typename"""
     if the_type in OBJC_TYPENAMES:
         typename = OBJC_TYPENAMES[the_type]
     else:

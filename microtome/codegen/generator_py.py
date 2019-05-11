@@ -33,8 +33,8 @@ def comment_prefix():
     return "#"
 
 def generate_library(lib):
-    '''Returns a list of (filename, filecontents) tuples representing the generated files to
-    be written to disk'''
+    """Returns a list of (filename, filecontents) tuples representing the generated files to
+    be written to disk"""
 
     # "escape" param disables html-escaping
     stache = pystache.Renderer(search_dirs=TEMPLATES_DIR, escape=lambda u: u)
@@ -53,8 +53,8 @@ def generate_library(lib):
 
 
 def generate_tome(lib, tome_spec):
-    '''Returns a list of (filename, filecontents) tuples representing the generated files to
-    be written to disk'''
+    """Returns a list of (filename, filecontents) tuples representing the generated files to
+    be written to disk"""
     tome_view = TomeView(lib, tome_spec)
 
      # "escape" param disables html-escaping
@@ -71,7 +71,7 @@ def is_tome_name(lib, the_type):
 
 
 def get_py_typename(lib, the_type):
-    '''converts a microtome typename to a Python typename'''
+    """converts a microtome typename to a Python typename"""
     if the_type in PY_TYPENAMES:
         return PY_TYPENAMES[the_type]
     else:
@@ -136,7 +136,7 @@ class TypeView(object):
             return get_py_typename(self.lib, self.type.name)
 
     def qualified_typenames(self):
-        '''namespace-qualified typenames of all types used by this Type'''
+        """namespace-qualified typenames of all types used by this Type"""
         return [get_py_typename(self.lib, name) for name in s.type_spec_to_list(self.type)]
 
 

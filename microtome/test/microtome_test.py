@@ -30,7 +30,7 @@ def setup_tests():
     CTX.register_tome_classes(MicrotomeTypes.get_tome_classes())
 
 def test_parser():
-    test_input = '''
+    test_input = """
         namespace com.test;
         // comment 1
         Tome MyTome extends AnotherTome {
@@ -46,7 +46,7 @@ def test_parser():
         Tome Tome2 {
             string qwert;
         }
-        '''
+        """
     tome_specs = Parser(test_input).parse()
     eq_(len(tome_specs), 2)
     tome_spec = tome_specs[0]

@@ -5,9 +5,10 @@ import traceback
 import re
 import sys
 
+
 def ancestor_class_depth(base_clazz, clazz, depth=0):
-    '''returns the depth of the ancestry tree from base_clazz to clazz, or -1 if base_clazz
-    is not a superclass of clazz'''
+    """returns the depth of the ancestry tree from base_clazz to clazz, or -1 if base_clazz
+    is not a superclass of clazz"""
     if clazz is base_clazz:
         return depth
     elif clazz is not object:
@@ -16,6 +17,7 @@ def ancestor_class_depth(base_clazz, clazz, depth=0):
             if base_depth >= 0:
                 return base_depth
     return -1
+
 
 class ChainableError(Exception):
     def __init__(self, *args, **kwargs):

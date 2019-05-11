@@ -8,7 +8,7 @@ class WritableObject(object):
 
     @abstractmethod
     def add_child(self, name):
-        '''Create and return a new WritableObject with the given name'''
+        """Create and return a new WritableObject with the given name"""
         return None
 
     @abstractmethod

@@ -22,12 +22,12 @@ def readers_from_files(*filenames):
 
 
 def create_writer(xml_element):
-    '''creates a WritableObject that will write to the given ElementTree element'''
+    """creates a WritableObject that will write to the given ElementTree element"""
     return XmlObject(xml_element)
 
 
 def indent(xml_element, level=0):
-    '''idents the given Element, for pretty-printing'''
+    """idents the given Element, for pretty-printing"""
     i = "\n" + level*"  "
     if len(xml_element):
         if not xml_element.text or not xml_element.text.strip():

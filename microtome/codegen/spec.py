@@ -1,8 +1,8 @@
 #
 # microtome - Tim Conkling, 2012
 
-'''
-'''
+"""
+"""
 
 from collections import namedtuple
 
@@ -31,7 +31,7 @@ RESERVED_NAMES = {Defs.TOME_TYPE_ATTR, Defs.TEMPLATE_ATTR, "props", "name", "id"
 
 
 def type_spec_to_list(type_spec):
-    '''returns a flat list of the types in a TypeSpec's type chain'''
+    """returns a flat list of the types in a TypeSpec's type chain"""
     out = [type_spec.name]
     if type_spec.subtype:
         out += type_spec_to_list(type_spec.subtype)

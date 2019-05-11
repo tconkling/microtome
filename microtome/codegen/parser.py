@@ -1,11 +1,11 @@
 #
 # microtome - Tim Conkling, 2012
 
-'''
+"""
 Usage:
 import parser
 tome_specs = parser.parse_document(some_string)
-'''
+"""
 
 import re
 import logging
@@ -24,8 +24,8 @@ TOME = re.compile(r'Tome')
 TYPENAME = re.compile(r'[a-zA-Z]\w*')               # must start with a letter
 IDENTIFIER = re.compile(r'[a-zA-Z_]\w*')            # must start with a letter or _
 NAMESPACE = re.compile("{0}(\\.{0})*".format(TYPENAME.pattern))  # letters/numbers separated by dots
-CURLY_OPEN = re.compile(r'\{')
-CURLY_CLOSE = re.compile(r'\}')
+CURLY_OPEN = re.compile(r'{')
+CURLY_CLOSE = re.compile(r'}')
 PAREN_OPEN = re.compile(r'\(')
 PAREN_CLOSE = re.compile(r'\)')
 ANGLE_OPEN = re.compile(r'<')
@@ -41,12 +41,12 @@ LOG = logging.getLogger(__name__)
 
 
 def parse_document(string):
-    '''parses a microtome document from a string'''
+    """parses a microtome document from a string"""
     return Parser(string).parse()
 
 
 class ParseError(Exception):
-    '''Problem that occurred during parsing'''
+    """Problem that occurred during parsing"""
     def __init__(self, string, pos, msg):
         line_data = util.line_data_at_index(string, pos)
 
@@ -61,12 +61,12 @@ class ParseError(Exception):
 
 
 class Parser(object):
-    '''parses a microtome document from a string'''
+    """parses a microtome document from a string"""
     def __init__(self, string):
         self._scanner = StringScanner(string)
 
     def parse(self):
-        '''parse the document and return a list of TomeSpec tokens'''
+        """parse the document and return a list of TomeSpec tokens"""
         # parse
         self._namespace = self.parse_namespace()
         tomes = self.parse_tomes()
@@ -77,21 +77,21 @@ class Parser(object):
 
     @property
     def namespace(self):
-        '''returns the documents's parsed namespace'''
+        """returns the documents's parsed namespace"""
         return self._namespace
 
     @property
     def string(self):
-        '''return the string passed the parser'''
+        """return the string passed the parser"""
         return self._scanner.string
 
     @property
     def pos(self):
-        '''return the current scan position in the string'''
+        """return the current scan position in the string"""
         return self._scanner.pos
 
     def validate_tome(self, tome):
-        '''perform semantic validation on a TomeSpec'''
+        """perform semantic validation on a TomeSpec"""
         # check for duplicate property names
         prop_names = set()
         for prop in tome.props:
@@ -120,7 +120,7 @@ class Parser(object):
         return tomes
 
     def parse_tome(self):
-        '''parse a TomeSpec'''
+        """parse a TomeSpec"""
 
         # name
         self.eat_whitespace()
@@ -156,7 +156,7 @@ class Parser(object):
                           pos=tome_pos)
 
     def parse_props(self):
-        '''parse a list of PropSpecs'''
+        """parse a list of PropSpecs"""
         props = []
         while True:
             prop = self.parse_prop()
@@ -166,7 +166,7 @@ class Parser(object):
         return props
 
     def parse_prop(self):
-        '''parse a single PropSpec'''
+        """parse a single PropSpec"""
         self.eat_whitespace()
         prop_pos = self._scanner.pos
         if not self.check_text(QUALIFIED_TYPENAME):
@@ -194,7 +194,7 @@ class Parser(object):
         return s.PropSpec(type=prop_type, name=prop_name, annotations=annotations or [], pos=prop_pos)
 
     def parse_prop_type(self, is_subtype=False):
-        '''parse a TypeSpec'''
+        """parse a TypeSpec"""
         self.eat_whitespace()
         typename = self.require_text(QUALIFIED_TYPENAME, "Expected type identifier")
 
@@ -221,8 +221,8 @@ class Parser(object):
         return s.TypeSpec(name=typename, subtype=subtype)
 
     def parse_qualified_typename(self, errText=None):
-        '''Parses a namespace-qualified typename. If the the namespace is omitted, the tome's
-        namespace is assumed'''
+        """Parses a namespace-qualified typename. If the the namespace is omitted, the tome's
+        namespace is assumed"""
         return self.make_qualified_typename(self.require_text(QUALIFIED_TYPENAME, errText))
 
     def make_qualified_typename(self, typename):
@@ -232,7 +232,7 @@ class Parser(object):
             return typename
 
     def parse_annotations(self):
-        '''parse a list of AnnotationSpecs'''
+        """parse a list of AnnotationSpecs"""
         annotations = []
         while True:
             annotations.append(self.parse_annotation())
@@ -242,7 +242,7 @@ class Parser(object):
         return annotations
 
     def parse_annotation(self):
-        '''parse a single AnnotationSpec'''
+        """parse a single AnnotationSpec"""
         # name
         self.eat_whitespace()
         anno_pos = self._scanner.pos
@@ -271,12 +271,12 @@ class Parser(object):
         return s.AnnotationSpec(name=anno_name, value=anno_value, pos=anno_pos)
 
     def check_text(self, pattern):
-        '''Returns the text that matches the given pattern if it exists at the current point
-        in the stream, or None if it does not. Does not advance the stream pointer.'''
+        """Returns the text that matches the given pattern if it exists at the current point
+        in the stream, or None if it does not. Does not advance the stream pointer."""
         return self._scanner.check(pattern)
 
     def has_token(self):
-        '''Returns true if there's at least one token left in the stream'''
+        """Returns true if there's at least one token left in the stream"""
         pos = self._scanner.pos
         self.eat_whitespace()
         eos = self._scanner.eos
@@ -284,25 +284,25 @@ class Parser(object):
         return not eos
 
     def get_text(self, pattern):
-        '''Returns the text that matches the given pattern if it exists at the current point
-        in the stream, or None if it does not.'''
+        """Returns the text that matches the given pattern if it exists at the current point
+        in the stream, or None if it does not."""
         return self._scanner.scan(pattern)
 
     def require_text(self, pattern, msg=None):
-        '''Returns the text that matches the given pattern if it exists at the current point
-        in the stream, or raises a ParseError if it does not.'''
+        """Returns the text that matches the given pattern if it exists at the current point
+        in the stream, or raises a ParseError if it does not."""
         value = self.get_text(pattern)
         if value is None:
             raise ParseError(self.string, self.pos, msg or "Expected '%s'" % str(pattern.pattern))
         return value
 
     def eat_whitespace(self):
-        '''advances the stream to the first non-whitespace character'''
+        """advances the stream to the first non-whitespace character"""
         self._scanner.scan(WHITESPACE_AND_COMMENTS)
 
 
 def get_number(s):
-    '''returns the float represented by the string, or None if the string can't be converted'''
+    """returns the float represented by the string, or None if the string can't be converted"""
     try:
         return float(s)
     except ValueError:
@@ -310,7 +310,7 @@ def get_number(s):
 
 
 def get_bool(s):
-    '''returns the bool represented by the string, or None if the string can't be converted'''
+    """returns the bool represented by the string, or None if the string can't be converted"""
     if s == "true":
         return True
     elif s == "false":
@@ -320,8 +320,8 @@ def get_bool(s):
 
 
 def get_quoted_string(s):
-    '''returns the quoted string represented by the string, or None if the string can't be
-    converted'''
+    """returns the quoted string represented by the string, or None if the string can't be
+    converted"""
     if QUOTED_STRING.match(s) is not None:
         return s[1:len(s) - 1]
     else:
@@ -330,7 +330,7 @@ def get_quoted_string(s):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    TEST_STR = '''
+    TEST_STR = """
         namespace com.test2;
         // comment 1
         Tome MyTome extends AnotherTome {
@@ -341,5 +341,5 @@ if __name__ == "__main__":
 
             TomeRef<ThirdTome> theRef;
         }
-        '''
+        """
     print Parser(TEST_STR).parse()

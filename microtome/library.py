@@ -1,7 +1,11 @@
 #
 # microtome
 
-from collections import MutableMapping
+try:
+    from collections.abc import MutableMapping  # Python 3
+except ImportError:
+    from collections import MutableMapping  # Python 2
+
 import logging
 
 import microtome.core.defs as Defs

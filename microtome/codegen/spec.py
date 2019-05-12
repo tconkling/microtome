@@ -4,7 +4,10 @@
 """
 """
 
-from collections import namedtuple
+try:
+    from collections.abc import namedtuple  # Python 3
+except ImportError:
+    from collections import namedtuple  # Python 2
 
 import microtome.core.defs as Defs
 

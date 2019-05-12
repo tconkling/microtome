@@ -5,7 +5,11 @@ from __future__ import print_function
 
 import logging
 import re
-from collections import namedtuple, OrderedDict
+
+try:
+    from collections.abc import namedtuple, OrderedDict  # Python 3
+except ImportError:
+    from collections import namedtuple, OrderedDict  # Python 2
 
 import six
 

@@ -5,7 +5,11 @@ from __future__ import print_function
 
 import os
 import re
-from collections import namedtuple
+
+try:
+    from collections.abc import namedtuple  # Python 3
+except ImportError:
+    from collections import namedtuple  # Python 2
 
 LineData = namedtuple("LineData", ["line_num", "col"])
 
@@ -19,10 +23,12 @@ def lowercase_first(str):
     """returns a copy of the string with the first letter capitalized and the rest untouched"""
     return _modify_first_char(str, lambda char: char.lower())
 
+
 def camelcase_to_underscores(name):
     capitals = re.compile(r'((\A\w)|[A-Z])[a-z0-9_]*')
     words = [match.group(0).lower() for match in capitals.finditer(name)]
     return "_".join(words)
+
 
 def underscores_to_camelcase(name, capitalize_first=False):
     words = name.split("_")

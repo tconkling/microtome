@@ -2,10 +2,15 @@
 # microtome
 
 from abc import abstractproperty
-from collections import Mapping
+
+try:
+    from collections.abc import Mapping  # Python 3
+except ImportError:
+    from collections import Mapping  # Python 2
 
 from microtome.error import MicrotomeError
 import microtome.core.defs as Defs
+
 
 class MicrotomeItem(Mapping):
     @abstractproperty

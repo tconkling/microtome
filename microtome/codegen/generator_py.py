@@ -2,7 +2,11 @@
 # microtome - Tim Conkling, 2012
 import numbers
 import os
-from collections import namedtuple
+
+try:
+    from collections.abc import namedtuple  # Python 3
+except ImportError:
+    from collections import namedtuple  # Python 2
 
 import pystache
 
